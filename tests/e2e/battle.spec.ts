@@ -46,6 +46,31 @@ test('雙方對戰可開始、暫停、切換倍速及重置', async ({ page }, 
   expect(errors).toEqual([]);
 });
 
+test('慢速按鈕調整遊戲時間並在重置與切換模式後保留', async ({ page }) => {
+  const errors = observeErrors(page);
+  await openArena(page);
+  await page.getByRole('button', { name: '0.25 倍速', exact: true }).click();
+  await page.getByTestId('start-button').click();
+  await page.clock.runFor(8_000);
+  const quarterTime = await clockSeconds(page);
+  expect(quarterTime).toBeGreaterThanOrEqual(1);
+  expect(quarterTime).toBeLessThanOrEqual(2);
+  await page.getByRole('button', { name: '0.5 倍速', exact: true }).click();
+  await page.clock.runFor(8_000);
+  const halfElapsed = await clockSeconds(page) - quarterTime;
+  expect(halfElapsed).toBeGreaterThanOrEqual(3);
+  expect(halfElapsed).toBeLessThanOrEqual(4);
+  await page.getByTestId('start-button').click();
+  const pausedTime = await clockSeconds(page);
+  await page.clock.runFor(1_000);
+  expect(await clockSeconds(page)).toBe(pausedTime);
+  await page.getByTestId('reset-button').click();
+  await expect(page.getByRole('button', { name: '0.5 倍速', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('[data-mode="melee"]').click();
+  await expect(page.getByRole('button', { name: '0.5 倍速', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  expect(errors).toEqual([]);
+});
+
 test('受傷友軍可接受偷渡藥劑，消耗影響力並恢復生命', async ({ page }, testInfo) => {
   const errors = observeErrors(page);
   await openArena(page);
@@ -115,8 +140,12 @@ test('手機版棋盤與控制不橫向溢位，支援觸控操作', async ({ br
   expect(board!.x + board!.width).toBeLessThanOrEqual(390);
   await page.getByTestId('start-button').tap();
   await expect(page.getByTestId('start-button')).toHaveText('暫停戰鬥');
-  await page.getByRole('button', { name: '2 倍速', exact: true }).tap();
-  await expect(page.getByRole('button', { name: '2 倍速', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  for (const speed of [0.25, 0.5, 1, 2, 3]) {
+    const button = page.getByRole('button', { name: `${speed} 倍速`, exact: true });
+    await button.tap();
+    await expect(button).toHaveAttribute('aria-pressed', 'true');
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.getByTestId('start-button').tap();
   await page.screenshot({ path: testInfo.outputPath('mobile-battle.png'), fullPage: true });
   expect(errors).toEqual([]);

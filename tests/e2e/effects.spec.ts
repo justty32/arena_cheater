@@ -73,8 +73,17 @@ test('箭矢與火球可辨讀，投射物與目標指示隨暫停及倍速同�
   expect(await fireball.getAttribute('transform')).toBe(pausedTransform);
   expect(Number(await fireball.getAttribute('data-progress'))).toBe(pausedProgress);
 
-  await page.getByRole('button', { name: '2 倍速', exact: true }).click();
+  await page.getByRole('button', { name: '0.25 倍速', exact: true }).click();
   await page.getByTestId('start-button').click();
+  await page.clock.runFor(160);
+  const quarterProgress = Number(await fireball.getAttribute('data-progress'));
+  expect(quarterProgress).toBeGreaterThan(pausedProgress);
+  await page.getByRole('button', { name: '0.5 倍速', exact: true }).click();
+  await page.clock.runFor(160);
+  const halfProgress = Number(await fireball.getAttribute('data-progress'));
+  expect(halfProgress - quarterProgress).toBeGreaterThan(quarterProgress - pausedProgress);
+
+  await page.getByRole('button', { name: '2 倍速', exact: true }).click();
   await page.clock.runFor(32);
   const twiceProgress = Number(await fireball.getAttribute('data-progress'));
   expect(twiceProgress).toBeGreaterThan(pausedProgress);
@@ -83,7 +92,7 @@ test('箭矢與火球可辨讀，投射物與目標指示隨暫停及倍速同�
   await page.clock.runFor(32);
   const thriceProgress = Number(await fireball.getAttribute('data-progress'));
   expect(thriceProgress).toBeGreaterThan(twiceProgress);
-  expect(thriceProgress - twiceProgress).toBeGreaterThanOrEqual(twiceProgress - pausedProgress - 0.02);
+  expect(thriceProgress - twiceProgress).toBeGreaterThanOrEqual(twiceProgress - halfProgress - 0.02);
 
   await findImpact(page);
   await expect(page.locator('.damage-number:not(.healing)').first()).toContainText(/\d/);

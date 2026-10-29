@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { advanceBattle, createBattle, toggleBattle, useCheat } from '../src/game/engine.ts';
-import type { BattleMode, BattleState, Unit } from '../src/game/model.ts';
+import type { BattleMode, BattleState, Speed, Unit } from '../src/game/model.ts';
 import { CHEAT_COST, MANA_REGEN, STAMINA_REGEN } from '../src/game/rules.ts';
 
 function run(state: BattleState, seconds: number): void {
@@ -71,10 +71,11 @@ describe('battle simulation', () => {
     expect(first.events).not.toEqual(third.events);
   });
 
-  it('1×, 2× and 3× preserve identical combat at equivalent game times', () => {
-    const states = [createBattle('melee'), createBattle('melee'), createBattle('melee')];
+  it('slow and fast speeds preserve identical combat at equivalent game times', () => {
+    const speeds: Speed[] = [0.25, 0.5, 1, 2, 3];
+    const states = speeds.map(() => createBattle('melee'));
     states.forEach((state, index) => {
-      state.speed = (index + 1) as 1 | 2 | 3;
+      state.speed = speeds[index];
       toggleBattle(state);
       run(state, 12 / state.speed);
     });

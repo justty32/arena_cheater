@@ -2,7 +2,8 @@ export type BattleMode = 'duel' | 'melee';
 export type BattleStatus = 'ready' | 'running' | 'paused' | 'finished';
 export type UnitRole = 'guard' | 'ranger' | 'mage';
 export type ActionKind = 'idle' | 'move' | 'attack' | 'cast' | 'power' | 'recover';
-export type Speed = 1 | 2 | 3;
+export const BATTLE_SPEEDS = [0.25, 0.5, 1, 2, 3] as const;
+export type Speed = typeof BATTLE_SPEEDS[number];
 
 export interface Action {
   kind: ActionKind;
