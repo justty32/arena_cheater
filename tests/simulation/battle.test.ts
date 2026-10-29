@@ -1,11 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { advanceBattle, createBattle, toggleBattle, useCheat } from '../src/game/engine.ts';
-import type { BattleMode, BattleState, Speed, Unit } from '../src/game/model.ts';
-import { CHEAT_COST, MANA_REGEN, STAMINA_REGEN } from '../src/game/rules.ts';
-
-function run(state: BattleState, seconds: number): void {
-  for (let i = 0; i < Math.round(seconds * 30); i++) advanceBattle(state, 1 / 30);
-}
+import { advanceBattle, createBattle, toggleBattle } from '../../src/game/engine.ts';
+import type { BattleMode, BattleState, Speed } from '../../src/game/model.ts';
+import { MANA_REGEN, STAMINA_REGEN } from '../../src/game/rules.ts';
+import { arenaPair, run } from './helpers';
 
 function assertValid(state: BattleState): void {
   const occupied = new Set<string>();
@@ -24,18 +21,6 @@ function assertValid(state: BattleState): void {
     occupied.add(key);
   }
   expect(state.events.length).toBeLessThanOrEqual(50);
-}
-
-function arenaPair(role: Unit['role']): BattleState {
-  const state = createBattle('duel');
-  state.units = [state.units.find(unit => unit.team === 0 && unit.role === role)!, state.units[3]];
-  state.units[0].x = 3;
-  state.units[0].y = 3;
-  state.units[1].x = 4;
-  state.units[1].y = 3;
-  state.units[1].action = { kind: 'recover', duration: 100, remaining: 100 };
-  toggleBattle(state);
-  return state;
 }
 
 describe('battle simulation', () => {
@@ -165,124 +150,5 @@ describe('battle simulation', () => {
     const before = structuredClone(state);
     for (const delta of [-1, 0, Infinity, NaN]) advanceBattle(state, delta);
     expect(state).toEqual(before);
-  });
-});
-
-describe('sideline potion', () => {
-  it('rejects full-health, missing, enemy, dead, paused and unaffordable targets without spending', () => {
-    const state = createBattle('duel');
-    const ally = state.units[0];
-    toggleBattle(state);
-    for (const target of [ally.id, 'missing', state.units[3].id]) {
-      expect(useCheat(state, target)).toBe(false);
-    }
-    ally.hp = 0;
-    expect(useCheat(state, ally.id)).toBe(false);
-    ally.hp = 50;
-    toggleBattle(state);
-    expect(useCheat(state, ally.id)).toBe(false);
-    toggleBattle(state);
-    state.influence = CHEAT_COST - 1;
-    expect(useCheat(state, ally.id)).toBe(false);
-    expect(state.influence).toBe(CHEAT_COST - 1);
-    expect(state.cheatCount).toBe(0);
-    expect(ally.hp).toBe(50);
-  });
-
-  it('heals and restores stamina while spending a regenerating energy bar', () => {
-    const state = createBattle('duel');
-    const ally = state.units[0];
-    ally.hp = 50;
-    ally.stamina = 0;
-    toggleBattle(state);
-    expect(useCheat(state, ally.id)).toBe(true);
-    expect(ally.hp).toBe(78);
-    expect(ally.stamina).toBe(18);
-    expect(state.influence).toBe(65);
-    expect(state.cheatCount).toBe(1);
-    expect(state.events.at(-1)?.kind).toBe('cheat');
-    run(state, 1);
-    expect(state.influence).toBeCloseTo(67);
-  });
-
-  it('caps restoration and can alter a real battle outcome', () => {
-    const capped = createBattle('duel');
-    capped.units[0].hp -= 3;
-    toggleBattle(capped);
-    useCheat(capped, capped.units[0].id);
-    expect(capped.units[0].hp).toBe(capped.units[0].maxHp);
-    expect(capped.units[0].stamina).toBe(capped.units[0].maxStamina);
-
-    const baseline = arenaPair('guard');
-    baseline.units[1].action = { kind: 'idle', duration: 0, remaining: 0 };
-    baseline.units[0].hp = 42;
-    baseline.units[1].hp = 60;
-    const helped = structuredClone(baseline);
-    expect(useCheat(helped, helped.units[0].id)).toBe(true);
-    run(baseline, 60);
-    run(helped, 60);
-    expect(baseline.status).toBe('finished');
-    expect(helped.status).toBe('finished');
-    expect(baseline.winner).toBe(1);
-    expect(helped.winner).toBe(0);
-  });
-});
-
-describe('projectile flight', () => {
-  it('launches arrows and magic bolts before dealing damage', () => {
-    for (const role of ['ranger', 'mage'] as const) {
-      const state = arenaPair(role);
-      state.units[0].mana = 0;
-      run(state, role === 'ranger' ? 1.1 : 0.8);
-      expect(state.projectiles).toHaveLength(1);
-      expect(state.projectiles[0].kind).toBe(role === 'ranger' ? 'arrow' : 'bolt');
-      expect(state.units[1].hp).toBe(state.units[1].maxHp);
-      run(state, 0.5);
-      expect(state.units[1].hp).toBeLessThan(state.units[1].maxHp);
-    }
-  });
-
-  it('freezes an airborne projectile during pause and resumes the same flight', () => {
-    const state = arenaPair('mage');
-    run(state, 1.3);
-    expect(state.projectiles).toHaveLength(1);
-    toggleBattle(state);
-    const frozen = structuredClone(state);
-    advanceBattle(state, 10);
-    expect(state).toEqual(frozen);
-    toggleBattle(state);
-    run(state, 0.1);
-    expect(state.units[1].hp).toBe(state.units[1].maxHp);
-    run(state, 0.3);
-    expect(state.units[1].hp).toBeLessThan(state.units[1].maxHp);
-    expect(state.projectiles).toHaveLength(0);
-  });
-
-  it('discards an arriving projectile whose target already died without a second hit', () => {
-    const state = arenaPair('mage');
-    run(state, 1.3);
-    state.units[1].hp = 0;
-    const before = state.events.length;
-    run(state, 0.1);
-    expect(state.status).toBe('running');
-    run(state, 0.3);
-    expect(state.status).toBe('finished');
-    expect(state.projectiles).toHaveLength(0);
-    expect(state.events.slice(before).filter(event => event.kind === 'cast' || event.kind === 'death')).toHaveLength(0);
-  });
-
-  it('settles both final projectiles even after their casters die, allowing a draw', () => {
-    const state = arenaPair('mage');
-    state.units[1].role = 'mage';
-    state.units[1].action = { kind: 'idle', duration: 0, remaining: 0 };
-    for (const unit of state.units) unit.hp = 1;
-    run(state, 1.3);
-    expect(state.projectiles).toHaveLength(2);
-    expect(state.units.map(unit => unit.hp)).toEqual([1, 1]);
-    run(state, 0.4);
-    expect(state.status).toBe('finished');
-    expect(state.winner).toBeNull();
-    expect(state.units.map(unit => unit.hp)).toEqual([0, 0]);
-    expect(state.events.filter(event => event.kind === 'death')).toHaveLength(2);
   });
 });

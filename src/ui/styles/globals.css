@@ -1,0 +1,24 @@
+:root {
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  color: #e5e5d8;
+  background: #101715;
+  font-synthesis: none;
+  font-weight: 400;
+  --gold: #c2a778;
+  --muted: #8b9a8d;
+  --line: #ffffff12;
+  --hp: #83bb96;
+  --mana: #83b8d3;
+  --stamina: #cfb679;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: radial-gradient(ellipse at 48% 25%, #25352b44 0%, transparent 62%), #101715; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; cursor: pointer; color: inherit; border: 0; }
+button:disabled { cursor: not-allowed; }
+button:focus-visible, a:focus-visible { outline: 2px solid #ecce8b; outline-offset: 4px; }
+button { transition: background .15s, border-color .15s, color .15s; }
+button:not(:disabled):hover { filter: brightness(1.13); }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p { margin: 0; }
+.icon { width: 22px; height: 22px; flex: none; }

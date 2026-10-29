@@ -1,0 +1,30 @@
+.mode-panel { padding: 18px 13px; }
+.mode-panel .section-heading { padding: 0 5px; }
+.mode-options { display: grid; gap: 9px; }
+.mode-button { text-align: left; display: flex; gap: 11px; align-items: center; background: #111a1577; border: 1px solid #ffffff0c; padding: 13px 10px; }
+.mode-button[aria-pressed='true'] { border-color: #b29a665e; background: #a38b4210; }
+.mode-symbol { font: 23px Georgia, serif; color: #768271; width: 22px; text-align: center; }
+.mode-button[aria-pressed='true'] .mode-symbol { color: var(--gold); }
+.mode-button strong { font-size: 11px; font-weight: 500; display: block; letter-spacing: .6px; }
+.mode-button small { display: block; color: var(--muted); font-size: 9px; margin-top: 5px; }
+.muted { color: var(--muted); }
+.tiny { font-size: 10px; line-height: 1.9; }
+.mode-note { margin: 12px 5px 0; font-size: 9px; }
+.factions-panel { padding: 18px 15px; }
+.team-list { display: grid; gap: 17px; }
+.team-row { display: flex; align-items: center; gap: 9px; }
+.team-banner { display: grid; place-items: center; color: var(--team-color); width: 24px; height: 30px; border: 1px solid color-mix(in srgb, var(--team-color), transparent 65%); background: color-mix(in srgb, var(--team-color), transparent 94%); font: 12px Georgia, serif; clip-path: polygon(0 0,100% 0,100% 100%,50% 87%,0 100%); padding-bottom: 3px; }
+.team-row strong { display: block; font-size: 11px; font-weight: 500; color: var(--team-color); }
+.team-row small { display: block; color: var(--muted); font-size: 8px; margin-top: 3px; }
+.team-count { margin-left: auto; font-size: 13px; font-family: Georgia, serif; }
+.team-count small { display: inline; font-size: 10px; }
+.team-row.eliminated { opacity: .38; }
+.rule-note { margin-top: 19px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 9px; line-height: 1.8; }
+.field-guide { padding: 5px 6px; }
+.field-guide .eyebrow { font-size: 9px; }
+.field-guide p { color: #9ba99a; font-size: 11px; line-height: 2; margin-top: 12px; }
+.field-guide p.tiny { font-size: 9px; color: #7c8b7e; }
+.resource-key { display: flex; flex-wrap: wrap; gap: 11px; font-size: 9px; color: #b6bfb2; margin-top: 17px; }
+.resource-key span { display: flex; align-items: center; gap: 5px; }
+.resource-key i { width: 5px; height: 5px; border-radius: 50%; }
+.hp-dot { background: var(--hp); }.mana-dot { background: var(--mana); }.stamina-dot { background: var(--stamina); }
