@@ -15,3 +15,10 @@ __pycache__/
 Thumbs.db
 *.swp
 *.swo
+
+# 網頁依賴、建置與測試產物
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/

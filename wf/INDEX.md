@@ -1,13 +1,14 @@
 # INDEX — arena_cheater 專案地圖
 
-奇幻類自走棋，主要看點為場邊作弊；目前為工作流與需求初始化階段。
+奇幻類自走棋，主要看點為場邊作弊；目前有可試玩的網頁戰鬥原型。
 
 ## 專案入口
 
 | 路徑 | 內容 |
 |------|------|
 | [README.md](../README.md) | 人的入口與目前可用內容 |
-| [PROJECT.md](../PROJECT.md) | 原始需求、定位及尚未定案的玩法／技術提案 |
+| [PROJECT.md](../PROJECT.md) | 原始需求、已確認方向與待定玩法 |
+| [戰鬥原型](../docs/combat-prototype.md) | 操作、試玩規則與邏輯／畫面邊界 |
 | [AGENTS.md](../AGENTS.md) | Agent 薄入口 |
 | [CLAUDE.md](../CLAUDE.md) | Claude Code 轉址 |
 | `.gitattributes`／`.gitignore` | LF 換行設定與本機環境／工具快取排除 |
@@ -26,4 +27,4 @@
 | [WAIT_USER.md](WAIT_USER.md) | 只列必須由使用者處理的阻礙 |
 | [import.md](import.md) | 導入來源、版本與適配範圍 |
 
-尚無 `src/`、遊戲內容、測試或建置設定；實作落地時再建立目錄並更新 [code map](workflows/common/code-map.md)。
+遊戲原始碼在 `src/`，核心與瀏覽器測試在 `tests/`；檔案職責見 [code map](workflows/common/code-map.md)，啟動見 [dev-env](workflows/dev-env.md)，驗證見 [testing](workflows/testing.md)。

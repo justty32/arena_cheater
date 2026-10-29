@@ -1,0 +1,42 @@
+.battle-effects { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 6; pointer-events: none; overflow: visible; }
+.target-line { fill: none; stroke: #d2cba4; stroke-width: 1.5; stroke-dasharray: 5 11; opacity: .19; }
+.target-line.selected-target-line { stroke: #f2dc9d; stroke-width: 2.5; opacity: .65; }
+.projectile .motion-trail { stroke-linecap: round; stroke-width: 4; opacity: .55; }
+.projectile.arrow { filter: drop-shadow(0 0 5px #f6d08b); }
+.arrow .motion-trail { stroke: #e9d0a0; stroke-width: 2; opacity: .5; }
+.arrow-shaft { fill: none; stroke: #fff0c5; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.arrow-head { fill: #fff2cf; stroke: #b88743; stroke-width: 1; }
+.projectile.fireball { filter: drop-shadow(0 0 10px #ff761b); }
+.fireball .motion-trail { stroke: #ff7a28; stroke-width: 8; opacity: .3; }
+.fire-tail { fill: #ff6b27; opacity: .7; }
+.fire-glow { fill: #ff8f2d; opacity: .16; }
+.fire-body { fill: #ffab3b; stroke: #ff6d25; stroke-width: 3; }
+.fire-core { fill: #fff3ab; }.fire-spark { fill: #ffc66a; }
+.projectile.bolt { filter: drop-shadow(0 0 8px #a28aff); }
+.bolt .motion-trail { stroke: #b69bff; stroke-width: 5; opacity: .5; }
+.bolt-tail { fill: none; stroke: #9bbcff; stroke-width: 2; stroke-linecap: round; }
+.bolt-glow { fill: #8f99ff; opacity: .18; }
+.bolt-core { fill: #e2e0ff; stroke: #a4baff; stroke-width: 2; }
+.impact-effect { color: #f4ddb4; }.impact-effect.fire { color: #ff9b45; }.impact-effect.arcane { color: #b2b8ff; }.impact-effect.heal { color: #a0efbb; }
+.impact-burst { transform-origin: 0 0; }
+.impact-ring { fill: none; stroke: currentColor; stroke-width: 3; opacity: .8; }.impact-core { fill: currentColor; opacity: .8; }
+.hit-sparks { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; }
+.slash-shadow { fill: none; stroke: #cbae73; stroke-width: 17; stroke-linecap: round; opacity: .4; }
+.slash-core { fill: none; stroke: #fff0bd; stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 0 4px #e8bd70); }
+.healing-ring { fill: none; stroke: #95e9ad; stroke-width: 3; }.healing-cross { fill: none; stroke: #d5ffdf; stroke-width: 6; }
+.damage-number { font-family: Georgia, serif; font-size: 30px; font-weight: 700; fill: #fff0d0; stroke: #182017; stroke-width: 4px; paint-order: stroke fill; stroke-linejoin: round; }
+.damage-number.healing { fill: #aeffbf; }
+.unit-piece .piece-body { transform: translate(var(--impact-x, 0px), var(--impact-y, 0px)); }
+.unit-piece.targeted:not(.selected):before { content: ''; position: absolute; inset: 3px; border: 1px dashed #f0c894aa; pointer-events: none; }
+.piece-action { top: -8px; padding: 1px 4px; border-radius: 2px; font-size: 8px; background: #101b14ed; color: #e2d9ba; }
+.unit-piece.casting .piece-action { color: #ffd097; background: #3c2417eb; }
+.unit-piece.casting .piece-body { border-color: #f0ab68; box-shadow: 0 0 11px #ff97395c; background: radial-gradient(ellipse,#67462d,#27291f); }
+.unit-piece.casting:after { background: #ffca83; }
+.unit-action-detail { min-width: 0; }.unit-heading > div:last-child { min-width: 0; }
+.unit-target { display: block; margin-top: 3px; color: #baa77e; font-size: 8px; line-height: 1.6; overflow-wrap: anywhere; }
+.unit-target:empty { display: none; }
+.effect-guide { display: flex; justify-content: center; flex-wrap: wrap; gap: 13px; margin-top: 10px; font-size: 8px; letter-spacing: .6px; color: #8c9a82; }
+.effect-guide span { display: flex; align-items: center; gap: 5px; }.effect-guide i { display: inline-block; width: 13px; height: 2px; background: #f4ddb4; box-shadow: 0 0 3px #f4ddb477; }
+.effect-guide .fire-key { width: 6px; height: 6px; background: #ff9b45; border-radius: 50%; box-shadow: 0 0 5px #ff9b45aa; }.effect-guide .bolt-key { width: 6px; height: 6px; background: #b2b8ff; transform: rotate(45deg); }
+@media (prefers-reduced-motion: reduce) { .unit-piece .piece-body { transform: none; }.battle-effects .projectile { filter: none; } }
+@media (max-width: 760px) { .piece-action { font-size: 7px; top: -7px; padding: 1px 2px; }.damage-number { font-size: 31px; }.effect-guide { margin-top: 8px; gap: 10px; font-size: 8px; } }

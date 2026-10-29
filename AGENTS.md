@@ -1,6 +1,6 @@
 # arena_cheater — AI agent 專案備忘
 
-arena_cheater = **奇幻類自走棋，主要看點為玩家場邊作弊；以網頁為方向，目前完成工作流與需求初始化**。本檔是最頂層路由器，只指向下一層；細節不寫這裡（分層原則見 [STRUCTURE.md](wf/STRUCTURE.md)）。
+arena_cheater = **奇幻類自走棋，主要看點為玩家場邊作弊；網頁戰鬥原型已落地**。本檔是最頂層路由器，只指向下一層；細節不寫這裡（分層原則見 [STRUCTURE.md](wf/STRUCTURE.md)）。
 
 ## 開場與入口
 
@@ -14,7 +14,7 @@ arena_cheater = **奇幻類自走棋，主要看點為玩家場邊作弊；以�
 
 ## 鐵律（always-on，隨時適用）
 
-1. 重構 / 整理**不改原意**：開發＝行為不變且驗證綠燈（目前僅有文件，驗證依 [testing](wf/workflows/testing.md)；程式落地後補入實測指令）；非開發＝原意不變，照 `Done when:` 驗收。
+1. 重構 / 整理**不改原意**：開發＝行為不變且驗證綠燈（驗證指令與適用範圍依 [testing](wf/workflows/testing.md)）；非開發＝原意不變，照 `Done when:` 驗收。
 2. **不可逆或對外的動作**（push、刪除、對外送出、動 DB）要有**授權來源**：使用者當場確認，或他親自登記在清單裡（routines / schedule）。都沒有就先問。
 3. **條列走資料檔、導航留 md**：給 AI 消化的表／清單 >1 KB 存 `.json`／`.csv`（契約 `wf-table/1`，見 [data-files](wf/workflows/common/data-files.md)），用 `wf/tools/tabledb.py` 讀寫、不整份讀進 context；給人點的導航連結留 md。
 4. **具體流程**在各工作流入口檔，不在頂層。
