@@ -1,0 +1,17 @@
+# Python 工作流工具快取與本機環境
+__pycache__/
+*.py[cod]
+.venv/
+
+# 本機環境變數；範例可納入版控
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# 本機工具設定與作業系統暫存
+.claude/settings.local.json
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
