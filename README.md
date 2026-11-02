@@ -4,6 +4,10 @@
 
 ## 開始試玩
 
+直接開啟 [GitHub Pages 線上試玩](https://justty32.github.io/arena_cheater/)，不需安裝。
+
+## 本機執行
+
 使用 Node.js 22.12.0 以上，在專案根目錄執行：
 
 ```sh
@@ -25,6 +29,8 @@ npm run test:e2e
 ```
 
 `npm run build` 包含型別檢查，產物位於 `dist/`；`npm run preview` 可預覽建置結果。瀏覽器測試安裝與環境條件見 [開發環境](wf/workflows/dev-env.md)，檢查範圍見 [驗證](wf/workflows/testing.md)。
+
+推送至 `main` 後，[部署工作流](.github/workflows/pages.yml) 會先執行核心測試、建置及瀏覽器測試，通過後自動更新 GitHub Pages。部署狀態見 [GitHub Actions](https://github.com/justty32/arena_cheater/actions/workflows/pages.yml)；設定與手動重跑方式見 [開發環境](wf/workflows/dev-env.md#github-pages)。
 
 ## 專案文件
 

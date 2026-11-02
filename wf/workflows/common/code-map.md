@@ -15,6 +15,7 @@
 | 戰鬥模擬 | [engine.ts](../../../src/game/engine.ts)、[combat.ts](../../../src/game/combat.ts)、[attacks.ts](../../../src/game/attacks.ts)、[pathfinding.ts](../../../src/game/pathfinding.ts) | 生命週期、步進、作弊、出招、投射物／傷害、尋路及視線 | [核心測試](../../../tests/simulation/README.md) |
 | 介面與演出 | [main.ts](../../../src/main.ts)、[介面導航](../../../src/ui/README.md) | 輸入、幀更新、佈局、棋盤、狀態、圖示及樣式 | [瀏覽器測試](../../../tests/e2e/README.md) |
 | 環境與建置 | [package.json](../../../package.json)、[vite.config.ts](../../../vite.config.ts)、[playwright.config.ts](../../../playwright.config.ts) | scripts、型別／建置與測試設定 | [testing](../testing.md) |
+| 網站部署 | [pages.yml](../../../.github/workflows/pages.yml) | main 驗證、靜態產物與 GitHub Pages 發布 | [GitHub Pages](../dev-env.md#github-pages) |
 | 工作流工具 | [tools/](../../tools/) | 文件檢查與資料檔操作；非遊戲引擎 | 來源工具原樣導入 |
 
 介面內部分工與樣式載入順序見 [介面導航](../../../src/ui/README.md)，測試分類見 [測試導航](../../../tests/README.md)。網頁入口為根目錄 `index.html`，型別設定為 `tsconfig.json`。

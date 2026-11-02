@@ -48,6 +48,14 @@ npm run test:e2e
 
 Playwright 設定負責測試伺服器與瀏覽器環境。Linux 若回報缺少瀏覽器系統函式庫，依錯誤安裝必要相依，再重跑；可用 `npx playwright install --with-deps chromium` 一併安裝，系統套件安裝可能需要管理員權限。不要把單純的套件下載成功當成瀏覽器已能啟動。
 
+## GitHub Pages
+
+線上試玩網址為 <https://justty32.github.io/arena_cheater/>。[部署工作流](../../.github/workflows/pages.yml) 在推送 `main` 或從 GitHub Actions 手動執行時，以 Node.js 24 安裝鎖定相依、執行核心測試、建置與 Chromium 瀏覽器測試；全部通過才上傳 `dist/` 並發布，只有 `main` 可部署。
+
+Repository 的 Settings → Pages → Source 使用 **GitHub Actions**。重跑可在 Actions → Deploy to GitHub Pages → Run workflow 選 `main`。工作流使用 GitHub 提供的 `GITHUB_TOKEN`，不需自訂 secrets 或 `gh-pages` 分支；Pages 寫入與 OIDC 權限只給部署 job。
+
+`vite.config.ts` 的 `base: './'` 讓建置資源使用相對網址，可從 `/arena_cheater/` 載入，也保留本機預覽。部署只發布 `dist/`，不發布原始碼目錄或工作流文件。
+
 ## 工作流工具
 
 `wf/tools/` 的 shell 工具使用 Bash，資料與文件工具使用 Python 3。選用的工作流檢查為 `bash wf/tools/wf-lint.sh --strict .`，僅在使用者要求時執行；遊戲驗證命令集中在 [testing](testing.md)。
