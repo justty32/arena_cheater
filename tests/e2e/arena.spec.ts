@@ -57,6 +57,7 @@ test('拖曳卡牌取消不扣費，投進場內只扣一次', async ({ page }) 
   await open(page);
   await page.getByTestId('arena-start').click();
   const card = page.locator('[data-card="shield"]');
+  await card.scrollIntoViewIfNeeded();
   const cardBox = await card.boundingBox();
   const canvasBox = await page.getByTestId('arena-canvas').boundingBox();
   await page.mouse.move(cardBox!.x + cardBox!.width / 2, cardBox!.y + cardBox!.height / 2);
@@ -72,4 +73,25 @@ test('拖曳卡牌取消不扣費，投進場內只扣一次', async ({ page }) 
   await expect(page.getByTestId('arena-gold')).toHaveText('55');
   await expect(page.getByTestId('arena-feedback')).toContainText('圓盾');
   expect(errors).toEqual([]);
+});
+
+test('手機從卡面水平滑動可看到後方卡牌', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await context.newPage();
+  await page.goto('http://127.0.0.1:4173/');
+  const hand = page.locator('.arena-cards');
+  await hand.scrollIntoViewIfNeeded();
+  const box = await hand.boundingBox();
+  const x = box!.x + box!.width - 25;
+  const y = box!.y + box!.height / 2;
+  const session = await context.newCDPSession(page);
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  for (let i = 1; i <= 10; i++) {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x - i * 25, y }] });
+    await page.waitForTimeout(20);
+  }
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expect.poll(() => hand.evaluate((element) => element.scrollLeft)).toBeGreaterThan(100);
+  await expect(page.getByTestId('arena-gold')).toHaveText('75');
+  await context.close();
 });
