@@ -4,7 +4,7 @@
 
 | 檔案 | 範圍 |
 |------|------|
-| [arena.spec.ts](arena.spec.ts) | 新圓場卡牌、控制、資源、裝備投送及窄畫面操作 |
+| [arena.spec.ts](arena.spec.ts) | 新圓場八卡、暫停出牌、拖曳／手機滑牌，弓與木棍投送拾取及用量顯示 |
 | [battle.spec.ts](battle.spec.ts) | 開局、暫停、倍率、重置、模式、作弊與觸控排版 |
 | [effects.spec.ts](effects.spec.ts) | 投射物、目標指示、命中、手機及降低動態效果 |
 | [helpers.ts](helpers.ts) | 共用時計與瀏覽器錯誤觀察 |

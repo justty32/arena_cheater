@@ -1,12 +1,12 @@
 import { advanceArena, createArena, playCard, toggleArena } from './engine';
-import { CARDS } from './model';
+import { CARDS, isResolvingArena } from './model';
 import type { Card, Fighter } from './model';
 import { ArenaView } from './view';
 import { arenaLayout, drawCardArt } from './layout';
 import './arena.css';
 
-const poseLabels = { idle: '伺機而動', walk: '尋找對手', attack: '發起攻擊', hit: '受到攻擊', fallen: '倒地', dead: '已出局' };
-const weaponLabels = { fists: '徒手', sword: '直劍', club: '木棍', shield: '圓盾' };
+const poseLabels = { idle: '伺機而動', walk: '尋找對手', attack: '發起攻擊', hit: '受到攻擊', fallen: '倒地', airborne: '遭到擊飛', rising: '正在起身', block: '盾牌格擋', parry: '成功招架', dead: '已出局' };
+const weaponLabels = { fists: '徒手', sword: '直劍（單手）', club: '木棍（雙手）', shield: '圓盾（單手）', bow: '弓（雙手）' };
 
 export function mountArena(root: HTMLElement): void {
   let round = 1;
@@ -34,7 +34,7 @@ export function mountArena(root: HTMLElement): void {
     el('[data-mana-fill]').style.width = `${Math.min(100, state.mana)}%`;
     el('[data-alive]').textContent = state.fighters.filter((f) => f.hp > 0).length.toString();
     el('[data-round]').textContent = `第 ${round.toString().padStart(2, '0')} 場`;
-    el('[data-status]').textContent = { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
+    el('[data-status]').textContent = state.status === 'running' && isResolvingArena(state) ? '等待飛行箭結算' : { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
     start.textContent = { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '再戰一場' }[state.status];
     el('[data-testid="arena-feedback"]').textContent = feedback;
     el('[data-card-prompt]').textContent = activeCard ? `${activeCard.name} · ${activeCard.target === 'fighter' ? '點選場上的鬥士施法' : '點選場地投送裝備'}` : '選擇一張牌，左右這場勝負';
@@ -43,7 +43,7 @@ export function mountArena(root: HTMLElement): void {
     for (const button of cards) {
       const card = CARDS.find((c) => c.id === button.dataset.card)!;
       button.classList.toggle('is-selected', activeCard?.id === card.id);
-      button.disabled = state.status === 'finished' || state[card.currency] < card.cost;
+      button.disabled = state.status === 'finished' || isResolvingArena(state) || state[card.currency] < card.cost;
       button.setAttribute('aria-pressed', String(activeCard?.id === card.id));
     }
     for (const row of rows) {
@@ -82,7 +82,10 @@ export function mountArena(root: HTMLElement): void {
     el('[data-detail-stamina]').textContent = `${Math.floor(f.stamina)} / ${f.maxStamina}`;
     el('[data-detail-health-bar]').style.width = `${Math.max(0, f.hp / f.maxHp * 100)}%`;
     el('[data-detail-stamina-bar]').style.width = `${f.stamina / f.maxStamina * 100}%`;
-    el('[data-detail-weapon]').textContent = `${weaponLabels[f.weapon]}${f.shield ? ' ＋ 圓盾' : ''}`;
+    el('[data-detail-weapon]').textContent = `${weaponLabels[f.weapon]}${f.shield ? ' ＋ 圓盾（單手）' : ''}`;
+    el('[data-testid="arena-ammo"]').textContent = f.weapon === 'bow' ? String(f.ammo) : '—';
+    el('[data-testid="arena-durability"]').textContent = f.weapon === 'club' ? String(f.durability) : '—';
+    el('[data-detail-defense]').textContent = f.shield ? '正面格擋 · 短窗招架' : '無盾牌';
     el('[data-detail-buffs]').textContent = f.buffs.map((b) => CARDS.find((c) => c.id === b.kind)?.name).join(' · ') || '無附加狀態';
     support.textContent = state.supportedId === f.id ? '◆ 你支持的鬥士' : '支持這位鬥士';
     support.disabled = state.status !== 'ready' || state.supportedId === f.id;
@@ -116,7 +119,8 @@ export function mountArena(root: HTMLElement): void {
   rows.forEach((row) => row.addEventListener('click', () => {
     selectedId = row.dataset.fighter!;
     if (activeCard?.target === 'fighter') {
-      if (state.status !== 'running' && state.status !== 'paused') feedback = '請先開始新戰鬥，再施放卡牌。';
+      if (isResolvingArena(state)) feedback = '正在結算在途箭，本場不再接受出牌。';
+      else if (state.status !== 'running' && state.status !== 'paused') feedback = '請先開始新戰鬥，再施放卡牌。';
       else if (playCard(state, activeCard.id, { fighterId: selectedId })) {
         feedback = `${activeCard.name}已施放於${state.fighters.find((f) => f.id === selectedId)?.name}。`;
         activeCard = undefined;
@@ -138,6 +142,7 @@ export function mountArena(root: HTMLElement): void {
   function cast(clientX: number, clientY: number): void {
     const fighter = view.pick(clientX, clientY, state);
     if (!activeCard) { if (fighter) selectedId = fighter.id; render(); return; }
+    if (isResolvingArena(state)) { feedback = '正在結算在途箭，本場不再接受出牌。'; render(); return; }
     if (state.status !== 'running' && state.status !== 'paused') { feedback = '請先開始新戰鬥，再施放卡牌。'; render(); return; }
     const point = view.ground(clientX, clientY);
     const target = activeCard.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : undefined) : point;

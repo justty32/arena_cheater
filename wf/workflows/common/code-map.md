@@ -11,7 +11,7 @@
 <!-- wf-nav -->
 | 領域 | 檔案 | 職責 | 測試在哪 |
 |------|------|------|---------|
-| 入口與新圓場 | [main.ts](../../../src/main.ts)、[arena 導航](../../../src/arena/README.md) | 模式載入；新圓場狀態、戰鬥、卡牌、投送、Canvas 骨骼與 UI | [核心測試](../../../tests/simulation/README.md)、[瀏覽器測試](../../../tests/e2e/README.md) |
+| 入口與新圓場 | [main.ts](../../../src/main.ts)、[arena 導航](../../../src/arena/README.md) | 模式載入；圓場戰鬥、弓箭、傷害防禦、裝備槽／掃掠、卡牌、Canvas 骨骼與 UI | [核心測試](../../../tests/simulation/README.md)、[瀏覽器測試](../../../tests/e2e/README.md) |
 | 狀態與規則 | [model.ts](../../../src/game/model.ts)、[rules.ts](../../../src/game/rules.ts) | 型別、編隊、數值、seed、事件 | [核心測試](../../../tests/simulation/README.md) |
 | 戰鬥模擬 | [engine.ts](../../../src/game/engine.ts)、[combat.ts](../../../src/game/combat.ts)、[attacks.ts](../../../src/game/attacks.ts)、[pathfinding.ts](../../../src/game/pathfinding.ts) | 生命週期、步進、作弊、出招、投射物／傷害、尋路及視線 | [核心測試](../../../tests/simulation/README.md) |
 | 經典介面與演出 | [classic.ts](../../../src/classic.ts)、[介面導航](../../../src/ui/README.md) | 舊棋盤輸入、幀更新、佈局、狀態、圖示及樣式 | [瀏覽器測試](../../../tests/e2e/README.md) |

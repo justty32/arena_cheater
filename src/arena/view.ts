@@ -1,5 +1,6 @@
 import { ARENA_RADIUS, type ArenaState, type Fighter } from './model';
 import { drawPuppet, drawWeapon } from './puppet';
+import { airborneHeight, riseProgress } from './animation';
 import { createProjection, FORESHORTENING, insideArena, project, unproject, type Projection } from './projection';
 type Context = CanvasRenderingContext2D;
 function ellipse(ctx: Context, x: number, y: number, rx: number, ry: number, fill: string | CanvasGradient, stroke?: string): void {
@@ -29,13 +30,20 @@ export class ArenaView {
   pick(clientX: number, clientY: number, state: ArenaState): Fighter|undefined {
     const rect=this.canvas.getBoundingClientRect();const x=clientX-rect.left,y=clientY-rect.top;
     return [...state.fighters].filter(f=>f.hp>0).sort((a,b)=>b.y-a.y).find(f=>{
-      const p=project(f.x,f.y,this.projection);const s=this.actorScale(f);
-      return Math.abs(x-p.x)<Math.max(14,19*s)&&y>=p.y-68*s&&y<=p.y+9*s;
+      const p=this.visualPosition(f,state.time);const s=this.actorScale(f);
+      const fallen=f.pose==='fallen'||(f.pose==='rising'&&riseProgress(f,state.time)<.5);
+      return fallen?x>=p.x-12*s&&x<=p.x+70*s&&Math.abs(y-p.y)<24*s:
+        Math.abs(x-p.x)<Math.max(14,19*s)&&y>=p.y-68*s&&y<=p.y+9*s;
     });
+  }
+  private visualPosition(f:Fighter,time:number):{x:number;y:number}{
+    const at=project(f.x,f.y,this.projection);
+    at.y-=airborneHeight(f,time)*this.projection.scale*FORESHORTENING;return at;
   }
   private actorScale(f: Fighter): number {return this.projection.scale/38*(f.species==='bear'||f.species==='elephant'?1.13:1);}
   render(state: ArenaState, selectedId: string, targetMode?: 'fighter'|'ground'|null): void {
     this.resize();const ctx=this.ctx,p=this.projection;
+    ctx.lineWidth=1;ctx.lineCap='butt';ctx.lineJoin='miter';ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.setLineDash([]);
     ctx.clearRect(0,0,this.width,this.height);this.venue(state.time);
     if(targetMode==='ground'){
       ctx.save();ctx.strokeStyle='#d5b97d88';ctx.lineWidth=2;ctx.setLineDash([5,7]);
@@ -46,10 +54,12 @@ export class ArenaView {
       if(f.hp>0&&(f.id===selectedId||f.id===state.supportedId)){
         ctx.save();ctx.lineWidth=f.id===selectedId?2:1;ellipse(ctx,at.x,at.y,21*s,9*s,'#00000000',f.id===selectedId?'#f2d18a':'#89c4ac');ctx.restore();
       }
-      if(targetMode==='fighter'&&f.hp>0){ctx.strokeStyle='#dfc28399';ctx.lineWidth=1;ctx.strokeRect(at.x-20*s,at.y-62*s,40*s,66*s);}
+      if(f.hp>0)this.direction(f,at.x,at.y,s);
+      if(targetMode==='fighter'&&f.hp>0){const visual=this.visualPosition(f,state.time);ctx.strokeStyle='#dfc28399';ctx.lineWidth=1;ctx.strokeRect(visual.x-20*s,visual.y-62*s,40*s,66*s);}
     }
     const things=[...state.fighters.map(f=>({y:f.y,f})),...state.items.map(item=>({y:item.y,item}))].sort((a,b)=>a.y-b.y);
     for(const thing of things){if('f'in thing)this.fighter(thing.f,state);else this.item(thing.item,state);}
+    for(const arrow of state.arrows)this.arrow(arrow);
     for(const effect of state.effects){const age=state.time-effect.at;if(age<0||age>1.2)continue;
       const at=project(effect.x,effect.y,p);ctx.save();ctx.globalAlpha=Math.max(0,1-age/1.2);
       if(effect.kind==='spell'){ctx.strokeStyle=effect.color;ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(at.x,at.y,10+age*35,4+age*15,0,0,Math.PI*2);ctx.stroke();}
@@ -61,7 +71,7 @@ export class ArenaView {
     }
   }
   private fighter(f: Fighter, state:ArenaState):void{
-    const ctx=this.ctx,at=project(f.x,f.y,this.projection),s=this.actorScale(f);
+    const ctx=this.ctx,at=this.visualPosition(f,state.time),s=this.actorScale(f);
     ctx.save();ctx.translate(at.x,at.y);drawPuppet(ctx,f,state.time,s);ctx.restore();
     if(f.hp<=0)return;
     const w=40*s,y=at.y-70*s;ctx.fillStyle='#14141bd9';ctx.fillRect(at.x-w/2-2,y-2,w+4,9);
@@ -70,6 +80,24 @@ export class ArenaView {
     ctx.font=`${Math.max(9,10*s)}px system-ui`;ctx.textAlign='center';ctx.fillStyle='#e1d7c1';ctx.strokeStyle='#1c1b22';ctx.lineWidth=3;
     ctx.strokeText(f.name,at.x,y-5);ctx.fillText(f.name,at.x,y-5);
     if(f.buffs.length){ctx.fillStyle=f.buffs.some(b=>b.kind==='weakness')?'#bd9ce1':'#f0c36d';ctx.fillText('✦'.repeat(f.buffs.length),at.x,at.y+17*s);}
+  }
+  private direction(f:Fighter,x:number,y:number,scale:number):void{
+    const ctx=this.ctx,a=f.facing,r=24*scale;
+    ctx.save();ctx.translate(x,y);ctx.scale(1,FORESHORTENING);ctx.rotate(a);
+    ctx.fillStyle=f.pose==='block'?'#9ac4d8':f.pose==='parry'?'#f7dfa1':'#e6d2a080';
+    ctx.beginPath();ctx.moveTo(r+7,0);ctx.lineTo(r-1,-3);ctx.lineTo(r-1,3);ctx.closePath();ctx.fill();
+    if(f.pose==='block'||f.pose==='parry'){
+      ctx.strokeStyle=ctx.fillStyle;ctx.lineWidth=f.pose==='parry'?3:2;
+      ctx.beginPath();ctx.arc(0,0,r,-.7,.7);ctx.stroke();
+    }ctx.restore();
+  }
+  private arrow(arrow:ArenaState['arrows'][number]):void{
+    const ctx=this.ctx,at=project(arrow.x,arrow.y,this.projection),scale=this.projection.scale/38;
+    ctx.save();ctx.translate(at.x,at.y-this.projection.scale*.75);
+    ctx.rotate(Math.atan2(arrow.vy*FORESHORTENING,arrow.vx));ctx.scale(scale,scale);
+    ctx.strokeStyle='#e8d5a5';ctx.lineWidth=1.7;ctx.beginPath();ctx.moveTo(-16,0);ctx.lineTo(7,0);ctx.stroke();
+    ctx.fillStyle='#d7e3df';ctx.beginPath();ctx.moveTo(11,0);ctx.lineTo(5,-3);ctx.lineTo(5,3);ctx.closePath();ctx.fill();
+    ctx.strokeStyle='#bfb4a0';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-15,0);ctx.lineTo(-19,-3);ctx.moveTo(-13,0);ctx.lineTo(-17,3);ctx.stroke();ctx.restore();
   }
   private item(item:ArenaState['items'][number],state:ArenaState):void{
     const ctx=this.ctx,p=this.projection;const at=project(item.x,item.y,p);

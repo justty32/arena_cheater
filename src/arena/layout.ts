@@ -16,7 +16,7 @@ export function arenaLayout(fighters: Fighter[]): string {
       </section>
       <aside class="arena-sidebar" aria-label="鬥士與戰報">
         <section class="arena-panel contenders"><div class="panel-heading"><h2>場上鬥士</h2><span>選擇你的贏家</span></div><div class="fighter-list">${fighters.map((f, i) => `<button class="fighter-row" data-fighter="${f.id}" aria-pressed="false" style="--fighter-color:${f.color}"><span class="fighter-number">0${i + 1}</span><span class="fighter-info"><span class="fighter-name">${f.name}<i data-row-badge></i></span><span class="fighter-mini-bar"><i data-row-hp></i></span></span><small data-row-status></small></button>`).join('')}</div></section>
-        <section class="arena-panel fighter-detail"><div class="detail-heading"><h2 data-detail-name></h2><span data-detail-pose></span></div><div class="detail-resource"><span>生命</span><strong data-detail-hp></strong></div><div class="detail-bar health"><i data-detail-health-bar></i></div><div class="detail-resource"><span>體力</span><strong data-detail-stamina></strong></div><div class="detail-bar stamina"><i data-detail-stamina-bar></i></div><div class="detail-equipment"><span>手持裝備</span><strong data-detail-weapon></strong></div><small class="detail-buffs" data-detail-buffs></small><button class="support-button" data-support>支持這位鬥士</button></section>
+        <section class="arena-panel fighter-detail"><div class="detail-heading"><h2 data-detail-name></h2><span data-detail-pose data-testid="arena-pose"></span></div><div class="detail-resource"><span>生命</span><strong data-detail-hp></strong></div><div class="detail-bar health"><i data-detail-health-bar></i></div><div class="detail-resource"><span>體力</span><strong data-detail-stamina></strong></div><div class="detail-bar stamina"><i data-detail-stamina-bar></i></div><div class="detail-equipment"><span>手持裝備</span><strong data-detail-weapon data-testid="arena-equipment"></strong></div><div class="equipment-counts"><span>剩餘箭數 <b data-testid="arena-ammo">—</b></span><span>木棍可命中 <b data-testid="arena-durability">—</b></span></div><small class="detail-defense" data-detail-defense></small><small class="detail-buffs" data-detail-buffs></small><button class="support-button" data-support>支持這位鬥士</button></section>
         <section class="arena-panel battle-log"><div class="panel-heading"><h2>場邊耳語</h2><span>戰鬥紀錄</span></div><ol data-log></ol></section>
       </aside>
       <section class="arena-hand" aria-label="作弊卡牌">
@@ -49,6 +49,12 @@ export function drawCardArt(canvas: HTMLCanvasElement, card: Card): void {
   } else if (card.id === 'shield') {
     ctx.beginPath(); ctx.moveTo(-22, -20); ctx.quadraticCurveTo(0, -10, 22, -20); ctx.lineTo(19, 4); ctx.quadraticCurveTo(12, 22, 0, 28); ctx.quadraticCurveTo(-12, 22, -19, 4); ctx.closePath(); ctx.stroke();
     line([[0, -12], [0, 17]]); line([[-11, 0], [11, 0]]);
+  } else if (card.id === 'bow') {
+    ctx.rotate(-0.35);
+    ctx.beginPath(); ctx.moveTo(-13, -31); ctx.quadraticCurveTo(35, 0, -13, 31); ctx.stroke();
+    ctx.lineWidth = 1.5; line([[-13, -31], [-19, 0], [-13, 31]]);
+    ctx.lineWidth = 2; line([[-28, 0], [32, 0]]); line([[25, -5], [32, 0], [25, 5]]);
+    line([[-25, -4], [-20, 0], [-25, 4]]);
   } else if (card.id === 'club') {
     ctx.rotate(0.6); ctx.beginPath(); ctx.roundRect(-9, -30, 18, 37, 6); ctx.fill(); line([[0, 6], [0, 31]]);
     ctx.strokeStyle = '#33281f'; line([[-3, -24], [-3, -7]]);

@@ -2,7 +2,7 @@
 
 | 目錄 | 範圍 |
 |------|------|
-| [simulation/](simulation/README.md) | 圓場戰鬥、卡牌、投送與投影；經典戰鬥、資源及投射物回歸 |
+| [simulation/](simulation/README.md) | 圓場、卡牌、裝備耗盡／防禦、箭矢與掃掠／投影；經典模式回歸 |
 | [e2e/](e2e/README.md) | 新競技場卡牌與控制；經典演出、倍率及響應式排版 |
 
 指令、環境與驗收條件統一見 [testing](../wf/workflows/testing.md)。

@@ -1,6 +1,8 @@
 import { ARENA_RADIUS, type ArenaState, type Fighter, type Species } from './model';
 import { act, log, separateFighters } from './engine-combat';
 import { advanceItems } from './engine-items';
+import { advanceArrows } from './engine-arrows';
+import { advanceControl, syncStamina } from './engine-damage';
 export { playCard } from './engine-items';
 
 const STEP = 1 / 30;
@@ -21,10 +23,10 @@ export function createArena(seed = 73021): ArenaState {
   const fighters: Fighter[] = SPECIES.map((spec, i) => {
     const angle = -Math.PI / 2 + gates[i] * Math.PI / 4;
     return { ...spec, id: `fighter-${i}`, x: Math.cos(angle) * 6.45, y: Math.sin(angle) * 6.45,
-      facing: angle + Math.PI, maxHp: spec.hp, maxStamina: spec.stamina, weapon: 'fists', shield: false,
-      pose: 'idle', poseUntil: 0, lastAttack: -10, lastMoved: -10, nextAttack: random() * 0.3, buffs: [] };
+      facing: angle + Math.PI, maxHp: spec.hp, maxStamina: spec.stamina, baseMaxStamina: spec.stamina, weapon: 'fists', shield: false,
+      pose: 'idle', poseUntil: 0, lastAttack: -10, lastMoved: -10, nextAttack: random() * 0.3, buffs: [], ammo: 0, durability: 0, parryUntil: 0, nextParry: 0 };
   });
-  return { seed, time: 0, accumulator: 0, status: 'ready', speed: 1, fighters, items: [], effects: [],
+  return { seed, time: 0, accumulator: 0, status: 'ready', speed: 1, fighters, items: [], arrows: [], effects: [],
     logs: ['七位鬥士已入場。選擇你的支持者，準備暗中出手。'], mana: 80, gold: 75, supportedId: fighters[0].id, nextId: 1 };
 }
 export function toggleArena(state: ArenaState): void {
@@ -33,17 +35,29 @@ export function toggleArena(state: ArenaState): void {
 }
 function step(state: ArenaState): void {
   state.time += STEP;
-  state.mana = Math.min(100, state.mana + STEP * 5);
-  state.gold = Math.min(100, state.gold + STEP * 1.5);
-  advanceItems(state);
-  for (const fighter of state.fighters) act(state, fighter, STEP);
+  const mayAdvance = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
+  if (mayAdvance) {
+    state.mana = Math.min(100, state.mana + STEP * 5);
+    state.gold = Math.min(100, state.gold + STEP * 1.5);
+    advanceItems(state, STEP);
+  }
+  advanceArrows(state, STEP);
+  const mayAct = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
+  for (const fighter of state.fighters) {
+    if (mayAct) act(state, fighter, STEP);
+    else {
+      syncStamina(fighter, state.time);
+      advanceControl(state, fighter);
+      if (fighter.pose === 'attack') fighter.pose = 'idle';
+    }
+  }
   separateFighters(state);
   state.effects = state.effects.filter(effect => state.time - effect.at < 1.8);
   const alive = state.fighters.filter(fighter => fighter.hp > 0);
-  if (alive.length <= 1 || state.time >= 180) {
+  if ((alive.length <= 1 || state.time >= 180) && state.arrows.length === 0) {
     state.status = 'finished';
     state.winnerId = alive.length === 1 ? alive[0].id : undefined;
-    log(state, alive.length === 1 ? `${alive[0].name} 贏得競技場！` : '時間已到，本場平局');
+    log(state, alive.length === 1 ? `${alive[0].name} 贏得競技場！` : '本場平局');
   }
 }
 export function advanceArena(state: ArenaState, elapsedSeconds: number): void {

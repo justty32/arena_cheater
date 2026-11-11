@@ -133,6 +133,7 @@ describe('circular arena simulation', () => {
     const state = running();
     playCard(state, 'sword', { x: 0, y: 0 });
     playCard(state, 'shield', { x: 0, y: 0 });
+    state.fighters = []; // Isolate delivery collision from immediate nearby pickups.
     state.time = 0.4; advanceItems(state);
     expect(state.items).toHaveLength(2);
     expect(state.items.every(item => item.landed)).toBe(true);

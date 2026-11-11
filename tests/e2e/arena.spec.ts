@@ -11,7 +11,7 @@ async function open(page: import('@playwright/test').Page) {
 test('圓場卡牌、暫停、倍速與重開可操作', async ({ page }, testInfo) => {
   const errors = observeErrors(page);
   await open(page);
-  await expect(page.locator('[data-card]')).toHaveCount(7);
+  await expect(page.locator('[data-card]')).toHaveCount(8);
   await expect(page.locator('[data-fighter]')).toHaveCount(7);
   await page.screenshot({ path: testInfo.outputPath('arena-desktop.png'), fullPage: true });
   await page.getByTestId('arena-start').click();
@@ -150,3 +150,48 @@ test('暫停可從名單與場上施法及投送，續戰前時間與畫面保�
   expect(await canvasHash()).not.toBe(pausedImage);
   expect(errors).toEqual([]);
 });
+
+for (const [cardId, weaponName, countId, initialCount] of [
+  ['bow', '弓', 'arena-ammo', '3'],
+  ['club', '木棍', 'arena-durability', '2'],
+] as const) {
+  test(`${weaponName}可投送拾取並顯示雙手與剩餘用量`, async ({ page }, testInfo) => {
+    const errors = observeErrors(page);
+    await open(page);
+    const { createArena, toggleArena, advanceArena } = await import('../../src/arena/engine');
+    const { createProjection, project } = await import('../../src/arena/projection');
+    const forecast = createArena(73021);
+    toggleArena(forecast); advanceArena(forecast, 1.5);
+    const destination = forecast.fighters[0];
+    await page.getByTestId('arena-start').click();
+    await page.getByTestId('arena-start').click();
+    await page.locator(`[data-card="${cardId}"]`).click();
+    const canvas = page.getByTestId('arena-canvas');
+    await canvas.scrollIntoViewIfNeeded();
+    const box = await canvas.boundingBox();
+    const point = project(destination.x, destination.y, createProjection(box!.width, box!.height));
+    await canvas.click({ position: point });
+    await expect(page.getByTestId('arena-gold')).toHaveText(cardId === 'bow' ? '40' : '45');
+    await page.clock.runFor(500);
+    await expect(page.getByTestId('arena-time')).toHaveText('00:00');
+    await page.getByTestId('arena-start').click();
+    let pickup = '';
+    for (let i = 0; i < 20 && !pickup; i++) {
+      await page.clock.runFor(250);
+      pickup = (await page.locator('[data-log] li').allTextContents()).find(text => text.includes(`拾取${weaponName}`)) ?? '';
+    }
+    expect(pickup).not.toBe('');
+    await page.getByTestId('arena-start').click();
+    const name = pickup.split(' 拾取')[0];
+    await page.locator('[data-fighter]').filter({ hasText: name }).click();
+    await expect(page.getByTestId('arena-equipment')).toContainText(`${weaponName}（雙手）`);
+    await expect(page.getByTestId(countId)).toHaveText(initialCount);
+    await page.clock.runFor(500);
+    await page.screenshot({ path: testInfo.outputPath(`p3-${cardId}.png`), fullPage: true });
+    await page.getByTestId('arena-start').click();
+    await page.clock.runFor(8000);
+    await expect(page.getByTestId('arena-equipment')).toContainText('徒手');
+    await expect(page.getByTestId(countId)).toHaveText('—');
+    expect(errors).toEqual([]);
+  });
+}
