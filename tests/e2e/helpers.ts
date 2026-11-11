@@ -4,7 +4,7 @@ const clockStart = new Date('2026-10-29T00:00:00Z');
 
 export async function openArena(page: Page): Promise<void> {
   await page.clock.install({ time: clockStart });
-  await page.goto('/');
+  await page.goto('/?prototype=classic');
   await expect(page.getByTestId('board')).toBeVisible();
   await page.clock.pauseAt(new Date(clockStart.getTime() + 3_600_000));
 }

@@ -15,4 +15,4 @@
 | 相依 | 以 package.json 與 lockfile 鎖定版本；新增相依需記錄用途 |
 | 規格 | 實作與已確認需求衝突時先釐清，不能以實作覆寫使用者原意 |
 
-`src/game/` 為不依賴 DOM 的模擬層，`src/main.ts` 與 `src/ui/` 處理輸入和演出。遊戲時間、seed 與作弊指令由模擬層控制；介面不得另算傷害或資源恢復。行為變更同步核心測試及必要瀏覽器驗證。
+新圓場的 `src/arena/engine*.ts` 與經典模式的 `src/game/` 為不依賴 DOM 的模擬層。`src/main.ts` 選擇模式；新圓場由 `src/arena/app.ts`、`view.ts` 等處理輸入與 Canvas 演出，經典模式由 `src/classic.ts` 與 `src/ui/` 處理。遊戲時間、seed 與作弊指令由模擬層控制；介面不得另算傷害或資源恢復。行為變更同步核心測試及必要瀏覽器驗證。

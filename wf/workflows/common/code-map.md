@@ -4,21 +4,22 @@
 
 碰原始碼前先查這張表，只讀相關領域列出的檔；動完再照維護鏈把表更新回去。寫碼慣例本身在 [conventions](conventions.md)。
 
-目前為 TypeScript 網頁戰鬥原型；玩法及實作假設見 [戰鬥原型](../../../docs/combat-prototype.md)。
+目前預設為 Canvas 2D 七人圓場原型，另保留 `?prototype=classic` 經典棋盤；玩法及實作假設見 [戰鬥原型](../../../docs/combat-prototype.md)。
 
 ## 領域表
 
 <!-- wf-nav -->
 | 領域 | 檔案 | 職責 | 測試在哪 |
 |------|------|------|---------|
+| 入口與新圓場 | [main.ts](../../../src/main.ts)、[arena 導航](../../../src/arena/README.md) | 模式載入；新圓場狀態、戰鬥、卡牌、投送、Canvas 骨骼與 UI | [核心測試](../../../tests/simulation/README.md)、[瀏覽器測試](../../../tests/e2e/README.md) |
 | 狀態與規則 | [model.ts](../../../src/game/model.ts)、[rules.ts](../../../src/game/rules.ts) | 型別、編隊、數值、seed、事件 | [核心測試](../../../tests/simulation/README.md) |
 | 戰鬥模擬 | [engine.ts](../../../src/game/engine.ts)、[combat.ts](../../../src/game/combat.ts)、[attacks.ts](../../../src/game/attacks.ts)、[pathfinding.ts](../../../src/game/pathfinding.ts) | 生命週期、步進、作弊、出招、投射物／傷害、尋路及視線 | [核心測試](../../../tests/simulation/README.md) |
-| 介面與演出 | [main.ts](../../../src/main.ts)、[介面導航](../../../src/ui/README.md) | 輸入、幀更新、佈局、棋盤、狀態、圖示及樣式 | [瀏覽器測試](../../../tests/e2e/README.md) |
+| 經典介面與演出 | [classic.ts](../../../src/classic.ts)、[介面導航](../../../src/ui/README.md) | 舊棋盤輸入、幀更新、佈局、狀態、圖示及樣式 | [瀏覽器測試](../../../tests/e2e/README.md) |
 | 環境與建置 | [package.json](../../../package.json)、[vite.config.ts](../../../vite.config.ts)、[playwright.config.ts](../../../playwright.config.ts) | scripts、型別／建置與測試設定 | [testing](../testing.md) |
 | 網站部署 | [pages.yml](../../../.github/workflows/pages.yml) | main 驗證、靜態產物與 GitHub Pages 發布 | [GitHub Pages](../dev-env.md#github-pages) |
 | 工作流工具 | [tools/](../../tools/) | 文件檢查與資料檔操作；非遊戲引擎 | 來源工具原樣導入 |
 
-介面內部分工與樣式載入順序見 [介面導航](../../../src/ui/README.md)，測試分類見 [測試導航](../../../tests/README.md)。網頁入口為根目錄 `index.html`，型別設定為 `tsconfig.json`。
+表中的 `src/game/` 狀態與戰鬥模組屬經典模式。新圓場內部分工見 arena 導航；經典樣式載入順序見介面導航。測試分類見 [測試導航](../../../tests/README.md)。網頁入口為根目錄 `index.html`，型別設定為 `tsconfig.json`。
 
 ## 真相層優先序
 
