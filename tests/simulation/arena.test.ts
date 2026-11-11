@@ -66,6 +66,44 @@ describe('circular arena simulation', () => {
     state.mana = 0;
     expect(playCard(state, 'trip', { fighterId: target.id })).toBe(false);
   });
+  it('casts while paused but freezes spell durations, resources and new deliveries until resumed', () => {
+    const state = running();
+    toggleArena(state);
+    const target = state.fighters[0];
+    expect(playCard(state, 'fury', { fighterId: target.id })).toBe(true);
+    expect(playCard(state, 'trip', { fighterId: target.id })).toBe(true);
+    expect(playCard(state, 'sword', { x: 0, y: 0 })).toBe(true);
+    expect(state.mana).toBe(28);
+    expect(state.gold).toBe(50);
+    expect(target.buffs).toEqual([{ kind: 'fury', until: 8 }]);
+    expect(target.pose).toBe('fallen');
+    expect(target.poseUntil).toBe(2);
+    expect(state.items).toHaveLength(1);
+    const paused = structuredClone(state);
+    expect(playCard(state, 'haste', { fighterId: 'missing' })).toBe(false);
+    expect(playCard(state, 'shield', { x: 99, y: 0 })).toBe(false);
+    advanceArena(state, 10);
+    expect(state).toEqual(paused);
+    toggleArena(state);
+    run(state, 0.5);
+    expect(state.time).toBeCloseTo(0.5);
+    expect(target.buffs[0].until - state.time).toBeCloseTo(7.5);
+    expect(target.poseUntil - state.time).toBeCloseTo(1.5);
+    expect(state.items[0].y).toBeLessThan(paused.items[0].y);
+    expect(state.mana).toBeGreaterThan(paused.mana);
+    run(state, 1);
+    expect(state.items.every(item => item.landed)).toBe(true);
+  });
+  it('rejects spells and deliveries before battle starts and after it finishes without spending', () => {
+    for (const status of ['ready', 'finished'] as const) {
+      const state = createArena(42);
+      state.status = status;
+      const before = structuredClone(state);
+      expect(playCard(state, 'fury', { fighterId: state.fighters[0].id })).toBe(false);
+      expect(playCard(state, 'sword', { x: 0, y: 0 })).toBe(false);
+      expect(state).toEqual(before);
+    }
+  });
   it('waits two seconds after attack before stamina regeneration and rewards standing still', () => {
     const state = running(), fighter = state.fighters[0];
     state.fighters = [fighter];

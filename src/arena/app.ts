@@ -101,7 +101,7 @@ export function mountArena(root: HTMLElement): void {
   start.addEventListener('click', () => {
     if (state.status === 'finished') reset();
     toggleArena(state);
-    feedback = state.status === 'running' ? '戰鬥開始。把卡牌拖進競技場，或先選卡再點目標。' : '戰鬥已暫停，法力、投送與動畫一起停止。';
+    feedback = state.status === 'running' ? '戰鬥開始。把卡牌拖進競技場，或先選卡再點目標。' : '戰鬥已暫停，仍可施法或投送；時間、資源恢復與動畫保持停止。';
     render();
   });
   el('[data-testid="arena-reset"]').addEventListener('click', reset);
@@ -116,7 +116,7 @@ export function mountArena(root: HTMLElement): void {
   rows.forEach((row) => row.addEventListener('click', () => {
     selectedId = row.dataset.fighter!;
     if (activeCard?.target === 'fighter') {
-      if (state.status !== 'running') feedback = '請先開始或繼續戰鬥，再施放卡牌。';
+      if (state.status !== 'running' && state.status !== 'paused') feedback = '請先開始新戰鬥，再施放卡牌。';
       else if (playCard(state, activeCard.id, { fighterId: selectedId })) {
         feedback = `${activeCard.name}已施放於${state.fighters.find((f) => f.id === selectedId)?.name}。`;
         activeCard = undefined;
@@ -132,18 +132,18 @@ export function mountArena(root: HTMLElement): void {
   });
   function select(card: Card): void {
     activeCard = activeCard?.id === card.id ? undefined : card;
-    feedback = activeCard ? `${card.name}：${card.description}。${state.status !== 'running' ? '開始或繼續戰鬥後施放。' : ''}` : '已取消選牌。';
+    feedback = activeCard ? `${card.name}：${card.description}。${state.status === 'ready' || state.status === 'finished' ? '開始新戰鬥後施放。' : state.status === 'paused' ? '暫停中可施放，效果倒數與投送會在續戰後進行。' : ''}` : '已取消選牌。';
     render();
   }
   function cast(clientX: number, clientY: number): void {
     const fighter = view.pick(clientX, clientY, state);
     if (!activeCard) { if (fighter) selectedId = fighter.id; render(); return; }
-    if (state.status !== 'running') { feedback = '請先開始或繼續戰鬥，再施放卡牌。'; render(); return; }
+    if (state.status !== 'running' && state.status !== 'paused') { feedback = '請先開始新戰鬥，再施放卡牌。'; render(); return; }
     const point = view.ground(clientX, clientY);
     const target = activeCard.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : undefined) : point;
     if (!target) { feedback = activeCard.target === 'fighter' ? '法術需要命中一位存活的鬥士。' : '請將裝備投向競技場內。'; render(); return; }
     if (playCard(state, activeCard.id, target)) {
-      feedback = activeCard.target === 'fighter' ? `${activeCard.name}已施放於${fighter!.name}。` : `${activeCard.name}正在飛向場內，任何鬥士都能搶先拾取。`;
+      feedback = activeCard.target === 'fighter' ? `${activeCard.name}已施放於${fighter!.name}。` : state.status === 'paused' ? `${activeCard.name}已排入投送，繼續戰鬥後飛向場內。` : `${activeCard.name}正在飛向場內，任何鬥士都能搶先拾取。`;
       if (fighter) selectedId = fighter.id;
       activeCard = undefined;
     } else feedback = '未能施放：請檢查資源與目標狀態。';

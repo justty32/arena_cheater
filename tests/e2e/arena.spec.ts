@@ -95,3 +95,58 @@ test('手機從卡面水平滑動可看到後方卡牌', async ({ browser }) => 
   await expect(page.getByTestId('arena-gold')).toHaveText('75');
   await context.close();
 });
+
+test('暫停可從名單與場上施法及投送，續戰前時間與畫面保持凍結', async ({ page }) => {
+  const errors = observeErrors(page);
+  await open(page);
+  const mana = page.getByTestId('arena-mana');
+  const gold = page.getByTestId('arena-gold');
+  const canvas = page.getByTestId('arena-canvas');
+  await page.locator('[data-card="fury"]').click();
+  await page.locator('[data-fighter]').first().click();
+  await expect(mana).toHaveText('80');
+  await expect(page.getByTestId('arena-feedback')).toContainText('開始新戰鬥');
+  await page.getByTestId('arena-start').click();
+  await page.getByTestId('arena-start').click();
+  await page.locator('[data-fighter]').first().click();
+  await expect(mana).toHaveText('56');
+  await expect(page.locator('[data-detail-buffs]')).toContainText('怪力');
+  await page.locator('[data-fighter]').first().click();
+  await expect(mana).toHaveText('56');
+
+  await page.locator('[data-card="haste"]').click();
+  await canvas.scrollIntoViewIfNeeded();
+  const box = await canvas.boundingBox();
+  const { createArena } = await import('../../src/arena/engine');
+  const { createProjection, project } = await import('../../src/arena/projection');
+  const fighter = createArena(73021).fighters[0];
+  const projection = createProjection(box!.width, box!.height);
+  const target = project(fighter.x, fighter.y, projection);
+  await canvas.click({ position: { x: target.x, y: target.y - 30 * projection.scale / 38 } });
+  await expect(mana).toHaveText('38');
+  await expect(page.locator('[data-detail-buffs]')).toContainText('興奮');
+  await page.locator('[data-card="sword"]').click();
+  await canvas.click({ position: { x: 3, y: 3 } });
+  await expect(gold).toHaveText('75');
+  await canvas.click({ position: { x: box!.width / 2, y: box!.height / 2 } });
+  await expect(gold).toHaveText('50');
+  await expect(page.getByTestId('arena-feedback')).toContainText('繼續戰鬥後');
+  // Flush layout/paint callbacks after the spell and battle-log updates.
+  await page.clock.runFor(100);
+  const canvasHash = () => canvas.evaluate(async (element: HTMLCanvasElement) => {
+    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(element.toDataURL()));
+    return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+  });
+  const pausedImage = await canvasHash();
+  await page.clock.runFor(3000);
+  await expect(page.getByTestId('arena-time')).toHaveText('00:00');
+  await expect(mana).toHaveText('38');
+  await expect(gold).toHaveText('50');
+  expect(await canvasHash()).toBe(pausedImage);
+  await page.getByTestId('arena-start').click();
+  await page.clock.runFor(1500);
+  await expect(page.getByTestId('arena-time')).not.toHaveText('00:00');
+  expect(Number(await mana.innerText())).toBeGreaterThan(38);
+  expect(await canvasHash()).not.toBe(pausedImage);
+  expect(errors).toEqual([]);
+});

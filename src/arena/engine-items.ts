@@ -3,7 +3,7 @@ import { distance, effect, log } from './engine-combat';
 
 export interface CardTarget { fighterId?: string; x?: number; y?: number }
 export function playCard(state: ArenaState, cardId: CardId, target: CardTarget): boolean {
-  if (state.status !== 'running') return false;
+  if (state.status !== 'running' && state.status !== 'paused') return false;
   const card = CARDS.find(value => value.id === cardId);
   if (!card || state[card.currency] < card.cost) return false;
   const fighter = state.fighters.find(value => value.id === target.fighterId && value.hp > 0);
