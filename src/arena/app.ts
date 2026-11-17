@@ -25,6 +25,7 @@ export function mountArena(root: HTMLElement): void {
   const exchangeStones = new Set<number>();
   const paymentStones = new Set<number>();
   let paymentHandId: number | undefined;
+  let cancelCardDrag: (() => void) | undefined;
   let lastLogs = '';
   let feedback = '選一位鬥士支持，然後開始這場混戰。';
   document.title = '詐賭競技場 · 場邊的你，才是變數';
@@ -57,6 +58,7 @@ export function mountArena(root: HTMLElement): void {
   }
 
   function clearSelection(): void {
+    cancelCardDrag?.();
     el('[data-testid="arena-feedback"]').dataset.reason = '';
     activeHandId = undefined;
     aim = undefined;
@@ -279,17 +281,31 @@ export function mountArena(root: HTMLElement): void {
   });
   el('[data-cancel]').addEventListener('click', () => { clearSelection(); feedback = '已取消，沒有消耗資源。'; render(); });
   function bindCard(button: HTMLButtonElement, handId: number): void {
-    let dragStart: { x: number; y: number } | undefined;
+    let dragStart: { x: number; y: number; pointerId: number } | undefined;
     let moved = false;
     let suppressClick = false;
-    button.addEventListener('click', () => { if (suppressClick) { suppressClick = false; return; } select(handId); });
+    function stopDrag(cancelled: boolean): void {
+      if (cancelled && dragStart) suppressClick = true;
+      dragStart = undefined; moved = false;
+      button.classList.remove('is-dragging');
+      el('[data-drag-label]').hidden = true;
+      if (cancelCardDrag === cancelThisDrag) cancelCardDrag = undefined;
+      // Keep capture until pointerup: the cancelled gesture's click belongs to this button.
+    }
+    function cancelThisDrag(): void { stopDrag(true); }
+    button.addEventListener('click', (event) => {
+      if (event.detail > 0 && suppressClick) { suppressClick = false; return; }
+      select(handId);
+    });
     button.addEventListener('pointerdown', (event) => {
       if (event.button !== 0 || exchanging) return;
-      dragStart = { x: event.clientX, y: event.clientY }; moved = false; suppressClick = false;
+      cancelCardDrag?.();
+      dragStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+      moved = false; suppressClick = false; cancelCardDrag = cancelThisDrag;
       button.setPointerCapture(event.pointerId);
     });
     button.addEventListener('pointermove', (event) => {
-      if (!dragStart || exchanging) return;
+      if (!dragStart || dragStart.pointerId !== event.pointerId || exchanging) return;
       if (Math.hypot(event.clientX - dragStart.x, event.clientY - dragStart.y) > 9) {
         moved = true; activeHandId = handId;
         updateAim(event.clientX, event.clientY);
@@ -301,18 +317,21 @@ export function mountArena(root: HTMLElement): void {
       }
     });
     button.addEventListener('pointerup', (event) => {
-      if (!dragStart) return;
-      dragStart = undefined;
-      button.classList.remove('is-dragging'); el('[data-drag-label]').hidden = true;
-      if (!moved) return;
+      if (!dragStart || dragStart.pointerId !== event.pointerId) return;
+      const wasMoved = moved;
+      stopDrag(false);
+      if (!wasMoved) return;
       suppressClick = true;
       const rect = canvas.getBoundingClientRect();
       if (event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom) cast(event.clientX, event.clientY);
       else { clearSelection(); feedback = '投送已取消，沒有消耗資源。'; render(); }
     });
-    button.addEventListener('pointercancel', () => {
-      dragStart = undefined; clearSelection(); button.classList.remove('is-dragging'); render();
-    });
+    const cancelPointer = (event: PointerEvent): void => {
+      if (!dragStart || dragStart.pointerId !== event.pointerId) return;
+      clearSelection(); render();
+    };
+    button.addEventListener('pointercancel', cancelPointer);
+    button.addEventListener('lostpointercapture', cancelPointer);
   }
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') { clearSelection(); feedback = '已取消，沒有消耗資源。'; render(); }
