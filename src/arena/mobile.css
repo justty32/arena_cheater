@@ -1,3 +1,13 @@
+.support-hud { min-width: 200px; max-width: 310px; flex: 1; margin: 0 24px; }
+.support-readout { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0; color: #b1cbb7; }
+.support-readout strong { font-weight: 500; color: #e0e6d7; }
+.support-readout > :last-child { margin-left: auto; font-variant-numeric: tabular-nums; }
+.support-health { height: 3px; margin-top: 4px; background: #354139; }
+.support-health i { display: block; height: 100%; background: #8abca1; }
+.support-hud[data-state="dead"] .support-readout { color: #e7b49c; }
+.support-hud[data-state="dead"] .support-health { background: #765145; }
+.support-announcement { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (min-width: 801px) and (max-width: 1100px) { .support-hud { min-width: 185px; margin: 0 10px; } }
 [data-mobile-panel] > summary { display: none; }
 .stone-payment .payment-preview { font-size: 10px; line-height: 1.65; color: #b7b492; margin: 9px 0 0; }
 @media(max-width:800px) {
@@ -12,7 +22,9 @@
   .arena-brand strong { font-size: 17px; letter-spacing: 3px; }
   .arena-brand small { display: none; }
   .arena-workspace { margin-top: 8px; gap: 8px; }
-  .arena-stage-top { height: 34px; padding: 0 11px; }
+  .arena-stage-top { height: 70px; padding: 7px 11px; flex-wrap: wrap; row-gap: 6px; }
+  .support-hud { order: 3; flex-basis: 100%; min-width: 0; max-width: none; margin: 0; }
+  .support-readout { font-size: 11px; }
   .arena-canvas-wrap, .arena-canvas-wrap canvas { min-height: clamp(230px, 33svh, 280px); }
   .arena-controls { min-height: 48px; padding: 4px 8px; gap: 4px; }
   .arena-primary { min-height: 40px; padding: 7px 11px; }

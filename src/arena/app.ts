@@ -3,6 +3,7 @@ import { CARDS, isResolvingArena, isAreaSpellTarget, areaSpellTargets } from './
 import type { Card, Fighter } from './model';
 import { ArenaView } from './view';
 import { createHandView } from './hand-view';
+import { createSupportHud } from './support-hud';
 import { createMobilePanels } from './mobile-panels';
 import { cardPlayFailure, paymentProblem, paymentReadout } from './payment-ui';
 import { arenaLayout } from './layout';
@@ -28,6 +29,7 @@ export function mountArena(root: HTMLElement): void {
   document.title = '詐賭競技場 · 場邊的你，才是變數';
   root.innerHTML = arenaLayout(state.fighters);
   const mobilePanels = createMobilePanels(root);
+  const renderSupport = createSupportHud(root);
   const el = <T extends HTMLElement = HTMLElement>(selector: string): T => root.querySelector<T>(selector)!;
   const canvas = el<HTMLCanvasElement>('[data-testid="arena-canvas"]');
   const view = new ArenaView(canvas);
@@ -72,6 +74,7 @@ export function mountArena(root: HTMLElement): void {
       paymentHandId = activeHandId;
     }
     handView.render(state, activeHandId, exchanging, exchangeStones, paymentStones);
+    renderSupport(state.fighters.find(f => f.id === state.supportedId));
     const payment = [...paymentStones];
     const paymentCheck = activeCard ? paymentStatus(state, activeCard.cost, payment) : undefined;
     view.render(state, selectedId, exchanging ? null : activeCard?.target ?? null, exchanging ? undefined : activeCard, aim);

@@ -168,7 +168,17 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
     await expect(hand(page)).toHaveCount(3);
     for (const card of await hand(page).all()) await expect(card).toBeInViewport({ ratio: 1 });
     await expect(page.getByTestId('arena-stone-summary')).toBeInViewport({ ratio: 1 });
+    await expect(page.getByTestId('arena-support-hud')).toBeInViewport({ ratio: 1 });
   }
+  const hud = page.getByTestId('arena-support-hud');
+  const supportedId = await hud.getAttribute('data-fighter-id');
+  expect(supportedId).toBeTruthy();
+  await page.getByTestId('arena-fighters-toggle').tap();
+  const otherFighter = page.locator(`[data-fighter]:not([data-fighter="${supportedId}"])`).first();
+  await otherFighter.tap();
+  await expect(otherFighter).toHaveAttribute('aria-pressed', 'true');
+  await expect(hud).toHaveAttribute('data-fighter-id', supportedId!);
+  await page.getByTestId('arena-fighters-toggle').tap();
   const before = await inventory(page);
   await hand(page).first().tap();
   await page.getByTestId('arena-effect-toggle').tap();

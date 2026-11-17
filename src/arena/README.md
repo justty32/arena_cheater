@@ -22,6 +22,7 @@
 | [view.ts](view.ts) | Canvas 場地、八門、遮擋排序、箭矢／投送、特效及選取判定 |
 | [layout.ts](layout.ts) | 靜態 DOM 佈局、控制項、卡牌標記、費用文案與 Canvas 卡面 |
 | [hand-view.ts](hand-view.ts) | 手牌及石頭節點同步、費用可付與付款預覽 |
+| [support-hud.ts](support-hud.ts) | 固定顯示支持者姓名、生命與陣亡狀態，並提示陣亡 |
 | [mobile-panels.ts](mobile-panels.ts) | 窄屏原生 details 展開狀態、跨尺寸保留與 aria-expanded 同步 |
 | [payment-ui.ts](payment-ui.ts) | 核心付款缺額與拒絕原因的介面文字 |
 | [app.ts](app.ts) | 介面狀態、選牌／精確選石付款／施放／換石／拖曳、結算重開手勢防護、控制與幀更新 |
