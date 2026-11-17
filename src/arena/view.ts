@@ -88,7 +88,8 @@ export class ArenaView {
     ctx.fillStyle=f.id===state.supportedId?'#85c5a2':'#c59c6b';ctx.fillRect(at.x-w/2,y,w*Math.max(0,f.hp/f.maxHp),3);
     ctx.fillStyle='#649aab';ctx.fillRect(at.x-w/2,y+4,w*Math.max(0,f.stamina/f.maxStamina),2);
     ctx.font=`${Math.max(9,10*s)}px system-ui`;ctx.textAlign='center';ctx.fillStyle='#e1d7c1';ctx.strokeStyle='#1c1b22';ctx.lineWidth=3;
-    ctx.strokeText(f.name,at.x,y-5);ctx.fillText(f.name,at.x,y-5);
+    const label = `${f.id === state.supportedId ? '◆ ' : ''}${f.name}`;
+    ctx.strokeText(label,at.x,y-5);ctx.fillText(label,at.x,y-5);
     if(f.buffs.some(b=>b.kind==='fury')){
       ctx.fillStyle='#f7d498';ctx.strokeStyle='#382419';ctx.lineWidth=3;ctx.font=`bold ${Math.max(10,11*s)}px system-ui`;
       ctx.strokeText('狂熱',at.x+5,at.y+18*s);ctx.fillText('狂熱',at.x+5,at.y+18*s);
