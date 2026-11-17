@@ -1,9 +1,12 @@
+.support-change { min-width: 44px; min-height: 44px; padding: 5px 8px; border: 1px solid #6a6749; background: #30382a; color: #e0ca95; font-size: 11px; }
+.arena-stage-top:has([data-support-change]:not([hidden])) { height: 56px; }
+.fighter-detail .support-button { margin: 0 0 12px; }
 .recent-throw { margin: -2px 0 8px; color: #c9c9ac; font-size: 11px; line-height: 1.6; overflow-wrap: anywhere; }
 .recent-throw > :first-child { color: #a4bba4; margin-right: 8px; white-space: nowrap; }
 .support-hud { min-width: 200px; max-width: 310px; flex: 1; margin: 0 24px; }
 .support-readout { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0; color: #b1cbb7; }
 .support-readout strong { font-weight: 500; color: #e0e6d7; }
-.support-readout > :last-child { margin-left: auto; font-variant-numeric: tabular-nums; }
+.support-readout [data-testid="arena-support-hp"] { margin-left: auto; font-variant-numeric: tabular-nums; }
 .support-health { height: 3px; margin-top: 4px; background: #354139; }
 .support-health i { display: block; height: 100%; background: #8abca1; }
 .support-hud[data-state="dead"] .support-readout { color: #e7b49c; }
@@ -25,6 +28,7 @@
   .arena-brand small { display: none; }
   .arena-workspace { margin-top: 8px; gap: 8px; }
   .arena-stage-top { height: 70px; padding: 7px 11px; flex-wrap: wrap; row-gap: 6px; }
+  .arena-stage-top:has([data-support-change]:not([hidden])) { height: 86px; }
   .support-hud { order: 3; flex-basis: 100%; min-width: 0; max-width: none; margin: 0; }
   .support-readout { font-size: 11px; }
   .arena-canvas-wrap, .arena-canvas-wrap canvas { min-height: clamp(230px, 33svh, 280px); }

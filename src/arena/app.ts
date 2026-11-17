@@ -26,6 +26,7 @@ export function mountArena(root: HTMLElement): void {
   const paymentStones = new Set<number>();
   let paymentHandId: number | undefined;
   let cancelCardDrag: (() => void) | undefined;
+  let returnAfterSupport = false;
   let lastLogs = '';
   let feedback = '選一位鬥士支持，然後開始這場混戰。';
   document.title = '詐賭競技場 · 場邊的你，才是變數';
@@ -38,6 +39,7 @@ export function mountArena(root: HTMLElement): void {
   const view = new ArenaView(canvas);
   const start = el<HTMLButtonElement>('[data-testid="arena-start"]');
   const support = el<HTMLButtonElement>('[data-support]');
+  const supportChange = el<HTMLButtonElement>('[data-support-change]');
   const rows = [...root.querySelectorAll<HTMLButtonElement>('[data-fighter]')];
   const handView = createHandView(root, bindCard, (id) => {
     if (!exchanging && !currentCard()) return;
@@ -79,6 +81,7 @@ export function mountArena(root: HTMLElement): void {
     }
     handView.render(state, activeHandId, exchanging, exchangeStones, paymentStones);
     renderSupport(state.fighters.find(f => f.id === state.supportedId));
+    supportChange.hidden = state.status !== 'ready';
     renderThrowFeedback(state);
     const payment = [...paymentStones];
     const paymentCheck = activeCard ? paymentStatus(state, activeCard.cost, payment) : undefined;
@@ -162,6 +165,7 @@ export function mountArena(root: HTMLElement): void {
   }
 
   function reset(): void {
+    returnAfterSupport = false;
     const speed = state.speed;
     state = createArena(73021 + round++);
     state.speed = speed;
@@ -173,6 +177,7 @@ export function mountArena(root: HTMLElement): void {
     render();
   }
   start.addEventListener('click', () => {
+    returnAfterSupport = false;
     if (state.status === 'finished') reset();
     toggleArena(state);
     feedback = state.status === 'running' ? '戰鬥開始。點牌再點目標；滑鼠也可拖牌進場。' : '戰鬥已暫停，仍可出牌；效果倒數、換石冷卻與動畫保持停止。';
@@ -205,14 +210,27 @@ export function mountArena(root: HTMLElement): void {
   });
   rows.forEach((row) => row.addEventListener('click', () => {
     selectedId = row.dataset.fighter!;
-    if (currentCard()?.target === 'fighter' && !exchanging) attemptPlay({ fighterId: selectedId });
+    if (canAct() && currentCard()?.target === 'fighter' && !exchanging) attemptPlay({ fighterId: selectedId });
     render();
   }));
-  support.addEventListener('click', () => {
+  supportChange.addEventListener('click', () => {
     if (state.status !== 'ready') return;
+    returnAfterSupport = true;
+    mobilePanels.open('fighters'); mobilePanels.open('detail');
+    el('[data-mobile-panel="fighters"]').scrollIntoView({block:'start'});
+    rows.find(row => row.dataset.fighter === selectedId)?.focus({preventScroll:true});
+  });
+  support.addEventListener('click', () => {
+    if (state.status !== 'ready' || state.supportedId === selectedId) return;
     state.supportedId = selectedId;
     feedback = `你選擇支持${state.fighters.find((f) => f.id === selectedId)?.name}。準備好就開戰。`;
+    const returnToStage = returnAfterSupport;
+    returnAfterSupport = false;
     render();
+    if (returnToStage) {
+      el('.arena-stage').scrollIntoView({block:'start'});
+      start.focus({preventScroll:true});
+    }
   });
   el('[data-testid="arena-redraw"]').addEventListener('click', () => {
     if (!canAct() || state.time < state.redrawAvailableAt) return;
