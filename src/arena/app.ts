@@ -107,7 +107,7 @@ export function mountArena(root: HTMLElement): void {
     const affected = activeCard?.target === 'area' && aim ? areaSpellTargets(state.fighters, activeCard, aim) : [];
     areaPreview.dataset.targetCount = String(affected.length);
     areaPreview.dataset.valid = String(Boolean(activeCard?.target === 'area' && aim && isAreaSpellTarget(activeCard, aim) && affected.length));
-    areaPreview.textContent = activeCard?.target === 'area' ? `直徑 ${activeCard.areaRadius * 2}m · ${!aim ? '點場內地面選圓心；所有鬥士都會受傷。' : !isAreaSpellTarget(activeCard, aim) ? '圓心必須在場內，不會消耗資源。' : !affected.length ? '圈內沒有存活鬥士，不會消耗資源。' : `命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包括你支持的鬥士！' : '，不限陣營。'}`}` : '';
+    areaPreview.textContent = activeCard?.target === 'area' ? `直徑 ${activeCard.areaRadius * 2}m · ${!aim ? '點場內施放；按住不移動可先看範圍。所有鬥士都會受傷。' : !isAreaSpellTarget(activeCard, aim) ? '圓心必須在場內，不會消耗資源。' : !affected.length ? '圈內沒有存活鬥士，不會消耗資源。' : `命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包括你支持的鬥士！' : '，不限陣營。'}`}` : '';
     el('[data-cancel]').hidden = !activeCard && !exchanging;
     canvas.classList.toggle('is-targeting', Boolean(activeCard) && !exchanging);
     el('[data-redraw-controls]').hidden = !exchanging;
@@ -286,6 +286,14 @@ export function mountArena(root: HTMLElement): void {
     const rect = canvas.getBoundingClientRect();
     aim = clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom ? view.point(clientX, clientY) : undefined;
   }
+  canvas.addEventListener('pointerdown', (event) => {
+    if (!event.isPrimary || event.pointerType !== 'touch' || exchanging || currentCard()?.target !== 'area') return;
+    updateAim(event.clientX, event.clientY); render();
+  }, {passive:true});
+  canvas.addEventListener('pointercancel', (event) => {
+    if (!event.isPrimary || event.pointerType !== 'touch') return;
+    aim = undefined; render();
+  }, {passive:true});
   canvas.addEventListener('pointermove', (event) => { updateAim(event.clientX, event.clientY); });
   canvas.addEventListener('pointerleave', () => { aim = undefined; });
   canvas.addEventListener('click', (event) => cast(event.clientX, event.clientY));

@@ -321,7 +321,9 @@ test('射程投擲拒絕遠處目標，合法投擲後顯示戰報', async ({ pa
   expect(errors).toEqual([]);
 });
 
-test('範圍法術預覽區分空圈與有效目標，點地施放後更新回饋', async ({ page }) => {
+test('範圍法術預覽區分空圈與有效目標，點地施放後更新回饋', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, viewport: { width: 1440, height: 1000 }, hasTouch: true });
+  const page = await context.newPage();
   const errors = observeErrors(page);
   await open(page);
   const state = await seek(page, s => s.hand.some(h => h.cardId === 'lightning-rain' && findPayment(s, CARDS.find(c => c.id === h.cardId)!.cost)));
@@ -353,12 +355,24 @@ test('範圍法術預覽區分空圈與有效目標，點地施放後更新回�
   expect(Number(await preview.getAttribute('data-target-count'))).toBeGreaterThan(0);
   const feedback = await page.getByTestId('arena-feedback').innerText();
   const health = Number.parseFloat(await page.locator('[data-detail-hp]').innerText());
-  await canvas.click({ position: target });
+  // Clear the mouse aim before a real touchStart; stale hover must not satisfy the preview assertion.
+  await page.mouse.move(1, 1); await page.clock.runFor(32);
+  await expect(preview).toHaveAttribute('data-target-count', '0');
+  const touch = await context.newCDPSession(page);
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: targetBox!.x + target.x, y: targetBox!.y + target.y }] });
+  await page.clock.runFor(32);
+  await expect(preview).toHaveAttribute('data-valid', 'true');
+  expect(Number(await preview.getAttribute('data-target-count'))).toBeGreaterThan(0);
+  await expect(preview).toContainText('支持');
+  expect(await inventory(page)).toEqual(before);
+  await expect(cardButton(page, instance.id)).toHaveAttribute('aria-pressed', 'true');
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await expect(cardButton(page, instance.id)).toHaveCount(0);
   await expect(preview).toBeHidden();
   await expect(page.getByTestId('arena-feedback')).not.toHaveText(feedback);
   expect(Number.parseFloat(await page.locator('[data-detail-hp]').innerText())).toBeLessThan(health);
   expect(errors).toEqual([]);
+  await context.close();
 });
 
 test('鍵盤自選付款可保留紅石，未湊齊時拒絕提交', async ({ page }) => {
