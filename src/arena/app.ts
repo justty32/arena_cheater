@@ -3,6 +3,7 @@ import { CARDS, isResolvingArena, isAreaSpellTarget, areaSpellTargets } from './
 import type { Card, Fighter } from './model';
 import { ArenaView } from './view';
 import { createHandView } from './hand-view';
+import { createThrowFeedback } from './throw-feedback';
 import { createSupportHud } from './support-hud';
 import { createMobilePanels } from './mobile-panels';
 import { cardPlayFailure, paymentProblem, paymentReadout } from './payment-ui';
@@ -30,6 +31,7 @@ export function mountArena(root: HTMLElement): void {
   root.innerHTML = arenaLayout(state.fighters);
   const mobilePanels = createMobilePanels(root);
   const renderSupport = createSupportHud(root);
+  const renderThrowFeedback = createThrowFeedback(root);
   const el = <T extends HTMLElement = HTMLElement>(selector: string): T => root.querySelector<T>(selector)!;
   const canvas = el<HTMLCanvasElement>('[data-testid="arena-canvas"]');
   const view = new ArenaView(canvas);
@@ -75,6 +77,7 @@ export function mountArena(root: HTMLElement): void {
     }
     handView.render(state, activeHandId, exchanging, exchangeStones, paymentStones);
     renderSupport(state.fighters.find(f => f.id === state.supportedId));
+    renderThrowFeedback(state);
     const payment = [...paymentStones];
     const paymentCheck = activeCard ? paymentStatus(state, activeCard.cost, payment) : undefined;
     view.render(state, selectedId, exchanging ? null : activeCard?.target ?? null, exchanging ? undefined : activeCard, aim);
@@ -244,7 +247,7 @@ export function mountArena(root: HTMLElement): void {
     const affected = card.target === 'area' ? areaSpellTargets(state.fighters, card, { x: target.x!, y: target.y! }) : [];
     if (playCard(state, activeHandId, target, payment)) {
       const targetName = target.fighterId ? state.fighters.find((f) => f.id === target.fighterId)?.name : undefined;
-      feedback = `${card.name}${card.target === 'area' ? `已施放，命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包含你支持的鬥士' : ''}` : targetName ? `已施放於${targetName}` : state.status === 'paused' ? '已排入投送，繼續戰鬥後飛向場內' : card.throwRange ? '已投出，沿途命中或落地後消耗，不會被拾取' : '正在飛向場內，任何鬥士都能拾取'}。已補兩顆魔法石與一張牌。`;
+      feedback = `${card.name}${card.target === 'area' ? `已施放，命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包含你支持的鬥士' : ''}` : targetName ? `已施放於${targetName}` : state.status === 'paused' ? '已排入投送，繼續戰鬥後飛向場內' : card.throwRange ? '已投出，沿途命中或落地後消耗，不會被拾取' : '已投出，任何鬥士都能拾取'}。已補兩顆魔法石與一張牌。`;
       if (target.fighterId) selectedId = target.fighterId;
       clearSelection();
     }

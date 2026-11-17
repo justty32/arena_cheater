@@ -1,4 +1,4 @@
-import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isResolvingArena, type ArenaState, type Fighter, type ThrownItem, type ThrownKind, type Weapon } from './model';
+import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isResolvingArena, type ArenaState, type Fighter, type ThrownItem, type ThrowImpact, type ThrownKind, type Weapon } from './model';
 import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime } from './geometry';
@@ -63,8 +63,10 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
     log(state,`${card.name}命中 ${areaTargets.length} 名鬥士`);
   } else {
     const {x:fromX,y:fromY} = THROW_ORIGIN;
-    state.items.push({ id: state.nextId++, weapon: card.id as ThrownKind, x: fromX, y: fromY, fromX, fromY,
+    const itemId = state.nextId++;
+    state.items.push({ id: itemId, weapon: card.id as ThrownKind, x: fromX, y: fromY, fromX, fromY,
       toX: x!, toY: y!, launched: state.time, landsAt: state.time + Math.hypot(x! - fromX, y! - fromY) / 9 + 0.35, landed: false });
+    state.latestThrow = {itemId,handCardId,itemKind:card.id as ThrownKind,launchedAt:state.time};
     log(state, THROW_PROFILES[card.id as ThrownKind].disposable ? `投擲${card.name}` : `投送${card.name}，任何鬥士都能搶走它`);
   }
   drawStones(state, 2);
@@ -85,9 +87,11 @@ function previousTime(item: ThrownItem): number {
   return item.launched + Math.max(0, Math.min(1, progress)) * (item.landsAt - item.launched);
 }
 
-function landItem(state: ArenaState, item: ThrownItem, time: number): void {
+type ImpactContext = Omit<Extract<ThrowImpact,{reason:'fighter'}>, 'at'|'x'|'y'> | Omit<Extract<ThrowImpact,{reason:'item'}>, 'at'|'x'|'y'> | {reason:'ground'};
+function landItem(state: ArenaState, item: ThrownItem, time: number, context: ImpactContext = {reason:'ground'}): void {
   Object.assign(item, positionAt(item, time));
   item.landed = true; item.toX = item.x; item.toY = item.y; item.landsAt = time;
+  if (state.latestThrow?.itemId === item.id) state.latestThrow.impact = {...context,at:time,x:item.x,y:item.y};
   const name = CARDS.find(card => card.id === item.weapon)?.name ?? '裝備';
   if (THROW_PROFILES[item.weapon].disposable) log(state,item.weapon === 'pot' ? '陶罐碎裂' : `${name}落地`);
   state.effects.push({id:state.nextId++,x:item.x,y:item.y,at:time,kind:'impact',itemKind:item.weapon,
@@ -119,10 +123,12 @@ export function advanceItems(state: ArenaState, _dt?: number): void {
   for (const contact of contacts) {
     if (contact.a.landed || contact.b?.landed || (contact.fighter && contact.fighter.hp <= 0)) continue;
     if (contact.b) {
-      landItem(state,contact.a,contact.time);landItem(state,contact.b,contact.time);
+      landItem(state,contact.a,contact.time,{reason:'item',otherItemId:contact.b.id});
+      landItem(state,contact.b,contact.time,{reason:'item',otherItemId:contact.a.id});
       log(state,'投送物在半空相撞，掉落競技場');
     } else if (contact.fighter) {
       const item=contact.a, target=contact.fighter, profile=THROW_PROFILES[item.weapon];
+      const healthBefore = target.hp;
       if (profile.damage > 0) {
         if (profile.bypassDefense) {
           applyHealthDamage(state,target,profile.damage);
@@ -130,7 +136,7 @@ export function advanceItems(state: ArenaState, _dt?: number): void {
         } else damageFighter(state,target,profile.damage,{x:item.fromX,y:item.fromY});
       }
       log(state,`${CARDS.find(card=>card.id===item.weapon)?.name ?? '投送物'}命中${target.name}`);
-      landItem(state,item,contact.time);
+      landItem(state,item,contact.time,{reason:'fighter',fighterId:target.id,damage:healthBefore-target.hp});
     }
   }
   for (const item of flying) {
@@ -147,6 +153,7 @@ export function advanceItems(state: ArenaState, _dt?: number): void {
       .sort((a, b) => distance(a, item) - distance(b, item) || a.id.localeCompare(b.id))[0];
     if (!fighter) return true;
     equip(fighter,weapon);
+    if (state.latestThrow?.itemId === item.id) state.latestThrow.pickup = {at:state.time,fighterId:fighter.id};
     const name = CARDS.find(card => card.id === item.weapon)?.name ?? '裝備';
     effect(state, fighter, `拾取${name}`, '#ebc982', 'pickup');
     log(state, `${fighter.name} 拾取${name}`);

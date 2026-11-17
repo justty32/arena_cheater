@@ -17,11 +17,19 @@ export interface Fighter {
  buffs: { kind: 'fury' | 'haste' | 'weakness' | 'bloodlust'; until: number }[];
 }
 export interface ThrownItem { id: number; weapon: ThrownKind; x: number; y: number; fromX: number; fromY: number; toX: number; toY: number; launched: number; landsAt: number; landed: boolean }
+export type ThrowImpact = { at: number; x: number; y: number } & (
+ { reason: 'fighter'; fighterId: string; damage: number } |
+ { reason: 'item'; otherItemId: number } | { reason: 'ground' }
+);
+export interface ThrowFeedback {
+ itemId: number; handCardId: number; itemKind: ThrownKind; launchedAt: number;
+ impact?: ThrowImpact; pickup?: { at: number; fighterId: string };
+}
 export interface Arrow { id: number; ownerId: string; x: number; y: number; vx: number; vy: number; damage: number; expiresAt: number }
 export interface ArenaEffect { id: number; x: number; y: number; text: string; color: string; at: number; kind: 'hit' | 'spell' | 'pickup' | 'impact' | 'area'; itemKind?: ThrownKind; areaRadius?: number; cardId?: CardId }
 export interface ArenaState {
  seed: number; time: number; accumulator: number; status: 'ready' | 'running' | 'paused' | 'finished'; speed: number;
- fighters: Fighter[]; items: ThrownItem[]; arrows: Arrow[]; effects: ArenaEffect[]; logs: string[];
+ fighters: Fighter[]; latestThrow?: ThrowFeedback; items: ThrownItem[]; arrows: Arrow[]; effects: ArenaEffect[]; logs: string[];
  hand: HandCard[]; stones: MagicStone[]; randomState: number; deck: CardId[]; discard: CardId[]; redrawAvailableAt: number; supportedId: string; winnerId?: string; nextId: number;
 }
 interface CardBase { id: CardId; name: string; subtitle: string; description: string; cost: StoneCost; throwRange?: number; color: string; icon: string }

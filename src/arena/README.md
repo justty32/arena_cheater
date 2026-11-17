@@ -11,7 +11,7 @@
 | [engine-damage.ts](engine-damage.ts) | 傷害、防禦耗能、虛弱上限與擊飛／跌倒／起身 |
 | [engine-arrows.ts](engine-arrows.ts) | 三箭發射、直線掃掠命中、飛行到期 |
 | [engine-cards.ts](engine-cards.ts) | 牌堆與石頭抽取、實例付款與缺額狀態、出牌消耗及換石冷卻 |
-| [engine-items.ts](engine-items.ts) | 共用出牌驗證與拒絕原因、卡牌目標與效果、範圍法術、投送物碰撞排序及裝備拾取 |
+| [engine-items.ts](engine-items.ts) | 共用出牌驗證與拒絕原因、卡牌目標與效果、範圍法術、投送物碰撞排序、裝備拾取及最新投送結構化結果 |
 | [equipment.ts](equipment.ts) | 單雙手與盾互斥、裝備初始化彈藥／耐久 |
 | [geometry.ts](geometry.ts) | 同時間段的移動圓碰撞掃掠 |
 | [projection.ts](projection.ts) | 45° 投影、逆投影與圓場範圍 |
@@ -24,6 +24,7 @@
 | [hand-view.ts](hand-view.ts) | 手牌及石頭節點同步、費用可付與付款預覽 |
 | [support-hud.ts](support-hud.ts) | 固定顯示支持者姓名、生命與陣亡狀態，並提示陣亡 |
 | [mobile-panels.ts](mobile-panels.ts) | 窄屏原生 details 展開狀態、跨尺寸保留與 aria-expanded 同步 |
+| [throw-feedback.ts](throw-feedback.ts) | 最新投送的飛行、實際命中傷害、互撞及拾取摘要；不解析戰報 |
 | [payment-ui.ts](payment-ui.ts) | 核心付款缺額與拒絕原因的介面文字 |
 | [app.ts](app.ts) | 介面狀態、選牌／精確選石付款／施放／換石／拖曳、結算重開手勢防護、控制與幀更新 |
 | [arena.css](arena.css) | 新競技場頁面樣式入口 |

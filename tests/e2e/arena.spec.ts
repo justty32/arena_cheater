@@ -140,19 +140,25 @@ test('裝備投送拾取後更新詳情', async ({ page }, info) => {
   const fighter = forecast.fighters[0];
   await canvas.click({ position: project(fighter.x, fighter.y, createProjection(box!.width, box!.height)) });
   await expect(cardButton(page, instance.id)).toHaveCount(0);
+  const recent = page.getByTestId('arena-recent-throw');
+  await expect(recent).toBeVisible();
+  await expect(recent).toHaveAttribute('data-item-kind', id);
+  const itemId = await recent.getAttribute('data-item-id');
+  expect(itemId).toBeTruthy();
   await page.getByTestId('arena-start').click();
-  let pickup = '';
-  for (let i = 0; i < 20 && !pickup; i++) {
-    await page.clock.runFor(250);
-    pickup = (await page.locator('[data-log] li').allTextContents()).find(t => t.includes('拾取長弓')) ?? '';
-  }
-  expect(pickup).not.toBe('');
+  for (let i = 0; i < 20 && await recent.getAttribute('data-phase') !== 'picked-up'; i++) await page.clock.runFor(250);
+  await expect(recent).toHaveAttribute('data-phase', 'picked-up');
+  await expect(recent).toHaveAttribute('data-item-id', itemId!);
+  const pickerId = await recent.getAttribute('data-picker-id');
+  expect(pickerId).toBeTruthy();
   await page.getByTestId('arena-start').click();
-  await page.locator('[data-fighter]').filter({ hasText: pickup.split(' 拾取')[0] }).click();
+  await page.locator(`[data-fighter="${pickerId}"]`).click();
   await expect(page.getByTestId('arena-equipment')).toContainText(`${name}（雙手）`);
   const remaining = Number(await page.getByTestId(counter).innerText());
   expect(remaining).toBeGreaterThan(0);
   await page.screenshot({ path: info.outputPath(`arena-${id}.png`), fullPage: true });
+  await page.getByTestId('arena-reset').click();
+  await expect(recent).toBeHidden();
   expect(errors).toEqual([]);
 });
 
@@ -160,6 +166,11 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   const page = await context.newPage(); const errors = observeErrors(page);
   await open(page);
+  const opening = await seek(page, state => state.hand.some(card => card.cardId === 'bow'));
+  await paused(page);
+  await cardButton(page, opening.hand.find(card => card.cardId === 'bow')!.id).tap();
+  await center(page);
+  await expect(page.getByTestId('arena-recent-throw')).toBeVisible();
   for (const viewport of [{ width: 390, height: 844 }, { width: 320, height: 740 }]) {
     await page.setViewportSize(viewport); await page.clock.runFor(32);
     await page.evaluate(() => scrollTo(0, 0));
@@ -169,6 +180,7 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
     for (const card of await hand(page).all()) await expect(card).toBeInViewport({ ratio: 1 });
     await expect(page.getByTestId('arena-stone-summary')).toBeInViewport({ ratio: 1 });
     await expect(page.getByTestId('arena-support-hud')).toBeInViewport({ ratio: 1 });
+    await expect(page.getByTestId('arena-recent-throw')).toBeInViewport({ ratio: 1 });
   }
   const hud = page.getByTestId('arena-support-hud');
   const supportedId = await hud.getAttribute('data-fighter-id');

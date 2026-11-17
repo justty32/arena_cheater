@@ -1,3 +1,5 @@
+.recent-throw { margin: -2px 0 8px; color: #c9c9ac; font-size: 11px; line-height: 1.6; overflow-wrap: anywhere; }
+.recent-throw > :first-child { color: #a4bba4; margin-right: 8px; white-space: nowrap; }
 .support-hud { min-width: 200px; max-width: 310px; flex: 1; margin: 0 24px; }
 .support-readout { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0; color: #b1cbb7; }
 .support-readout strong { font-weight: 500; color: #e0e6d7; }
