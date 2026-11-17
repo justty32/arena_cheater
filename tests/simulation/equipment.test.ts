@@ -3,6 +3,7 @@ import { createArena } from '../../src/arena/engine';
 import { advanceItems, playCard } from '../../src/arena/engine-items';
 import { canEquip, equip } from '../../src/arena/equipment';
 import { sweptCircleTime } from '../../src/arena/geometry';
+import { syncStamina } from '../../src/arena/engine-damage';
 import type { ThrownItem, Weapon } from '../../src/arena/model';
 
 function flight(id: number, fromX: number, fromY: number, toX: number, toY: number, landsAt = 1, weapon: Weapon = 'sword'): ThrownItem {
@@ -128,13 +129,14 @@ describe('equipment slots and continuous delivery collisions', () => {
         else state.time = 180;
         state.arrows = [{ id: 99, ownerId: 'fighter-1', x: 0, y: 0, vx: 1, vy: 0, damage: 10, expiresAt: state.time + 2 }];
         const before = structuredClone(state);
-        expect(playCard(state, 'fury', { fighterId: state.fighters[0].id })).toBe(false);
-        expect(playCard(state, 'bow', { x: 0, y: 0 })).toBe(false);
+        expect(playCard(state, state.hand[0].id, { fighterId: state.fighters[0].id }, [])).toBe(false);
+        expect(playCard(state, state.hand[0].id, { x: 0, y: 0 }, [])).toBe(false);
         expect(state).toEqual(before);
       }
     }
     const playablePause = createArena(); playablePause.status = 'paused';
-    expect(playCard(playablePause, 'fury', { fighterId: playablePause.fighters[0].id })).toBe(true);
+    playablePause.hand=[{id:999,cardId:'lightning'}]; playablePause.stones=[{id:1000,color:'red'}];
+    expect(playCard(playablePause,999,{fighterId:playablePause.fighters[0].id},[1000])).toBe(true);
   });
 
   it('handles stationary and initially touching geometry without invalid roots', () => {
@@ -142,17 +144,15 @@ describe('equipment slots and continuous delivery collisions', () => {
     expect(sweptCircleTime({x: 0,y: 0}, {x: 1,y: 0}, {x: .1,y: 0}, {x: 2,y: 0}, .2)).toBe(0);
   });
 
-  it('applies weakness immediately while paused, refreshes without multiplying and rejects trip in midair', () => {
+  it('preserves legacy weakness stamina behavior while paused', () => {
     const state = createArena(); state.status = 'paused';
     const fighter = state.fighters[0], base = fighter.maxStamina;
-    expect(playCard(state, 'weakness', { fighterId: fighter.id })).toBe(true);
+    fighter.buffs=[{kind:'weakness',until:7}]; syncStamina(fighter,state.time);
     expect(fighter.maxStamina).toBeCloseTo(base * .6);
     expect(fighter.stamina).toBeCloseTo(base * .6);
-    expect(playCard(state, 'weakness', { fighterId: fighter.id })).toBe(true);
+    fighter.buffs=[{kind:'weakness',until:7}]; syncStamina(fighter,state.time);
     expect(fighter.maxStamina).toBeCloseTo(base * .6);
     expect(fighter.buffs).toHaveLength(1);
-    fighter.pose = 'airborne'; const before = state.mana;
-    expect(playCard(state, 'trip', { fighterId: fighter.id })).toBe(false);
-    expect(fighter.pose).toBe('airborne'); expect(state.mana).toBe(before);
+
   });
 });

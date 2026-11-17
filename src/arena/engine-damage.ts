@@ -1,4 +1,5 @@
 import { ARENA_RADIUS, type ArenaState, type Fighter } from './model';
+import { drawStones } from './engine-cards';
 
 export function log(state: ArenaState, message: string): void {
   state.logs.unshift(message);
@@ -28,6 +29,7 @@ export function attackDamage(fighter: Fighter): number {
   if (fighter.species === 'elephant' && fighter.weapon === 'club') damage *= 1.2;
   if (hasBuff(fighter, 'fury')) damage *= 1.65;
   if (hasBuff(fighter, 'weakness')) damage *= 0.55;
+  if (hasBuff(fighter, 'bloodlust')) damage += 3;
   return damage;
 }
 function launchFighter(state: ArenaState, target: Fighter, origin: { x: number; y: number }): void {
@@ -38,7 +40,7 @@ function launchFighter(state: ArenaState, target: Fighter, origin: { x: number; 
   target.pose = 'airborne'; target.poseUntil = target.knockback.until;
 }
 /** Returns false only when there was no effective hit (including a successful parry). */
-export function damageFighter(state: ArenaState, target: Fighter, rawDamage: number, origin: { x: number; y: number }, attacker?: Fighter, knockback = false): boolean {
+export function damageFighter(state: ArenaState, target: Fighter, rawDamage: number, origin: { x: number; y: number }, attacker?: Fighter, knockback = false, sourceFighterId = attacker?.id): boolean {
   if (target.hp <= 0) return false;
   const facingDot = Math.cos(Math.atan2(origin.y - target.y, origin.x - target.x) - target.facing);
   const canDefend = target.shield && facingDot >= 0.5 && !['airborne', 'fallen', 'rising', 'dead'].includes(target.pose);
@@ -57,17 +59,30 @@ export function damageFighter(state: ArenaState, target: Fighter, rawDamage: num
     damage *= 0.5; blocked = true;
   }
   damage = Math.max(1, Math.round(damage));
-  target.hp = Math.max(0, target.hp - damage);
+  applyHealthDamage(state, target, damage, sourceFighterId);
   effect(state, target, `${blocked ? '格擋 ' : ''}−${damage}`, blocked ? '#e7d29c' : '#f0a393');
-  if (target.hp <= 0) {
-    target.pose = 'dead'; target.poseUntil = Infinity; target.knockback = undefined;
-    log(state, `${target.name} 倒下了`);
-  } else if (knockback) launchFighter(state, target, origin);
-  else if (blocked) { target.pose = 'block'; target.poseUntil = state.time + 0.2; }
-  else if (!['attack', 'airborne', 'fallen', 'rising'].includes(target.pose)) {
-    target.pose = 'hit'; target.poseUntil = state.time + 0.18;
+  if (target.hp > 0) {
+    if (knockback) launchFighter(state, target, origin);
+    else if (blocked) { target.pose = 'block'; target.poseUntil = state.time + 0.2; }
+    else if (!['attack', 'airborne', 'fallen', 'rising'].includes(target.pose)) {
+      target.pose = 'hit'; target.poseUntil = state.time + 0.18;
+    }
   }
   return true;
+}
+/** Direct spells bypass directional defense, but share the single death transition. */
+export function applyHealthDamage(state: ArenaState, target: Fighter, damage: number, sourceFighterId?: string): void {
+  if (target.hp <= 0) return;
+  target.hp = Math.max(0, target.hp - damage);
+  if (target.hp === 0) {
+    target.pose = 'dead'; target.poseUntil = Infinity; target.knockback = undefined;
+    log(state, `${target.name} 倒下了`);
+    if (sourceFighterId === state.supportedId && sourceFighterId !== target.id) {
+      drawStones(state, 3);
+      const source = state.fighters.find(fighter => fighter.id === sourceFighterId);
+      log(state, `支持的鬥士${source?.name ?? sourceFighterId}擊殺，獲得 3 顆魔法石`);
+    }
+  }
 }
 /** Control poses own movement and prevent attacks until the complete recovery sequence ends. */
 export function advanceControl(state: ArenaState, fighter: Fighter): boolean {

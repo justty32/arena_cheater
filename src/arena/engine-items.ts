@@ -1,36 +1,42 @@
-import { ARENA_RADIUS, CARDS, isResolvingArena, type ArenaState, type CardId, type ThrownItem, type Weapon } from './model';
-import { distance, effect, log, syncStamina } from './engine-combat';
+import { ARENA_RADIUS, CARDS, isResolvingArena, type ArenaState, type ThrownItem, type Weapon } from './model';
+import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime } from './geometry';
+import { canPayCost, consumeCard, drawCard, drawStones } from './engine-cards';
+import { applyHealthDamage } from './engine-damage';
 
 export interface CardTarget { fighterId?: string; x?: number; y?: number }
-export function playCard(state: ArenaState, cardId: CardId, target: CardTarget): boolean {
+export function playCard(state: ArenaState, handCardId: number, target: CardTarget, stoneIds: number[]): boolean {
   if ((state.status !== 'running' && state.status !== 'paused') || isResolvingArena(state)) return false;
-  const card = CARDS.find(value => value.id === cardId);
-  if (!card || state[card.currency] < card.cost) return false;
+  const instance = state.hand.find(value => value.id === handCardId);
+  const card = CARDS.find(value => value.id === instance?.cardId);
+  if (!card || !canPayCost(state, card.cost, stoneIds)) return false;
   const fighter = state.fighters.find(value => value.id === target.fighterId && value.hp > 0);
+  const { x, y } = target;
   if (card.target === 'fighter') {
-    if (!fighter || (cardId === 'trip' && fighter.pose === 'airborne')) return false;
-    state[card.currency] -= card.cost;
-    if (cardId === 'trip') { fighter.pose = 'fallen'; fighter.poseUntil = state.time + 2; }
-    else if (cardId === 'fury' || cardId === 'haste' || cardId === 'weakness') {
-      fighter.buffs = fighter.buffs.filter(buff => buff.kind !== cardId);
-      fighter.buffs.push({ kind: cardId, until: state.time + (cardId === 'weakness' ? 7 : 8) });
-      syncStamina(fighter, state.time);
+    if (!fighter || (card.id === 'growth' && fighter.hp >= fighter.maxHp)) return false;
+  } else if (x === undefined || y === undefined || !Number.isFinite(x) || !Number.isFinite(y) || Math.hypot(x, y) > ARENA_RADIUS - 0.2) return false;
+  consumeCard(state, handCardId, stoneIds);
+  if (card.target === 'fighter' && fighter) {
+    if (card.id === 'lightning') applyHealthDamage(state, fighter, 3);
+    if (card.id === 'bloodlust') {
+      fighter.buffs = fighter.buffs.filter(buff => buff.kind !== 'bloodlust');
+      fighter.buffs.push({ kind: 'bloodlust', until: state.time + 5 });
     }
+    if (card.id === 'growth') fighter.hp = Math.min(fighter.maxHp, fighter.hp + 10);
     effect(state, fighter, card.name, card.color, 'spell');
     log(state, `${card.name} → ${fighter.name}`);
-    return true;
+  } else {
+    const fromX = 0, fromY = ARENA_RADIUS;
+    state.items.push({ id: state.nextId++, weapon: card.id as Weapon, x: fromX, y: fromY, fromX, fromY,
+      toX: x!, toY: y!, launched: state.time, landsAt: state.time + Math.hypot(x! - fromX, y! - fromY) / 9 + 0.35, landed: false });
+    log(state, `投送${card.name}，任何鬥士都能搶走它`);
   }
-  const { x, y } = target;
-  if (x === undefined || y === undefined || !Number.isFinite(x) || !Number.isFinite(y) || Math.hypot(x, y) > ARENA_RADIUS - 0.2) return false;
-  state[card.currency] -= card.cost;
-  const fromX = 0, fromY = ARENA_RADIUS;
-  state.items.push({ id: state.nextId++, weapon: cardId as Weapon, x: fromX, y: fromY, fromX, fromY,
-    toX: x, toY: y, launched: state.time, landsAt: state.time + Math.hypot(x - fromX, y - fromY) / 9 + 0.35, landed: false });
-  log(state, `投送${card.name}，任何鬥士都能搶走它`);
+  drawStones(state, 2);
+  drawCard(state);
   return true;
 }
+
 function positionAt(item: ThrownItem, time: number): { x: number; y: number } {
   const progress = Math.max(0, Math.min(1, (time - item.launched) / (item.landsAt - item.launched)));
   return { x: item.fromX + (item.toX - item.fromX) * progress, y: item.fromY + (item.toY - item.fromY) * progress };

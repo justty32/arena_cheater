@@ -1,18 +1,22 @@
-import { advanceArena, createArena, playCard, toggleArena } from './engine';
+import { advanceArena, createArena, findPayment, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
 import { CARDS, isResolvingArena } from './model';
 import type { Card, Fighter } from './model';
 import { ArenaView } from './view';
-import { arenaLayout, drawCardArt } from './layout';
+import { createHandView } from './hand-view';
+import { arenaLayout, costText, STONE_COLORS, STONE_NAMES } from './layout';
 import './arena.css';
+import './hand.css';
 
 const poseLabels = { idle: '伺機而動', walk: '尋找對手', attack: '發起攻擊', hit: '受到攻擊', fallen: '倒地', airborne: '遭到擊飛', rising: '正在起身', block: '盾牌格擋', parry: '成功招架', dead: '已出局' };
-const weaponLabels = { fists: '徒手', sword: '直劍（單手）', club: '木棍（雙手）', shield: '圓盾（單手）', bow: '弓（雙手）' };
+const weaponLabels = { fists: '徒手', sword: '直劍（單手）', club: '木棍（雙手）', shield: '圓盾（單手）', bow: '長弓（雙手）' };
 
 export function mountArena(root: HTMLElement): void {
   let round = 1;
   let state = createArena(73021);
   let selectedId = state.fighters[0]?.id ?? '';
-  let activeCard: Card | undefined;
+  let activeHandId: number | undefined;
+  let exchanging = false;
+  const exchangeStones = new Set<number>();
   let lastLogs = '';
   let feedback = '選一位鬥士支持，然後開始這場混戰。';
   document.title = '詐賭競技場 · 場邊的你，才是變數';
@@ -22,30 +26,47 @@ export function mountArena(root: HTMLElement): void {
   const view = new ArenaView(canvas);
   const start = el<HTMLButtonElement>('[data-testid="arena-start"]');
   const support = el<HTMLButtonElement>('[data-support]');
-  const cards = [...root.querySelectorAll<HTMLButtonElement>('[data-card]')];
   const rows = [...root.querySelectorAll<HTMLButtonElement>('[data-fighter]')];
-  root.querySelectorAll<HTMLCanvasElement>('[data-card-art]').forEach((art) => drawCardArt(art, CARDS.find((c) => c.id === art.dataset.cardArt)!));
+  const handView = createHandView(root, bindCard, (id) => {
+    if (!exchanging) return;
+    if (exchangeStones.has(id)) exchangeStones.delete(id); else exchangeStones.add(id);
+    render();
+  });
+  const currentCard = (): Card | undefined => CARDS.find((card) => card.id === state.hand.find((hand) => hand.id === activeHandId)?.cardId);
+  const canAct = (): boolean => (state.status === 'running' || state.status === 'paused') && !isResolvingArena(state);
+
+  function clearSelection(): void {
+    activeHandId = undefined;
+    exchanging = false;
+    exchangeStones.clear();
+    el('[data-drag-label]').hidden = true;
+  }
+
 
   function render(): void {
-    view.render(state, selectedId, activeCard?.target ?? null);
+    if (activeHandId !== undefined && !state.hand.some((hand) => hand.id === activeHandId)) clearSelection();
+    handView.render(state, activeHandId, exchanging, exchangeStones);
+    const activeCard = currentCard();
+    const payment = activeCard ? findPayment(state, activeCard.cost) : undefined;
+    view.render(state, selectedId, exchanging ? null : activeCard?.target ?? null);
     el('[data-testid="arena-time"]').textContent = `${Math.floor(state.time / 60).toString().padStart(2, '0')}:${Math.floor(state.time % 60).toString().padStart(2, '0')}`;
-    el('[data-testid="arena-mana"]').textContent = Math.floor(state.mana).toString();
-    el('[data-testid="arena-gold"]').textContent = Math.floor(state.gold).toString();
-    el('[data-mana-fill]').style.width = `${Math.min(100, state.mana)}%`;
     el('[data-alive]').textContent = state.fighters.filter((f) => f.hp > 0).length.toString();
     el('[data-round]').textContent = `第 ${round.toString().padStart(2, '0')} 場`;
     el('[data-status]').textContent = state.status === 'running' && isResolvingArena(state) ? '等待飛行箭結算' : { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
     start.textContent = { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '再戰一場' }[state.status];
     el('[data-testid="arena-feedback"]').textContent = feedback;
-    el('[data-card-prompt]').textContent = activeCard ? `${activeCard.name} · ${activeCard.target === 'fighter' ? '點選場上的鬥士施法' : '點選場地投送裝備'}` : '選擇一張牌，左右這場勝負';
-    el('[data-cancel]').hidden = !activeCard;
-    canvas.classList.toggle('is-targeting', Boolean(activeCard));
-    for (const button of cards) {
-      const card = CARDS.find((c) => c.id === button.dataset.card)!;
-      button.classList.toggle('is-selected', activeCard?.id === card.id);
-      button.disabled = state.status === 'finished' || isResolvingArena(state) || state[card.currency] < card.cost;
-      button.setAttribute('aria-pressed', String(activeCard?.id === card.id));
-    }
+    el('[data-card-prompt]').textContent = exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'fighter' ? '點選鬥士施法' : '點選場地投送'}` : '三張手牌，改寫勝負';
+    el('[data-selected-description]').textContent = activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}` : '選牌後點擊鬥士施法，或點擊場地投送武器。';
+    el('[data-testid="arena-payment"]').textContent = exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard ? payment ? `預計支付：${STONE_COLORS.map((color) => ({ color, count: state.stones.filter((stone) => stone.color === color && payment.includes(stone.id)).length })).filter(({ count }) => count).map(({ color, count }) => `${STONE_NAMES[color]} ${count}`).join(' ＋ ')}${canAct() ? ' · 點選目標施放' : ' · 開戰後可施放'}` : `魔法石不足 · 需要 ${costText(activeCard.cost)}` : '每次成功出牌，補兩顆魔法石與一張手牌。';
+    el('[data-cancel]').hidden = !activeCard && !exchanging;
+    canvas.classList.toggle('is-targeting', Boolean(activeCard) && !exchanging);
+    el('[data-redraw-controls]').hidden = !exchanging;
+    const remaining = Math.max(0, state.redrawAvailableAt - state.time);
+    el<HTMLButtonElement>('[data-testid="arena-redraw"]').disabled = !canAct() || remaining > 0;
+    el<HTMLButtonElement>('[data-testid="arena-redraw"]').hidden = exchanging;
+    el('[data-redraw-help]').textContent = remaining > 0 ? `再等 ${remaining.toFixed(1)} 秒${state.status === 'paused' ? '，繼續戰鬥後倒數' : ''}` : `棄至少一顆石頭，補一張牌；換石後等待 ${REDRAW_COOLDOWN} 秒。`;
+    el('[data-testid="arena-redraw-preview"]').textContent = `棄 ${exchangeStones.size} 石 → 抽 ${exchangeStones.size + 1} 石，補一張牌`;
+    el<HTMLButtonElement>('[data-testid="arena-redraw-confirm"]').disabled = !canAct() || !activeCard || exchangeStones.size < 1 || remaining > 0;
     for (const row of rows) {
       const fighter = state.fighters.find((f) => f.id === row.dataset.fighter);
       if (!fighter) continue;
@@ -61,20 +82,17 @@ export function mountArena(root: HTMLElement): void {
     const logKey = state.logs.join('|');
     if (logKey !== lastLogs) {
       lastLogs = logKey;
-      const list = el('[data-log]');
-      list.replaceChildren(...state.logs.slice(0, 5).map((text) => {
+      el('[data-log]').replaceChildren(...state.logs.slice(0, 5).map((text) => {
         const entry = document.createElement('li'); entry.textContent = text; return entry;
       }));
     }
     const winner = state.fighters.find((f) => f.id === state.winnerId);
-    const result = el('[data-result]');
-    result.hidden = state.status !== 'finished';
+    el('[data-result]').hidden = state.status !== 'finished';
     if (state.status === 'finished') {
       el('[data-result-title]').textContent = winner ? `${winner.name} 勝出` : '本場平局';
       el('[data-result-copy]').textContent = winner?.id === state.supportedId ? '你的鬥士站到了最後。這場勝利，有你的手筆。' : '競技場從不保證公平。下一場，換你改寫結局。';
     }
   }
-
   function renderDetails(f: Fighter): void {
     el('[data-detail-name]').textContent = f.name;
     el('[data-detail-pose]').textContent = poseLabels[f.pose];
@@ -86,7 +104,7 @@ export function mountArena(root: HTMLElement): void {
     el('[data-testid="arena-ammo"]').textContent = f.weapon === 'bow' ? String(f.ammo) : '—';
     el('[data-testid="arena-durability"]').textContent = f.weapon === 'club' ? String(f.durability) : '—';
     el('[data-detail-defense]').textContent = f.shield ? '正面格擋 · 短窗招架' : '無盾牌';
-    el('[data-detail-buffs]').textContent = f.buffs.map((b) => CARDS.find((c) => c.id === b.kind)?.name).join(' · ') || '無附加狀態';
+    el('[data-detail-buffs]').textContent = f.buffs.map((b) => ({ bloodlust: '殺紅眼', fury: '狂熱', haste: '興奮', weakness: '虛弱' }[b.kind])).join(' · ') || '無附加狀態';
     support.textContent = state.supportedId === f.id ? '◆ 你支持的鬥士' : '支持這位鬥士';
     support.disabled = state.status !== 'ready' || state.supportedId === f.id;
     support.style.setProperty('--fighter-color', f.color);
@@ -97,14 +115,16 @@ export function mountArena(root: HTMLElement): void {
     state = createArena(73021 + round++);
     state.speed = speed;
     selectedId = state.fighters[0]?.id ?? '';
-    activeCard = undefined;
+    clearSelection();
+    // IDs restart with each round, so reset keyed nodes at this explicit lifecycle boundary.
+    handView.reset();
     feedback = '新一場鬥士已入場。選擇你的支持對象。';
     render();
   }
   start.addEventListener('click', () => {
     if (state.status === 'finished') reset();
     toggleArena(state);
-    feedback = state.status === 'running' ? '戰鬥開始。把卡牌拖進競技場，或先選卡再點目標。' : '戰鬥已暫停，仍可施法或投送；時間、資源恢復與動畫保持停止。';
+    feedback = state.status === 'running' ? '戰鬥開始。把卡牌拖進競技場，或先選卡再點目標。' : '戰鬥已暫停，仍可出牌；效果倒數、換石冷卻與動畫保持停止。';
     render();
   });
   el('[data-testid="arena-reset"]').addEventListener('click', reset);
@@ -118,14 +138,7 @@ export function mountArena(root: HTMLElement): void {
   });
   rows.forEach((row) => row.addEventListener('click', () => {
     selectedId = row.dataset.fighter!;
-    if (activeCard?.target === 'fighter') {
-      if (isResolvingArena(state)) feedback = '正在結算在途箭，本場不再接受出牌。';
-      else if (state.status !== 'running' && state.status !== 'paused') feedback = '請先開始新戰鬥，再施放卡牌。';
-      else if (playCard(state, activeCard.id, { fighterId: selectedId })) {
-        feedback = `${activeCard.name}已施放於${state.fighters.find((f) => f.id === selectedId)?.name}。`;
-        activeCard = undefined;
-      } else feedback = '未能施放：請檢查資源與目標狀態。';
-    }
+    if (currentCard()?.target === 'fighter' && !exchanging) attemptPlay({ fighterId: selectedId });
     render();
   }));
   support.addEventListener('click', () => {
@@ -134,46 +147,72 @@ export function mountArena(root: HTMLElement): void {
     feedback = `你選擇支持${state.fighters.find((f) => f.id === selectedId)?.name}。準備好就開戰。`;
     render();
   });
-  function select(card: Card): void {
-    activeCard = activeCard?.id === card.id ? undefined : card;
-    feedback = activeCard ? `${card.name}：${card.description}。${state.status === 'ready' || state.status === 'finished' ? '開始新戰鬥後施放。' : state.status === 'paused' ? '暫停中可施放，效果倒數與投送會在續戰後進行。' : ''}` : '已取消選牌。';
+  el('[data-testid="arena-redraw"]').addEventListener('click', () => {
+    if (!canAct() || state.time < state.redrawAvailableAt) return;
+    exchanging = true; exchangeStones.clear();
+    feedback = '選一張要放棄的手牌，再點選要重抽的魔法石。確認前不會消耗。';
     render();
+  });
+  el('[data-testid="arena-redraw-confirm"]').addEventListener('click', () => {
+    if (activeHandId === undefined) return;
+    const count = exchangeStones.size;
+    if (redrawStones(state, activeHandId, [...exchangeStones])) {
+      clearSelection(); feedback = `已放棄一張牌與 ${count} 顆石頭，抽得 ${count + 1} 顆魔法石及一張新牌。`;
+    } else feedback = '未能換石：請選一張手牌、至少一顆石頭，並等待冷卻結束。';
+    render();
+  });
+  function select(handId: number): void {
+    activeHandId = activeHandId === handId ? undefined : handId;
+    const card = currentCard();
+    feedback = card ? exchanging ? `將放棄${card.name}。請選擇要重抽的石頭。` : `${card.name}：${card.description}。${canAct() ? '' : '開始戰鬥後施放。'}` : '已取消選牌。';
+    render();
+  }
+  function attemptPlay(target: { fighterId: string } | { x: number; y: number }): void {
+    const card = currentCard();
+    if (!card || activeHandId === undefined || exchanging) return;
+    if (isResolvingArena(state)) { feedback = '正在結算在途箭，本場不再接受出牌。'; return; }
+    if (!canAct()) { feedback = '請先開始新戰鬥，再施放卡牌。'; return; }
+    const payment = findPayment(state, card.cost);
+    if (card.id === 'growth' && 'fighterId' in target) {
+      const fighter = state.fighters.find((entry) => entry.id === target.fighterId);
+      if (fighter && fighter.hp >= fighter.maxHp) { feedback = '野性成長需要受傷鬥士：這位鬥士的生命已滿，沒有消耗資源。'; return; }
+    }
+    if (!payment) { feedback = `魔法石不足：${card.name}需要 ${costText(card.cost)}。可棄牌換石。`; return; }
+    if (playCard(state, activeHandId, target, payment)) {
+      const targetName = 'fighterId' in target ? state.fighters.find((f) => f.id === target.fighterId)?.name : undefined;
+      feedback = `${card.name}${targetName ? `已施放於${targetName}` : state.status === 'paused' ? '已排入投送，繼續戰鬥後飛向場內' : '正在飛向場內，任何鬥士都能拾取'}。已補兩顆魔法石與一張牌。`;
+      if ('fighterId' in target) selectedId = target.fighterId;
+      clearSelection();
+    } else feedback = '未能施放：請選擇存活鬥士或場內落點，沒有消耗資源。';
   }
   function cast(clientX: number, clientY: number): void {
     const fighter = view.pick(clientX, clientY, state);
-    if (!activeCard) { if (fighter) selectedId = fighter.id; render(); return; }
-    if (isResolvingArena(state)) { feedback = '正在結算在途箭，本場不再接受出牌。'; render(); return; }
-    if (state.status !== 'running' && state.status !== 'paused') { feedback = '請先開始新戰鬥，再施放卡牌。'; render(); return; }
-    const point = view.ground(clientX, clientY);
-    const target = activeCard.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : undefined) : point;
-    if (!target) { feedback = activeCard.target === 'fighter' ? '法術需要命中一位存活的鬥士。' : '請將裝備投向競技場內。'; render(); return; }
-    if (playCard(state, activeCard.id, target)) {
-      feedback = activeCard.target === 'fighter' ? `${activeCard.name}已施放於${fighter!.name}。` : state.status === 'paused' ? `${activeCard.name}已排入投送，繼續戰鬥後飛向場內。` : `${activeCard.name}正在飛向場內，任何鬥士都能搶先拾取。`;
-      if (fighter) selectedId = fighter.id;
-      activeCard = undefined;
-    } else feedback = '未能施放：請檢查資源與目標狀態。';
+    const card = currentCard();
+    if (!card || exchanging) { if (fighter) selectedId = fighter.id; render(); return; }
+    const target = card.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : undefined) : view.ground(clientX, clientY);
+    if (!target) feedback = card.target === 'fighter' ? '法術需要命中一位存活的鬥士，沒有消耗資源。' : '請將裝備投向競技場內，沒有消耗資源。';
+    else attemptPlay(target);
     render();
   }
   canvas.addEventListener('click', (event) => cast(event.clientX, event.clientY));
-  el('[data-cancel]').addEventListener('click', () => { activeCard = undefined; feedback = '已取消選牌。'; render(); });
-  cards.forEach((button) => {
-    const card = CARDS.find((c) => c.id === button.dataset.card)!;
+  el('[data-cancel]').addEventListener('click', () => { clearSelection(); feedback = '已取消，沒有消耗資源。'; render(); });
+  function bindCard(button: HTMLButtonElement, handId: number): void {
     let dragStart: { x: number; y: number } | undefined;
     let moved = false;
     let suppressClick = false;
-    button.addEventListener('click', () => { if (suppressClick) { suppressClick = false; return; } select(card); });
+    button.addEventListener('click', () => { if (suppressClick) { suppressClick = false; return; } select(handId); });
     button.addEventListener('pointerdown', (event) => {
-      if (button.disabled || event.button !== 0) return;
-      dragStart = { x: event.clientX, y: event.clientY }; moved = false;
+      if (event.button !== 0 || exchanging) return;
+      dragStart = { x: event.clientX, y: event.clientY }; moved = false; suppressClick = false;
       button.setPointerCapture(event.pointerId);
     });
     button.addEventListener('pointermove', (event) => {
-      if (!dragStart) return;
+      if (!dragStart || exchanging) return;
       if (Math.hypot(event.clientX - dragStart.x, event.clientY - dragStart.y) > 9) {
-        moved = true; activeCard = card;
+        moved = true; activeHandId = handId;
         button.classList.add('is-dragging');
         el('[data-drag-label]').hidden = false;
-        el('[data-drag-label]').textContent = card.name;
+        el('[data-drag-label]').textContent = currentCard()?.name ?? '';
         el('[data-drag-label]').style.transform = `translate(${event.clientX + 12}px, ${event.clientY - 28}px)`;
         render();
       }
@@ -181,24 +220,22 @@ export function mountArena(root: HTMLElement): void {
     button.addEventListener('pointerup', (event) => {
       if (!dragStart) return;
       dragStart = undefined;
-      button.classList.remove('is-dragging');
-      el('[data-drag-label]').hidden = true;
-      if (moved) {
-        suppressClick = true;
-        const rect = canvas.getBoundingClientRect();
-        if (event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom) cast(event.clientX, event.clientY);
-        else { activeCard = undefined; feedback = '投送已取消，沒有消耗資源。'; render(); }
-      }
+      button.classList.remove('is-dragging'); el('[data-drag-label]').hidden = true;
+      if (!moved) return;
+      suppressClick = true;
+      const rect = canvas.getBoundingClientRect();
+      if (event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom) cast(event.clientX, event.clientY);
+      else { clearSelection(); feedback = '投送已取消，沒有消耗資源。'; render(); }
     });
     button.addEventListener('pointercancel', () => {
-      dragStart = undefined; activeCard = undefined; button.classList.remove('is-dragging'); el('[data-drag-label]').hidden = true; render();
+      dragStart = undefined; clearSelection(); button.classList.remove('is-dragging'); render();
     });
-  });
+  }
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') { activeCard = undefined; render(); }
-    if (event.target instanceof HTMLButtonElement || event.target instanceof HTMLInputElement) return;
+    if (event.key === 'Escape') { clearSelection(); feedback = '已取消，沒有消耗資源。'; render(); }
+    if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || (event.target instanceof HTMLElement && event.target.isContentEditable)) return;
     const index = Number(event.key) - 1;
-    if (index >= 0 && index < CARDS.length && !cards[index]?.disabled) select(CARDS[index]);
+    if (/^[1-3]$/.test(event.key) && state.hand[index]) { event.preventDefault(); select(state.hand[index].id); }
   });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && state.status === 'running') { toggleArena(state); feedback = '離開頁面時已自動暫停。'; render(); }

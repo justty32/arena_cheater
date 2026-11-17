@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { advanceArena, createArena, playCard, toggleArena } from '../../src/arena/engine';
+import { advanceArena, createArena, toggleArena } from '../../src/arena/engine';
 import { act, hit, syncStamina } from '../../src/arena/engine-combat';
 import { advanceArrows, fireArrow } from '../../src/arena/engine-arrows';
 import { advanceControl, damageFighter } from '../../src/arena/engine-damage';
@@ -117,9 +117,9 @@ describe('P3 equipment combat', () => {
   });
   it('refreshes weakness without multiplying caps, expires without free stamina, and freezes while paused', () => {
     const { state, a } = pair();
-    expect(playCard(state, 'weakness', { fighterId: a.id })).toBe(true);
+    a.buffs = [{kind:'weakness',until:7}]; syncStamina(a,state.time);
     expect(a.maxStamina).toBe(a.baseMaxStamina * 0.6); expect(a.stamina).toBe(a.maxStamina);
-    expect(playCard(state, 'weakness', { fighterId: a.id })).toBe(true);
+    a.buffs = [{kind:'weakness',until:7}]; syncStamina(a,state.time);
     expect(a.maxStamina).toBe(a.baseMaxStamina * 0.6);
     toggleArena(state); const paused = structuredClone(state); advanceArena(state, 20); expect(state).toEqual(paused);
     const stamina = a.stamina; syncStamina(a, 8);

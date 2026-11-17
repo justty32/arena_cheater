@@ -1,197 +1,216 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+import { createArena, findPayment, toggleArena, advanceArena } from '../../src/arena/engine';
+import { CARDS, type ArenaState } from '../../src/arena/model';
+import { createProjection, project } from '../../src/arena/projection';
 import { observeErrors } from './helpers';
 
-async function open(page: import('@playwright/test').Page) {
-  await page.clock.install({ time: new Date('2026-11-11T00:00:00Z') });
+async function open(page: Page) {
+  await page.clock.install({ time: new Date('2026-11-17T00:00:00Z') });
   await page.goto('/');
   await expect(page.getByTestId('arena-canvas')).toBeVisible();
-  await page.clock.pauseAt(new Date('2026-11-11T01:00:00Z'));
+  await page.clock.pauseAt(new Date('2026-11-17T01:00:00Z'));
+}
+const hand = (page: Page) => page.locator('button[data-hand-card]');
+const stones = (page: Page) => page.locator('button[data-stone]');
+const cardButton = (page: Page, id: number) => page.locator(`button[data-hand-card="${id}"]`);
+async function inventory(page: Page) {
+  return { hand: await hand(page).evaluateAll(es => es.map(e => e.getAttribute('data-hand-card'))), stones: await stones(page).evaluateAll(es => es.map(e => e.getAttribute('data-stone'))) };
+}
+async function paused(page: Page) {
+  await page.getByTestId('arena-start').click();
+  await page.getByTestId('arena-start').click();
+}
+async function center(page: Page) {
+  const canvas = page.getByTestId('arena-canvas');
+  const box = await canvas.boundingBox();
+  await canvas.click({ position: { x: box!.width / 2, y: box!.height / 2 } });
+}
+async function seek(page: Page, predicate: (state: ArenaState) => boolean) {
+  let seed = 73021;
+  while (!predicate(createArena(seed))) {
+    expect(seed).toBeLessThan(73121);
+    await page.getByTestId('arena-reset').click();
+    seed++;
+  }
+  return createArena(seed);
 }
 
-test('圓場卡牌、暫停、倍速與重開可操作', async ({ page }, testInfo) => {
+test('三張實例手牌與三石可檢視；缺色仍可選牌且不消耗', async ({ page }, info) => {
   const errors = observeErrors(page);
   await open(page);
-  await expect(page.locator('[data-card]')).toHaveCount(8);
+  const state = createArena(73021);
+  await expect(hand(page)).toHaveCount(3);
+  await expect(stones(page)).toHaveCount(3);
   await expect(page.locator('[data-fighter]')).toHaveCount(7);
-  await page.screenshot({ path: testInfo.outputPath('arena-desktop.png'), fullPage: true });
-  await page.getByTestId('arena-start').click();
-  await page.locator('[data-card="fury"]').click();
+  const unavailable = state.hand.find(h => !findPayment(state, CARDS.find(c => c.id === h.cardId)!.cost))!;
+  const before = await inventory(page);
+  await cardButton(page, unavailable.id).click();
+  await expect(page.getByTestId('arena-card-detail')).toContainText(CARDS.find(c => c.id === unavailable.cardId)!.description);
+  await paused(page);
   await page.locator('[data-fighter]').first().click();
-  await expect(page.getByTestId('arena-feedback')).toContainText('怪力');
-  await expect(page.getByTestId('arena-mana')).toContainText('56');
-  await page.clock.runFor(2000);
-  await page.getByTestId('arena-start').click();
-  const time = await page.getByTestId('arena-time').innerText();
-  const mana = await page.getByTestId('arena-mana').innerText();
-  await page.clock.runFor(2000);
-  await expect(page.getByTestId('arena-time')).toHaveText(time);
-  await expect(page.getByTestId('arena-mana')).toHaveText(mana);
-  await page.getByTestId('arena-start').click();
-  await page.locator('[data-card="sword"]').click();
-  const canvas = page.getByTestId('arena-canvas');
-  const box = await canvas.boundingBox();
-  await canvas.click({ position: { x: box!.width / 2, y: box!.height / 2 } });
-  await expect(page.getByTestId('arena-feedback')).toContainText('直劍');
-  await page.clock.runFor(1500);
-  await page.screenshot({ path: testInfo.outputPath('arena-playing.png'), fullPage: true });
-  await page.getByTestId('arena-reset').click();
-  await expect(page.getByTestId('arena-time')).toHaveText('00:00');
+  expect(await inventory(page)).toEqual(before);
+  await page.screenshot({ path: info.outputPath('arena-desktop.png'), fullPage: true });
   expect(errors).toEqual([]);
 });
 
-test('窄畫面沒有橫向溢出且卡牌可觸控選取', async ({ page }, testInfo) => {
-  const errors = observeErrors(page);
-  await page.setViewportSize({ width: 390, height: 844 });
-  await open(page);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.getByTestId('arena-start').click();
-  await page.locator('[data-card="haste"]').click();
-  await page.locator('[data-fighter]').first().click();
-  await expect(page.getByTestId('arena-feedback')).toContainText('興奮');
-  await page.screenshot({ path: testInfo.outputPath('arena-mobile.png'), fullPage: true });
-  expect(errors).toEqual([]);
-});
-
-test('拖曳卡牌取消不扣費，投進場內只扣一次', async ({ page }) => {
+test('暫停投送先驗目標、取消與拖曳；成功只消耗當張牌並補二石一牌', async ({ page }) => {
   const errors = observeErrors(page);
   await open(page);
-  await page.getByTestId('arena-start').click();
-  const card = page.locator('[data-card="shield"]');
+  const state = createArena(73021);
+  const sword = state.hand.find(h => h.cardId === 'sword')!;
+  const payment = findPayment(state, CARDS.find(c => c.id === sword.cardId)!.cost)!;
+  await paused(page);
+  const before = await inventory(page);
+  await cardButton(page, sword.id).click();
+  await page.getByTestId('arena-canvas').click({ position: { x: 3, y: 3 } });
+  expect(await inventory(page)).toEqual(before);
+  await page.locator('[data-cancel]').click();
+  expect(await inventory(page)).toEqual(before);
+  const card = cardButton(page, sword.id);
   await card.scrollIntoViewIfNeeded();
-  const cardBox = await card.boundingBox();
-  const canvasBox = await page.getByTestId('arena-canvas').boundingBox();
-  await page.mouse.move(cardBox!.x + cardBox!.width / 2, cardBox!.y + cardBox!.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(5, 5, { steps: 4 });
-  await page.mouse.up();
-  await expect(page.getByTestId('arena-gold')).toHaveText('75');
+  const box = await card.boundingBox();
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+  await page.mouse.down(); await page.mouse.move(5, 5, { steps: 5 }); await page.mouse.up();
+  expect(await inventory(page)).toEqual(before);
   await expect(page.getByTestId('arena-feedback')).toContainText('取消');
-  await page.mouse.move(cardBox!.x + cardBox!.width / 2, cardBox!.y + cardBox!.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(canvasBox!.x + canvasBox!.width / 2, canvasBox!.y + canvasBox!.height / 2, { steps: 5 });
-  await page.mouse.up();
-  await expect(page.getByTestId('arena-gold')).toHaveText('55');
-  await expect(page.getByTestId('arena-feedback')).toContainText('圓盾');
-  expect(errors).toEqual([]);
-});
-
-test('手機從卡面水平滑動可看到後方卡牌', async ({ browser }) => {
-  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
-  const page = await context.newPage();
-  await page.goto('http://127.0.0.1:4173/');
-  const hand = page.locator('.arena-cards');
-  await hand.scrollIntoViewIfNeeded();
-  const box = await hand.boundingBox();
-  const x = box!.x + box!.width - 25;
-  const y = box!.y + box!.height / 2;
-  const session = await context.newCDPSession(page);
-  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
-  for (let i = 1; i <= 10; i++) {
-    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x - i * 25, y }] });
-    await page.waitForTimeout(20);
-  }
-  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-  await expect.poll(() => hand.evaluate((element) => element.scrollLeft)).toBeGreaterThan(100);
-  await expect(page.getByTestId('arena-gold')).toHaveText('75');
-  await context.close();
-});
-
-test('暫停可從名單與場上施法及投送，續戰前時間與畫面保持凍結', async ({ page }) => {
-  const errors = observeErrors(page);
-  await open(page);
-  const mana = page.getByTestId('arena-mana');
-  const gold = page.getByTestId('arena-gold');
-  const canvas = page.getByTestId('arena-canvas');
-  await page.locator('[data-card="fury"]').click();
-  await page.locator('[data-fighter]').first().click();
-  await expect(mana).toHaveText('80');
-  await expect(page.getByTestId('arena-feedback')).toContainText('開始新戰鬥');
-  await page.getByTestId('arena-start').click();
-  await page.getByTestId('arena-start').click();
-  await page.locator('[data-fighter]').first().click();
-  await expect(mana).toHaveText('56');
-  await expect(page.locator('[data-detail-buffs]')).toContainText('怪力');
-  await page.locator('[data-fighter]').first().click();
-  await expect(mana).toHaveText('56');
-
-  await page.locator('[data-card="haste"]').click();
-  await canvas.scrollIntoViewIfNeeded();
-  const box = await canvas.boundingBox();
-  const { createArena } = await import('../../src/arena/engine');
-  const { createProjection, project } = await import('../../src/arena/projection');
-  const fighter = createArena(73021).fighters[0];
-  const projection = createProjection(box!.width, box!.height);
-  const target = project(fighter.x, fighter.y, projection);
-  await canvas.click({ position: { x: target.x, y: target.y - 30 * projection.scale / 38 } });
-  await expect(mana).toHaveText('38');
-  await expect(page.locator('[data-detail-buffs]')).toContainText('興奮');
-  await page.locator('[data-card="sword"]').click();
-  await canvas.click({ position: { x: 3, y: 3 } });
-  await expect(gold).toHaveText('75');
-  await canvas.click({ position: { x: box!.width / 2, y: box!.height / 2 } });
-  await expect(gold).toHaveText('50');
-  await expect(page.getByTestId('arena-feedback')).toContainText('繼續戰鬥後');
-  // Flush layout/paint callbacks after the spell and battle-log updates.
+  await card.click(); await center(page);
+  await expect(card).toHaveCount(0);
+  for (const other of state.hand.filter(h => h.id !== sword.id)) await expect(cardButton(page, other.id)).toHaveCount(1);
+  await expect(hand(page)).toHaveCount(3);
+  await expect(stones(page)).toHaveCount(3 - payment.length + 2);
+  for (const id of payment) await expect(page.locator(`[data-stone="${id}"]`)).toHaveCount(0);
+  const after = await inventory(page);
+  await center(page);
+  expect(await inventory(page)).toEqual(after);
   await page.clock.runFor(100);
-  const canvasHash = () => canvas.evaluate(async (element: HTMLCanvasElement) => {
-    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(element.toDataURL()));
-    return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
-  });
-  const pausedImage = await canvasHash();
+  const canvasImage = () => page.getByTestId('arena-canvas').evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL());
+  const pausedImage = await canvasImage();
   await page.clock.runFor(3000);
+  expect(await canvasImage()).toBe(pausedImage);
   await expect(page.getByTestId('arena-time')).toHaveText('00:00');
-  await expect(mana).toHaveText('38');
-  await expect(gold).toHaveText('50');
-  expect(await canvasHash()).toBe(pausedImage);
-  await page.getByTestId('arena-start').click();
-  await page.clock.runFor(1500);
+  expect(await inventory(page)).toEqual(after);
+  await page.getByTestId('arena-start').click(); await page.clock.runFor(1500);
   await expect(page.getByTestId('arena-time')).not.toHaveText('00:00');
-  expect(Number(await mana.innerText())).toBeGreaterThan(38);
-  expect(await canvasHash()).not.toBe(pausedImage);
   expect(errors).toEqual([]);
 });
 
-for (const [cardId, weaponName, countId, initialCount] of [
-  ['bow', '弓', 'arena-ammo', '3'],
-  ['club', '木棍', 'arena-durability', '2'],
-] as const) {
-  test(`${weaponName}可投送拾取並顯示雙手與剩餘用量`, async ({ page }, testInfo) => {
+test('換石可取消、鍵盤確認，暫停冷卻凍結且續戰後再開放', async ({ page }) => {
+  await open(page); await paused(page);
+  const before = await inventory(page);
+  await hand(page).first().click(); await page.getByTestId('arena-redraw').click();
+  await stones(page).first().click();
+  await expect(stones(page).first()).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByTestId('arena-redraw-preview')).toBeVisible();
+  await page.locator('[data-cancel]').click();
+  expect(await inventory(page)).toEqual(before);
+  await hand(page).first().click(); await page.getByTestId('arena-redraw').click();
+  await stones(page).first().focus(); await page.keyboard.press('Space');
+  await page.getByTestId('arena-redraw-confirm').focus(); await page.keyboard.press('Enter');
+  await expect(hand(page)).toHaveCount(3); await expect(stones(page)).toHaveCount(4);
+  await expect(cardButton(page, Number(before.hand[0]))).toHaveCount(0);
+  await hand(page).first().click();
+  await expect(page.getByTestId('arena-redraw')).toBeDisabled();
+  await page.clock.runFor(4000);
+  await expect(page.getByTestId('arena-redraw')).toBeDisabled();
+  await page.getByTestId('arena-start').click(); await page.clock.runFor(3200);
+  await expect(page.getByTestId('arena-redraw')).toBeEnabled();
+});
+
+for (const [id, name, counter, initial] of [['bow', '弓', 'arena-ammo', '3'], ['club', '木棍', 'arena-durability', '2']] as const) {
+  test(`${name}實例可投送拾取並耗盡雙手裝備`, async ({ page }, info) => {
     const errors = observeErrors(page);
     await open(page);
-    const { createArena, toggleArena, advanceArena } = await import('../../src/arena/engine');
-    const { createProjection, project } = await import('../../src/arena/projection');
-    const forecast = createArena(73021);
-    toggleArena(forecast); advanceArena(forecast, 1.5);
-    const destination = forecast.fighters[0];
-    await page.getByTestId('arena-start').click();
-    await page.getByTestId('arena-start').click();
-    await page.locator(`[data-card="${cardId}"]`).click();
-    const canvas = page.getByTestId('arena-canvas');
-    await canvas.scrollIntoViewIfNeeded();
-    const box = await canvas.boundingBox();
-    const point = project(destination.x, destination.y, createProjection(box!.width, box!.height));
-    await canvas.click({ position: point });
-    await expect(page.getByTestId('arena-gold')).toHaveText(cardId === 'bow' ? '40' : '45');
-    await page.clock.runFor(500);
-    await expect(page.getByTestId('arena-time')).toHaveText('00:00');
+    const state = await seek(page, s => s.hand.some(h => h.cardId === id && findPayment(s, CARDS.find(c => c.id === id)!.cost)));
+    const instance = state.hand.find(h => h.cardId === id)!;
+    const forecast = createArena(state.seed); toggleArena(forecast); advanceArena(forecast, 1.5);
+    await paused(page); await cardButton(page, instance.id).click();
+    const canvas = page.getByTestId('arena-canvas'); const box = await canvas.boundingBox();
+    const fighter = forecast.fighters[0];
+    await canvas.click({ position: project(fighter.x, fighter.y, createProjection(box!.width, box!.height)) });
+    await expect(cardButton(page, instance.id)).toHaveCount(0);
     await page.getByTestId('arena-start').click();
     let pickup = '';
     for (let i = 0; i < 20 && !pickup; i++) {
       await page.clock.runFor(250);
-      pickup = (await page.locator('[data-log] li').allTextContents()).find(text => text.includes(`拾取${weaponName}`)) ?? '';
+      pickup = (await page.locator('[data-log] li').allTextContents()).find(t => t.includes(`拾取${id === 'bow' ? '長弓' : name}`)) ?? '';
     }
     expect(pickup).not.toBe('');
     await page.getByTestId('arena-start').click();
-    const name = pickup.split(' 拾取')[0];
-    await page.locator('[data-fighter]').filter({ hasText: name }).click();
-    await expect(page.getByTestId('arena-equipment')).toContainText(`${weaponName}（雙手）`);
-    await expect(page.getByTestId(countId)).toHaveText(initialCount);
-    await page.clock.runFor(500);
-    await page.screenshot({ path: testInfo.outputPath(`p3-${cardId}.png`), fullPage: true });
-    await page.getByTestId('arena-start').click();
-    await page.clock.runFor(8000);
+    await page.locator('[data-fighter]').filter({ hasText: pickup.split(' 拾取')[0] }).click();
+    await expect(page.getByTestId('arena-equipment')).toContainText(`${name}（雙手）`);
+    const remaining = Number(await page.getByTestId(counter).innerText());
+    expect(remaining).toBeGreaterThan(0);
+    expect(remaining).toBeLessThanOrEqual(Number(initial));
+    await page.screenshot({ path: info.outputPath(`arena-${id}.png`), fullPage: true });
+    await page.getByTestId('arena-start').click(); await page.clock.runFor(8000);
     await expect(page.getByTestId('arena-equipment')).toContainText('徒手');
-    await expect(page.getByTestId(countId)).toHaveText('—');
+    await expect(page.getByTestId(counter)).toHaveText('—');
     expect(errors).toEqual([]);
   });
 }
+
+test('手機觸控選卡及取消不溢出，倍速與重置保留控制', async ({ browser, baseURL }, info) => {
+  const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await context.newPage(); const errors = observeErrors(page);
+  await open(page);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  const before = await inventory(page);
+  await hand(page).first().tap(); await expect(page.getByTestId('arena-card-detail')).toBeVisible();
+  await page.locator('[data-cancel]').tap(); expect(await inventory(page)).toEqual(before);
+  await page.locator('[data-speed="2"]').tap(); await page.getByTestId('arena-start').tap();
+  await page.clock.runFor(2000);
+  const time = await page.getByTestId('arena-time').innerText();
+  expect(Number(time.split(':')[1])).toBeGreaterThanOrEqual(3);
+  await page.getByTestId('arena-reset').tap();
+  await expect(page.getByTestId('arena-time')).toHaveText('00:00');
+  await expect(page.locator('[data-speed="2"]')).toHaveAttribute('aria-pressed', 'true');
+  await page.screenshot({ path: info.outputPath('arena-mobile.png'), fullPage: true });
+  expect(errors).toEqual([]); await context.close();
+});
+
+for (const target of ['名單', '場上'] as const) {
+  test(`暫停可從${target}施法，續戰前效果與時間凍結`, async ({ page }) => {
+    await open(page);
+    const state = await seek(page, s => s.hand.some(h => h.cardId === 'bloodlust' && findPayment(s, CARDS.find(c => c.id === h.cardId)!.cost)));
+    const instance = state.hand.find(h => h.cardId === 'bloodlust')!;
+    await paused(page); await cardButton(page, instance.id).click();
+    if (target === '名單') await page.locator('[data-fighter]').first().click();
+    else {
+      const canvas = page.getByTestId('arena-canvas'); const box = await canvas.boundingBox();
+      const projection = createProjection(box!.width, box!.height);
+      const fighter = state.fighters[0]; const point = project(fighter.x, fighter.y, projection);
+      await canvas.click({ position: { x: point.x, y: point.y - 30 * projection.scale / 38 } });
+    }
+    await expect(cardButton(page, instance.id)).toHaveCount(0);
+    const payment = findPayment(state, CARDS.find(c => c.id === 'bloodlust')!.cost)!;
+    for (const stoneId of payment) await expect(page.locator(`[data-stone="${stoneId}"]`)).toHaveCount(0);
+    await expect(stones(page)).toHaveCount(state.stones.length - payment.length + 2);
+    await expect(page.locator('[data-detail-buffs]')).toContainText('殺紅眼');
+    await page.clock.runFor(6000);
+    await expect(page.getByTestId('arena-time')).toHaveText('00:00');
+    await expect(page.locator('[data-detail-buffs]')).toContainText('殺紅眼');
+    await page.getByTestId('arena-start').click(); await page.clock.runFor(5200);
+    await expect(page.locator('[data-detail-buffs]')).not.toContainText('殺紅眼');
+  });
+}
+
+test('拖曳有效投送只消耗一次實例與付款石', async ({ page }) => {
+  await open(page); await paused(page);
+  const state = createArena(73021); const instance = state.hand.find(h => h.cardId === 'sword')!;
+  const card = cardButton(page, instance.id); await card.scrollIntoViewIfNeeded();
+  const from = await card.boundingBox(); const canvas = await page.getByTestId('arena-canvas').boundingBox();
+  await page.mouse.move(from!.x + from!.width / 2, from!.y + from!.height / 2); await page.mouse.down();
+  await page.mouse.move(canvas!.x + canvas!.width / 2, canvas!.y + canvas!.height / 2, { steps: 8 }); await page.mouse.up();
+  await expect(card).toHaveCount(0); await expect(hand(page)).toHaveCount(3); await expect(stones(page)).toHaveCount(3);
+  await expect(page.getByTestId('arena-feedback')).toContainText('直劍');
+});
+
+test('野性成長對滿血鬥士不消耗牌或石', async ({ page }) => {
+  await open(page);
+  const state = await seek(page, s => s.hand.some(h => h.cardId === 'growth' && findPayment(s, CARDS.find(c => c.id === h.cardId)!.cost)));
+  const instance = state.hand.find(h => h.cardId === 'growth')!;
+  await paused(page); const before = await inventory(page);
+  await cardButton(page, instance.id).click(); await page.locator('[data-fighter]').first().click();
+  expect(await inventory(page)).toEqual(before);
+  await expect(cardButton(page, instance.id)).toHaveAttribute('aria-pressed', 'true');
+});

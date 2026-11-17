@@ -1,0 +1,150 @@
+/* The hand is a persistent set of DOM controls; art stays on the card canvases. */
+.arena-hand { padding: 18px 20px 0; }
+.hand-heading { margin-bottom: 18px; }
+.hand-heading h2 { font-size: 19px; letter-spacing: 2px; }
+.hand-count { font-size: 11px; color: #b5ad95; padding: 6px 10px; border: 1px solid #4a4938; white-space: nowrap; }
+.hand-table { display: grid; grid-template-columns: minmax(165px, 1fr) minmax(390px, 2.7fr) minmax(165px, .9fr); gap: 24px; align-items: start; }
+.stone-pouch { min-width: 0; padding: 2px 0 12px; }
+.stone-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px; }
+.stone-heading h3, .hand-exchange h3 { margin: 0; color: #dfd2b2; font-family: serif; font-size: 16px; font-weight: 400; letter-spacing: 2px; }
+.stone-heading > span { color: #c7b78f; font-size: 12px; font-variant-numeric: tabular-nums; }
+[data-color="yellow"] { --stone-color: #edcc74; --stone-bg: #4c4126; }
+[data-color="blue"] { --stone-color: #82c7ef; --stone-bg: #233e4a; }
+[data-color="green"] { --stone-color: #a3d28f; --stone-bg: #30452c; }
+[data-color="black"] { --stone-color: #c6b7df; --stone-bg: #38323f; }
+[data-color="red"] { --stone-color: #f0a097; --stone-bg: #4e302c; }
+.stone-summary { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 12px; }
+.stone-summary > span { display: flex; justify-content: center; align-items: center; gap: 5px; color: var(--stone-color); background: var(--stone-bg); border-bottom: 2px solid var(--stone-color); padding: 7px 3px; font-size: 10px; }
+.stone-summary b { font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.stone-tray { display: flex; flex-wrap: wrap; align-content: start; gap: 7px; min-height: 64px; max-height: 148px; overflow-y: auto; padding: 4px; background: #111810; border: 1px solid #3a412f; border-radius: 5px; scrollbar-width: thin; }
+.stone-token { display: flex; align-items: center; justify-content: center; gap: 4px; min-width: 44px; min-height: 44px; padding: 5px; color: var(--stone-color); background: var(--stone-bg); border: 1px solid transparent; border-radius: 3px; font-size: 11px; }
+.stone-token:disabled { cursor: default; opacity: 1; }
+.stone-gem { font-size: 19px; text-shadow: 1px 2px 0 #0008; }
+.stone-token.is-payment { border-color: var(--stone-color); box-shadow: inset 0 0 8px #ffffff10; }
+.stone-token[aria-pressed="true"] { border-color: #fff1c8; outline: 1px solid #fff1c8; outline-offset: 1px; background: #615941; }
+.stone-help { font-size: 10px; line-height: 1.75; color: #a4ac94; margin: 9px 0 0; }
+.hand-play { min-width: 0; }
+.arena-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; overflow: visible; padding: 3px 2px 12px; max-width: 690px; margin: 0 auto; }
+.arena-card { min-height: 220px; padding: 10px 13px; touch-action: none; }
+.arena-card.is-unaffordable { border-top-color: #585b4c; }
+.arena-card.is-unaffordable .card-affordability { color: #d5a898; }
+.arena-card.is-unaffordable .card-art { opacity: .65; }
+.arena-card.is-selected { transform: translateY(-3px); }
+.card-top { gap: 5px; min-height: 25px; }
+.card-top kbd { font-family: inherit; font-size: 10px; }
+.card-cost { display: flex; align-items: center; flex-wrap: wrap; justify-content: end; gap: 4px; }
+.cost-generic, .cost-stone { display: inline-flex; align-items: center; justify-content: center; min-width: 25px; min-height: 25px; border: 1px solid #9a957b; border-radius: 50%; background: #35382d; color: #efe4c7; padding: 2px 5px; font-size: 11px; font-weight: 600; }
+.cost-stone { color: var(--stone-color); border-color: var(--stone-color); background: var(--stone-bg); border-radius: 5px; }
+.card-art { height: 69px; }
+.card-name { font-size: 19px; letter-spacing: 3px; }
+.card-subtitle { font-size: 9px; letter-spacing: 1px; }
+.card-description { font-size: 10px; max-width: 190px; line-height: 1.65; margin-top: 9px; color: #b3baa3; }
+.card-affordability { margin-top: auto; padding-top: 10px; color: #a5bf8c; font-size: 9px; letter-spacing: 1px; }
+.card-detail { margin: 0 2px 12px; min-height: 57px; border-left: 2px solid #8b7951; padding: 1px 11px; }
+.card-detail p { font-size: 11px; color: #c8c4ac; line-height: 1.6; margin: 2px 0; overflow-wrap: anywhere; }
+.card-detail .payment-preview { color: #aaa784; font-size: 10px; }
+.hand-exchange { min-width: 0; border-left: 1px solid #3c4232; padding-left: 20px; padding-top: 4px; }
+.hand-exchange .section-eyebrow { font-size: 7px; letter-spacing: 1px; }
+.hand-exchange h3 { margin-top: 11px; }
+.hand-exchange p { font-size: 11px; line-height: 1.75; color: #b0b59f; margin: 10px 0; }
+.hand-exchange button { width: 100%; min-height: 44px; padding: 8px 10px; color: #dfc894; background: #343a29; border: 1px solid #6a6749; font-size: 12px; letter-spacing: 1px; }
+.hand-exchange button:hover:not(:disabled) { border-color: #d3bd80; background: #42482f; }
+.hand-exchange button:disabled { color: #838a77; border-color: #3c4332; background: #242a20; }
+.hand-exchange small { display: block; color: #8e987f; font-size: 10px; line-height: 1.75; margin-top: 9px; }
+.hand-footer { font-size: 11px; }
+.hand-footer button { min-height: 44px; min-width: 60px; }
+.hand-guide { border-top: 1px solid #343a2c; font-size: 10px; color: #a3aa91; padding: 10px 0 12px; }
+.hand-guide summary { cursor: pointer; width: fit-content; min-height: 24px; line-height: 24px; }
+.hand-guide p { max-width: 800px; line-height: 1.9; margin: 6px 0 0; }
+@media (max-width: 1100px) {
+  .hand-table { grid-template-columns: minmax(150px, 1fr) minmax(360px, 2.5fr); gap: 18px; }
+  .hand-exchange { grid-column: 1 / -1; border-left: 0; border-top: 1px solid #3c4232; padding: 12px 0 14px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; }
+  .hand-exchange .section-eyebrow { display: none; }
+  .hand-exchange h3 { margin-top: 0; }
+  .hand-exchange > p { grid-column: 1; margin: 5px 0 0; }
+  .hand-exchange > button, .hand-exchange > [data-redraw-controls] { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+  .hand-exchange small { grid-column: 1; margin-top: 3px; }
+  .hand-exchange [data-redraw-controls] p { margin-top: 0; }
+  .arena-card { min-height: 214px; padding: 9px; }
+}
+@media (max-width: 800px) {
+  .arena-hand { padding: 16px 14px 0; }
+  .hand-heading { display: flex; gap: 12px; }
+  .hand-heading h2 { font-size: 17px; letter-spacing: 1px; }
+  .hand-table { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .stone-pouch { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; padding: 0; }
+  .stone-heading { grid-column: 1; margin: 0; }
+  .stone-summary { grid-column: 2; grid-row: 1; margin: 0; }
+  .stone-tray { grid-column: 1 / -1; min-height: 54px; max-height: 112px; }
+  .stone-help { grid-column: 1 / -1; margin: 0; }
+  .arena-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .hand-exchange { grid-column: 1; }
+  .card-description { max-width: none; }
+}
+@media (max-width: 480px) {
+  .arena-canvas-wrap, .arena-canvas-wrap canvas { min-height: 300px; }
+  .arena-hand { padding: 14px 10px 0; }
+  .hand-heading { margin-bottom: 14px; align-items: end; }
+  .hand-heading h2 { font-size: 15px; }
+  .hand-count { font-size: 9px; padding: 5px 7px; }
+  .section-eyebrow { font-size: 7px; letter-spacing: 1.5px; }
+  .stone-pouch { grid-template-columns: 1fr; gap: 9px; }
+  .stone-heading { grid-column: 1; }
+  .stone-heading h3 { font-size: 14px; }
+  .stone-summary { grid-row: auto; grid-column: 1; }
+  .stone-summary > span { padding: 5px; font-size: 11px; }
+  .stone-help { font-size: 10px; }
+  .arena-cards { gap: 7px; }
+  .arena-card { padding: 6px 5px 9px; min-height: 158px; }
+  .card-top { gap: 2px; align-items: start; }
+  .card-cost { gap: 3px; }
+  .cost-generic, .cost-stone { min-width: 21px; min-height: 22px; padding: 1px 4px; font-size: 10px; }
+  .card-top kbd { font-size: 8px; padding: 3px; min-width: 13px; }
+  .card-art { height: 45px; }
+  .card-name { font-size: 15px; letter-spacing: 1px; }
+  .card-subtitle { font-size: 8px; margin-top: 5px; letter-spacing: 0; }
+  .card-description { display: none; }
+  .card-affordability { font-size: 8px; padding-top: 9px; letter-spacing: 0; }
+  .card-detail { min-height: 63px; margin-bottom: 2px; }
+  .card-detail p { font-size: 11px; }
+  .hand-exchange { column-gap: 14px; }
+  .hand-exchange h3 { font-size: 15px; }
+  .hand-exchange p, .hand-exchange small { font-size: 10px; }
+  .hand-exchange button { font-size: 11px; padding: 7px; }
+  .hand-footer { font-size: 10px; gap: 8px; align-items: start; }
+  .hand-footer button { margin-top: 2px; }
+  .hand-footer kbd { display: none; }
+}
+@media (min-width: 801px) {
+  .arena-header { height: 70px; }
+  .arena-workspace { margin-top: 14px; gap: 14px; }
+  .arena-stage { height: clamp(420px, 53vh, 580px); }
+  .arena-canvas-wrap, .arena-canvas-wrap canvas { min-height: 0; }
+  .arena-stage-top { height: 40px; flex-shrink: 0; }
+  .arena-controls { min-height: 54px; padding: 8px 14px; flex-shrink: 0; }
+  .arena-sidebar { max-height: clamp(420px, 53vh, 580px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #6c6549 #1a1d19; padding-right: 4px; gap: 10px; }
+  .arena-panel { padding: 11px; }
+  .panel-heading { margin-bottom: 8px; }
+  .fighter-row { padding: 5px 4px; }
+  .fighter-list { gap: 1px; }
+  .fighter-detail { flex-shrink: 0; }
+  .battle-log { min-height: 110px; flex-shrink: 0; }
+  .arena-hand { padding: 12px 16px 0; }
+  .hand-heading { margin-bottom: 10px; }
+  .hand-heading h2 { margin-top: 3px; font-size: 17px; }
+  .hand-table { gap: 20px; }
+  .arena-card { min-height: 186px; padding: 7px 10px 9px; }
+  .card-art { height: 48px; }
+  .card-name { font-size: 17px; }
+  .card-description { margin-top: 6px; }
+  .card-affordability { padding-top: 7px; }
+  .card-detail { min-height: 42px; margin-bottom: 7px; }
+  .hand-footer { min-height: 37px; }
+  .hand-guide { padding: 5px 0 7px; }
+  .arena-footer { margin-top: 10px; margin-bottom: 10px; }
+}
+
+.hand-heading-actions { display: flex; align-items: center; gap: 9px; flex-shrink: 0; }
+.hand-heading-actions button { min-height: 36px; padding: 6px 9px; border: 1px solid #655b41; color: #dec795; background: #303526; font-size: 11px; }
+.hand-heading-actions kbd { font-family: inherit; font-size: 9px; margin-left: 5px; color: #a2a489; }
+@media (max-width: 480px) { .hand-heading-actions { gap: 4px; } .hand-heading-actions kbd { display: none; } .hand-heading-actions button { min-height: 36px; padding: 5px 7px; font-size: 10px; } }

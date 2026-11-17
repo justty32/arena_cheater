@@ -25,7 +25,7 @@ export function advanceArrows(state: ArenaState, dt: number): void {
     }
     if (first) {
       // Impact direction comes from the fixed flight vector, not the archer's present position.
-      damageFighter(state, first, arrow.damage, { x: first.x - arrow.vx, y: first.y - arrow.vy });
+      damageFighter(state, first, arrow.damage, { x: first.x - arrow.vx, y: first.y - arrow.vy }, undefined, false, arrow.ownerId);
       return false;
     }
     arrow.x += dx; arrow.y += dy;

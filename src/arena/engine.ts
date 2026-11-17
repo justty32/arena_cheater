@@ -3,6 +3,8 @@ import { act, log, separateFighters } from './engine-combat';
 import { advanceItems } from './engine-items';
 import { advanceArrows } from './engine-arrows';
 import { advanceControl, syncStamina } from './engine-damage';
+import { initializeCards } from './engine-cards';
+export { REDRAW_COOLDOWN, redrawStones, findPayment, canPayCost } from './engine-cards';
 export { playCard } from './engine-items';
 
 const STEP = 1 / 30;
@@ -26,8 +28,10 @@ export function createArena(seed = 73021): ArenaState {
       facing: angle + Math.PI, maxHp: spec.hp, maxStamina: spec.stamina, baseMaxStamina: spec.stamina, weapon: 'fists', shield: false,
       pose: 'idle', poseUntil: 0, lastAttack: -10, lastMoved: -10, nextAttack: random() * 0.3, buffs: [], ammo: 0, durability: 0, parryUntil: 0, nextParry: 0 };
   });
-  return { seed, time: 0, accumulator: 0, status: 'ready', speed: 1, fighters, items: [], arrows: [], effects: [],
-    logs: ['七位鬥士已入場。選擇你的支持者，準備暗中出手。'], mana: 80, gold: 75, supportedId: fighters[0].id, nextId: 1 };
+  const state: ArenaState = { seed, time: 0, accumulator: 0, status: 'ready', speed: 1, fighters, items: [], arrows: [], effects: [],
+    logs: ['七位鬥士已入場。選擇你的支持者，準備暗中出手。'], hand: [], stones: [], randomState: (seed ^ 0x9e3779b9) >>> 0, deck: [], discard: [], redrawAvailableAt: 0, supportedId: fighters[0].id, nextId: 1 };
+  initializeCards(state);
+  return state;
 }
 export function toggleArena(state: ArenaState): void {
   if (state.status === 'finished') return;
@@ -37,8 +41,6 @@ function step(state: ArenaState): void {
   state.time += STEP;
   const mayAdvance = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
   if (mayAdvance) {
-    state.mana = Math.min(100, state.mana + STEP * 5);
-    state.gold = Math.min(100, state.gold + STEP * 1.5);
     advanceItems(state, STEP);
   }
   advanceArrows(state, STEP);

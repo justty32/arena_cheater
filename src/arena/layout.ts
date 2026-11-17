@@ -1,5 +1,4 @@
-import { CARDS } from './model';
-import type { Card, Fighter } from './model';
+import type { Card, Fighter, StoneColor, StoneCost } from './model';
 
 export function arenaLayout(fighters: Fighter[]): string {
   return `<div class="arena-app">
@@ -20,9 +19,14 @@ export function arenaLayout(fighters: Fighter[]): string {
         <section class="arena-panel battle-log"><div class="panel-heading"><h2>場邊耳語</h2><span>戰鬥紀錄</span></div><ol data-log></ol></section>
       </aside>
       <section class="arena-hand" aria-label="作弊卡牌">
-        <div class="hand-heading"><div><span class="section-eyebrow">YOUR SLEIGHT OF HAND</span><h2 data-card-prompt>選擇一張牌，左右這場勝負</h2></div><div class="player-resources"><div class="mana-resource"><span>◈ 巫師魔力</span><strong><b data-testid="arena-mana">0</b><small>/ 100</small></strong><div class="mana-meter"><i data-mana-fill></i></div></div><div class="gold-resource"><span>◉ 金錢</span><strong data-testid="arena-gold">0</strong></div></div></div>
-        <div class="arena-cards">${CARDS.map((card, i) => `<button class="arena-card" data-card="${card.id}" aria-pressed="false" style="--card-color:${card.color}" aria-label="${card.name}，${card.cost}${card.currency === 'mana' ? '魔力' : '金錢'}，${card.description}"><span class="card-top"><kbd>${i + 1}</kbd><span class="card-cost ${card.currency}">${card.currency === 'mana' ? '◈' : '◉'} ${card.cost}</span></span><canvas class="card-art" data-card-art="${card.id}" width="180" height="94" aria-hidden="true"></canvas><span class="card-name">${card.name}</span><span class="card-subtitle">${card.subtitle}</span><span class="card-description">${card.description}</span></button>`).join('')}</div>
-        <div class="hand-footer"><p data-testid="arena-feedback" role="status" aria-live="polite"></p><button data-cancel hidden>取消選牌 <kbd>ESC</kbd></button><span class="hand-tip">拖曳施放 · 或選卡後點擊目標</span></div>
+        <div class="hand-heading"><div><span class="section-eyebrow">YOUR SLEIGHT OF HAND</span><h2 data-card-prompt>三張手牌，改寫勝負</h2></div><div class="hand-heading-actions"><button data-cancel hidden>取消 <kbd>ESC</kbd></button><span class="hand-count" data-hand-count></span></div></div>
+        <div class="hand-table">
+          <section class="stone-pouch" aria-label="魔法石袋"><div class="stone-heading"><h3>魔法石袋</h3><span data-stone-total></span></div><div class="stone-summary" data-stone-summary></div><div class="stone-tray" data-testid="arena-stones" aria-label="持有魔法石"></div><p class="stone-help" data-stone-help>費用中的數字可用任意顏色支付。</p></section>
+          <div class="hand-play"><div class="arena-cards" data-hand-list></div><div class="card-detail" data-testid="arena-card-detail"><p data-selected-description>選牌後點擊鬥士施法，或點擊場地投送武器。</p><p class="payment-preview" data-testid="arena-payment"></p></div></div>
+          <section class="hand-exchange" aria-label="棄牌換石"><span class="section-eyebrow">A CHANGE OF FORTUNE</span><h3>換個手氣</h3><p>放棄一張手牌，重抽部分魔法石。</p><button data-testid="arena-redraw">棄牌換石</button><div data-redraw-controls hidden><p data-testid="arena-redraw-preview"></p><button data-testid="arena-redraw-confirm">確認換石</button></div><small data-redraw-help>先選一張要放棄的手牌。</small></section>
+        </div>
+        <div class="hand-footer"><p data-testid="arena-feedback" role="status" aria-live="polite"></p><span class="hand-tip">1–3 選牌 · 拖曳或點選施放</span></div>
+        <details class="hand-guide"><summary>怎麼動手腳？</summary><p>起手三張牌、三顆魔法石。成功出牌後補兩顆石頭與一張牌；你支持的鬥士每次擊殺，再獲得三顆魔法石。彩色費用必須用同色石頭，數字費用可用任意顏色。</p></details>
       </section>
     </main>
     <footer class="arena-footer"><span>沒有人喜歡作弊，除了贏的那個。</span><a href="?prototype=classic">舊版棋盤原型 ↗</a></footer>
@@ -58,17 +62,32 @@ export function drawCardArt(canvas: HTMLCanvasElement, card: Card): void {
   } else if (card.id === 'club') {
     ctx.rotate(0.6); ctx.beginPath(); ctx.roundRect(-9, -30, 18, 37, 6); ctx.fill(); line([[0, 6], [0, 31]]);
     ctx.strokeStyle = '#33281f'; line([[-3, -24], [-3, -7]]);
-  } else if (card.id === 'fury') {
+  } else if (card.id === 'bloodlust') {
     line([[-20, 18], [-23, 3], [-16, -4], [-14, -20], [-6, -23], [-2, -7], [4, -25], [12, -22], [12, -6], [19, -15], [25, -9], [18, 17], [6, 26], [-12, 25], [-20, 18]]);
-  } else if (card.id === 'haste') {
+  } else if (card.id === 'lightning') {
     line([[10, -28], [-14, 1], [3, 1], [-10, 28], [23, -7], [6, -7], [10, -28]]);
     line([[-28, -9], [-15, -9]]); line([[-30, 5], [-21, 5]]);
-  } else if (card.id === 'weakness') {
-    ctx.beginPath(); ctx.ellipse(0, -2, 23, 17, 0, 0, Math.PI * 2); ctx.stroke();
-    ctx.beginPath(); ctx.arc(0, -2, 8, 0, Math.PI * 2); ctx.stroke(); line([[-17, 27], [18, -28]]);
+  } else if (card.id === 'growth') {
+    line([[0, 29], [0, -20]]);
+    ctx.beginPath(); ctx.moveTo(0, 8); ctx.bezierCurveTo(-32, 6, -30, -24, -8, -12); ctx.quadraticCurveTo(0, -7, 0, 8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, -3); ctx.bezierCurveTo(30, -4, 29, -34, 9, -23); ctx.quadraticCurveTo(0, -18, 0, -3); ctx.stroke();
+    line([[-11, 29], [11, 29]]);
   } else {
     line([[-25, 22], [25, 22]]); line([[-17, -19], [-2, -5], [17, -18]]); line([[-2, -5], [-10, 10], [10, 10], [18, 19]]);
     ctx.beginPath(); ctx.arc(-23, -25, 6, 0, Math.PI * 2); ctx.stroke();
   }
   for (let i = 0; i < 5; i++) { const a = i * 1.9; ctx.fillRect(Math.cos(a) * 45, Math.sin(a) * 31, 2, 2); }
+}
+
+
+export const STONE_COLORS: StoneColor[] = ['yellow', 'blue', 'green', 'black', 'red'];
+export const STONE_NAMES: Record<StoneColor, string> = { yellow: '黃', blue: '藍', green: '綠', black: '黑', red: '紅' };
+
+export function costText(cost: StoneCost): string {
+  return [cost.generic ? `任意色 ${cost.generic}` : '', ...STONE_COLORS.filter((color) => cost.colored[color]).map((color) => `${STONE_NAMES[color]} ${cost.colored[color]}`)].filter(Boolean).join(' ＋ ') || '免費';
+}
+
+export function handCardMarkup(card: Card, handId: number, index: number): string {
+  const cost = `${card.cost.generic ? `<span class="cost-generic" title="任意顏色">${card.cost.generic}</span>` : ''}${STONE_COLORS.filter((color) => card.cost.colored[color]).map((color) => `<span class="cost-stone" data-color="${color}">${STONE_NAMES[color]}${card.cost.colored[color]! > 1 ? `×${card.cost.colored[color]}` : ''}</span>`).join('')}`;
+  return `<button class="arena-card" data-testid="arena-hand-card" data-hand-card="${handId}" data-card="${card.id}" aria-pressed="false" style="--card-color:${card.color}" aria-label="${card.name}，費用 ${costText(card.cost)}，${card.description}"><span class="card-top"><kbd>${index + 1}</kbd><span class="card-cost">${cost}</span></span><canvas class="card-art" width="180" height="94" aria-hidden="true"></canvas><span class="card-name">${card.name}</span><span class="card-subtitle">${card.target === 'fighter' ? '指定鬥士' : '投向場地'}</span><span class="card-description">${card.description}</span><span class="card-affordability" data-affordability></span></button>`;
 }

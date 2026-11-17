@@ -5,6 +5,7 @@
 | 檔案 | 驗證範圍 |
 |------|----------|
 | [arena.test.ts](arena.test.ts) | 七人圓場、seed／倍速、暫停、卡牌扣費、體力恢復、投送拾取、碰撞、方向與法術到期 |
+| [arena-cards.test.ts](arena-cards.test.ts) | 三牌三石、實例付款、出牌補牌補石、三秒換石冷卻、seed 重現、牌堆回收及擊殺獎勵 |
 | [arena-p3.test.ts](arena-p3.test.ts) | 弓三箭與飛行、末箭結算、木棍耐久／擊飛、防禦與虛弱 |
 | [equipment.test.ts](equipment.test.ts) | 雙手盾衝突、最近者拾取、投送掃掠、暫停效果與末箭期間拒絕出牌 |
 | [projection.test.ts](projection.test.ts) | 不同畫布尺寸的投影／逆投影往返及世界座標場界 |

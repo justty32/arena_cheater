@@ -2,12 +2,25 @@ import { describe, expect, it } from 'vitest';
 import { advanceArena, createArena, playCard, toggleArena } from '../../src/arena/engine';
 import { act, hit } from '../../src/arena/engine-combat';
 import { advanceItems } from '../../src/arena/engine-items';
+import { CARDS, type CardId } from '../../src/arena/model';
 import type { ArenaState } from '../../src/arena/model';
 
 function run(state: ArenaState, seconds: number): void {
   for (let i = 0; i < Math.round(seconds * 30); i++) advanceArena(state, 1 / 30);
 }
 function running(): ArenaState { const state = createArena(42); toggleArena(state); return state; }
+
+function play(state: ArenaState, cardId: CardId, target: {fighterId?:string;x?:number;y?:number}): boolean {
+  const card = CARDS.find(card => card.id === cardId)!;
+  const id = state.nextId++;
+  state.hand.push({id,cardId});
+  const payment: number[] = [];
+  for (const [color, count] of Object.entries(card.cost.colored)) for (let i=0;i<count!;i++) {
+    const stone = {id:state.nextId++,color:color as typeof state.stones[number]['color']}; state.stones.push(stone); payment.push(stone.id);
+  }
+  for(let i=0;i<card.cost.generic;i++) {const stone={id:state.nextId++,color:'blue' as const};state.stones.push(stone);payment.push(stone.id);}
+  return playCard(state,id,target,payment);
+}
 
 describe('circular arena simulation', () => {
   it('spawns seven distinct fighters within the circular arena and resolves battles', () => {
@@ -32,13 +45,13 @@ describe('circular arena simulation', () => {
     expect(a).toEqual(b);
     expect(c.time).toBe(a.time);
     expect(c.fighters).toEqual(a.fighters);
-    expect(c.mana).toBe(a.mana);
+    expect(c.stones).toEqual(a.stones);
     expect(c.logs).toEqual(a.logs);
     expect(createArena(1).fighters).not.toEqual(createArena(2).fighters);
   });
   it('freezes battle, resources and flights while paused, and rejects invalid elapsed times', () => {
     const state = running();
-    playCard(state, 'sword', { x: 0, y: 0 });
+    play(state, 'sword', { x: 0, y: 0 });
     run(state, 0.3); toggleArena(state);
     const paused = structuredClone(state);
     advanceArena(state, 10);
@@ -50,59 +63,16 @@ describe('circular arena simulation', () => {
     run(state, 1);
     expect(state.time).toBeGreaterThan(paused.time);
   });
-  it('never spends resources on invalid targets or unavailable funds, and refreshes one buff', () => {
-    const state = running();
-    const original = state.mana;
-    expect(playCard(state, 'fury', { fighterId: 'missing' })).toBe(false);
-    expect(state.mana).toBe(original);
-    expect(playCard(state, 'sword', { x: 99, y: 0 })).toBe(false);
-    expect(state.gold).toBe(75);
+  it('casts while paused and freezes durations and new deliveries until resumed', () => {
+    const state = running(); toggleArena(state);
     const target = state.fighters[0];
-    expect(playCard(state, 'fury', { fighterId: target.id })).toBe(true);
-    expect(state.mana).toBe(original - 24);
-    expect(target.buffs).toHaveLength(1);
-    expect(playCard(state, 'fury', { fighterId: target.id })).toBe(true);
-    expect(target.buffs).toHaveLength(1);
-    state.mana = 0;
-    expect(playCard(state, 'trip', { fighterId: target.id })).toBe(false);
-  });
-  it('casts while paused but freezes spell durations, resources and new deliveries until resumed', () => {
-    const state = running();
-    toggleArena(state);
-    const target = state.fighters[0];
-    expect(playCard(state, 'fury', { fighterId: target.id })).toBe(true);
-    expect(playCard(state, 'trip', { fighterId: target.id })).toBe(true);
-    expect(playCard(state, 'sword', { x: 0, y: 0 })).toBe(true);
-    expect(state.mana).toBe(28);
-    expect(state.gold).toBe(50);
-    expect(target.buffs).toEqual([{ kind: 'fury', until: 8 }]);
-    expect(target.pose).toBe('fallen');
-    expect(target.poseUntil).toBe(2);
-    expect(state.items).toHaveLength(1);
+    expect(play(state, 'bloodlust', { fighterId: target.id })).toBe(true);
+    expect(play(state, 'sword', { x: 0, y: 0 })).toBe(true);
     const paused = structuredClone(state);
-    expect(playCard(state, 'haste', { fighterId: 'missing' })).toBe(false);
-    expect(playCard(state, 'shield', { x: 99, y: 0 })).toBe(false);
-    advanceArena(state, 10);
-    expect(state).toEqual(paused);
-    toggleArena(state);
-    run(state, 0.5);
-    expect(state.time).toBeCloseTo(0.5);
-    expect(target.buffs[0].until - state.time).toBeCloseTo(7.5);
-    expect(target.poseUntil - state.time).toBeCloseTo(1.5);
+    advanceArena(state, 10); expect(state).toEqual(paused);
+    toggleArena(state); run(state, 0.5);
+    expect(target.buffs[0].until - state.time).toBeCloseTo(4.5);
     expect(state.items[0].y).toBeLessThan(paused.items[0].y);
-    expect(state.mana).toBeGreaterThan(paused.mana);
-    run(state, 1);
-    expect(state.items.every(item => item.landed)).toBe(true);
-  });
-  it('rejects spells and deliveries before battle starts and after it finishes without spending', () => {
-    for (const status of ['ready', 'finished'] as const) {
-      const state = createArena(42);
-      state.status = status;
-      const before = structuredClone(state);
-      expect(playCard(state, 'fury', { fighterId: state.fighters[0].id })).toBe(false);
-      expect(playCard(state, 'sword', { x: 0, y: 0 })).toBe(false);
-      expect(state).toEqual(before);
-    }
   });
   it('waits two seconds after attack before stamina regeneration and rewards standing still', () => {
     const state = running(), fighter = state.fighters[0];
@@ -118,7 +88,7 @@ describe('circular arena simulation', () => {
   it('lands a thrown weapon before exactly one fighter can pick it up', () => {
     const state = running();
     const fighter = state.fighters[0]; fighter.x = 0; fighter.y = 0;
-    expect(playCard(state, 'sword', { x: 0, y: 0 })).toBe(true);
+    expect(play(state, 'sword', { x: 0, y: 0 })).toBe(true);
     const flight = state.items[0];
     state.time = flight.landsAt - 0.01; advanceItems(state);
     expect(fighter.weapon).toBe('fists');
@@ -131,8 +101,8 @@ describe('circular arena simulation', () => {
   });
   it('drops colliding deliveries without creating duplicates', () => {
     const state = running();
-    playCard(state, 'sword', { x: 0, y: 0 });
-    playCard(state, 'shield', { x: 0, y: 0 });
+    play(state, 'sword', { x: 0, y: 0 });
+    play(state, 'shield', { x: 0, y: 0 });
     state.fighters = []; // Isolate delivery collision from immediate nearby pickups.
     state.time = 0.4; advanceItems(state);
     expect(state.items).toHaveLength(2);
@@ -148,15 +118,10 @@ describe('circular arena simulation', () => {
     target.hp = health; target.pose = 'idle'; target.facing = 0; hit(state, attacker);
     expect(health - target.hp).toBeGreaterThan(frontDamage * 2);
   });
-  it('allows trip to interrupt an attack and removes an expired spell', () => {
-    const state = running(), target = state.fighters[0];
-    target.pose = 'attack'; target.poseUntil = 0.1;
-    playCard(state, 'trip', { fighterId: target.id });
-    expect(target.pose).toBe('fallen');
-    expect(target.poseUntil).toBe(2);
-    playCard(state, 'haste', { fighterId: target.id });
-    state.time = 9; act(state, target, 1 / 30);
-    expect(target.buffs).toHaveLength(0);
-    expect(target.pose).not.toBe('fallen');
+  it('refreshes bloodlust without stacking and removes it after expiry', () => {
+    const state=running(),target=state.fighters[0];
+    play(state,'bloodlust',{fighterId:target.id}); play(state,'bloodlust',{fighterId:target.id});
+    expect(target.buffs).toHaveLength(1);
+    state.time=6; act(state,target,1/30); expect(target.buffs).toHaveLength(0);
   });
 });

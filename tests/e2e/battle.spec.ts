@@ -126,11 +126,11 @@ for (const mode of ['duel', 'melee']) {
   });
 }
 
-test('手機版棋盤與控制不橫向溢位，支援觸控操作', async ({ browser }, testInfo) => {
-  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+test('手機版棋盤與控制不橫向溢位，支援觸控操作', async ({ browser, baseURL }, testInfo) => {
+  const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   const page = await context.newPage();
   const errors = observeErrors(page);
-  await page.goto('http://127.0.0.1:4173/?prototype=classic');
+  await page.goto('/?prototype=classic');
   await expect(page.getByTestId('board')).toBeVisible();
   await expect(page.locator('.board-cell')).toHaveCount(64);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
