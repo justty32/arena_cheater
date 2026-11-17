@@ -1,4 +1,5 @@
 import { ARENA_RADIUS, THROW_ORIGIN, THROW_TARGET_RADIUS, isThrowableTarget, isAreaSpellTarget, areaSpellTargets, type ArenaState, type Card, type Fighter } from './model';
+import { LabelLayout } from './label-layout';
 import { drawAreaEffect, drawAreaPreview } from './area-art';
 import { drawPuppet, drawWeapon } from './puppet';
 import { drawThrowable, drawThrowImpact } from './thrown-art';
@@ -14,6 +15,9 @@ export class ArenaView {
   private projection: Projection = createProjection(1000,600);
   private width = 1000;
   private height = 600;
+  private labels = new LabelLayout();
+  private labelState?: ArenaState;
+  private labelSupport?: string;
   constructor(private canvas: HTMLCanvasElement) {
     const ctx=canvas.getContext('2d');if(!ctx)throw new Error('無法建立競技場畫布');this.ctx=ctx;
     canvas.setAttribute('aria-label','45 度俯視競技場；點擊鬥士查看或施法，點擊地面投送武器或施放範圍法術');
@@ -47,6 +51,7 @@ export class ArenaView {
   private actorScale(f: Fighter): number {return this.projection.scale/38*(f.species==='bear'||f.species==='elephant'?1.13:1);}
   render(state: ArenaState, selectedId: string, targetMode?: Card['target']|null, targetCard?: Card, aim?: {x:number;y:number}): void {
     this.resize();const ctx=this.ctx,p=this.projection;
+    if(this.labelState!==state||this.labelSupport!==state.supportedId){this.labels.reset();this.labelState=state;this.labelSupport=state.supportedId;}
     ctx.lineWidth=1;ctx.lineCap='butt';ctx.lineJoin='miter';ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.setLineDash([]);
     ctx.clearRect(0,0,this.width,this.height);this.venue(state.time);
     if(targetMode==='ground'){
@@ -69,6 +74,7 @@ export class ArenaView {
     const things=[...state.fighters.map(f=>({y:f.y,f})),...state.items.map(item=>({y:item.y,item}))].sort((a,b)=>a.y-b.y);
     for(const thing of things){if('f'in thing)this.fighter(thing.f,state);else this.item(thing.item,state);}
     for(const arrow of state.arrows)this.arrow(arrow);
+    this.fighterLabels(state);
     for(const effect of state.effects){const age=state.time-effect.at;if(age<0||age>1.2)continue;
       const at=project(effect.x,effect.y,p);ctx.save();ctx.globalAlpha=Math.max(0,1-age/1.2);
       if(effect.kind==='spell'){ctx.strokeStyle=effect.color;ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(at.x,at.y,10+age*35,4+age*15,0,0,Math.PI*2);ctx.stroke();}
@@ -84,17 +90,46 @@ export class ArenaView {
     const ctx=this.ctx,at=this.visualPosition(f,state.time),s=this.actorScale(f);
     ctx.save();ctx.translate(at.x,at.y);drawPuppet(ctx,f,state.time,s);ctx.restore();
     if(f.hp<=0)return;
-    const w=40*s,y=at.y-70*s;ctx.fillStyle='#14141bd9';ctx.fillRect(at.x-w/2-2,y-2,w+4,9);
-    ctx.fillStyle=f.id===state.supportedId?'#85c5a2':'#c59c6b';ctx.fillRect(at.x-w/2,y,w*Math.max(0,f.hp/f.maxHp),3);
-    ctx.fillStyle='#649aab';ctx.fillRect(at.x-w/2,y+4,w*Math.max(0,f.stamina/f.maxStamina),2);
-    ctx.font=`${Math.max(9,10*s)}px system-ui`;ctx.textAlign='center';ctx.fillStyle='#e1d7c1';ctx.strokeStyle='#1c1b22';ctx.lineWidth=3;
-    const label = `${f.id === state.supportedId ? '◆ ' : ''}${f.name}`;
-    ctx.strokeText(label,at.x,y-5);ctx.fillText(label,at.x,y-5);
+    ctx.font=`${Math.max(9,10*s)}px system-ui`;ctx.textAlign='center';
     if(f.buffs.some(b=>b.kind==='fury')){
       ctx.fillStyle='#f7d498';ctx.strokeStyle='#382419';ctx.lineWidth=3;ctx.font=`bold ${Math.max(10,11*s)}px system-ui`;
       ctx.strokeText('狂熱',at.x+5,at.y+18*s);ctx.fillText('狂熱',at.x+5,at.y+18*s);
       ctx.strokeStyle='#f7d498';ctx.lineWidth=1.5;for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(at.x-16+i*3,at.y+10*s);ctx.lineTo(at.x-19+i*3,at.y+18*s);ctx.stroke();}
     } else if(f.buffs.length){ctx.fillStyle=f.buffs.some(b=>b.kind==='weakness')?'#bd9ce1':'#f0c36d';ctx.fillText('✦'.repeat(f.buffs.length),at.x,at.y+17*s);}
+  }
+  private fighterLabels(state:ArenaState):void {
+    const ctx=this.ctx;
+    const entries=state.fighters.filter(f=>f.hp>0).map(f=>{
+      const at=this.visualPosition(f,state.time),s=this.actorScale(f),font=Math.max(9,10*s);
+      const name=`${f.id===state.supportedId?'◆ ':''}${f.name}`;
+      ctx.font=`${font}px system-ui`;
+      const barWidth=Math.max(30,40*s),width=Math.max(ctx.measureText(name).width+8,barWidth+8),height=font+13;
+      return {f,at,font,name,barWidth,id:f.id,priority:f.id===state.supportedId?0:1,x:at.x-width/2,y:at.y-68*s-height-5,width,height,headY:at.y-61*s,actorScale:s};
+    });
+    const obstacles=entries.map(e=>({id:e.id,x:e.at.x-20*e.actorScale,y:e.at.y-68*e.actorScale,width:40*e.actorScale,height:74*e.actorScale}));
+    const placed=this.labels.arrange(entries,{width:this.width,height:this.height},state.time,obstacles);
+    this.canvas.dataset.labelFallback=placed.filter(label=>label.fallback).map(label=>label.id).join(',');
+    ctx.save();
+    // Leaders are behind every block, so they cannot cross through readable text.
+    for(const label of placed){
+      const entry=entries.find(e=>e.id===label.id)!;
+      if(label.displaced){
+        ctx.strokeStyle=entry.f.id===state.supportedId?'#85c5a2':'#d5c9a9a8';ctx.lineWidth=entry.f.id===state.supportedId?1.2:.8;ctx.beginPath();
+        ctx.moveTo(Math.max(label.x+3,Math.min(label.x+label.width-3,entry.at.x)),Math.max(label.y,Math.min(label.y+label.height,entry.headY)));ctx.lineTo(entry.at.x,entry.headY);ctx.stroke();
+        ellipse(ctx,entry.at.x,entry.headY,1.5,1.5,'#e1d7c1');
+      }
+    }
+    for(const label of placed){
+      const {f,font,name,barWidth}=entries.find(e=>e.id===label.id)!;
+      const center=label.x+label.width/2,barY=label.y+font+5;
+      ctx.fillStyle='#14141bd9';ctx.fillRect(label.x,label.y,label.width,label.height);
+      ctx.font=`${font}px system-ui`;ctx.textAlign='center';ctx.textBaseline='alphabetic';
+      ctx.fillStyle='#e1d7c1';ctx.fillText(name,center,label.y+font+1);
+      ctx.fillStyle='#34333a';ctx.fillRect(center-barWidth/2,barY,barWidth,6);
+      ctx.fillStyle=f.id===state.supportedId?'#85c5a2':'#c59c6b';ctx.fillRect(center-barWidth/2,barY,barWidth*Math.max(0,f.hp/f.maxHp),3);
+      ctx.fillStyle='#649aab';ctx.fillRect(center-barWidth/2,barY+4,barWidth*Math.max(0,f.stamina/f.maxStamina),2);
+    }
+    ctx.restore();
   }
   private direction(f:Fighter,x:number,y:number,scale:number):void{
     const ctx=this.ctx,a=f.facing,r=24*scale;

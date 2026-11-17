@@ -1,6 +1,6 @@
 # 戰鬥模擬測試
 
-不依賴瀏覽器的核心行為回歸；執行方式與驗收範圍見 [testing](../../wf/workflows/testing.md)。
+不依賴瀏覽器的核心行為與呈現幾何回歸；執行方式與驗收範圍見 [testing](../../wf/workflows/testing.md)。
 
 | 檔案 | 驗證範圍 |
 |------|----------|
@@ -10,6 +10,7 @@
 | [arena-throws.test.ts](arena-throws.test.ts) | 投擲首次命中與混合碰撞排序、超距狀態不變、盾與陶罐、一次性物件、在途投送物結算、狼擊殺狂熱與鹿高速、最新投送結果綁定及同一投送命中／拾取更新 |
 | [arena-p3.test.ts](arena-p3.test.ts) | 弓三箭與飛行、末箭結算、木棍耐久／擊飛、防禦與虛弱 |
 | [equipment.test.ts](equipment.test.ts) | 雙手盾衝突、最近者拾取、投送掃掠 |
+| [label-layout.test.ts](label-layout.test.ts) | 群聚標籤／角色矩形避讓、resize界內、暫停穩定與新局清除偏移記憶；不判斷美術品質 |
 | [projection.test.ts](projection.test.ts) | 不同畫布尺寸的投影／逆投影往返及世界座標場界 |
 | [battle.test.ts](battle.test.ts) | 完整對局、格位與資源、seed、倍速、暫停與動作耗能 |
 | [potion.test.ts](potion.test.ts) | 藥劑有效／無效目標、資源邊界 |

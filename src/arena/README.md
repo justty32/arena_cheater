@@ -19,7 +19,8 @@
 | [puppet.ts](puppet.ts) | 階層骨骼、獸人部件與手部裝備繪製 |
 | [thrown-art.ts](thrown-art.ts) | 石頭、陶罐及投擲命中碎片繪製 |
 | [area-art.ts](area-art.ts) | 範圍法術卡面、投影預覽圈及依遊戲時鐘演出的雷紋 |
-| [view.ts](view.ts) | Canvas 場地、八門、遮擋排序、箭矢／投送、特效及選取判定 |
+| [label-layout.ts](label-layout.ts) | 畫面座標中的姓名與資源條避讓配置，不改角色碰撞或選取位置 |
+| [view.ts](view.ts) | Canvas 場地、八門、遮擋排序、角色標籤、箭矢／投送、特效及選取判定 |
 | [layout.ts](layout.ts) | 靜態 DOM 佈局、控制項、卡牌標記、費用文案與 Canvas 卡面 |
 | [hand-view.ts](hand-view.ts) | 手牌及石頭節點同步、費用可付與付款預覽 |
 | [support-hud.ts](support-hud.ts) | 固定顯示支持者姓名、生命與陣亡狀態，並提示陣亡 |
