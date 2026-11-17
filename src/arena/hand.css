@@ -25,7 +25,7 @@
 .stone-help { font-size: 10px; line-height: 1.75; color: #a4ac94; margin: 9px 0 0; }
 .hand-play { min-width: 0; }
 .arena-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; overflow: visible; padding: 3px 2px 12px; max-width: 690px; margin: 0 auto; }
-.arena-card { min-height: 220px; padding: 10px 13px; touch-action: none; }
+.arena-card { min-height: 220px; padding: 10px 13px; touch-action: pan-y; }
 .arena-card.is-unaffordable { border-top-color: #585b4c; }
 .arena-card.is-unaffordable .card-affordability { color: #d5a898; }
 .arena-card.is-unaffordable .card-art { opacity: .65; }

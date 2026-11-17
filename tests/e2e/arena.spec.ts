@@ -183,9 +183,12 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   const page = await context.newPage(); const errors = observeErrors(page);
   await open(page);
-  const opening = await seek(page, state => state.hand.some(card => card.cardId === 'bow'));
+  const opening = await seek(page, state => state.hand.some(card => card.cardId === 'bow') &&
+    state.hand.filter(card => CARDS.find(definition => definition.id === card.cardId)!.target === 'ground').length >= 2);
+  const openingBow = opening.hand.find(card => card.cardId === 'bow')!;
+  const panCard = opening.hand.find(card => card.id !== openingBow.id && CARDS.find(definition => definition.id === card.cardId)!.target === 'ground')!;
   await paused(page);
-  await cardButton(page, opening.hand.find(card => card.cardId === 'bow')!.id).tap();
+  await cardButton(page, openingBow.id).tap();
   await center(page);
   await expect(page.getByTestId('arena-recent-throw')).toBeVisible();
   for (const viewport of [{ width: 390, height: 844 }, { width: 320, height: 740 }]) {
@@ -209,7 +212,8 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   await expect(hud).toHaveAttribute('data-fighter-id', supportedId!);
   await page.getByTestId('arena-fighters-toggle').tap();
   const before = await inventory(page);
-  await hand(page).first().tap();
+  const scrollingCard = cardButton(page, panCard.id);
+  await scrollingCard.tap();
   await page.getByTestId('arena-effect-toggle').tap();
   await expect(page.getByTestId('arena-card-detail')).toBeVisible();
   await page.getByTestId('arena-effect-toggle').tap();
@@ -219,7 +223,29 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   await stones(page).first().tap();
   await expect(stones(page).first()).toHaveAttribute('aria-pressed', String(selected !== 'true'));
   expect(await inventory(page)).toEqual(before);
-  await page.locator('[data-cancel]').tap();
+  await stones(page).first().tap();
+  await expect(page.getByTestId('arena-payment')).toHaveAttribute('data-valid', 'true');
+  const chosenStones = await stones(page).evaluateAll(nodes => nodes.filter(node => node.getAttribute('aria-pressed') === 'true').map(node => node.getAttribute('data-stone')));
+  await scrollingCard.scrollIntoViewIfNeeded();
+  const panBox = await scrollingCard.boundingBox();
+  const panPoint = { x: panBox!.x + panBox!.width / 2, y: panBox!.y + panBox!.height / 2 };
+  const scrollBefore = await page.evaluate(() => scrollY);
+  const touch = await context.newCDPSession(page);
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [panPoint] });
+  for (let step = 1; step <= 8; step++) {
+    await touch.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: panPoint.x, y: panPoint.y - step * 12 }] });
+  }
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(scrollBefore);
+  expect(await inventory(page)).toEqual(before);
+  await expect(scrollingCard).toHaveAttribute('aria-pressed', 'true');
+  expect(await stones(page).evaluateAll(nodes => nodes.filter(node => node.getAttribute('aria-pressed') === 'true').map(node => node.getAttribute('data-stone')))).toEqual(chosenStones);
+  await expect(page.locator('[data-drag-label]')).toBeHidden();
+  const canvas = page.getByTestId('arena-canvas');
+  await canvas.scrollIntoViewIfNeeded();
+  const canvasBox = await canvas.boundingBox();
+  await canvas.tap({ position: project(0, 6, createProjection(canvasBox!.width, canvasBox!.height)) });
+  await expect(scrollingCard).toHaveCount(0);
   await page.locator('[data-speed="2"]').tap(); await page.getByTestId('arena-start').tap();
   await page.clock.runFor(2000);
   const time = await page.getByTestId('arena-time').innerText();

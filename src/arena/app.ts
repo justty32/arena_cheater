@@ -175,7 +175,7 @@ export function mountArena(root: HTMLElement): void {
   start.addEventListener('click', () => {
     if (state.status === 'finished') reset();
     toggleArena(state);
-    feedback = state.status === 'running' ? '戰鬥開始。把卡牌拖進競技場，或先選卡再點目標。' : '戰鬥已暫停，仍可出牌；效果倒數、換石冷卻與動畫保持停止。';
+    feedback = state.status === 'running' ? '戰鬥開始。點牌再點目標；滑鼠也可拖牌進場。' : '戰鬥已暫停，仍可出牌；效果倒數、換石冷卻與動畫保持停止。';
     render();
   });
   el('[data-testid="arena-reset"]').addEventListener('click', reset);
@@ -298,6 +298,8 @@ export function mountArena(root: HTMLElement): void {
       select(handId);
     });
     button.addEventListener('pointerdown', (event) => {
+      // Touch cards scroll natively; taps select a card and the next target casts it.
+      if (event.pointerType === 'touch') { suppressClick = false; return; }
       if (event.button !== 0 || exchanging) return;
       cancelCardDrag?.();
       dragStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };

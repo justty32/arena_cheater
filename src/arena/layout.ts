@@ -28,8 +28,8 @@ export function arenaLayout(fighters: Fighter[]): string {
           <div class="hand-play"><div class="arena-cards" data-hand-list></div><div class="card-detail" data-testid="arena-card-detail"><details class="card-effect" data-mobile-panel="effect" open><summary data-testid="arena-effect-toggle">完整效果與操作說明</summary><p data-selected-description>選牌後點擊鬥士施法，或點擊場地投送武器。</p></details><p class="throw-instruction" data-testid="arena-throw-range" hidden></p><p class="area-instruction" data-testid="arena-area-preview" data-target-count="0" data-valid="false" hidden></p></div></div>
           <details class="hand-exchange" data-mobile-panel="exchange" open><summary data-testid="arena-exchange-toggle">棄牌換石</summary><span class="section-eyebrow">A CHANGE OF FORTUNE</span><h3>換個手氣</h3><p>放棄一張手牌，重抽部分魔法石。</p><button data-testid="arena-redraw">棄牌換石</button><div data-redraw-controls hidden><p data-testid="arena-redraw-preview"></p><button data-testid="arena-redraw-confirm">確認換石</button></div><small data-redraw-help>先選一張要放棄的手牌。</small></details>
         </div>
-        <div class="hand-footer"><p data-testid="arena-feedback" role="status" aria-live="polite"></p><span class="hand-tip">1–3 選牌 · 拖曳或點選施放</span></div>
-        <details class="hand-guide"><summary>怎麼動手腳？</summary><p>起手三張牌、三顆魔法石。成功出牌後補兩顆石頭與一張牌；你支持的鬥士每次擊殺，再獲得三顆魔法石。彩色費用必須用同色石頭，數字費用可用任意顏色。選牌時會預選支付用石；點石頭可取消或改選，點目標才實際花費。</p></details>
+        <div class="hand-footer"><p data-testid="arena-feedback" role="status" aria-live="polite"></p><span class="hand-tip">1–3 選牌 · 滑鼠拖曳或點選施放</span></div>
+        <details class="hand-guide"><summary>怎麼動手腳？</summary><p>觸控先點牌，再點場內目標；滑鼠也可拖牌施放。起手三張牌、三顆魔法石。成功出牌後補兩顆石頭與一張牌；你支持的鬥士每次擊殺，再獲得三顆魔法石。彩色費用必須用同色石頭，數字費用可用任意顏色。選牌時會預選支付用石；點石頭可取消或改選，點目標才實際花費。</p></details>
       </section>
     </main>
     <footer class="arena-footer"><span>沒有人喜歡作弊，除了贏的那個。</span><a href="?prototype=classic">舊版棋盤原型 ↗</a></footer>
