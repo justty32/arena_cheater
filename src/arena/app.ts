@@ -72,6 +72,11 @@ export function mountArena(root: HTMLElement): void {
 
 
   function render(): void {
+    const resolving = (state.status === 'running' || state.status === 'paused') && isResolvingArena(state);
+    const resolvingTitle = state.status === 'paused' ? '結算暫停' : '結算中';
+    const resolvingMessage = resolving ? state.status === 'paused'
+      ? '結算已暫停；按「繼續」完成結算。本場不可再出牌或換石。'
+      : '正在結算在途投擲物與箭，本場不可再出牌或換石。' : '';
     if (activeHandId !== undefined && !state.hand.some((hand) => hand.id === activeHandId)) clearSelection();
     const activeCard = currentCard();
     if (activeHandId !== paymentHandId) {
@@ -89,15 +94,15 @@ export function mountArena(root: HTMLElement): void {
     el('[data-testid="arena-time"]').textContent = `${Math.floor(state.time / 60).toString().padStart(2, '0')}:${Math.floor(state.time % 60).toString().padStart(2, '0')}`;
     el('[data-alive]').textContent = state.fighters.filter((f) => f.hp > 0).length.toString();
     el('[data-round]').textContent = `第 ${round.toString().padStart(2, '0')} 場`;
-    el('[data-status]').textContent = state.status === 'running' && isResolvingArena(state) ? '等待在途投擲物與箭結算' : { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
+    el('[data-status]').textContent = resolving ? resolvingTitle : { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
     start.textContent = { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '直接再戰' }[state.status];
-    el('[data-testid="arena-feedback"]').textContent = feedback;
-    el('[data-card-prompt]').textContent = exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? '點選鬥士施法' : '點選場地投送'}` : '三張手牌，改寫勝負';
+    el('[data-testid="arena-feedback"]').textContent = resolvingMessage || feedback;
+    el('[data-card-prompt]').textContent = resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? '點選鬥士施法' : '點選場地投送'}` : '三張手牌，改寫勝負';
     const deliveryDescription = activeCard && ['sword', 'club', 'bow'].includes(activeCard.id)
       ? '投送途中可能傷到任何鬥士，包含你支持的鬥士；碰撞會使裝備提前落地，之後可能被其他鬥士拾取。'
       : activeCard?.id === 'shield' ? '投送途中命中鬥士會截停並落地，不造成投擲傷害；落地後可能被其他鬥士拾取。' : '';
-    el('[data-selected-description]').textContent = activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}${deliveryDescription ? ` ${deliveryDescription}` : ''}` : '選牌後點擊鬥士施法，或點擊場地投送武器。';
-    el('[data-testid="arena-payment"]').textContent = exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard && paymentCheck ? paymentReadout(state, activeCard, payment, paymentCheck) : '每次成功出牌，補兩顆魔法石與一張手牌。';
+    el('[data-selected-description]').textContent = activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}${deliveryDescription ? ` ${deliveryDescription}` : ''}` : resolvingMessage || '選牌後點擊鬥士施法，或點擊場地投送武器。';
+    el('[data-testid="arena-payment"]').textContent = resolvingMessage || (exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard && paymentCheck ? paymentReadout(state, activeCard, payment, paymentCheck) : '每次成功出牌，補兩顆魔法石與一張手牌。');
     el('[data-testid="arena-payment"]').dataset.valid = String(!exchanging && Boolean(paymentCheck?.valid));
     el('[data-testid="arena-payment-auto"]').hidden = !activeCard || exchanging;
     el('[data-testid="arena-card-detail"]').classList.toggle('is-empty', !activeCard);
