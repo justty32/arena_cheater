@@ -1,4 +1,4 @@
-import { CARDS, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isResolvingArena, type ArenaState, type Fighter, type ThrownItem, type ThrownKind, type Weapon } from './model';
+import { CARDS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isResolvingArena, type ArenaState, type Fighter, type ThrownItem, type ThrownKind, type Weapon } from './model';
 import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime } from './geometry';
@@ -13,8 +13,13 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
   if (!card || !canPayCost(state, card.cost, stoneIds)) return false;
   const fighter = state.fighters.find(value => value.id === target.fighterId && value.hp > 0);
   const { x, y } = target;
+  let areaTargets: Fighter[] = [];
   if (card.target === 'fighter') {
     if (!fighter || (card.id === 'growth' && fighter.hp >= fighter.maxHp)) return false;
+  } else if (card.target === 'area') {
+    if (x === undefined || y === undefined) return false;
+    areaTargets = areaSpellTargets(state.fighters,card,{x,y});
+    if (!areaTargets.length) return false;
   } else if (x === undefined || y === undefined || !isThrowableTarget(card,{x,y})) return false;
   consumeCard(state, handCardId, stoneIds);
   if (card.target === 'fighter' && fighter) {
@@ -26,6 +31,13 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
     if (card.id === 'growth') fighter.hp = Math.min(fighter.maxHp, fighter.hp + 10);
     effect(state, fighter, card.name, card.color, 'spell');
     log(state, `${card.name} → ${fighter.name}`);
+  } else if (card.target === 'area') {
+    for (const target of areaTargets) {
+      applyHealthDamage(state,target,card.damage);
+      effect(state,target,`−${card.damage}`,'#f0a393');
+    }
+    state.effects.push({id:state.nextId++,x:x!,y:y!,at:state.time,kind:'area',areaRadius:card.areaRadius,cardId:card.id,text:card.name,color:card.color});
+    log(state,`${card.name}命中 ${areaTargets.length} 名鬥士`);
   } else {
     const {x:fromX,y:fromY} = THROW_ORIGIN;
     state.items.push({ id: state.nextId++, weapon: card.id as ThrownKind, x: fromX, y: fromY, fromX, fromY,

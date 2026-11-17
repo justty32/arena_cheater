@@ -13,7 +13,7 @@ function cast(state:ArenaState):boolean {
  return playCard(state,state.hand[0].id,{fighterId:state.fighters[0].id,x:0,y:0},findPayment(state,card.cost)??[]);
 }
 describe('V2 cards and stones',()=>{
- it('deals three cards and three stones from a reproducible eighteen-card deck',()=>{
+ it('deals three cards and three stones from a reproducible finite deck',()=>{
   const a=createArena(42);expect(a).toEqual(createArena(42));expect(a.hand).toHaveLength(3);expect(a.stones).toHaveLength(3);
   const all=[...a.hand.map(c=>c.cardId),...a.deck];for(const card of CARDS)expect(all.filter(id=>id===card.id)).toHaveLength(2);
  });
@@ -107,12 +107,12 @@ describe('V2 cards and stones',()=>{
    expect(redrawStones(state,state.hand[0].id,[state.stones[0].id])).toBe(true);
    if(wasEmpty)reshuffles++;
    const all=[...state.deck,...state.discard,...state.hand.map(card=>card.cardId)];
-   expect(all).toHaveLength(18);
+   expect(all).toHaveLength(CARDS.length*2);
    for(const card of CARDS)expect(all.filter(id=>id===card.id)).toHaveLength(2);
    expect(new Set(state.hand.map(card=>card.id)).size).toBe(3);
    state.time+=3;
   }
-  expect(reshuffles).toBeGreaterThanOrEqual(3);
+  expect(reshuffles).toBeGreaterThanOrEqual(2);
  });
  it('does not reward kills made by an unsupported melee fighter or archer',()=>{
   const state=ready(),[,attacker,meleeTarget,arrowTarget]=state.fighters;

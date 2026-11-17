@@ -1,4 +1,5 @@
-import { ARENA_RADIUS, THROW_ORIGIN, THROW_TARGET_RADIUS, isThrowableTarget, type ArenaState, type Card, type Fighter } from './model';
+import { ARENA_RADIUS, THROW_ORIGIN, THROW_TARGET_RADIUS, isThrowableTarget, isAreaSpellTarget, areaSpellTargets, type ArenaState, type Card, type Fighter } from './model';
+import { drawAreaEffect, drawAreaPreview } from './area-art';
 import { drawPuppet, drawWeapon } from './puppet';
 import { drawThrowable, drawThrowImpact } from './thrown-art';
 import { airborneHeight, riseProgress } from './animation';
@@ -15,7 +16,7 @@ export class ArenaView {
   private height = 600;
   constructor(private canvas: HTMLCanvasElement) {
     const ctx=canvas.getContext('2d');if(!ctx)throw new Error('無法建立競技場畫布');this.ctx=ctx;
-    canvas.setAttribute('aria-label','45 度俯視競技場；點擊鬥士查看或施法，點擊地面投送武器');
+    canvas.setAttribute('aria-label','45 度俯視競技場；點擊鬥士查看或施法，點擊地面投送武器或施放範圍法術');
   }
   private resize(): void {
     const rect=this.canvas.getBoundingClientRect();this.width=Math.max(1,rect.width);this.height=Math.max(1,rect.height);
@@ -44,7 +45,7 @@ export class ArenaView {
     at.y-=airborneHeight(f,time)*this.projection.scale*FORESHORTENING;return at;
   }
   private actorScale(f: Fighter): number {return this.projection.scale/38*(f.species==='bear'||f.species==='elephant'?1.13:1);}
-  render(state: ArenaState, selectedId: string, targetMode?: 'fighter'|'ground'|null, targetCard?: Card, aim?: {x:number;y:number}): void {
+  render(state: ArenaState, selectedId: string, targetMode?: Card['target']|null, targetCard?: Card, aim?: {x:number;y:number}): void {
     this.resize();const ctx=this.ctx,p=this.projection;
     ctx.lineWidth=1;ctx.lineCap='butt';ctx.lineJoin='miter';ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.setLineDash([]);
     ctx.clearRect(0,0,this.width,this.height);this.venue(state.time);
@@ -53,12 +54,16 @@ export class ArenaView {
       ctx.beginPath();ctx.ellipse(p.cx,p.cy,THROW_TARGET_RADIUS*p.scale,THROW_TARGET_RADIUS*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.stroke();ctx.restore();
     }
     if(targetMode==='ground'&&targetCard?.throwRange)this.throwGuide(targetCard,aim);
+    const areaTargets = targetMode==='area'&&targetCard?.target==='area'&&aim ? areaSpellTargets(state.fighters,targetCard,aim) : [];
+    if(targetMode==='area'&&targetCard?.target==='area'&&aim)drawAreaPreview(ctx,p,aim,targetCard.areaRadius,targetCard.color,isAreaSpellTarget(targetCard,aim),areaTargets.length);
+    for(const effect of state.effects)if(effect.kind==='area')drawAreaEffect(ctx,p,effect,state.time);
     for(const f of state.fighters){const at=project(f.x,f.y,p);const s=this.actorScale(f);
       ellipse(ctx,at.x,at.y+3,17*s,6*s,'#14111666');
       if(f.hp>0&&(f.id===selectedId||f.id===state.supportedId)){
         ctx.save();ctx.lineWidth=f.id===selectedId?2:1;ellipse(ctx,at.x,at.y,21*s,9*s,'#00000000',f.id===selectedId?'#f2d18a':'#89c4ac');ctx.restore();
       }
       if(f.hp>0)this.direction(f,at.x,at.y,s);
+      if(areaTargets.some(target=>target.id===f.id)){ctx.save();ctx.strokeStyle=targetCard!.color;ctx.lineWidth=2.5;ellipse(ctx,at.x,at.y,24*s,10*s,'#ffffff0a',ctx.strokeStyle);const visual=this.visualPosition(f,state.time);ctx.strokeRect(visual.x-22*s,visual.y-65*s,44*s,70*s);ctx.restore();}
       if(targetMode==='fighter'&&f.hp>0){const visual=this.visualPosition(f,state.time);ctx.strokeStyle='#dfc28399';ctx.lineWidth=1;ctx.strokeRect(visual.x-20*s,visual.y-62*s,40*s,66*s);}
     }
     const things=[...state.fighters.map(f=>({y:f.y,f})),...state.items.map(item=>({y:item.y,item}))].sort((a,b)=>a.y-b.y);

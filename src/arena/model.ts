@@ -1,7 +1,7 @@
 export type Species = 'wolf' | 'bear' | 'elephant' | 'bull' | 'porcupine' | 'snake' | 'deer';
 export type Weapon = 'fists' | 'sword' | 'club' | 'shield' | 'bow';
 export type ThrownKind = Exclude<Weapon, 'fists'> | 'stone' | 'pot';
-export type CardId = 'sword' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot';
+export type CardId = 'sword' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath';
 export type StoneColor = 'yellow' | 'blue' | 'green' | 'black' | 'red';
 export interface MagicStone { id: number; color: StoneColor }
 export interface HandCard { id: number; cardId: CardId }
@@ -18,13 +18,14 @@ export interface Fighter {
 }
 export interface ThrownItem { id: number; weapon: ThrownKind; x: number; y: number; fromX: number; fromY: number; toX: number; toY: number; launched: number; landsAt: number; landed: boolean }
 export interface Arrow { id: number; ownerId: string; x: number; y: number; vx: number; vy: number; damage: number; expiresAt: number }
-export interface ArenaEffect { id: number; x: number; y: number; text: string; color: string; at: number; kind: 'hit' | 'spell' | 'pickup' | 'impact'; itemKind?: ThrownKind }
+export interface ArenaEffect { id: number; x: number; y: number; text: string; color: string; at: number; kind: 'hit' | 'spell' | 'pickup' | 'impact' | 'area'; itemKind?: ThrownKind; areaRadius?: number; cardId?: CardId }
 export interface ArenaState {
  seed: number; time: number; accumulator: number; status: 'ready' | 'running' | 'paused' | 'finished'; speed: number;
  fighters: Fighter[]; items: ThrownItem[]; arrows: Arrow[]; effects: ArenaEffect[]; logs: string[];
  hand: HandCard[]; stones: MagicStone[]; randomState: number; deck: CardId[]; discard: CardId[]; redrawAvailableAt: number; supportedId: string; winnerId?: string; nextId: number;
 }
-export interface Card { id: CardId; name: string; subtitle: string; description: string; cost: StoneCost; target: 'fighter' | 'ground'; throwRange?: number; color: string; icon: string }
+interface CardBase { id: CardId; name: string; subtitle: string; description: string; cost: StoneCost; throwRange?: number; color: string; icon: string }
+export type Card = CardBase & ({ target: 'fighter' | 'ground' } | { target: 'area'; areaRadius: number; damage: number });
 export const ARENA_RADIUS = 7.5;
 export const THROW_TARGET_RADIUS = ARENA_RADIUS - 0.2;
 export const THROW_ORIGIN = { x: 0, y: ARENA_RADIUS };
@@ -38,7 +39,16 @@ export function isThrowableTarget(card: Card, target: {x:number;y:number}): bool
   Math.hypot(target.x,target.y) <= THROW_TARGET_RADIUS &&
   (card.throwRange === undefined || Math.hypot(target.x-THROW_ORIGIN.x,target.y-THROW_ORIGIN.y) <= card.throwRange);
 }
+export function isAreaSpellTarget(card: Card, point: {x:number;y:number}): boolean {
+ return card.target === 'area' && Number.isFinite(point.x) && Number.isFinite(point.y) && Math.hypot(point.x,point.y) <= ARENA_RADIUS;
+}
+export function areaSpellTargets(fighters: readonly Fighter[], card: Card, point: {x:number;y:number}): Fighter[] {
+ if (card.target !== 'area' || !isAreaSpellTarget(card,point)) return [];
+ return fighters.filter(fighter => fighter.hp > 0 && Math.hypot(fighter.x-point.x,fighter.y-point.y) <= card.areaRadius);
+}
 export const CARDS: Card[] = [
+ { id:'lightning-rain',name:'閃電雨',subtitle:'範圍法術',description:'直徑 3 公尺內的鬥士受到 1 點傷害',cost:{generic:0,colored:{red:1}},target:'area',areaRadius:1.5,damage:1,color:'#df776a',icon:'ϟ' },
+ { id:'divine-wrath',name:'神怒',subtitle:'範圍法術',description:'直徑 5 公尺內的鬥士受到 3 點傷害',cost:{generic:0,colored:{red:4}},target:'area',areaRadius:2.5,damage:3,color:'#e8b16a',icon:'✹' },
  { id:'stone',name:'石頭',subtitle:'一次性投擲',description:'直線投擲，命中造成 1 點傷害；最遠 5 公尺',cost:{generic:1,colored:{}},target:'ground',throwRange:5,color:'#a6adb5',icon:'●' },
  { id:'pot',name:'陶罐',subtitle:'一次性投擲',description:'命中造成 3 點傷害，無視防禦；最遠 2 公尺',cost:{generic:2,colored:{}},target:'ground',throwRange:2,color:'#c58f67',icon:'▱' },
  { id:'sword',name:'直劍',subtitle:'投送裝備',description:'單手劍；落地後可被任何鬥士拾取',cost:{generic:2,colored:{}},target:'ground',color:'#b7c9d0',icon:'†' },

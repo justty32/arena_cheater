@@ -7,7 +7,8 @@ import { observeErrors } from './helpers';
 async function open(page: Page) {
   await page.clock.install({ time: new Date('2026-11-17T00:00:00Z') });
   await page.goto('/');
-  await expect(page.getByTestId('arena-canvas')).toBeVisible();
+  // The document load event does not wait for the mode’s dynamic import.
+  await expect(page.getByTestId('arena-canvas')).toBeVisible({ timeout: 15_000 });
   await page.clock.pauseAt(new Date('2026-11-17T01:00:00Z'));
 }
 const hand = (page: Page) => page.locator('button[data-hand-card]');
@@ -210,5 +211,45 @@ test('射程投擲拒絕遠處目標，合法投擲後顯示戰報', async ({ pa
   await page.getByTestId('arena-start').click(); await page.clock.runFor(900);
   await expect(page.locator('[data-log]')).toContainText(new RegExp(`${name}(命中|落地|碎裂)`));
   await expect(page.locator('[data-log]')).not.toContainText(`拾取${name}`);
+  expect(errors).toEqual([]);
+});
+
+test('範圍法術預覽區分空圈與有效目標，點地施放後更新回饋', async ({ page }) => {
+  const errors = observeErrors(page);
+  await open(page);
+  const state = await seek(page, s => s.hand.some(h => h.cardId === 'lightning-rain' && findPayment(s, CARDS.find(c => c.id === h.cardId)!.cost)));
+  const instance = state.hand.find(h => h.cardId === 'lightning-rain')!;
+  await paused(page);
+  await cardButton(page, instance.id).click();
+  const preview = page.getByTestId('arena-area-preview');
+  await expect(preview).toBeVisible();
+  const canvas = page.getByTestId('arena-canvas');
+  await canvas.scrollIntoViewIfNeeded();
+  const box = await canvas.boundingBox();
+  const projection = createProjection(box!.width, box!.height);
+  const empty = project(0, 0, projection);
+  await page.mouse.move(box!.x + empty.x, box!.y + empty.y);
+  await page.clock.runFor(32);
+  await expect(preview).toHaveAttribute('data-valid', 'false');
+  await expect(preview).toHaveAttribute('data-target-count', '0');
+  const before = await inventory(page);
+  await canvas.click({ position: empty });
+  expect(await inventory(page)).toEqual(before);
+  await expect(cardButton(page, instance.id)).toHaveAttribute('aria-pressed', 'true');
+  const fighter = state.fighters[0];
+  await canvas.scrollIntoViewIfNeeded();
+  const targetBox = await canvas.boundingBox();
+  const target = project(fighter.x, fighter.y, createProjection(targetBox!.width, targetBox!.height));
+  await page.mouse.move(targetBox!.x + target.x, targetBox!.y + target.y);
+  await page.clock.runFor(32);
+  await expect(preview).toHaveAttribute('data-valid', 'true');
+  expect(Number(await preview.getAttribute('data-target-count'))).toBeGreaterThan(0);
+  const feedback = await page.getByTestId('arena-feedback').innerText();
+  const health = Number.parseFloat(await page.locator('[data-detail-hp]').innerText());
+  await canvas.click({ position: target });
+  await expect(cardButton(page, instance.id)).toHaveCount(0);
+  await expect(preview).toBeHidden();
+  await expect(page.getByTestId('arena-feedback')).not.toHaveText(feedback);
+  expect(Number.parseFloat(await page.locator('[data-detail-hp]').innerText())).toBeLessThan(health);
   expect(errors).toEqual([]);
 });

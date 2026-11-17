@@ -1,5 +1,5 @@
 import { advanceArena, createArena, findPayment, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
-import { CARDS, isResolvingArena, isThrowableTarget } from './model';
+import { CARDS, isResolvingArena, isThrowableTarget, isAreaSpellTarget, areaSpellTargets } from './model';
 import type { Card, Fighter } from './model';
 import { ArenaView } from './view';
 import { createHandView } from './hand-view';
@@ -57,11 +57,17 @@ export function mountArena(root: HTMLElement): void {
     el('[data-status]').textContent = state.status === 'running' && isResolvingArena(state) ? '等待在途投擲物與箭結算' : { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
     start.textContent = { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '再戰一場' }[state.status];
     el('[data-testid="arena-feedback"]').textContent = feedback;
-    el('[data-card-prompt]').textContent = exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? '點選鬥士施法' : '點選場地投送'}` : '三張手牌，改寫勝負';
+    el('[data-card-prompt]').textContent = exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? '點選鬥士施法' : '點選場地投送'}` : '三張手牌，改寫勝負';
     el('[data-selected-description]').textContent = activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}` : '選牌後點擊鬥士施法，或點擊場地投送武器。';
     el('[data-testid="arena-payment"]').textContent = exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard ? payment ? `預計支付：${STONE_COLORS.map((color) => ({ color, count: state.stones.filter((stone) => stone.color === color && payment.includes(stone.id)).length })).filter(({ count }) => count).map(({ color, count }) => `${STONE_NAMES[color]} ${count}`).join(' ＋ ')}${canAct() ? ' · 點選目標施放' : ' · 開戰後可施放'}` : `魔法石不足 · 需要 ${costText(activeCard.cost)}` : '每次成功出牌，補兩顆魔法石與一張手牌。';
     el('[data-testid="arena-throw-range"]').hidden = !activeCard?.throwRange || exchanging;
     el('[data-testid="arena-throw-range"]').textContent = activeCard?.throwRange ? `從下方投擲席投出，射程 ${activeCard.throwRange}m。只能投向亮區；沿途碰到鬥士或其他投擲物會提前落下。` : '';
+    const areaPreview = el('[data-testid="arena-area-preview"]');
+    areaPreview.hidden = activeCard?.target !== 'area' || exchanging;
+    const affected = activeCard?.target === 'area' && aim ? areaSpellTargets(state.fighters, activeCard, aim) : [];
+    areaPreview.dataset.targetCount = String(affected.length);
+    areaPreview.dataset.valid = String(Boolean(activeCard?.target === 'area' && aim && isAreaSpellTarget(activeCard, aim) && affected.length));
+    areaPreview.textContent = activeCard?.target === 'area' ? `直徑 ${activeCard.areaRadius * 2}m · ${!aim ? '點場內地面選圓心；所有鬥士都會受傷。' : !isAreaSpellTarget(activeCard, aim) ? '圓心必須在場內，不會消耗資源。' : !affected.length ? '圈內沒有存活鬥士，不會消耗資源。' : `命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包括你支持的鬥士！' : '，不限陣營。'}`}` : '';
     el('[data-cancel]').hidden = !activeCard && !exchanging;
     canvas.classList.toggle('is-targeting', Boolean(activeCard) && !exchanging);
     el('[data-redraw-controls]').hidden = !exchanging;
@@ -179,7 +185,12 @@ export function mountArena(root: HTMLElement): void {
     if (!card || activeHandId === undefined || exchanging) return;
     if (isResolvingArena(state)) { feedback = '正在結算在途投擲物與箭，本場不再接受出牌。'; return; }
     if (!canAct()) { feedback = '請先開始新戰鬥，再施放卡牌。'; return; }
-    if ('x' in target && !isThrowableTarget(card, target)) { feedback = card.throwRange ? `${card.name}只能從下方投擲席投向 ${card.throwRange}m 內的亮區，沒有消耗資源。` : '請投向場內，沒有消耗資源。'; return; }
+    if (card.target === 'ground' && 'x' in target && !isThrowableTarget(card, target)) { feedback = card.throwRange ? `${card.name}只能從下方投擲席投向 ${card.throwRange}m 內的亮區，沒有消耗資源。` : '請投向場內，沒有消耗資源。'; return; }
+    const affected = card.target === 'area' && 'x' in target ? areaSpellTargets(state.fighters, card, target) : [];
+    if (card.target === 'area' && 'x' in target) {
+      if (!isAreaSpellTarget(card, target)) { feedback = '請把範圍法術的圓心放在場內，沒有消耗資源。'; return; }
+      if (!affected.length) { feedback = '範圍內沒有存活鬥士，沒有消耗資源。'; return; }
+    }
     const payment = findPayment(state, card.cost);
     if (card.id === 'growth' && 'fighterId' in target) {
       const fighter = state.fighters.find((entry) => entry.id === target.fighterId);
@@ -188,7 +199,7 @@ export function mountArena(root: HTMLElement): void {
     if (!payment) { feedback = `魔法石不足：${card.name}需要 ${costText(card.cost)}。可棄牌換石。`; return; }
     if (playCard(state, activeHandId, target, payment)) {
       const targetName = 'fighterId' in target ? state.fighters.find((f) => f.id === target.fighterId)?.name : undefined;
-      feedback = `${card.name}${targetName ? `已施放於${targetName}` : state.status === 'paused' ? '已排入投送，繼續戰鬥後飛向場內' : card.throwRange ? '已投出，沿途命中或落地後消耗，不會被拾取' : '正在飛向場內，任何鬥士都能拾取'}。已補兩顆魔法石與一張牌。`;
+      feedback = `${card.name}${card.target === 'area' ? `已施放，命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包含你支持的鬥士' : ''}` : targetName ? `已施放於${targetName}` : state.status === 'paused' ? '已排入投送，繼續戰鬥後飛向場內' : card.throwRange ? '已投出，沿途命中或落地後消耗，不會被拾取' : '正在飛向場內，任何鬥士都能拾取'}。已補兩顆魔法石與一張牌。`;
       if ('fighterId' in target) selectedId = target.fighterId;
       clearSelection();
     } else feedback = '未能施放：請選擇存活鬥士或場內落點，沒有消耗資源。';
@@ -197,7 +208,8 @@ export function mountArena(root: HTMLElement): void {
     const fighter = view.pick(clientX, clientY, state);
     const card = currentCard();
     if (!card || exchanging) { if (fighter) selectedId = fighter.id; render(); return; }
-    const target = card.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : undefined) : view.ground(clientX, clientY);
+    updateAim(clientX, clientY);
+    const target = card.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : undefined) : card.target === 'area' ? view.point(clientX, clientY) : view.ground(clientX, clientY);
     if (!target) feedback = card.target === 'fighter' ? '法術需要命中一位存活的鬥士，沒有消耗資源。' : '請投向競技場內的可用區域，沒有消耗資源。';
     else attemptPlay(target);
     render();

@@ -5,7 +5,8 @@ const clockStart = new Date('2026-10-29T00:00:00Z');
 export async function openArena(page: Page): Promise<void> {
   await page.clock.install({ time: clockStart });
   await page.goto('/?prototype=classic');
-  await expect(page.getByTestId('board')).toBeVisible();
+  // The document load event does not wait for the mode’s dynamic import.
+  await expect(page.getByTestId('board')).toBeVisible({ timeout: 15_000 });
   await page.clock.pauseAt(new Date(clockStart.getTime() + 3_600_000));
 }
 
