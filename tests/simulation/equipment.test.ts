@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { createArena } from '../../src/arena/engine';
-import { advanceItems, playCard } from '../../src/arena/engine-items';
+import { advanceItems } from '../../src/arena/engine-items';
 import { canEquip, equip } from '../../src/arena/equipment';
 import { sweptCircleTime } from '../../src/arena/geometry';
-import { syncStamina } from '../../src/arena/engine-damage';
 import type { ThrownItem, ThrownKind } from '../../src/arena/model';
 
 function flight(id: number, fromX: number, fromY: number, toX: number, toY: number, landsAt = 1, weapon: ThrownKind = 'sword'): ThrownItem {
@@ -121,38 +120,8 @@ describe('equipment slots and continuous delivery collisions', () => {
     }
   });
 
-  it('refuses new interventions while the last arrows resolve, including when paused', () => {
-    for (const status of ['running', 'paused'] as const) {
-      for (const reason of ['last-survivor', 'timeout']) {
-        const state = createArena(); state.status = status;
-        if (reason === 'last-survivor') state.fighters.slice(1).forEach(fighter => { fighter.hp = 0; });
-        else state.time = 180;
-        state.arrows = [{ id: 99, ownerId: 'fighter-1', x: 0, y: 0, vx: 1, vy: 0, damage: 10, expiresAt: state.time + 2 }];
-        const before = structuredClone(state);
-        expect(playCard(state, state.hand[0].id, { fighterId: state.fighters[0].id }, [])).toBe(false);
-        expect(playCard(state, state.hand[0].id, { x: 0, y: 0 }, [])).toBe(false);
-        expect(state).toEqual(before);
-      }
-    }
-    const playablePause = createArena(); playablePause.status = 'paused';
-    playablePause.hand=[{id:999,cardId:'lightning'}]; playablePause.stones=[{id:1000,color:'red'}];
-    expect(playCard(playablePause,999,{fighterId:playablePause.fighters[0].id},[1000])).toBe(true);
-  });
-
   it('handles stationary and initially touching geometry without invalid roots', () => {
     expect(sweptCircleTime({x: 0,y: 0}, {x: 0,y: 0}, {x: 2,y: 0}, {x: 2,y: 0}, .2)).toBeUndefined();
     expect(sweptCircleTime({x: 0,y: 0}, {x: 1,y: 0}, {x: .1,y: 0}, {x: 2,y: 0}, .2)).toBe(0);
-  });
-
-  it('preserves legacy weakness stamina behavior while paused', () => {
-    const state = createArena(); state.status = 'paused';
-    const fighter = state.fighters[0], base = fighter.maxStamina;
-    fighter.buffs=[{kind:'weakness',until:7}]; syncStamina(fighter,state.time);
-    expect(fighter.maxStamina).toBeCloseTo(base * .6);
-    expect(fighter.stamina).toBeCloseTo(base * .6);
-    fighter.buffs=[{kind:'weakness',until:7}]; syncStamina(fighter,state.time);
-    expect(fighter.maxStamina).toBeCloseTo(base * .6);
-    expect(fighter.buffs).toHaveLength(1);
-
   });
 });

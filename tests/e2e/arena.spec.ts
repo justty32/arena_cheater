@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page, type Locator } from '@playwright/test';
 import { createArena, findPayment, toggleArena, advanceArena } from '../../src/arena/engine';
 import { CARDS, type ArenaState } from '../../src/arena/model';
 import { createProjection, project } from '../../src/arena/projection';
@@ -24,6 +24,14 @@ async function center(page: Page) {
   const canvas = page.getByTestId('arena-canvas');
   const box = await canvas.boundingBox();
   await canvas.click({ position: { x: box!.width / 2, y: box!.height / 2 } });
+}
+async function dragCard(page: Page, card: Locator, destination: { x: number; y: number }) {
+  await card.scrollIntoViewIfNeeded();
+  const box = await card.boundingBox();
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(destination.x, destination.y, { steps: 8 });
+  await page.mouse.up();
 }
 async function seek(page: Page, predicate: (state: ArenaState) => boolean) {
   let seed = 73021;
@@ -67,14 +75,13 @@ test('暫停投送先驗目標、取消與拖曳；成功只消耗當張牌並�
   await page.locator('[data-cancel]').click();
   expect(await inventory(page)).toEqual(before);
   const card = cardButton(page, sword.id);
-  await card.scrollIntoViewIfNeeded();
-  const box = await card.boundingBox();
-  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
-  await page.mouse.down(); await page.mouse.move(5, 5, { steps: 5 }); await page.mouse.up();
+  await dragCard(page, card, { x: 5, y: 5 });
   expect(await inventory(page)).toEqual(before);
   await expect(page.getByTestId('arena-feedback')).toContainText('取消');
-  await card.click(); await center(page);
+  const canvasBox = await page.getByTestId('arena-canvas').boundingBox();
+  await dragCard(page, card, { x: canvasBox!.x + canvasBox!.width / 2, y: canvasBox!.y + canvasBox!.height / 2 });
   await expect(card).toHaveCount(0);
+  await expect(page.getByTestId('arena-feedback')).toContainText('直劍');
   for (const other of state.hand.filter(h => h.id !== sword.id)) await expect(cardButton(page, other.id)).toHaveCount(1);
   await expect(hand(page)).toHaveCount(3);
   await expect(stones(page)).toHaveCount(3 - payment.length + 2);
@@ -194,19 +201,6 @@ for (const target of ['名單', '場上'] as const) {
   });
 }
 
-test('拖曳有效投送只消耗一次實例與付款石', async ({ page }) => {
-  await open(page);
-  const state = await seek(page, s => s.hand.some(h => h.cardId === 'sword'));
-  await paused(page);
-  const instance = state.hand.find(h => h.cardId === 'sword')!;
-  const card = cardButton(page, instance.id); await card.scrollIntoViewIfNeeded();
-  const from = await card.boundingBox(); const canvas = await page.getByTestId('arena-canvas').boundingBox();
-  await page.mouse.move(from!.x + from!.width / 2, from!.y + from!.height / 2); await page.mouse.down();
-  await page.mouse.move(canvas!.x + canvas!.width / 2, canvas!.y + canvas!.height / 2, { steps: 8 }); await page.mouse.up();
-  await expect(card).toHaveCount(0); await expect(hand(page)).toHaveCount(3); await expect(stones(page)).toHaveCount(3);
-  await expect(page.getByTestId('arena-feedback')).toContainText('直劍');
-});
-
 test('野性成長對滿血鬥士不消耗牌或石', async ({ page }) => {
   await open(page);
   const state = await seek(page, s => s.hand.some(h => h.cardId === 'growth' && findPayment(s, CARDS.find(c => c.id === h.cardId)!.cost)));
@@ -216,7 +210,6 @@ test('野性成長對滿血鬥士不消耗牌或石', async ({ page }) => {
   expect(await inventory(page)).toEqual(before);
   await expect(cardButton(page, instance.id)).toHaveAttribute('aria-pressed', 'true');
 });
-
 
 for (const [id, name] of [['stone', '石頭'], ['pot', '陶罐']] as const) {
   test(`${name}超射程不扣費，合法投擲暫停凍結並於續戰結束飛行`, async ({ page }, info) => {

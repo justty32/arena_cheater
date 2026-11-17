@@ -119,9 +119,10 @@ describe('P3 equipment combat', () => {
     const { state, a } = pair();
     a.buffs = [{kind:'weakness',until:7}]; syncStamina(a,state.time);
     expect(a.maxStamina).toBe(a.baseMaxStamina * 0.6); expect(a.stamina).toBe(a.maxStamina);
+    toggleArena(state);
     a.buffs = [{kind:'weakness',until:7}]; syncStamina(a,state.time);
-    expect(a.maxStamina).toBe(a.baseMaxStamina * 0.6);
-    toggleArena(state); const paused = structuredClone(state); advanceArena(state, 20); expect(state).toEqual(paused);
+    expect(a.maxStamina).toBe(a.baseMaxStamina * 0.6); expect(a.buffs).toHaveLength(1);
+    const paused = structuredClone(state); advanceArena(state, 20); expect(state).toEqual(paused);
     const stamina = a.stamina; syncStamina(a, 8);
     expect(a.maxStamina).toBe(a.baseMaxStamina); expect(a.stamina).toBe(stamina);
   });

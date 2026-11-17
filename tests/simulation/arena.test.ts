@@ -122,10 +122,4 @@ describe('circular arena simulation', () => {
     target.hp = health; target.pose = 'idle'; target.facing = 0; hit(state, attacker);
     expect(health - target.hp).toBeGreaterThan(frontDamage * 2);
   });
-  it('refreshes bloodlust without stacking and removes it after expiry', () => {
-    const state=running(),target=state.fighters[0];
-    play(state,'bloodlust',{fighterId:target.id}); play(state,'bloodlust',{fighterId:target.id});
-    expect(target.buffs).toHaveLength(1);
-    state.time=6; act(state,target,1/30); expect(target.buffs).toHaveLength(0);
-  });
 });

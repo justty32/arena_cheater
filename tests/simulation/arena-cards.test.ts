@@ -65,13 +65,21 @@ describe('V2 cards and stones',()=>{
    expect(state).toEqual(before);
   }
  });
- it('refuses otherwise valid plays and redraws before start, after finish and while draining arrows',()=>{
-  for(const phase of ['ready','finished','survivor','timeout'] as const){
-   const state=ready();if(phase==='ready'||phase==='finished')state.status=phase;
-   if(phase==='survivor')state.fighters.slice(1).forEach(f=>{f.hp=0;});
-   if(phase==='timeout')state.time=180;
-   const before=structuredClone(state);
-   expect(cast(state)).toBe(false);expect(redrawStones(state,state.hand[0].id,[state.stones[0].id])).toBe(false);expect(state).toEqual(before);
+ it('refuses payable spells, deliveries and redraws outside active combat, including paused final arrows',()=>{
+  for (const phase of ['ready','finished','survivor','timeout'] as const) {
+   const statuses = phase === 'ready' || phase === 'finished' ? [phase] : ['running','paused'] as const;
+   for (const status of statuses) for (const cardId of ['lightning','sword'] as const) {
+    const state=ready(cardId);state.status=status;
+    if(phase==='survivor')state.fighters.slice(1).forEach(f=>{f.hp=0;});
+    if(phase==='timeout')state.time=180;
+    if(phase==='survivor'||phase==='timeout')state.arrows=[{id:state.nextId++,ownerId:state.fighters[0].id,x:0,y:0,vx:1,vy:0,damage:10,expiresAt:state.time+2}];
+    const context=`${phase}/${status}/${cardId}`;
+    expect(findPayment(state,CARDS.find(card=>card.id===cardId)!.cost),context).toBeDefined();
+    const before=structuredClone(state);
+    expect(cast(state),context).toBe(false);
+    expect(redrawStones(state,state.hand[0].id,[state.stones[0].id]),context).toBe(false);
+    expect(state,context).toEqual(before);
+   }
   }
  });
  it('keeps stone income tied to commands and kills rather than elapsed time',()=>{
