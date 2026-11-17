@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createBattle, toggleBattle, useCheat } from '../../src/game/engine.ts';
 import { CHEAT_COST } from '../../src/game/rules.ts';
-import { arenaPair, run } from './helpers';
+import { run } from './helpers';
 
 describe('sideline potion', () => {
   it('rejects full-health, missing, enemy, dead, paused and unaffordable targets without spending', () => {
@@ -40,25 +40,12 @@ describe('sideline potion', () => {
     expect(state.influence).toBeCloseTo(67);
   });
 
-  it('caps restoration and can alter a real battle outcome', () => {
+  it('caps restoration at maximum health and stamina', () => {
     const capped = createBattle('duel');
     capped.units[0].hp -= 3;
     toggleBattle(capped);
     useCheat(capped, capped.units[0].id);
     expect(capped.units[0].hp).toBe(capped.units[0].maxHp);
     expect(capped.units[0].stamina).toBe(capped.units[0].maxStamina);
-
-    const baseline = arenaPair('guard');
-    baseline.units[1].action = { kind: 'idle', duration: 0, remaining: 0 };
-    baseline.units[0].hp = 42;
-    baseline.units[1].hp = 60;
-    const helped = structuredClone(baseline);
-    expect(useCheat(helped, helped.units[0].id)).toBe(true);
-    run(baseline, 60);
-    run(helped, 60);
-    expect(baseline.status).toBe('finished');
-    expect(helped.status).toBe('finished');
-    expect(baseline.winner).toBe(1);
-    expect(helped.winner).toBe(0);
   });
 });

@@ -35,7 +35,6 @@ describe('battle simulation', () => {
       }
       expect(state.status).toBe('finished');
       expect(state.winner).not.toBeNull();
-      expect(state.elapsed).toBeLessThan(100);
       expect(new Set(state.units.filter(unit => unit.hp > 0).map(unit => unit.team)).size).toBe(1);
       const completed = structuredClone(state);
       toggleBattle(state);

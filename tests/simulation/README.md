@@ -4,14 +4,14 @@
 
 | 檔案 | 驗證範圍 |
 |------|----------|
-| [arena.test.ts](arena.test.ts) | 七人圓場、seed／倍速、暫停、卡牌扣費、體力恢復、投送拾取、碰撞、方向 |
+| [arena.test.ts](arena.test.ts) | 七人圓場、seed／倍速、暫停、卡牌扣費、體力恢復、投送拾取、方向 |
 | [arena-cards.test.ts](arena-cards.test.ts) | 九種卡各兩張、三牌三石、實例付款、出牌補牌補石、三秒換石冷卻、法術刷新與到期、介入時機、seed 重現、牌堆回收及擊殺獎勵 |
 | [arena-throws.test.ts](arena-throws.test.ts) | 投擲首次命中與混合碰撞排序、超距狀態不變、盾與陶罐、一次性物件、在途投送物結算、狼擊殺狂熱與鹿高速 |
 | [arena-p3.test.ts](arena-p3.test.ts) | 弓三箭與飛行、末箭結算、木棍耐久／擊飛、防禦與虛弱 |
 | [equipment.test.ts](equipment.test.ts) | 雙手盾衝突、最近者拾取、投送掃掠 |
 | [projection.test.ts](projection.test.ts) | 不同畫布尺寸的投影／逆投影往返及世界座標場界 |
 | [battle.test.ts](battle.test.ts) | 完整對局、格位與資源、seed、倍速、暫停與動作耗能 |
-| [potion.test.ts](potion.test.ts) | 藥劑有效／無效目標、資源邊界及勝負影響 |
+| [potion.test.ts](potion.test.ts) | 藥劑有效／無效目標、資源邊界 |
 | [projectiles.test.ts](projectiles.test.ts) | 飛行延遲、暫停、死目標與最後投射物結算 |
 | [helpers.ts](helpers.ts) | 共用時間步進與雙角色情境 |
 

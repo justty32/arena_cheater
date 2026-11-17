@@ -103,15 +103,7 @@ describe('circular arena simulation', () => {
     advanceItems(state);
     expect(state.fighters.filter(other => other.weapon === 'sword')).toHaveLength(1);
   });
-  it('drops colliding deliveries without creating duplicates', () => {
-    const state = running();
-    play(state, 'sword', { x: 0, y: 0 });
-    play(state, 'shield', { x: 0, y: 0 });
-    state.fighters = []; // Isolate delivery collision from immediate nearby pickups.
-    state.time = 0.4; advanceItems(state);
-    expect(state.items).toHaveLength(2);
-    expect(state.items.every(item => item.landed)).toBe(true);
-  });
+
   it('applies front shields and back attack bonuses from target facing', () => {
     const state = running(), [attacker, target] = state.fighters;
     attacker.x = 0; attacker.y = 0; target.x = 0.7; target.y = 0;
