@@ -453,3 +453,47 @@ test('工程事件fixture：結算層接住舊觸控不重開，新手勢與鍵�
   await expect(page.locator('[data-round]')).not.toHaveText(nextRound);
   await context.close();
 });
+
+test('工程時計：控制列舊手勢跨結算不重開，明確再戰與鍵盤仍可用', async ({ page }) => {
+  await open(page);
+  // Normal UI at 3x plus the controlled clock lets real input span natural battle completion.
+  // No ArenaState, status, or result DOM fixture is injected in this case.
+  const start = page.getByTestId('arena-start');
+  const result = page.locator('[data-result]');
+  const round = page.locator('[data-round]');
+  await page.locator('[data-speed="3"]').click();
+  await start.click();
+  await expect(start).toContainText('暫停');
+  const firstRound = await round.innerText();
+  await start.scrollIntoViewIfNeeded();
+  const box = await start.boundingBox();
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
+  await page.mouse.down();
+  while (!(await result.isVisible())) await page.clock.runFor(1000);
+  await page.mouse.up();
+  await expect(result).toBeVisible();
+  await expect(round).toHaveText(firstRound);
+
+  await start.focus(); await page.keyboard.press('Enter');
+  await expect(result).toBeHidden();
+  await expect(round).not.toHaveText(firstRound);
+  await page.keyboard.press('Space');
+  await expect(start).toContainText('繼續');
+  const pausedTime = await page.getByTestId('arena-time').innerText();
+  await page.clock.runFor(300);
+  await expect(page.getByTestId('arena-time')).toHaveText(pausedTime);
+  await page.keyboard.press('Space');
+  await expect(start).toContainText('暫停');
+
+  const secondRound = await round.innerText();
+  await page.keyboard.down('Space');
+  while (!(await result.isVisible())) await page.clock.runFor(1000);
+  await page.keyboard.down('Space'); // Real repeat must retain the initial running intent.
+  await page.keyboard.up('Space');
+  await expect(result).toBeVisible();
+  await expect(round).toHaveText(secondRound);
+  await start.click();
+  await expect(result).toBeHidden();
+  await expect(round).not.toHaveText(secondRound);
+  await expect(start).toContainText('暫停');
+});

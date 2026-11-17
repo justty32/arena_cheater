@@ -167,7 +167,14 @@ export function mountArena(root: HTMLElement): void {
     support.style.setProperty('--fighter-color', f.color);
   }
 
+  type StartIntent = { arena: typeof state; phase: typeof state.status };
+  let startPointer: (StartIntent & { pointerId: number }) | undefined;
+  let startSpace: StartIntent | undefined;
+  const sameStartIntent = (intent: StartIntent): boolean => intent.arena === state && intent.phase === state.status;
+  const clearStartIntent = (): void => { startPointer = undefined; startSpace = undefined; };
+
   function reset(): void {
+    clearStartIntent();
     returnAfterSupport = false;
     const speed = state.speed;
     state = createArena(73021 + round++);
@@ -179,7 +186,32 @@ export function mountArena(root: HTMLElement): void {
     feedback = '新一場鬥士已入場。選擇你的支持對象。';
     render();
   }
-  start.addEventListener('click', () => {
+  document.addEventListener('pointerdown', clearStartIntent, true);
+  start.addEventListener('pointerdown', (event) => {
+    if (event.isPrimary && event.button === 0) startPointer = {pointerId:event.pointerId,arena:state,phase:state.status};
+  });
+  document.addEventListener('pointerup', (event) => {
+    if (!start.contains(event.target as Node)) startPointer = undefined;
+  });
+  document.addEventListener('pointercancel', clearStartIntent);
+  window.addEventListener('blur', clearStartIntent);
+  start.addEventListener('keydown', (event) => {
+    if (event.key === ' ' && !event.repeat) startSpace = {arena:state,phase:state.status};
+    if (event.key === 'Escape') clearStartIntent();
+  });
+  start.addEventListener('keyup', (event) => {
+    if (event.key === ' ' && (!startSpace || !sameStartIntent(startSpace))) {
+      event.preventDefault(); startSpace = undefined;
+    }
+  });
+  start.addEventListener('blur', () => { startSpace = undefined; });
+  start.addEventListener('click', (event) => {
+    const intent = event.detail === 0 ? startSpace : startPointer;
+    const valid = event.detail === 0
+      ? !intent || sameStartIntent(intent)
+      : event instanceof PointerEvent && startPointer?.pointerId === event.pointerId && sameStartIntent(startPointer);
+    clearStartIntent();
+    if (!valid) return;
     returnAfterSupport = false;
     if (state.status === 'finished') reset();
     toggleArena(state);
