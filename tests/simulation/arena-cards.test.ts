@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { advanceArena, canPayCost, createArena, findPayment, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
+import { advanceArena, canPayCost, createArena, findPayment, paymentStatus, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
 import { applyHealthDamage, attackDamage, damageFighter } from '../../src/arena/engine-damage';
 import { advanceArrows } from '../../src/arena/engine-arrows';
 import { drawCard } from '../../src/arena/engine-cards';
@@ -23,6 +23,30 @@ describe('V2 cards and stones',()=>{
   expect(canPayCost(state,cost,[ids[0],ids[1]])).toBe(true);
   for(const payment of [[ids[1],ids[2]],[ids[0],ids[0]],[999,ids[0]],ids,[]])expect(canPayCost(state,cost,payment)).toBe(false);
   expect(findPayment(state,cost)).toEqual([ids[0],ids[1]]);
+ });
+ it('reports actionable payment deficits without replacing the selected stones',()=>{
+  const state=ready('bloodlust',['red','blue','blue']);const cost=CARDS.find(c=>c.id==='bloodlust')!.cost;
+  const [red,blue,otherBlue]=state.stones.map(stone=>stone.id),before=structuredClone(state);
+  expect(paymentStatus(state,cost,[blue,otherBlue])).toMatchObject({valid:false,missingColors:{red:1},missingGeneric:0,excessCount:1});
+  expect(paymentStatus(state,cost,[red])).toMatchObject({valid:false,missingColors:{},missingGeneric:1});
+  expect(paymentStatus(state,cost,[red,otherBlue])).toMatchObject({valid:true,missingGeneric:0,excessCount:0});
+  expect(paymentStatus(state,cost,[red,red])).toMatchObject({valid:false,invalidSelection:true});
+  expect(state).toEqual(before);
+ });
+ it('distinguishes dead and missing targets and revalidates a previously accepted target on submission',()=>{
+  const state=ready(),target=state.fighters[0],id=state.hand[0].id,payment=[state.stones[0].id];
+  const before=structuredClone(state);expect(validateCardPlay(state,id,{fighterId:target.id},payment)).toEqual({ok:true});expect(state).toEqual(before);
+  target.hp=0;const afterDeath=structuredClone(state);
+  expect(validateCardPlay(state,id,{fighterId:target.id},payment)).toEqual({ok:false,reason:'target-dead'});
+  expect(validateCardPlay(state,id,{fighterId:'missing'},payment)).toEqual({ok:false,reason:'target-missing'});
+  expect(playCard(state,id,{fighterId:target.id},payment)).toBe(false);expect(state).toEqual(afterDeath);
+ });
+ it('separates unavailable resources from an invalid exact payment without changing state',()=>{
+  const state=ready(),id=state.hand[0].id,target={fighterId:state.fighters[0].id};
+  expect(validateCardPlay(state,id,target,[state.stones[1].id])).toEqual({ok:false,reason:'invalid-payment'});
+  state.stones=state.stones.filter(stone=>stone.color!=='red');const before=structuredClone(state);
+  expect(validateCardPlay(state,id,target,[state.stones[0].id])).toEqual({ok:false,reason:'insufficient-stones'});
+  expect(state).toEqual(before);
  });
  it('spends once, draws two stones and one card and bypasses physical defense',()=>{
   const state=ready();const target=state.fighters[0];target.shield=true;target.parryUntil=10;

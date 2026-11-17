@@ -31,11 +31,11 @@ export class ArenaView {
   point(clientX: number, clientY: number): {x:number;y:number} {
     const rect=this.canvas.getBoundingClientRect();return unproject(clientX-rect.left,clientY-rect.top,this.projection);
   }
-  pick(clientX: number, clientY: number, state: ArenaState): Fighter|undefined {
+  pick(clientX: number, clientY: number, state: ArenaState, includeDead = false): Fighter|undefined {
     const rect=this.canvas.getBoundingClientRect();const x=clientX-rect.left,y=clientY-rect.top;
-    return [...state.fighters].filter(f=>f.hp>0).sort((a,b)=>b.y-a.y).find(f=>{
+    return [...state.fighters].filter(f=>includeDead||f.hp>0).sort((a,b)=>b.y-a.y).find(f=>{
       const p=this.visualPosition(f,state.time);const s=this.actorScale(f);
-      const fallen=f.pose==='fallen'||(f.pose==='rising'&&riseProgress(f,state.time)<.5);
+      const fallen=f.pose==='dead'||f.pose==='fallen'||(f.pose==='rising'&&riseProgress(f,state.time)<.5);
       return fallen?x>=p.x-12*s&&x<=p.x+70*s&&Math.abs(y-p.y)<24*s:
         Math.abs(x-p.x)<Math.max(14,19*s)&&y>=p.y-68*s&&y<=p.y+9*s;
     });

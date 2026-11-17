@@ -104,11 +104,16 @@ test('暫停投送先驗目標、取消與拖曳；成功只消耗當張牌一�
 test('換石可取消、鍵盤確認，暫停冷卻凍結且續戰後再開放', async ({ page }) => {
   await open(page); await paused(page);
   const before = await inventory(page);
-  await hand(page).first().click(); await page.getByTestId('arena-redraw').click();
+  await hand(page).first().click();
+  await expect(page.getByTestId('arena-stones')).toHaveAttribute('data-mode', 'payment');
+  await page.getByTestId('arena-redraw').click();
+  await expect(page.getByTestId('arena-stones')).toHaveAttribute('data-mode', 'exchange');
+  await expect(stones(page).first()).toHaveAttribute('aria-pressed', 'false');
   await stones(page).first().click();
   await expect(stones(page).first()).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByTestId('arena-redraw-preview')).toBeVisible();
   await page.locator('[data-cancel]').click();
+  await expect(page.getByTestId('arena-stones')).toHaveAttribute('data-mode', 'idle');
   expect(await inventory(page)).toEqual(before);
   await hand(page).first().click(); await page.getByTestId('arena-redraw').click();
   await stones(page).first().focus(); await page.keyboard.press('Space');
@@ -252,4 +257,83 @@ test('範圍法術預覽區分空圈與有效目標，點地施放後更新回�
   await expect(page.getByTestId('arena-feedback')).not.toHaveText(feedback);
   expect(Number.parseFloat(await page.locator('[data-detail-hp]').innerText())).toBeLessThan(health);
   expect(errors).toEqual([]);
+});
+
+test('鍵盤自選付款可保留紅石，未湊齊時拒絕提交', async ({ page }) => {
+  const errors = observeErrors(page);
+  await open(page);
+  const state = await seek(page, s => s.hand.some(h => ['sword', 'club', 'bow'].includes(h.cardId) &&
+    s.stones.filter(stone => stone.color !== 'red').length >= CARDS.find(c => c.id === h.cardId)!.cost.generic) &&
+    s.hand.some(h => h.cardId === 'lightning' || h.cardId === 'bloodlust') && s.stones.some(stone => stone.color === 'red'));
+  const equipment = state.hand.find(h => ['sword', 'club', 'bow'].includes(h.cardId) &&
+    state.stones.filter(stone => stone.color !== 'red').length >= CARDS.find(c => c.id === h.cardId)!.cost.generic)!;
+  const spell = state.hand.find(h => h.cardId === 'lightning' || h.cardId === 'bloodlust')!;
+  const red = state.stones.find(stone => stone.color === 'red')!;
+  await paused(page);
+  await cardButton(page, equipment.id).click();
+  await expect(page.getByTestId('arena-stones')).toHaveAttribute('data-mode', 'payment');
+  await page.getByTestId('arena-payment-auto').click();
+  await expect(page.getByTestId('arena-payment')).toHaveAttribute('data-valid', 'true');
+  for (const selected of await stones(page).evaluateAll(nodes => nodes.filter(node => node.getAttribute('aria-pressed') === 'true').map(node => node.getAttribute('data-stone')))) {
+    await page.locator(`[data-stone="${selected}"]`).focus(); await page.keyboard.press('Space');
+  }
+  const redButton = page.locator(`[data-stone="${red.id}"]`);
+  await redButton.focus(); await page.keyboard.press('Space');
+  await expect(redButton).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.press('Space');
+  await expect(redButton).toHaveAttribute('aria-pressed', 'false');
+  const before = await inventory(page);
+  await center(page);
+  await expect(page.getByTestId('arena-feedback')).toHaveAttribute('data-reason', 'invalid-payment');
+  const rejectedFeedback = await page.getByTestId('arena-feedback').innerText();
+  expect(await inventory(page)).toEqual(before);
+  const nonRed = state.stones.filter(stone => stone.color !== 'red').slice(0, CARDS.find(c => c.id === equipment.cardId)!.cost.generic);
+  for (const stone of nonRed) {
+    await page.locator(`[data-stone="${stone.id}"]`).focus(); await page.keyboard.press('Space');
+  }
+  await expect(page.getByTestId('arena-payment')).toHaveAttribute('data-valid', 'true');
+  await expect(page.getByTestId('arena-feedback')).toHaveAttribute('data-reason', '');
+  await expect(page.getByTestId('arena-feedback')).not.toHaveText(rejectedFeedback);
+  await center(page);
+  await expect(cardButton(page, equipment.id)).toHaveCount(0);
+  await expect(redButton).toHaveCount(1);
+  for (const stone of nonRed) await expect(page.locator(`[data-stone="${stone.id}"]`)).toHaveCount(0);
+  await cardButton(page, spell.id).click();
+  await expect(redButton).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('[data-fighter]').first().click();
+  await expect(cardButton(page, spell.id)).toHaveCount(0);
+  await expect(redButton).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('工程事件fixture：結算層接住舊觸控不重開，新手勢與鍵盤可重開', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await context.newPage();
+  await open(page);
+  // DOM-only event fixture: freeze RAF and reveal the real overlay between touchStart and touchEnd.
+  // This isolates browser click retargeting; it is not evidence of a naturally completed battle.
+  const overlay = page.locator('[data-result]');
+  const restart = page.locator('[data-result-reset]');
+  await overlay.evaluate((element: HTMLElement) => { element.hidden = false; });
+  await restart.scrollIntoViewIfNeeded();
+  const box = await restart.boundingBox();
+  const point = { x: box!.x + box!.width / 2, y: box!.y + box!.height / 2 };
+  await restart.evaluate((button: HTMLElement) => {
+    button.addEventListener('click', () => { button.dataset.fixtureClick = 'received'; });
+  });
+  await overlay.evaluate((element: HTMLElement) => { element.hidden = true; });
+  const round = await page.locator('[data-round]').innerText();
+  const session = await context.newCDPSession(page);
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point] });
+  await overlay.evaluate((element: HTMLElement) => { element.hidden = false; });
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expect(restart).toHaveAttribute('data-fixture-click', 'received');
+  await expect(page.locator('[data-round]')).toHaveText(round);
+  await restart.tap();
+  await expect(page.locator('[data-round]')).not.toHaveText(round);
+  const nextRound = await page.locator('[data-round]').innerText();
+  await overlay.evaluate((element: HTMLElement) => { element.hidden = false; });
+  await restart.focus(); await page.keyboard.press('Enter');
+  await expect(page.locator('[data-round]')).not.toHaveText(nextRound);
+  await context.close();
 });

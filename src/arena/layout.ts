@@ -23,12 +23,12 @@ export function arenaLayout(fighters: Fighter[]): string {
       <section class="arena-hand" aria-label="作弊卡牌">
         <div class="hand-heading"><div><span class="section-eyebrow">YOUR SLEIGHT OF HAND</span><h2 data-card-prompt>三張手牌，改寫勝負</h2></div><div class="hand-heading-actions"><button data-cancel hidden>取消 <kbd>ESC</kbd></button><span class="hand-count" data-hand-count></span></div></div>
         <div class="hand-table">
-          <section class="stone-pouch" aria-label="魔法石袋"><div class="stone-heading"><h3>魔法石袋</h3><span data-stone-total></span></div><div class="stone-summary" data-stone-summary></div><div class="stone-tray" data-testid="arena-stones" aria-label="持有魔法石"></div><p class="stone-help" data-stone-help>費用中的數字可用任意顏色支付。</p></section>
+          <section class="stone-pouch" aria-label="魔法石袋"><div class="stone-heading"><h3>魔法石袋</h3><span data-stone-total></span></div><div class="stone-actions"><span data-stone-mode>持有魔法石</span><button data-testid="arena-payment-auto" hidden>自動選石</button></div><div class="stone-summary" data-stone-summary></div><div class="stone-tray" data-testid="arena-stones" aria-label="持有魔法石"></div><p class="stone-help" data-stone-help>費用中的數字可用任意顏色支付。</p></section>
           <div class="hand-play"><div class="arena-cards" data-hand-list></div><div class="card-detail" data-testid="arena-card-detail"><p data-selected-description>選牌後點擊鬥士施法，或點擊場地投送武器。</p><p class="payment-preview" data-testid="arena-payment"></p><p class="throw-instruction" data-testid="arena-throw-range" hidden></p><p class="area-instruction" data-testid="arena-area-preview" data-target-count="0" data-valid="false" hidden></p></div></div>
           <section class="hand-exchange" aria-label="棄牌換石"><span class="section-eyebrow">A CHANGE OF FORTUNE</span><h3>換個手氣</h3><p>放棄一張手牌，重抽部分魔法石。</p><button data-testid="arena-redraw">棄牌換石</button><div data-redraw-controls hidden><p data-testid="arena-redraw-preview"></p><button data-testid="arena-redraw-confirm">確認換石</button></div><small data-redraw-help>先選一張要放棄的手牌。</small></section>
         </div>
         <div class="hand-footer"><p data-testid="arena-feedback" role="status" aria-live="polite"></p><span class="hand-tip">1–3 選牌 · 拖曳或點選施放</span></div>
-        <details class="hand-guide"><summary>怎麼動手腳？</summary><p>起手三張牌、三顆魔法石。成功出牌後補兩顆石頭與一張牌；你支持的鬥士每次擊殺，再獲得三顆魔法石。彩色費用必須用同色石頭，數字費用可用任意顏色。</p></details>
+        <details class="hand-guide"><summary>怎麼動手腳？</summary><p>起手三張牌、三顆魔法石。成功出牌後補兩顆石頭與一張牌；你支持的鬥士每次擊殺，再獲得三顆魔法石。彩色費用必須用同色石頭，數字費用可用任意顏色。選牌時會預選支付用石；點石頭可取消或改選，點目標才實際花費。</p></details>
       </section>
     </main>
     <footer class="arena-footer"><span>沒有人喜歡作弊，除了贏的那個。</span><a href="?prototype=classic">舊版棋盤原型 ↗</a></footer>

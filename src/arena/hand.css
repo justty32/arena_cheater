@@ -153,3 +153,15 @@
 .card-detail .throw-instruction { color: #e3c58e; font-size: 10px; line-height: 1.6; }
 
 .card-detail .area-instruction { color: #e5b5a1; font-size: 10px; line-height: 1.6; }
+.stone-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 34px; margin: -5px 0 9px; }
+.stone-actions > span { color: #c7bd9d; font-size: 10px; }
+.stone-actions button { min-height: 32px; padding: 5px 8px; font-size: 10px; color: #e3d1a1; background: #333927; border: 1px solid #686248; }
+.stone-token { position: relative; }
+.stone-tray[data-mode="payment"] .stone-token[aria-pressed="true"] { border-color: #f1d58f; outline: 1px solid #f1d58f; background: var(--stone-bg); }
+.stone-tray[data-mode="payment"] .stone-token[aria-pressed="true"]::after { content: '✓'; position: absolute; top: -2px; right: 1px; color: #fff1c6; font-size: 11px; font-weight: 700; }
+.stone-tray[data-mode="exchange"] { border-color: #bd8b77; }
+.stone-tray[data-mode="exchange"] .stone-token[aria-pressed="true"] { outline-color: #edb8a2; border-color: #edb8a2; background: #634237; }
+.stone-tray[data-mode="exchange"] .stone-token[aria-pressed="true"]::after { content: '−'; position: absolute; top: -3px; right: 1px; color: #ffe1d1; font-size: 14px; }
+.payment-preview[data-valid="false"] { color: #dfb09c; }
+@media(max-width:800px) { .stone-actions { grid-column: 1 / -1; margin: 0; } }
+@media(max-width:480px) { .stone-actions button { min-height: 44px; } }

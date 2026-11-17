@@ -1,9 +1,10 @@
-import { advanceArena, createArena, findPayment, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
-import { CARDS, isResolvingArena, isThrowableTarget, isAreaSpellTarget, areaSpellTargets } from './model';
+import { advanceArena, createArena, findPayment, paymentStatus, validateCardPlay, type CardTarget, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
+import { CARDS, isResolvingArena, isAreaSpellTarget, areaSpellTargets } from './model';
 import type { Card, Fighter } from './model';
 import { ArenaView } from './view';
 import { createHandView } from './hand-view';
-import { arenaLayout, costText, STONE_COLORS, STONE_NAMES } from './layout';
+import { cardPlayFailure, paymentProblem, paymentReadout } from './payment-ui';
+import { arenaLayout } from './layout';
 import './arena.css';
 import './hand.css';
 
@@ -18,6 +19,8 @@ export function mountArena(root: HTMLElement): void {
   let exchanging = false;
   let aim: { x: number; y: number } | undefined;
   const exchangeStones = new Set<number>();
+  const paymentStones = new Set<number>();
+  let paymentHandId: number | undefined;
   let lastLogs = '';
   let feedback = '選一位鬥士支持，然後開始這場混戰。';
   document.title = '詐賭競技場 · 場邊的你，才是變數';
@@ -29,27 +32,45 @@ export function mountArena(root: HTMLElement): void {
   const support = el<HTMLButtonElement>('[data-support]');
   const rows = [...root.querySelectorAll<HTMLButtonElement>('[data-fighter]')];
   const handView = createHandView(root, bindCard, (id) => {
-    if (!exchanging) return;
-    if (exchangeStones.has(id)) exchangeStones.delete(id); else exchangeStones.add(id);
+    if (!exchanging && !currentCard()) return;
+    const selected = exchanging ? exchangeStones : paymentStones;
+    if (selected.has(id)) selected.delete(id); else selected.add(id);
+    if (!exchanging) refreshPaymentFeedback();
     render();
   });
   const currentCard = (): Card | undefined => CARDS.find((card) => card.id === state.hand.find((hand) => hand.id === activeHandId)?.cardId);
   const canAct = (): boolean => (state.status === 'running' || state.status === 'paused') && !isResolvingArena(state);
 
+  function refreshPaymentFeedback(): void {
+    const card = currentCard();
+    if (!card) return;
+    const status = paymentStatus(state, card.cost, [...paymentStones]);
+    feedback = status.valid ? '支付用石已備妥，點目標施放。' : `${paymentProblem(status)}；請調整支付用石。`;
+    el('[data-testid="arena-feedback"]').dataset.reason = '';
+  }
+
   function clearSelection(): void {
+    el('[data-testid="arena-feedback"]').dataset.reason = '';
     activeHandId = undefined;
     aim = undefined;
     exchanging = false;
     exchangeStones.clear();
+    paymentStones.clear(); paymentHandId = undefined;
     el('[data-drag-label]').hidden = true;
   }
 
 
   function render(): void {
     if (activeHandId !== undefined && !state.hand.some((hand) => hand.id === activeHandId)) clearSelection();
-    handView.render(state, activeHandId, exchanging, exchangeStones);
     const activeCard = currentCard();
-    const payment = activeCard ? findPayment(state, activeCard.cost) : undefined;
+    if (activeHandId !== paymentHandId) {
+      paymentStones.clear();
+      if (activeCard) for (const id of findPayment(state, activeCard.cost) ?? []) paymentStones.add(id);
+      paymentHandId = activeHandId;
+    }
+    handView.render(state, activeHandId, exchanging, exchangeStones, paymentStones);
+    const payment = [...paymentStones];
+    const paymentCheck = activeCard ? paymentStatus(state, activeCard.cost, payment) : undefined;
     view.render(state, selectedId, exchanging ? null : activeCard?.target ?? null, exchanging ? undefined : activeCard, aim);
     el('[data-testid="arena-time"]').textContent = `${Math.floor(state.time / 60).toString().padStart(2, '0')}:${Math.floor(state.time % 60).toString().padStart(2, '0')}`;
     el('[data-alive]').textContent = state.fighters.filter((f) => f.hp > 0).length.toString();
@@ -59,7 +80,9 @@ export function mountArena(root: HTMLElement): void {
     el('[data-testid="arena-feedback"]').textContent = feedback;
     el('[data-card-prompt]').textContent = exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? '點選鬥士施法' : '點選場地投送'}` : '三張手牌，改寫勝負';
     el('[data-selected-description]').textContent = activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}` : '選牌後點擊鬥士施法，或點擊場地投送武器。';
-    el('[data-testid="arena-payment"]').textContent = exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard ? payment ? `預計支付：${STONE_COLORS.map((color) => ({ color, count: state.stones.filter((stone) => stone.color === color && payment.includes(stone.id)).length })).filter(({ count }) => count).map(({ color, count }) => `${STONE_NAMES[color]} ${count}`).join(' ＋ ')}${canAct() ? ' · 點選目標施放' : ' · 開戰後可施放'}` : `魔法石不足 · 需要 ${costText(activeCard.cost)}` : '每次成功出牌，補兩顆魔法石與一張手牌。';
+    el('[data-testid="arena-payment"]').textContent = exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard && paymentCheck ? paymentReadout(state, activeCard, payment, paymentCheck) : '每次成功出牌，補兩顆魔法石與一張手牌。';
+    el('[data-testid="arena-payment"]').dataset.valid = String(!exchanging && Boolean(paymentCheck?.valid));
+    el('[data-testid="arena-payment-auto"]').hidden = !activeCard || exchanging;
     el('[data-testid="arena-throw-range"]').hidden = !activeCard?.throwRange || exchanging;
     el('[data-testid="arena-throw-range"]').textContent = activeCard?.throwRange ? `從下方投擲席投出，射程 ${activeCard.throwRange}m。只能投向亮區；沿途碰到鬥士或其他投擲物會提前落下。` : '';
     const areaPreview = el('[data-testid="arena-area-preview"]');
@@ -141,7 +164,23 @@ export function mountArena(root: HTMLElement): void {
     render();
   });
   el('[data-testid="arena-reset"]').addEventListener('click', reset);
-  el('[data-result-reset]').addEventListener('click', reset);
+  const resultReset = el<HTMLButtonElement>('[data-result-reset]');
+  let resultResetPointer: number | undefined;
+  document.addEventListener('pointerdown', () => { resultResetPointer = undefined; }, true);
+  resultReset.addEventListener('pointerdown', (event) => {
+    if (event.isPrimary && event.button === 0) resultResetPointer = event.pointerId;
+  });
+  document.addEventListener('pointerup', (event) => {
+    if (!resultReset.contains(event.target as Node)) resultResetPointer = undefined;
+  });
+  document.addEventListener('pointercancel', () => { resultResetPointer = undefined; });
+  window.addEventListener('blur', () => { resultResetPointer = undefined; });
+  resultReset.addEventListener('click', (event) => {
+    // A newly appearing result panel must not turn an in-progress cast into a reset.
+    const sameGesture = event instanceof PointerEvent && event.pointerId === resultResetPointer;
+    resultResetPointer = undefined;
+    if (event.detail === 0 || sameGesture) reset();
+  });
   root.querySelectorAll<HTMLButtonElement>('[data-speed]').forEach((button) => {
     button.addEventListener('click', () => {
       state.speed = Number(button.dataset.speed);
@@ -175,43 +214,38 @@ export function mountArena(root: HTMLElement): void {
     render();
   });
   function select(handId: number): void {
+    el('[data-testid="arena-feedback"]').dataset.reason = '';
     activeHandId = activeHandId === handId ? undefined : handId;
     const card = currentCard();
     feedback = card ? exchanging ? `將放棄${card.name}。請選擇要重抽的石頭。` : `${card.name}：${card.description}。${canAct() ? '' : '開始戰鬥後施放。'}` : '已取消選牌。';
     render();
   }
-  function attemptPlay(target: { fighterId: string } | { x: number; y: number }): void {
+  function attemptPlay(target: CardTarget): void {
     const card = currentCard();
     if (!card || activeHandId === undefined || exchanging) return;
-    if (isResolvingArena(state)) { feedback = '正在結算在途投擲物與箭，本場不再接受出牌。'; return; }
-    if (!canAct()) { feedback = '請先開始新戰鬥，再施放卡牌。'; return; }
-    if (card.target === 'ground' && 'x' in target && !isThrowableTarget(card, target)) { feedback = card.throwRange ? `${card.name}只能從下方投擲席投向 ${card.throwRange}m 內的亮區，沒有消耗資源。` : '請投向場內，沒有消耗資源。'; return; }
-    const affected = card.target === 'area' && 'x' in target ? areaSpellTargets(state.fighters, card, target) : [];
-    if (card.target === 'area' && 'x' in target) {
-      if (!isAreaSpellTarget(card, target)) { feedback = '請把範圍法術的圓心放在場內，沒有消耗資源。'; return; }
-      if (!affected.length) { feedback = '範圍內沒有存活鬥士，沒有消耗資源。'; return; }
+    const payment = [...paymentStones];
+    const validation = validateCardPlay(state, activeHandId, target, payment);
+    el('[data-testid="arena-feedback"]').dataset.reason = validation.ok ? '' : validation.reason;
+    if (!validation.ok) {
+      feedback = cardPlayFailure(validation.reason, card, paymentStatus(state, card.cost, payment));
+      return;
     }
-    const payment = findPayment(state, card.cost);
-    if (card.id === 'growth' && 'fighterId' in target) {
-      const fighter = state.fighters.find((entry) => entry.id === target.fighterId);
-      if (fighter && fighter.hp >= fighter.maxHp) { feedback = '野性成長需要受傷鬥士：這位鬥士的生命已滿，沒有消耗資源。'; return; }
-    }
-    if (!payment) { feedback = `魔法石不足：${card.name}需要 ${costText(card.cost)}。可棄牌換石。`; return; }
+    const affected = card.target === 'area' ? areaSpellTargets(state.fighters, card, { x: target.x!, y: target.y! }) : [];
     if (playCard(state, activeHandId, target, payment)) {
-      const targetName = 'fighterId' in target ? state.fighters.find((f) => f.id === target.fighterId)?.name : undefined;
+      const targetName = target.fighterId ? state.fighters.find((f) => f.id === target.fighterId)?.name : undefined;
       feedback = `${card.name}${card.target === 'area' ? `已施放，命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包含你支持的鬥士' : ''}` : targetName ? `已施放於${targetName}` : state.status === 'paused' ? '已排入投送，繼續戰鬥後飛向場內' : card.throwRange ? '已投出，沿途命中或落地後消耗，不會被拾取' : '正在飛向場內，任何鬥士都能拾取'}。已補兩顆魔法石與一張牌。`;
-      if ('fighterId' in target) selectedId = target.fighterId;
+      if (target.fighterId) selectedId = target.fighterId;
       clearSelection();
-    } else feedback = '未能施放：請選擇存活鬥士或場內落點，沒有消耗資源。';
+    }
   }
+
   function cast(clientX: number, clientY: number): void {
-    const fighter = view.pick(clientX, clientY, state);
     const card = currentCard();
+    const fighter = view.pick(clientX, clientY, state, card?.target === 'fighter');
     if (!card || exchanging) { if (fighter) selectedId = fighter.id; render(); return; }
     updateAim(clientX, clientY);
-    const target = card.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : undefined) : card.target === 'area' ? view.point(clientX, clientY) : view.ground(clientX, clientY);
-    if (!target) feedback = card.target === 'fighter' ? '法術需要命中一位存活的鬥士，沒有消耗資源。' : '請投向競技場內的可用區域，沒有消耗資源。';
-    else attemptPlay(target);
+    const target: CardTarget = card.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : {}) : view.point(clientX, clientY);
+    attemptPlay(target);
     render();
   }
   function updateAim(clientX: number, clientY: number): void {
@@ -221,6 +255,14 @@ export function mountArena(root: HTMLElement): void {
   canvas.addEventListener('pointermove', (event) => { updateAim(event.clientX, event.clientY); });
   canvas.addEventListener('pointerleave', () => { aim = undefined; });
   canvas.addEventListener('click', (event) => cast(event.clientX, event.clientY));
+  el('[data-testid="arena-payment-auto"]').addEventListener('click', () => {
+    const card = currentCard();
+    if (!card || exchanging) return;
+    paymentStones.clear();
+    for (const id of findPayment(state, card.cost) ?? []) paymentStones.add(id);
+    refreshPaymentFeedback();
+    render();
+  });
   el('[data-cancel]').addEventListener('click', () => { clearSelection(); feedback = '已取消，沒有消耗資源。'; render(); });
   function bindCard(button: HTMLButtonElement, handId: number): void {
     let dragStart: { x: number; y: number } | undefined;

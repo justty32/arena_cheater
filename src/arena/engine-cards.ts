@@ -43,12 +43,30 @@ export function findPayment(state: ArenaState, cost: StoneCost): number[] | unde
   if (extra.length !== cost.generic) return undefined;
   return [...selected, ...extra.map(stone => stone.id)];
 }
+export interface PaymentStatus {
+  valid: boolean; selectedCount: number; requiredCount: number;
+  missingColors: Partial<Record<StoneColor,number>>; missingGeneric: number; excessCount: number; invalidSelection: boolean;
+}
+export function paymentStatus(state: ArenaState, cost: StoneCost, stoneIds: readonly number[]): PaymentStatus {
+  const ids = new Set(stoneIds);
+  const stones = state.stones.filter(stone => ids.has(stone.id));
+  const invalidSelection = ids.size !== stoneIds.length || stones.length !== ids.size;
+  const missingColors: Partial<Record<StoneColor,number>> = {};
+  let coloredCount = 0, matched = 0;
+  for (const color of COLORS) {
+    const required = cost.colored[color] ?? 0;
+    const available = stones.filter(stone => stone.color === color).length;
+    coloredCount += required; matched += Math.min(required,available);
+    if (available < required) missingColors[color] = required-available;
+  }
+  const unallocated = stones.length-matched;
+  const missingGeneric = Math.max(0,cost.generic-unallocated);
+  const excessCount = Math.max(0,unallocated-cost.generic);
+  return {valid: !invalidSelection && !Object.keys(missingColors).length && !missingGeneric && !excessCount,
+    selectedCount:stoneIds.length,requiredCount:cost.generic+coloredCount,missingColors,missingGeneric,excessCount,invalidSelection};
+}
 export function canPayCost(state: ArenaState, cost: StoneCost, stoneIds: readonly number[]): boolean {
-  if (new Set(stoneIds).size !== stoneIds.length) return false;
-  const stones = stoneIds.map(id => state.stones.find(stone => stone.id === id));
-  if (stones.some(stone => !stone)) return false;
-  if (stoneIds.length !== cost.generic + Object.values(cost.colored).reduce((sum, n) => sum + (n ?? 0), 0)) return false;
-  return COLORS.every(color => stones.filter(stone => stone?.color === color).length >= (cost.colored[color] ?? 0));
+  return paymentStatus(state,cost,stoneIds).valid;
 }
 export function consumeCard(state: ArenaState, handCardId: number, stoneIds: readonly number[]): void {
   const index = state.hand.findIndex(card => card.id === handCardId);

@@ -1,26 +1,49 @@
-import { CARDS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isResolvingArena, type ArenaState, type Fighter, type ThrownItem, type ThrownKind, type Weapon } from './model';
+import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isResolvingArena, type ArenaState, type Fighter, type ThrownItem, type ThrownKind, type Weapon } from './model';
 import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime } from './geometry';
-import { canPayCost, consumeCard, drawCard, drawStones } from './engine-cards';
+import { canPayCost, findPayment, consumeCard, drawCard, drawStones } from './engine-cards';
 import { applyHealthDamage, damageFighter } from './engine-damage';
 
 export interface CardTarget { fighterId?: string; x?: number; y?: number }
-export function playCard(state: ArenaState, handCardId: number, target: CardTarget, stoneIds: number[]): boolean {
-  if ((state.status !== 'running' && state.status !== 'paused') || isResolvingArena(state)) return false;
+export type CardPlayRejection = 'not-started' | 'finished' | 'resolving' | 'card-missing' |
+  'target-required' | 'target-missing' | 'target-dead' | 'target-full-health' | 'invalid-point' |
+  'outside-arena' | 'out-of-range' | 'empty-area' | 'insufficient-stones' | 'invalid-payment';
+export type CardPlayValidation = { ok: true } | { ok: false; reason: CardPlayRejection };
+/** Pure preflight shared by feedback and the authoritative command. */
+export function validateCardPlay(state: ArenaState, handCardId: number, target: CardTarget, stoneIds: readonly number[]): CardPlayValidation {
+  if (state.status === 'ready') return {ok:false,reason:'not-started'};
+  if (state.status === 'finished') return {ok:false,reason:'finished'};
+  if (isResolvingArena(state)) return {ok:false,reason:'resolving'};
   const instance = state.hand.find(value => value.id === handCardId);
   const card = CARDS.find(value => value.id === instance?.cardId);
-  if (!card || !canPayCost(state, card.cost, stoneIds)) return false;
-  const fighter = state.fighters.find(value => value.id === target.fighterId && value.hp > 0);
-  const { x, y } = target;
-  let areaTargets: Fighter[] = [];
+  if (!card) return {ok:false,reason:'card-missing'};
   if (card.target === 'fighter') {
-    if (!fighter || (card.id === 'growth' && fighter.hp >= fighter.maxHp)) return false;
-  } else if (card.target === 'area') {
-    if (x === undefined || y === undefined) return false;
-    areaTargets = areaSpellTargets(state.fighters,card,{x,y});
-    if (!areaTargets.length) return false;
-  } else if (x === undefined || y === undefined || !isThrowableTarget(card,{x,y})) return false;
+    if (target.fighterId === undefined) return {ok:false,reason:'target-required'};
+    const fighter = state.fighters.find(value => value.id === target.fighterId);
+    if (!fighter) return {ok:false,reason:'target-missing'};
+    if (fighter.hp <= 0) return {ok:false,reason:'target-dead'};
+    if (card.id === 'growth' && fighter.hp >= fighter.maxHp) return {ok:false,reason:'target-full-health'};
+  } else {
+    const {x,y} = target;
+    if (x === undefined || y === undefined) return {ok:false,reason:'target-required'};
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return {ok:false,reason:'invalid-point'};
+    if (Math.hypot(x,y) > (card.target === 'area' ? ARENA_RADIUS : THROW_TARGET_RADIUS)) return {ok:false,reason:'outside-arena'};
+    if (card.target === 'area') {
+      if (!areaSpellTargets(state.fighters,card,{x,y}).length) return {ok:false,reason:'empty-area'};
+    } else if (!isThrowableTarget(card,{x,y})) return {ok:false,reason:'out-of-range'};
+  }
+  if (!findPayment(state,card.cost)) return {ok:false,reason:'insufficient-stones'};
+  if (!canPayCost(state,card.cost,stoneIds)) return {ok:false,reason:'invalid-payment'};
+  return {ok:true};
+}
+export function playCard(state: ArenaState, handCardId: number, target: CardTarget, stoneIds: number[]): boolean {
+  if (!validateCardPlay(state,handCardId,target,stoneIds).ok) return false;
+  const instance = state.hand.find(value => value.id === handCardId)!;
+  const card = CARDS.find(value => value.id === instance.cardId)!;
+  const fighter = state.fighters.find(value => value.id === target.fighterId);
+  const {x,y} = target;
+  const areaTargets = card.target === 'area' ? areaSpellTargets(state.fighters,card,{x:x!,y:y!}) : [];
   consumeCard(state, handCardId, stoneIds);
   if (card.target === 'fighter' && fighter) {
     if (card.id === 'lightning') applyHealthDamage(state, fighter, 3);

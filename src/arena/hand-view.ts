@@ -44,13 +44,13 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
     el('[data-hand-count]').textContent = `手牌 ${state.hand.length} 張`;
   }
 
-  function renderStones(state: ArenaState, activeCard: Card | undefined, exchanging: boolean, exchangeStones: Set<number>): void {
+  function renderStones(state: ArenaState, activeCard: Card | undefined, exchanging: boolean, exchangeStones: Set<number>, paymentStones: Set<number>): void {
     const tray = el('[data-testid="arena-stones"]');
     const key = state.stones.map((stone) => `${stone.id}:${stone.color}`).join('|');
     if (key !== lastStones) {
       lastStones = key;
       for (const [id, node] of stoneNodes) {
-        if (!state.stones.some((stone) => stone.id === id)) { node.remove(); stoneNodes.delete(id); exchangeStones.delete(id); }
+        if (!state.stones.some((stone) => stone.id === id)) { node.remove(); stoneNodes.delete(id); exchangeStones.delete(id); paymentStones.delete(id); }
       }
       for (const stone of state.stones) {
         if (stoneNodes.has(stone.id)) continue;
@@ -66,21 +66,25 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
       }
       el('[data-stone-summary]').innerHTML = STONE_COLORS.map((color) => `<span data-color="${color}">${STONE_NAMES[color]} <b>${state.stones.filter((stone) => stone.color === color).length}</b></span>`).join('');
     }
-    const payment = !exchanging && activeCard ? findPayment(state, activeCard.cost) : undefined;
+    const mode = exchanging ? 'exchange' : activeCard ? 'payment' : 'idle';
+    tray.dataset.mode = mode;
+    const selected = exchanging ? exchangeStones : paymentStones;
     for (const [id, button] of stoneNodes) {
-      button.disabled = !exchanging;
-      button.setAttribute('aria-pressed', String(exchangeStones.has(id)));
-      button.classList.toggle('is-payment', Boolean(payment?.includes(id)));
+      button.disabled = mode === 'idle';
+      button.setAttribute('aria-pressed', String(selected.has(id)));
+      button.classList.toggle('is-payment', mode === 'payment' && paymentStones.has(id));
+      button.setAttribute('aria-label', `${STONE_NAMES[button.dataset.color as keyof typeof STONE_NAMES]}色魔法石${mode === 'payment' ? selected.has(id) ? '，已選支付' : '，保留' : mode === 'exchange' ? selected.has(id) ? '，將放棄' : '，保留' : ''}`);
     }
     el('[data-stone-total]').textContent = `${state.stones.length} 顆`;
-    el('[data-stone-help]').textContent = exchanging ? '點選要放棄的石頭，可再次點擊取消。' : '數字費用可用任意色；選牌後亮起預計支付的石頭。';
+    el('[data-stone-mode]').textContent = exchanging ? '放棄的石頭' : activeCard ? '支付用石 · 勾選才花費' : '持有魔法石';
+    el('[data-stone-help]').textContent = exchanging ? '目前是換石：選中的石頭會被放棄，確認換石才消耗。' : activeCard ? '點石頭可取消或改選，保留需要的顏色；點目標才付款。' : '選卡後可改選支付用石；數字費用可用任意色。';
   }
 
   return {
-    render(state: ArenaState, activeHandId: number | undefined, exchanging: boolean, exchangeStones: Set<number>): void {
+    render(state: ArenaState, activeHandId: number | undefined, exchanging: boolean, exchangeStones: Set<number>, paymentStones: Set<number>): void {
       const card = CARDS.find((entry) => entry.id === state.hand.find((hand) => hand.id === activeHandId)?.cardId);
       renderHand(state, activeHandId, exchanging);
-      renderStones(state, card, exchanging, exchangeStones);
+      renderStones(state, card, exchanging, exchangeStones, paymentStones);
     },
     reset(): void {
       cardNodes.clear(); stoneNodes.clear(); lastStones = '';
