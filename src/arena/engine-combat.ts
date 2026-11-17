@@ -1,4 +1,4 @@
-import { type ArenaState, type Fighter } from './model';
+import { THROW_PROFILES, type ArenaState, type Fighter, type Weapon } from './model';
 import { canEquip } from './equipment';
 import { fireArrow } from './engine-arrows';
 import { advanceControl, attackDamage, clampFighter, damageFighter, distance, hasBuff, log, syncStamina } from './engine-damage';
@@ -45,7 +45,7 @@ export function act(state: ArenaState, fighter: Fighter, dt: number): void {
     return;
   }
   let destination: { x: number; y: number } = target;
-  const available = state.items.filter(item => item.landed && canEquip(fighter, item.weapon));
+  const available = state.items.filter(item => item.landed && !THROW_PROFILES[item.weapon].disposable && canEquip(fighter, item.weapon as Weapon));
   const item = available.sort((a, b) => distance(fighter, a) - distance(fighter, b))[0];
   if (item && distance(fighter, item) < 3) destination = item;
   const dx = destination.x - fighter.x, dy = destination.y - fighter.y;

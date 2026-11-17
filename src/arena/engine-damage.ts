@@ -77,6 +77,12 @@ export function applyHealthDamage(state: ArenaState, target: Fighter, damage: nu
   if (target.hp === 0) {
     target.pose = 'dead'; target.poseUntil = Infinity; target.knockback = undefined;
     log(state, `${target.name} 倒下了`);
+    const killer = state.fighters.find(fighter => fighter.id === sourceFighterId && fighter.id !== target.id);
+    if (killer && killer.hp > 0 && killer.species === 'wolf') {
+      killer.buffs = killer.buffs.filter(buff => buff.kind !== 'fury');
+      killer.buffs.push({kind:'fury',until:state.time+8});
+      effect(state,killer,'擊殺狂熱','#df776a','spell');
+    }
     if (sourceFighterId === state.supportedId && sourceFighterId !== target.id) {
       drawStones(state, 3);
       const source = state.fighters.find(fighter => fighter.id === sourceFighterId);

@@ -148,3 +148,6 @@
 .hand-heading-actions button { min-height: 36px; padding: 6px 9px; border: 1px solid #655b41; color: #dec795; background: #303526; font-size: 11px; }
 .hand-heading-actions kbd { font-family: inherit; font-size: 9px; margin-left: 5px; color: #a2a489; }
 @media (max-width: 480px) { .hand-heading-actions { gap: 4px; } .hand-heading-actions kbd { display: none; } .hand-heading-actions button { min-height: 36px; padding: 5px 7px; font-size: 10px; } }
+
+.detail-trait { border-left: 2px solid #bda16a; padding-left: 7px; margin: 0 0 12px; color: #c7bf9e; font-size: 10px; line-height: 1.7; }
+.card-detail .throw-instruction { color: #e3c58e; font-size: 10px; line-height: 1.6; }

@@ -1,5 +1,6 @@
-import { ARENA_RADIUS, type ArenaState, type Fighter } from './model';
+import { ARENA_RADIUS, THROW_ORIGIN, THROW_TARGET_RADIUS, isThrowableTarget, type ArenaState, type Card, type Fighter } from './model';
 import { drawPuppet, drawWeapon } from './puppet';
+import { drawThrowable, drawThrowImpact } from './thrown-art';
 import { airborneHeight, riseProgress } from './animation';
 import { createProjection, FORESHORTENING, insideArena, project, unproject, type Projection } from './projection';
 type Context = CanvasRenderingContext2D;
@@ -24,8 +25,10 @@ export class ArenaView {
     this.ctx.setTransform(ratio,0,0,ratio,0,0);this.projection=createProjection(this.width,this.height);
   }
   ground(clientX: number, clientY: number): {x:number;y:number}|undefined {
-    const rect=this.canvas.getBoundingClientRect();const p=unproject(clientX-rect.left,clientY-rect.top,this.projection);
-    return insideArena(p.x,p.y)?p:undefined;
+    const p=this.point(clientX,clientY);return insideArena(p.x,p.y)?p:undefined;
+  }
+  point(clientX: number, clientY: number): {x:number;y:number} {
+    const rect=this.canvas.getBoundingClientRect();return unproject(clientX-rect.left,clientY-rect.top,this.projection);
   }
   pick(clientX: number, clientY: number, state: ArenaState): Fighter|undefined {
     const rect=this.canvas.getBoundingClientRect();const x=clientX-rect.left,y=clientY-rect.top;
@@ -41,14 +44,15 @@ export class ArenaView {
     at.y-=airborneHeight(f,time)*this.projection.scale*FORESHORTENING;return at;
   }
   private actorScale(f: Fighter): number {return this.projection.scale/38*(f.species==='bear'||f.species==='elephant'?1.13:1);}
-  render(state: ArenaState, selectedId: string, targetMode?: 'fighter'|'ground'|null): void {
+  render(state: ArenaState, selectedId: string, targetMode?: 'fighter'|'ground'|null, targetCard?: Card, aim?: {x:number;y:number}): void {
     this.resize();const ctx=this.ctx,p=this.projection;
     ctx.lineWidth=1;ctx.lineCap='butt';ctx.lineJoin='miter';ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.setLineDash([]);
     ctx.clearRect(0,0,this.width,this.height);this.venue(state.time);
     if(targetMode==='ground'){
       ctx.save();ctx.strokeStyle='#d5b97d88';ctx.lineWidth=2;ctx.setLineDash([5,7]);
-      ctx.beginPath();ctx.ellipse(p.cx,p.cy,ARENA_RADIUS*p.scale,ARENA_RADIUS*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.stroke();ctx.restore();
+      ctx.beginPath();ctx.ellipse(p.cx,p.cy,THROW_TARGET_RADIUS*p.scale,THROW_TARGET_RADIUS*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.stroke();ctx.restore();
     }
+    if(targetMode==='ground'&&targetCard?.throwRange)this.throwGuide(targetCard,aim);
     for(const f of state.fighters){const at=project(f.x,f.y,p);const s=this.actorScale(f);
       ellipse(ctx,at.x,at.y+3,17*s,6*s,'#14111666');
       if(f.hp>0&&(f.id===selectedId||f.id===state.supportedId)){
@@ -63,10 +67,11 @@ export class ArenaView {
     for(const effect of state.effects){const age=state.time-effect.at;if(age<0||age>1.2)continue;
       const at=project(effect.x,effect.y,p);ctx.save();ctx.globalAlpha=Math.max(0,1-age/1.2);
       if(effect.kind==='spell'){ctx.strokeStyle=effect.color;ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(at.x,at.y,10+age*35,4+age*15,0,0,Math.PI*2);ctx.stroke();}
+      if(effect.kind==='impact'&&(effect.itemKind==='stone'||effect.itemKind==='pot')){ctx.save();ctx.translate(at.x,at.y);drawThrowImpact(ctx,effect.itemKind,age,p.scale/32);ctx.restore();}
       ctx.font=`bold ${Math.max(11,p.scale*.36)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#282127';
       ctx.strokeText(effect.text,at.x,at.y-p.scale*1.8-age*25);ctx.fillStyle=effect.color;ctx.fillText(effect.text,at.x,at.y-p.scale*1.8-age*25);ctx.restore();
     }
-    if(state.status==='ready'){
+    if(state.status==='ready'&&!targetCard?.throwRange){
       ctx.fillStyle='#c9bd9c';ctx.font='11px system-ui';ctx.textAlign='center';ctx.fillText('七位鬥士已就位 · 選擇你的贏家',p.cx,this.height-20);
     }
   }
@@ -79,7 +84,11 @@ export class ArenaView {
     ctx.fillStyle='#649aab';ctx.fillRect(at.x-w/2,y+4,w*Math.max(0,f.stamina/f.maxStamina),2);
     ctx.font=`${Math.max(9,10*s)}px system-ui`;ctx.textAlign='center';ctx.fillStyle='#e1d7c1';ctx.strokeStyle='#1c1b22';ctx.lineWidth=3;
     ctx.strokeText(f.name,at.x,y-5);ctx.fillText(f.name,at.x,y-5);
-    if(f.buffs.length){ctx.fillStyle=f.buffs.some(b=>b.kind==='weakness')?'#bd9ce1':'#f0c36d';ctx.fillText('✦'.repeat(f.buffs.length),at.x,at.y+17*s);}
+    if(f.buffs.some(b=>b.kind==='fury')){
+      ctx.fillStyle='#f7d498';ctx.strokeStyle='#382419';ctx.lineWidth=3;ctx.font=`bold ${Math.max(10,11*s)}px system-ui`;
+      ctx.strokeText('狂熱',at.x+5,at.y+18*s);ctx.fillText('狂熱',at.x+5,at.y+18*s);
+      ctx.strokeStyle='#f7d498';ctx.lineWidth=1.5;for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(at.x-16+i*3,at.y+10*s);ctx.lineTo(at.x-19+i*3,at.y+18*s);ctx.stroke();}
+    } else if(f.buffs.length){ctx.fillStyle=f.buffs.some(b=>b.kind==='weakness')?'#bd9ce1':'#f0c36d';ctx.fillText('✦'.repeat(f.buffs.length),at.x,at.y+17*s);}
   }
   private direction(f:Fighter,x:number,y:number,scale:number):void{
     const ctx=this.ctx,a=f.facing,r=24*scale;
@@ -105,7 +114,32 @@ export class ArenaView {
     const lift=item.landed?0:Math.sin(progress*Math.PI)*p.scale*2.3;
     ellipse(ctx,at.x,at.y,10,4,'#15121a55');ctx.save();ctx.translate(at.x,at.y-lift);ctx.scale(p.scale/42,p.scale/42);
     if(item.landed){ctx.rotate(Math.PI/3);ctx.shadowColor='#efd587';ctx.shadowBlur=8;}else ctx.rotate(progress*Math.PI*3);
-    drawWeapon(ctx,item.weapon);ctx.restore();
+    if(item.weapon==='stone'||item.weapon==='pot')drawThrowable(ctx,item.weapon);else drawWeapon(ctx,item.weapon);ctx.restore();
+  }
+  private throwGuide(card: Card, aim?: {x:number;y:number}): void {
+    const ctx=this.ctx,p=this.projection,range=card.throwRange!;
+    const origin=project(THROW_ORIGIN.x,THROW_ORIGIN.y,p);
+    ctx.save();
+    ctx.beginPath();ctx.ellipse(p.cx,p.cy,THROW_TARGET_RADIUS*p.scale,THROW_TARGET_RADIUS*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.clip();
+    ctx.fillStyle='#10152230';ctx.fillRect(0,0,this.width,this.height);
+    ctx.fillStyle='#f0ce7e32';ctx.strokeStyle='#ffe1a0';ctx.lineWidth=2;ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.ellipse(origin.x,origin.y,range*p.scale,range*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.restore();
+    ctx.save();ctx.strokeStyle='#ffe1a0';ctx.fillStyle='#302b20';ctx.lineWidth=2;
+    ellipse(ctx,origin.x,origin.y,6,4,'#f6d58a','#fff0c7');
+    ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.lineWidth=4;ctx.strokeStyle='#1b1c1e';ctx.fillStyle='#f2d9a8';
+    const label=`投擲席 · ${range}m`;ctx.strokeText(label,origin.x,Math.min(this.height-8,origin.y+22));ctx.fillText(label,origin.x,Math.min(this.height-8,origin.y+22));
+    if(aim){
+      const at=project(aim.x,aim.y,p),valid=isThrowableTarget(card,aim);
+      ctx.strokeStyle=valid?'#f8dea0':'#efb0a7';ctx.fillStyle=ctx.strokeStyle;ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+      ctx.beginPath();ctx.moveTo(origin.x,origin.y);ctx.lineTo(at.x,at.y);ctx.stroke();ctx.setLineDash([]);
+      if(valid){ellipse(ctx,at.x,at.y,8,5,'#f8dea030',ctx.strokeStyle);}
+      else {ctx.beginPath();ctx.moveTo(at.x-6,at.y-6);ctx.lineTo(at.x+6,at.y+6);ctx.moveTo(at.x+6,at.y-6);ctx.lineTo(at.x-6,at.y+6);ctx.stroke();}
+      const text=valid?'預計落點':Math.hypot(aim.x,aim.y)<=THROW_TARGET_RADIUS?`超出 ${range}m`:'場界不可投';
+      const x=Math.max(45,Math.min(this.width-45,at.x)),y=Math.max(16,Math.min(this.height-8,at.y-12));
+      ctx.strokeStyle='#1b1c1e';ctx.lineWidth=4;ctx.strokeText(text,x,y);ctx.fillText(text,x,y);
+    }
+    ctx.restore();
   }
   private venue(time:number):void {
     const ctx=this.ctx,p=this.projection,r=ARENA_RADIUS*p.scale,ry=r*FORESHORTENING;

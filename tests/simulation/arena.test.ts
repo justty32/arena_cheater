@@ -68,6 +68,7 @@ describe('circular arena simulation', () => {
     const target = state.fighters[0];
     expect(play(state, 'bloodlust', { fighterId: target.id })).toBe(true);
     expect(play(state, 'sword', { x: 0, y: 0 })).toBe(true);
+    for (const fighter of state.fighters) {fighter.x=6;fighter.y=0;fighter.speed=0;fighter.nextAttack=Infinity;}
     const paused = structuredClone(state);
     advanceArena(state, 10); expect(state).toEqual(paused);
     toggleArena(state); run(state, 0.5);
@@ -87,12 +88,15 @@ describe('circular arena simulation', () => {
   });
   it('lands a thrown weapon before exactly one fighter can pick it up', () => {
     const state = running();
-    const fighter = state.fighters[0]; fighter.x = 0; fighter.y = 0;
+    const fighter = state.fighters[0];
+    for(const value of state.fighters){value.x=6;value.y=0;}
+    fighter.x=2;fighter.y=0;
     expect(play(state, 'sword', { x: 0, y: 0 })).toBe(true);
     const flight = state.items[0];
     state.time = flight.landsAt - 0.01; advanceItems(state);
     expect(fighter.weapon).toBe('fists');
     expect(state.items).toHaveLength(1);
+    fighter.x=0;
     state.time = flight.landsAt; advanceItems(state);
     expect(fighter.weapon).toBe('sword');
     expect(state.items).toHaveLength(0);

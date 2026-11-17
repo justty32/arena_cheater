@@ -4,9 +4,9 @@ import { advanceItems, playCard } from '../../src/arena/engine-items';
 import { canEquip, equip } from '../../src/arena/equipment';
 import { sweptCircleTime } from '../../src/arena/geometry';
 import { syncStamina } from '../../src/arena/engine-damage';
-import type { ThrownItem, Weapon } from '../../src/arena/model';
+import type { ThrownItem, ThrownKind } from '../../src/arena/model';
 
-function flight(id: number, fromX: number, fromY: number, toX: number, toY: number, landsAt = 1, weapon: Weapon = 'sword'): ThrownItem {
+function flight(id: number, fromX: number, fromY: number, toX: number, toY: number, landsAt = 1, weapon: ThrownKind = 'sword'): ThrownItem {
   return { id, weapon, fromX, fromY, toX, toY, x: fromX, y: fromY, launched: 0, landsAt, landed: false };
 }
 

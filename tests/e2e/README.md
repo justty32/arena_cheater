@@ -4,7 +4,7 @@
 
 | 檔案 | 範圍 |
 |------|------|
-| [arena.spec.ts](arena.spec.ts) | 新圓場三牌三石、實例付款、暫停出牌、換石冷卻、拖曳／手機操作，弓與木棍投送拾取及用量顯示 |
+| [arena.spec.ts](arena.spec.ts) | 新圓場三牌三石、實例付款、暫停出牌、換石冷卻、拖曳／手機操作、裝備投送、石頭與陶罐投擲及鬥士特性 |
 | [battle.spec.ts](battle.spec.ts) | 開局、暫停、倍率、重置、模式、作弊與觸控排版 |
 | [effects.spec.ts](effects.spec.ts) | 投射物、目標指示、命中、手機及降低動態效果 |
 | [helpers.ts](helpers.ts) | 共用時計與瀏覽器錯誤觀察 |

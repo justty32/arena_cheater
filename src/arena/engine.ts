@@ -9,13 +9,13 @@ export { playCard } from './engine-items';
 
 const STEP = 1 / 30;
 const SPECIES: { species: Species; name: string; color: string; hp: number; stamina: number; speed: number; attack: number; radius: number }[] = [
-  { species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.75, attack: 11, radius: 0.35 },
+  { species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },
   { species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },
   { species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },
   { species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },
   { species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },
   { species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },
-  { species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.5, attack: 11, radius: 0.35 },
+  { species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },
 ];
 export function createArena(seed = 73021): ArenaState {
   let randomState = seed >>> 0;
@@ -39,10 +39,7 @@ export function toggleArena(state: ArenaState): void {
 }
 function step(state: ArenaState): void {
   state.time += STEP;
-  const mayAdvance = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
-  if (mayAdvance) {
-    advanceItems(state, STEP);
-  }
+  advanceItems(state, STEP);
   advanceArrows(state, STEP);
   const mayAct = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
   for (const fighter of state.fighters) {
@@ -56,7 +53,7 @@ function step(state: ArenaState): void {
   separateFighters(state);
   state.effects = state.effects.filter(effect => state.time - effect.at < 1.8);
   const alive = state.fighters.filter(fighter => fighter.hp > 0);
-  if ((alive.length <= 1 || state.time >= 180) && state.arrows.length === 0) {
+  if ((alive.length <= 1 || state.time >= 180) && state.arrows.length === 0 && state.items.every(item => item.landed)) {
     state.status = 'finished';
     state.winnerId = alive.length === 1 ? alive[0].id : undefined;
     log(state, alive.length === 1 ? `${alive[0].name} 贏得競技場！` : '本場平局');

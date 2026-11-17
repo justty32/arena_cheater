@@ -38,7 +38,7 @@ async function seek(page: Page, predicate: (state: ArenaState) => boolean) {
 test('三張實例手牌與三石可檢視；缺色仍可選牌且不消耗', async ({ page }, info) => {
   const errors = observeErrors(page);
   await open(page);
-  const state = createArena(73021);
+  const state = await seek(page, s => s.hand.some(h => !findPayment(s, CARDS.find(c => c.id === h.cardId)!.cost)));
   await expect(hand(page)).toHaveCount(3);
   await expect(stones(page)).toHaveCount(3);
   await expect(page.locator('[data-fighter]')).toHaveCount(7);
@@ -56,7 +56,7 @@ test('三張實例手牌與三石可檢視；缺色仍可選牌且不消耗', as
 test('暫停投送先驗目標、取消與拖曳；成功只消耗當張牌並補二石一牌', async ({ page }) => {
   const errors = observeErrors(page);
   await open(page);
-  const state = createArena(73021);
+  const state = await seek(page, s => s.hand.some(h => h.cardId === 'sword'));
   const sword = state.hand.find(h => h.cardId === 'sword')!;
   const payment = findPayment(state, CARDS.find(c => c.id === sword.cardId)!.cost)!;
   await paused(page);
@@ -195,8 +195,10 @@ for (const target of ['名單', '場上'] as const) {
 }
 
 test('拖曳有效投送只消耗一次實例與付款石', async ({ page }) => {
-  await open(page); await paused(page);
-  const state = createArena(73021); const instance = state.hand.find(h => h.cardId === 'sword')!;
+  await open(page);
+  const state = await seek(page, s => s.hand.some(h => h.cardId === 'sword'));
+  await paused(page);
+  const instance = state.hand.find(h => h.cardId === 'sword')!;
   const card = cardButton(page, instance.id); await card.scrollIntoViewIfNeeded();
   const from = await card.boundingBox(); const canvas = await page.getByTestId('arena-canvas').boundingBox();
   await page.mouse.move(from!.x + from!.width / 2, from!.y + from!.height / 2); await page.mouse.down();
@@ -213,4 +215,56 @@ test('野性成長對滿血鬥士不消耗牌或石', async ({ page }) => {
   await cardButton(page, instance.id).click(); await page.locator('[data-fighter]').first().click();
   expect(await inventory(page)).toEqual(before);
   await expect(cardButton(page, instance.id)).toHaveAttribute('aria-pressed', 'true');
+});
+
+
+for (const [id, name] of [['stone', '石頭'], ['pot', '陶罐']] as const) {
+  test(`${name}超射程不扣費，合法投擲暫停凍結並於續戰結束飛行`, async ({ page }, info) => {
+    const errors = observeErrors(page);
+    await open(page);
+    const state = await seek(page, s => s.hand.some(h => h.cardId === id));
+    const instance = state.hand.find(h => h.cardId === id)!;
+    const definition = CARDS.find(card => card.id === id)!;
+    const payment = findPayment(state, definition.cost)!;
+    await paused(page);
+    await cardButton(page, instance.id).click();
+    await expect(page.getByTestId('arena-card-detail')).toContainText(definition.description);
+    const before = await inventory(page);
+    const canvas = page.getByTestId('arena-canvas'); const box = await canvas.boundingBox();
+    const projection = createProjection(box!.width, box!.height);
+    // The center is inside the arena but farther than either throw's reach from the player's seat.
+    await canvas.click({ position: project(0, 0, projection) });
+    expect(await inventory(page)).toEqual(before);
+    await expect(cardButton(page, instance.id)).toHaveAttribute('aria-pressed', 'true');
+    await canvas.click({ position: project(0, 6, projection) });
+    await expect(cardButton(page, instance.id)).toHaveCount(0);
+    await expect(hand(page)).toHaveCount(3);
+    await expect(stones(page)).toHaveCount(state.stones.length - payment.length + 2);
+    for (const stoneId of payment) await expect(page.locator(`[data-stone="${stoneId}"]`)).toHaveCount(0);
+    await expect(page.locator('[data-log]')).toContainText(`投擲${name}`);
+    await page.clock.runFor(100);
+    const image = () => canvas.evaluate((element: HTMLCanvasElement) => element.toDataURL());
+    const frozenImage = await image(); const frozenLogs = await page.locator('[data-log] li').allTextContents();
+    await page.clock.runFor(1500);
+    expect(await image()).toBe(frozenImage);
+    await expect(page.locator('[data-log] li')).toHaveText(frozenLogs);
+    await expect(page.getByTestId('arena-time')).toHaveText('00:00');
+    await page.screenshot({ path: info.outputPath(`arena-${id}-paused.png`), fullPage: true });
+    await page.getByTestId('arena-start').click(); await page.clock.runFor(900);
+    await expect(page.locator('[data-log]')).toContainText(new RegExp(`${name}(命中|落地|碎裂)`));
+    await expect(page.locator('[data-log]')).not.toContainText(`拾取${name}`);
+    expect(errors).toEqual([]);
+  });
+}
+
+test('鬥士詳情可查看狼擊殺狂熱與鹿高速特性', async ({ page }) => {
+  await open(page);
+  const state = createArena(73021);
+  await page.locator(`[data-fighter="${state.fighters.find(f => f.species === 'wolf')!.id}"]`).click();
+  await expect(page.getByTestId('arena-trait')).toBeVisible();
+  await expect(page.getByTestId('arena-trait')).toContainText('狂熱');
+  await expect(page.getByTestId('arena-trait')).toContainText('擊殺');
+  await page.locator(`[data-fighter="${state.fighters.find(f => f.species === 'deer')!.id}"]`).click();
+  await expect(page.getByTestId('arena-trait')).toBeVisible();
+  await expect(page.getByTestId('arena-trait')).toContainText('移動速度較高');
 });
