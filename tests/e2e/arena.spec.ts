@@ -156,18 +156,44 @@ test('裝備投送拾取後更新詳情', async ({ page }, info) => {
   expect(errors).toEqual([]);
 });
 
-test('手機觸控選卡及取消不溢出，倍速與重置保留控制', async ({ browser, baseURL }, info) => {
+test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作', async ({ browser, baseURL }, info) => {
   const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   const page = await context.newPage(); const errors = observeErrors(page);
   await open(page);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  for (const viewport of [{ width: 390, height: 844 }, { width: 320, height: 740 }]) {
+    await page.setViewportSize(viewport); await page.clock.runFor(32);
+    await page.evaluate(() => scrollTo(0, 0));
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await expect(page.getByTestId('arena-canvas')).toBeInViewport({ ratio: 1 });
+    await expect(hand(page)).toHaveCount(3);
+    for (const card of await hand(page).all()) await expect(card).toBeInViewport({ ratio: 1 });
+    await expect(page.getByTestId('arena-stone-summary')).toBeInViewport({ ratio: 1 });
+  }
   const before = await inventory(page);
-  await hand(page).first().tap(); await expect(page.getByTestId('arena-card-detail')).toBeVisible();
-  await page.locator('[data-cancel]').tap(); expect(await inventory(page)).toEqual(before);
+  await hand(page).first().tap();
+  await page.getByTestId('arena-effect-toggle').tap();
+  await expect(page.getByTestId('arena-card-detail')).toBeVisible();
+  await page.getByTestId('arena-effect-toggle').tap();
+  await page.getByTestId('arena-payment-toggle').tap();
+  await expect(page.getByTestId('arena-payment-toggle')).toHaveAttribute('aria-expanded', 'true');
+  const selected = await stones(page).first().getAttribute('aria-pressed');
+  await stones(page).first().tap();
+  await expect(stones(page).first()).toHaveAttribute('aria-pressed', String(selected !== 'true'));
+  expect(await inventory(page)).toEqual(before);
+  await page.locator('[data-cancel]').tap();
   await page.locator('[data-speed="2"]').tap(); await page.getByTestId('arena-start').tap();
   await page.clock.runFor(2000);
   const time = await page.getByTestId('arena-time').innerText();
   expect(Number(time.split(':')[1])).toBeGreaterThanOrEqual(3);
+  await page.getByTestId('arena-start').tap();
+  const discarded = await hand(page).first().getAttribute('data-hand-card');
+  await hand(page).first().tap();
+  await page.getByTestId('arena-exchange-toggle').tap();
+  await page.getByTestId('arena-redraw').tap();
+  await expect(page.getByTestId('arena-stones')).toHaveAttribute('data-mode', 'exchange');
+  await expect(page.getByTestId('arena-payment-toggle')).toHaveAttribute('aria-expanded', 'true');
+  await stones(page).first().tap(); await page.getByTestId('arena-redraw-confirm').tap();
+  await expect(page.locator(`[data-hand-card="${discarded}"]`)).toHaveCount(0);
   await page.getByTestId('arena-reset').tap();
   await expect(page.getByTestId('arena-time')).toHaveText('00:00');
   await expect(page.locator('[data-speed="2"]')).toHaveAttribute('aria-pressed', 'true');

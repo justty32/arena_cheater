@@ -1,0 +1,85 @@
+[data-mobile-panel] > summary { display: none; }
+.stone-payment .payment-preview { font-size: 10px; line-height: 1.65; color: #b7b492; margin: 9px 0 0; }
+@media(max-width:800px) {
+  [data-mobile-panel] > summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; min-height: 44px; font-size: 12px; color: #d9c69d; list-style: none; }
+  [data-mobile-panel] > summary::-webkit-details-marker { display: none; }
+  [data-mobile-panel] > summary::after { content: '+'; flex-shrink: 0; font-size: 18px; color: #bbaa83; }
+  [data-mobile-panel][open] > summary::after { content: '−'; }
+  [data-mobile-panel] > summary:focus-visible { outline: 2px solid #edc87d; outline-offset: 2px; }
+  .arena-header { height: 54px; }
+  .arena-brand { gap: 9px; }
+  .brand-mark { width: 29px; height: 32px; font-size: 24px; }
+  .arena-brand strong { font-size: 17px; letter-spacing: 3px; }
+  .arena-brand small { display: none; }
+  .arena-workspace { margin-top: 8px; gap: 8px; }
+  .arena-stage-top { height: 34px; padding: 0 11px; }
+  .arena-canvas-wrap, .arena-canvas-wrap canvas { min-height: clamp(230px, 33svh, 280px); }
+  .arena-controls { min-height: 48px; padding: 4px 8px; gap: 4px; }
+  .arena-primary { min-height: 40px; padding: 7px 11px; }
+  .arena-reset { min-height: 40px; }
+  .arena-speeds button { min-height: 34px; }
+  .arena-floor-label { display: none; }
+  .arena-hand { padding: 8px 10px 0; }
+  .hand-heading { min-height: 26px; margin-bottom: 6px; align-items: center; }
+  .hand-heading .section-eyebrow { display: none; }
+  .hand-heading h2 { font-size: 13px; margin: 0; letter-spacing: .5px; }
+  .hand-count { padding: 4px 6px; font-size: 9px; }
+  .hand-heading-actions button { min-height: 36px; }
+  .hand-table { display: flex; flex-direction: column; gap: 7px; }
+  .hand-play { order: 1; width: 100%; }
+  .stone-pouch { order: 2; width: 100%; display: block; padding: 0; }
+  .hand-exchange { order: 3; width: 100%; }
+  .arena-cards { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; padding: 3px 2px 5px; }
+  .arena-card { min-height: 112px; padding: 5px 5px 6px; }
+  .card-top { min-height: 23px; }
+  .card-top kbd { display: none; }
+  .card-cost { margin-left: auto; }
+  .cost-generic, .cost-stone { min-height: 22px; min-width: 22px; font-size: 11px; }
+  .card-art { height: 26px; }
+  .card-name { font-size: 14px; letter-spacing: 1px; }
+  .card-subtitle { margin-top: 3px; font-size: 9px; }
+  .card-description { display: none; }
+  .card-affordability { font-size: 9px; padding-top: 5px; }
+  .card-detail { min-height: 0; margin: 0; padding: 0; border: 0; }
+  .card-detail.is-empty { display: none; }
+  .card-effect > summary { min-height: 32px; font-size: 11px; }
+  .card-effect p { margin: 3px 0 6px; font-size: 12px; }
+  .card-detail .throw-instruction, .card-detail .area-instruction { font-size: 11px; margin: 0 0 5px; line-height: 1.55; }
+  .stone-heading { display: none; }
+  .stone-summary { margin: 0; gap: 5px; }
+  .stone-summary > span { min-height: 30px; padding: 4px; font-size: 11px; }
+  .stone-summary b { font-size: 13px; }
+  .stone-payment > summary { min-height: 42px; border-bottom: 1px solid #414431; }
+  .stone-payment > summary small { margin-left: auto; color: #aab598; font-size: 10px; }
+  .stone-actions { min-height: 44px; margin: 0 0 5px; }
+  .stone-actions button { min-height: 44px; }
+  .stone-tray { max-height: 104px; min-height: 54px; overscroll-behavior: contain; }
+  .stone-help, .stone-payment .payment-preview { margin: 5px 0; font-size: 11px; }
+  .hand-exchange { display: block; padding: 0; border: 0; border-top: 1px solid #3c4232; }
+  .hand-exchange > summary { min-height: 44px; }
+  .hand-exchange > .section-eyebrow, .hand-exchange > h3 { display: none; }
+  .hand-exchange > p { font-size: 11px; margin: 0 0 8px; }
+  .hand-exchange small { font-size: 10px; margin: 5px 0 8px; }
+  .hand-exchange [data-redraw-controls] p { font-size: 12px; }
+  .hand-footer { min-height: 38px; font-size: 11px; line-height: 1.5; }
+  .hand-footer p { margin: 6px 0; }
+  .hand-guide { padding: 0; }
+  .hand-guide summary { min-height: 36px; line-height: 36px; font-size: 11px; }
+  .arena-sidebar { display: flex; gap: 7px; }
+  .arena-panel { padding: 0 11px; }
+  .arena-panel > summary { min-height: 44px; }
+  .arena-panel > .panel-heading { display: none; }
+  .arena-panel[open] { padding-bottom: 12px; }
+  .fighter-list { margin-top: 4px; }
+  .fighter-row { min-height: 44px; padding: 7px 5px; }
+  .fighter-name { font-size: 12px; }
+  .fighter-row small { font-size: 11px; width: 64px; }
+  .fighter-detail > summary { flex-wrap: wrap; gap: 5px; }
+  .fighter-detail > summary span { margin-left: auto; color: #aab09b; font-size: 11px; }
+  .fighter-detail .detail-heading { margin-top: 7px; }
+  .battle-log { min-height: 0; }
+  .battle-log ol { display: block; }
+  .battle-log li { font-size: 11px; }
+  .support-button { min-height: 44px; font-size: 12px; }
+  .arena-footer { margin-top: 9px; }
+}

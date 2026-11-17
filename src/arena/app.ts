@@ -3,10 +3,12 @@ import { CARDS, isResolvingArena, isAreaSpellTarget, areaSpellTargets } from './
 import type { Card, Fighter } from './model';
 import { ArenaView } from './view';
 import { createHandView } from './hand-view';
+import { createMobilePanels } from './mobile-panels';
 import { cardPlayFailure, paymentProblem, paymentReadout } from './payment-ui';
 import { arenaLayout } from './layout';
 import './arena.css';
 import './hand.css';
+import './mobile.css';
 
 const poseLabels = { idle: '伺機而動', walk: '尋找對手', attack: '發起攻擊', hit: '受到攻擊', fallen: '倒地', airborne: '遭到擊飛', rising: '正在起身', block: '盾牌格擋', parry: '成功招架', dead: '已出局' };
 const weaponLabels = { fists: '徒手', sword: '直劍（單手）', club: '木棍（雙手）', shield: '圓盾（單手）', bow: '長弓（雙手）' };
@@ -25,6 +27,7 @@ export function mountArena(root: HTMLElement): void {
   let feedback = '選一位鬥士支持，然後開始這場混戰。';
   document.title = '詐賭競技場 · 場邊的你，才是變數';
   root.innerHTML = arenaLayout(state.fighters);
+  const mobilePanels = createMobilePanels(root);
   const el = <T extends HTMLElement = HTMLElement>(selector: string): T => root.querySelector<T>(selector)!;
   const canvas = el<HTMLCanvasElement>('[data-testid="arena-canvas"]');
   const view = new ArenaView(canvas);
@@ -83,6 +86,9 @@ export function mountArena(root: HTMLElement): void {
     el('[data-testid="arena-payment"]').textContent = exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard && paymentCheck ? paymentReadout(state, activeCard, payment, paymentCheck) : '每次成功出牌，補兩顆魔法石與一張手牌。';
     el('[data-testid="arena-payment"]').dataset.valid = String(!exchanging && Boolean(paymentCheck?.valid));
     el('[data-testid="arena-payment-auto"]').hidden = !activeCard || exchanging;
+    el('[data-testid="arena-card-detail"]').classList.toggle('is-empty', !activeCard);
+    el('[data-payment-toggle-label]').textContent = exchanging ? '選擇要放棄的石頭' : '改選支付石';
+    el('[data-payment-brief]').textContent = exchanging ? `已選 ${exchangeStones.size} 顆` : paymentCheck ? `${paymentCheck.selectedCount}/${paymentCheck.requiredCount} 顆 · ${paymentCheck.valid ? '已備妥' : '待調整'}` : '選牌後可改選';
     el('[data-testid="arena-throw-range"]').hidden = !activeCard?.throwRange || exchanging;
     el('[data-testid="arena-throw-range"]').textContent = activeCard?.throwRange ? `從下方投擲席投出，射程 ${activeCard.throwRange}m。只能投向亮區；沿途碰到鬥士或其他投擲物會提前落下。` : '';
     const areaPreview = el('[data-testid="arena-area-preview"]');
@@ -128,6 +134,7 @@ export function mountArena(root: HTMLElement): void {
   }
   function renderDetails(f: Fighter): void {
     el('[data-detail-name]').textContent = f.name;
+    el('[data-detail-summary]').textContent = f.name;
     el('[data-detail-pose]').textContent = poseLabels[f.pose];
     el('[data-detail-hp]').textContent = `${Math.max(0, Math.ceil(f.hp))} / ${f.maxHp}`;
     el('[data-detail-stamina]').textContent = `${Math.floor(f.stamina)} / ${f.maxStamina}`;
@@ -202,6 +209,7 @@ export function mountArena(root: HTMLElement): void {
   el('[data-testid="arena-redraw"]').addEventListener('click', () => {
     if (!canAct() || state.time < state.redrawAvailableAt) return;
     exchanging = true; exchangeStones.clear();
+    mobilePanels.open('payment');
     feedback = '選一張要放棄的手牌，再點選要重抽的魔法石。確認前不會消耗。';
     render();
   });

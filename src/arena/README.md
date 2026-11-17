@@ -22,9 +22,11 @@
 | [view.ts](view.ts) | Canvas 場地、八門、遮擋排序、箭矢／投送、特效及選取判定 |
 | [layout.ts](layout.ts) | 靜態 DOM 佈局、控制項、卡牌標記、費用文案與 Canvas 卡面 |
 | [hand-view.ts](hand-view.ts) | 手牌及石頭節點同步、費用可付與付款預覽 |
+| [mobile-panels.ts](mobile-panels.ts) | 窄屏原生 details 展開狀態、跨尺寸保留與 aria-expanded 同步 |
 | [payment-ui.ts](payment-ui.ts) | 核心付款缺額與拒絕原因的介面文字 |
 | [app.ts](app.ts) | 介面狀態、選牌／精確選石付款／施放／換石／拖曳、結算重開手勢防護、控制與幀更新 |
 | [arena.css](arena.css) | 新競技場頁面樣式入口 |
+| [mobile.css](mobile.css) | 窄屏布局、三卡與五色摘要及可展開區塊樣式 |
 | [hand.css](hand.css) | 手牌、石盤、換石及桌面／手機佈局樣式 |
 
 引擎不依賴 DOM；畫面依模擬快照與 `state.time` 演出，不另算傷害、拾取及恢復。骨骼及裝備都是 Canvas 程式繪圖，沒有外部素材依賴。測試見 [核心導航](../../tests/simulation/README.md) 及 [瀏覽器導航](../../tests/e2e/README.md)。
