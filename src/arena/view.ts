@@ -37,12 +37,15 @@ export class ArenaView {
   }
   pick(clientX: number, clientY: number, state: ArenaState, includeDead = false): Fighter|undefined {
     const rect=this.canvas.getBoundingClientRect();const x=clientX-rect.left,y=clientY-rect.top;
-    return [...state.fighters].filter(f=>includeDead||f.hp>0).sort((a,b)=>b.y-a.y).find(f=>{
+    const candidates=[...state.fighters].filter(f=>includeDead||f.hp>0).sort((a,b)=>b.y-a.y);
+    const hits=(f:Fighter,padded:boolean):boolean=>{
       const p=this.visualPosition(f,state.time);const s=this.actorScale(f);
       const fallen=f.pose==='dead'||f.pose==='fallen'||(f.pose==='rising'&&riseProgress(f,state.time)<.5);
       return fallen?x>=p.x-12*s&&x<=p.x+70*s&&Math.abs(y-p.y)<24*s:
-        Math.abs(x-p.x)<Math.max(14,19*s)&&y>=p.y-68*s&&y<=p.y+9*s;
-    });
+        Math.abs(x-p.x)<(padded?Math.max(14,19*s):19*s)&&y>=p.y-68*s&&y<=p.y+9*s;
+    };
+    // Foreground padding must not steal a tap inside another fighter's actual body.
+    return candidates.find(f=>hits(f,false))??candidates.find(f=>hits(f,true));
   }
   private visualPosition(f:Fighter,time:number):{x:number;y:number}{
     const at=project(f.x,f.y,this.projection);
