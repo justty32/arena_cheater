@@ -25,7 +25,7 @@ export function createThrowFeedback(root: HTMLElement) {
       const damage = impact.damage > 0 ? `傷害 ${impact.damage}` : '未造成傷害';
       const initial = result.itemKind === 'dung' ? '初撞' : '';
       outcome = `命中${fighterName(impact.fighterId)}，${initial}${damage}`;
-      if (impact.dungApplied) outcome += '；施加虛弱與持續傷害';
+      if (impact.dungApplied) outcome += '；施加虛弱 5 秒、每秒 1 點持傷';
     } else if (impact.reason === 'item') {
       phase = 'collision';
       outcome = disposable ? `互撞後${result.itemKind === 'pot' ? '碎裂' : '消耗'}，未命中鬥士` : '互撞落地，等待拾取';
