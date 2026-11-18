@@ -464,6 +464,15 @@ test('工程時計：控制列舊手勢跨結算不重開，明確再戰與鍵�
   await page.locator('[data-speed="3"]').click();
   await start.click();
   await expect(start).toContainText('暫停');
+  const firstCard = hand(page).first();
+  await firstCard.click();
+  await expect(firstCard).toHaveAttribute('aria-pressed', 'true');
+  const unselectedStones = stones(page).and(page.locator('[aria-pressed="false"]'));
+  const stone = await unselectedStones.count() ? unselectedStones.first() : stones(page).first();
+  const stoneId = await stone.getAttribute('data-stone');
+  const wasSelected = await stone.getAttribute('aria-pressed');
+  await stone.click();
+  await expect(page.locator(`[data-stone="${stoneId}"]`)).toHaveAttribute('aria-pressed', String(wasSelected !== 'true'));
   const firstRound = await round.innerText();
   await start.scrollIntoViewIfNeeded();
   const box = await start.boundingBox();
@@ -473,6 +482,10 @@ test('工程時計：控制列舊手勢跨結算不重開，明確再戰與鍵�
   await page.mouse.up();
   await expect(result).toBeVisible();
   await expect(round).toHaveText(firstRound);
+  const pressed = page.locator('[aria-pressed="true"]');
+  await expect(hand(page).or(stones(page)).and(pressed)).toHaveCount(0);
+  await page.keyboard.press('1');
+  await expect(hand(page).and(pressed)).toHaveCount(0);
 
   await start.focus(); await page.keyboard.press('Enter');
   await expect(result).toBeHidden();

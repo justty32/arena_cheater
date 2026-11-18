@@ -11,6 +11,7 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
 
   function renderHand(state: ArenaState, activeHandId: number | undefined, exchanging: boolean): void {
     const list = el('[data-hand-list]');
+    const finished = state.status === 'finished';
     const focused = document.activeElement;
     let focusIndex = -1;
     for (const [id, node] of cardNodes) {
@@ -33,12 +34,16 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
       }
       // Preserve the same node during animation frames, pointer capture and keyboard focus.
       if (list.children[index] !== node) list.insertBefore(node, list.children[index] ?? null);
-      node.querySelector('kbd')!.textContent = String(index + 1);
-      const affordable = findPayment(state, card.cost) !== undefined;
+      const shortcut = node.querySelector('kbd')!;
+      shortcut.textContent = String(index + 1);
+      shortcut.hidden = finished;
+      const affordable = !finished && findPayment(state, card.cost) !== undefined;
       node.classList.toggle('is-selected', activeHandId === hand.id);
-      node.classList.toggle('is-unaffordable', !affordable);
+      node.classList.toggle('is-unaffordable', !finished && !affordable);
       node.setAttribute('aria-pressed', String(activeHandId === hand.id));
-      node.querySelector('[data-affordability]')!.textContent = exchanging && activeHandId === hand.id ? '將放棄這張牌' : affordable ? '費用足夠' : '缺少魔法石';
+      // Keep focus and pointer capture until an in-progress gesture ends.
+      node.setAttribute('aria-disabled', String(finished));
+      node.querySelector('[data-affordability]')!.textContent = finished ? '' : exchanging && activeHandId === hand.id ? '將放棄這張牌' : affordable ? '費用足夠' : '缺少魔法石';
     });
     if (focusIndex >= 0) (list.children[Math.min(focusIndex, list.children.length - 1)] as HTMLElement | undefined)?.focus({ preventScroll: true });
     el('[data-hand-count]').textContent = `手牌 ${state.hand.length} 張`;
@@ -77,6 +82,7 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
     }
     el('[data-stone-total]').textContent = `${state.stones.length} 顆`;
     el('[data-stone-mode]').textContent = exchanging ? '放棄的石頭' : activeCard ? '支付用石 · 勾選才花費' : '持有魔法石';
+    el('[data-stone-help]').hidden = state.status === 'finished';
     el('[data-stone-help]').textContent = exchanging ? '目前是換石：選中的石頭會被放棄，確認換石才消耗。' : activeCard ? '點石頭可取消或改選，保留需要的顏色；點目標才付款。' : '選卡後可改選支付用石；數字費用可用任意色。';
   }
 

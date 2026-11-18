@@ -16,12 +16,11 @@ export function paymentReadout(state: ArenaState, card: Card, ids: readonly numb
   return `支付 ${status.selectedCount} / ${status.requiredCount} 顆${colors ? `（${colors}）` : ''} · ${status.valid ? '點目標施放，可先點石頭改選' : paymentProblem(status)} · 費用：${costText(card.cost)}`;
 }
 
-const rejectionText: Record<CardPlayRejection, string> = {
+const rejectionText: Record<Exclude<CardPlayRejection, 'target-required'>, string> = {
   'not-started': '請先開始戰鬥，再施放卡牌。',
   finished: '這場戰鬥已結束，請開新一場。',
   resolving: '正在結算在途投擲物與箭，本場不再接受出牌。',
   'card-missing': '這張牌已不在手中，請重新選牌。',
-  'target-required': '請選擇卡牌需要的鬥士或場地目標。',
   'target-missing': '找不到這位鬥士，請重新選擇目標。',
   'target-dead': '這位鬥士已陣亡，請選擇仍存活的鬥士。',
   'target-full-health': '這位鬥士的生命已滿，野性成長需要受傷鬥士。',
@@ -33,7 +32,14 @@ const rejectionText: Record<CardPlayRejection, string> = {
   'invalid-payment': '目前選取的石頭不符合費用，請調整支付用石。',
 };
 
+const targetRequiredText: Record<Card['target'], string> = {
+  fighter: '請點選存活鬥士的身體。',
+  ground: '請點選場地落點。',
+  area: '請點選範圍圓心。',
+};
+
 export function cardPlayFailure(reason: CardPlayRejection, card: Card, status: PaymentStatus): string {
+  const message = reason === 'target-required' ? targetRequiredText[card.target] : rejectionText[reason];
   const detail = reason === 'invalid-payment' ? ` ${paymentProblem(status)}。` : reason === 'out-of-range' ? ` 射程 ${card.throwRange}m。` : '';
-  return `${rejectionText[reason]}${detail}沒有消耗資源。`;
+  return `${message}${detail}沒有消耗資源。`;
 }

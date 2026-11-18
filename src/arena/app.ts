@@ -72,6 +72,7 @@ export function mountArena(root: HTMLElement): void {
 
 
   function render(): void {
+    const finished = state.status === 'finished';
     const resolving = (state.status === 'running' || state.status === 'paused') && isResolvingArena(state);
     const resolvingTitle = state.status === 'paused' ? '結算暫停' : '結算中';
     const resolvingMessage = resolving ? state.status === 'paused'
@@ -97,17 +98,18 @@ export function mountArena(root: HTMLElement): void {
     el('[data-status]').textContent = resolving ? resolvingTitle : { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
     start.textContent = { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '直接再戰' }[state.status];
     el('[data-testid="arena-feedback"]').textContent = resolvingMessage || feedback;
-    el('[data-card-prompt]').textContent = resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? '點選鬥士施法' : '點選場地投送'}` : '三張手牌，改寫勝負';
+    el('[data-card-prompt]').textContent = finished ? '本場手牌' : resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? '點選鬥士施法' : '點選場地投送'}` : '三張手牌，改寫勝負';
+    el('.hand-tip').hidden = finished;
     const deliveryDescription = activeCard && ['sword', 'spear', 'club', 'bow'].includes(activeCard.id)
       ? '投送途中可能傷到任何鬥士，包含你支持的鬥士；碰撞會使裝備提前落地，之後可能被其他鬥士拾取。'
       : activeCard?.id === 'shield' ? '投送途中命中鬥士會截停並落地，不造成投擲傷害；落地後可能被其他鬥士拾取。' : '';
-    el('[data-selected-description]').textContent = activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}${deliveryDescription ? ` ${deliveryDescription}` : ''}` : resolvingMessage || '選牌後點擊鬥士施法，或點擊場地投送武器。';
-    el('[data-testid="arena-payment"]').textContent = resolvingMessage || (exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard && paymentCheck ? paymentReadout(state, activeCard, payment, paymentCheck) : '每次成功出牌，補兩顆魔法石與一張手牌。');
+    el('[data-selected-description]').textContent = finished ? '可以從鬥士名單查看鬥士詳情。' : activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}${deliveryDescription ? ` ${deliveryDescription}` : ''}` : resolvingMessage || '選牌後點擊鬥士施法，或點擊場地投送武器。';
+    el('[data-testid="arena-payment"]').textContent = finished ? '本場出牌已結束。' : resolvingMessage || (exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard && paymentCheck ? paymentReadout(state, activeCard, payment, paymentCheck) : '每次成功出牌，補兩顆魔法石與一張手牌。');
     el('[data-testid="arena-payment"]').dataset.valid = String(!exchanging && Boolean(paymentCheck?.valid));
     el('[data-testid="arena-payment-auto"]').hidden = !activeCard || exchanging;
     el('[data-testid="arena-card-detail"]').classList.toggle('is-empty', !activeCard);
-    el('[data-payment-toggle-label]').textContent = exchanging ? '選擇要放棄的石頭' : '改選支付石';
-    el('[data-payment-brief]').textContent = exchanging ? `已選 ${exchangeStones.size} 顆` : paymentCheck ? `${paymentCheck.selectedCount}/${paymentCheck.requiredCount} 顆 · ${paymentCheck.valid ? '已備妥' : '待調整'}` : '選牌後可改選';
+    el('[data-payment-toggle-label]').textContent = finished ? '查看剩餘魔法石' : exchanging ? '選擇要放棄的石頭' : '改選支付石';
+    el('[data-payment-brief]').textContent = finished ? '' : exchanging ? `已選 ${exchangeStones.size} 顆` : paymentCheck ? `${paymentCheck.selectedCount}/${paymentCheck.requiredCount} 顆 · ${paymentCheck.valid ? '已備妥' : '待調整'}` : '選牌後可改選';
     el('[data-testid="arena-throw-range"]').hidden = !activeCard?.throwRange || exchanging;
     el('[data-testid="arena-throw-range"]').textContent = activeCard?.throwRange ? `從下方投擲席投出，射程 ${activeCard.throwRange}m。只能投向亮區；沿途碰到鬥士或其他投擲物會提前落下。` : '';
     const areaPreview = el('[data-testid="arena-area-preview"]');
@@ -122,7 +124,7 @@ export function mountArena(root: HTMLElement): void {
     const remaining = Math.max(0, state.redrawAvailableAt - state.time);
     el<HTMLButtonElement>('[data-testid="arena-redraw"]').disabled = !canAct() || remaining > 0;
     el<HTMLButtonElement>('[data-testid="arena-redraw"]').hidden = exchanging;
-    el('[data-redraw-help]').textContent = remaining > 0 ? `再等 ${remaining.toFixed(1)} 秒${state.status === 'paused' ? '，繼續戰鬥後倒數' : ''}` : `棄至少一顆石頭，補一張牌；換石後等待 ${REDRAW_COOLDOWN} 秒。`;
+    el('[data-redraw-help]').textContent = finished ? '下一場開戰後可換石。' : remaining > 0 ? `再等 ${remaining.toFixed(1)} 秒${state.status === 'paused' ? '，繼續戰鬥後倒數' : ''}` : `棄至少一顆石頭，補一張牌；換石後等待 ${REDRAW_COOLDOWN} 秒。`;
     el('[data-testid="arena-redraw-preview"]').textContent = `棄 ${exchangeStones.size} 石 → 抽 ${exchangeStones.size + 1} 石，補一張牌`;
     el<HTMLButtonElement>('[data-testid="arena-redraw-confirm"]').disabled = !canAct() || !activeCard || exchangeStones.size < 1 || remaining > 0;
     for (const row of rows) {
@@ -145,8 +147,8 @@ export function mountArena(root: HTMLElement): void {
       }));
     }
     const winner = state.fighters.find((f) => f.id === state.winnerId);
-    el('[data-result]').hidden = state.status !== 'finished';
-    if (state.status === 'finished') {
+    el('[data-result]').hidden = !finished;
+    if (finished) {
       el('[data-result-title]').textContent = winner ? `${winner.name} 勝出` : '本場平局';
       el('[data-result-copy]').textContent = winner?.id === state.supportedId ? '你的鬥士站到了最後。這場勝利，有你的手筆。' : '競技場從不保證公平。下一場，換你改寫結局。';
     }
@@ -288,6 +290,7 @@ export function mountArena(root: HTMLElement): void {
     render();
   });
   function select(handId: number): void {
+    if (state.status === 'finished') return;
     el('[data-testid="arena-feedback"]').dataset.reason = '';
     activeHandId = activeHandId === handId ? undefined : handId;
     const card = currentCard();
@@ -323,6 +326,7 @@ export function mountArena(root: HTMLElement): void {
     render();
   }
   function updateAim(clientX: number, clientY: number): void {
+    if (state.status === 'finished') return;
     const rect = canvas.getBoundingClientRect();
     aim = clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom ? view.point(clientX, clientY) : undefined;
   }
@@ -364,6 +368,7 @@ export function mountArena(root: HTMLElement): void {
       select(handId);
     });
     button.addEventListener('pointerdown', (event) => {
+      if (state.status === 'finished') return;
       // Touch cards scroll natively; taps select a card and the next target casts it.
       if (event.pointerType === 'touch') { suppressClick = false; return; }
       if (event.button !== 0 || exchanging) return;
@@ -402,6 +407,7 @@ export function mountArena(root: HTMLElement): void {
     button.addEventListener('lostpointercapture', cancelPointer);
   }
   document.addEventListener('keydown', (event) => {
+    if (state.status === 'finished') return;
     if (event.key === 'Escape') { clearSelection(); feedback = '已取消，沒有消耗資源。'; render(); }
     if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || (event.target instanceof HTMLElement && event.target.isContentEditable)) return;
     const index = Number(event.key) - 1;
@@ -415,7 +421,12 @@ export function mountArena(root: HTMLElement): void {
   function frame(now: number): void {
     const elapsed = Math.max(0, Math.min((now - lastFrame) / 1000, 0.1));
     lastFrame = now;
+    const previousStatus = state.status;
     advanceArena(state, elapsed);
+    if (previousStatus !== 'finished' && state.status === 'finished') {
+      clearSelection();
+      feedback = '本場已結束。查看戰果，或準備下一場。';
+    }
     render();
     requestAnimationFrame(frame);
   }
