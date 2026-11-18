@@ -59,7 +59,7 @@ export class ArenaView {
     at.y-=airborneHeight(f,time)*this.projection.scale*FORESHORTENING;return at;
   }
   private actorScale(f: Fighter): number {return this.projection.scale/38*(f.species==='bear'||f.species==='elephant'?1.13:1);}
-  render(state: ArenaState, selectedId: string, targetMode?: Card['target']|null, targetCard?: Card, aim?: {x:number;y:number}): void {
+  render(state: ArenaState, selectedId: string, targetMode?: Card['target']|null, targetCard?: Card, aim?: {x:number;y:number}, throwContact?: Fighter): void {
     const ctx=this.ctx,p=this.projection;
     ctx.setTransform(this.pixelRatio,0,0,this.pixelRatio,0,0);
     if(this.labelState!==state||this.labelSupport!==state.supportedId){this.labels.reset();this.labelState=state;this.labelSupport=state.supportedId;}
@@ -69,7 +69,7 @@ export class ArenaView {
       ctx.save();ctx.strokeStyle='#d5b97d88';ctx.lineWidth=2;ctx.setLineDash([5,7]);
       ctx.beginPath();ctx.ellipse(p.cx,p.cy,THROW_TARGET_RADIUS*p.scale,THROW_TARGET_RADIUS*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.stroke();ctx.restore();
     }
-    if(targetMode==='ground'&&targetCard?.throwRange)this.throwGuide(targetCard,aim);
+    if(targetMode==='ground'&&targetCard)this.throwGuide(targetCard,aim,throwContact);
     const areaTargets = targetMode==='area'&&targetCard?.target==='area'&&aim ? areaSpellTargets(state.fighters,targetCard,aim) : [];
     if(targetMode==='area'&&targetCard?.target==='area'&&aim)drawAreaPreview(ctx,p,aim,targetCard.areaRadius,targetCard.color,isAreaSpellTarget(targetCard,aim),areaTargets.length);
     for(const effect of state.effects)if(effect.kind==='area')drawAreaEffect(ctx,p,effect,state.time);
@@ -93,7 +93,7 @@ export class ArenaView {
       ctx.font=`bold ${Math.max(11,p.scale*.36)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#282127';
       ctx.strokeText(effect.text,at.x,at.y-p.scale*1.8-age*25);ctx.fillStyle=effect.color;ctx.fillText(effect.text,at.x,at.y-p.scale*1.8-age*25);ctx.restore();
     }
-    if(state.status==='ready'&&!targetCard?.throwRange){
+    if(state.status==='ready'&&targetMode!=='ground'){
       ctx.fillStyle='#c9bd9c';ctx.font='11px system-ui';ctx.textAlign='center';ctx.fillText('七位鬥士已就位 · 選擇你的贏家',p.cx,this.height-20);
     }
   }
@@ -168,28 +168,41 @@ export class ArenaView {
     if(item.landed){ctx.rotate(Math.PI/3);ctx.shadowColor='#efd587';ctx.shadowBlur=8;}else ctx.rotate(progress*Math.PI*3);
     if(item.weapon==='stone'||item.weapon==='pot')drawThrowable(ctx,item.weapon);else drawWeapon(ctx,item.weapon);ctx.restore();
   }
-  private throwGuide(card: Card, aim?: {x:number;y:number}): void {
-    const ctx=this.ctx,p=this.projection,range=card.throwRange!;
+  private throwGuide(card: Card, aim?: {x:number;y:number}, throwContact?: Fighter): void {
+    const ctx=this.ctx,p=this.projection,range=card.throwRange;
     const origin=project(THROW_ORIGIN.x,THROW_ORIGIN.y,p);
-    ctx.save();
-    ctx.beginPath();ctx.ellipse(p.cx,p.cy,THROW_TARGET_RADIUS*p.scale,THROW_TARGET_RADIUS*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.clip();
-    ctx.fillStyle='#10152230';ctx.fillRect(0,0,this.width,this.height);
-    ctx.fillStyle='#f0ce7e32';ctx.strokeStyle='#ffe1a0';ctx.lineWidth=2;ctx.setLineDash([5,4]);
-    ctx.beginPath();ctx.ellipse(origin.x,origin.y,range*p.scale,range*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.fill();ctx.stroke();
-    ctx.restore();
+    if(range!==undefined){
+      ctx.save();
+      ctx.beginPath();ctx.ellipse(p.cx,p.cy,THROW_TARGET_RADIUS*p.scale,THROW_TARGET_RADIUS*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.clip();
+      ctx.fillStyle='#10152230';ctx.fillRect(0,0,this.width,this.height);
+      ctx.fillStyle='#f0ce7e32';ctx.strokeStyle='#ffe1a0';ctx.lineWidth=2;ctx.setLineDash([5,4]);
+      ctx.beginPath();ctx.ellipse(origin.x,origin.y,range*p.scale,range*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.restore();
+    }
     ctx.save();ctx.strokeStyle='#ffe1a0';ctx.fillStyle='#302b20';ctx.lineWidth=2;
     ellipse(ctx,origin.x,origin.y,6,4,'#f6d58a','#fff0c7');
     ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.lineWidth=4;ctx.strokeStyle='#1b1c1e';ctx.fillStyle='#f2d9a8';
-    const label=`投擲席 · ${range}m`;ctx.strokeText(label,origin.x,Math.min(this.height-8,origin.y+22));ctx.fillText(label,origin.x,Math.min(this.height-8,origin.y+22));
+    const label=range===undefined?'投擲席':`投擲席 · ${range}m`;ctx.strokeText(label,origin.x,Math.min(this.height-8,origin.y+22));ctx.fillText(label,origin.x,Math.min(this.height-8,origin.y+22));
     if(aim){
       const at=project(aim.x,aim.y,p),valid=isThrowableTarget(card,aim);
       ctx.strokeStyle=valid?'#f8dea0':'#efb0a7';ctx.fillStyle=ctx.strokeStyle;ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
       ctx.beginPath();ctx.moveTo(origin.x,origin.y);ctx.lineTo(at.x,at.y);ctx.stroke();ctx.setLineDash([]);
       if(valid){ellipse(ctx,at.x,at.y,8,5,'#f8dea030',ctx.strokeStyle);}
-      else {ctx.beginPath();ctx.moveTo(at.x-6,at.y-6);ctx.lineTo(at.x+6,at.y+6);ctx.moveTo(at.x+6,at.y-6);ctx.lineTo(at.x-6,at.y+6);ctx.stroke();}
-      const text=valid?'預計落點':Math.hypot(aim.x,aim.y)<=THROW_TARGET_RADIUS?`超出 ${range}m`:'場界不可投';
-      const x=Math.max(45,Math.min(this.width-45,at.x)),y=Math.max(16,Math.min(this.height-8,at.y-12));
-      ctx.strokeStyle='#1b1c1e';ctx.lineWidth=4;ctx.strokeText(text,x,y);ctx.fillText(text,x,y);
+      else {
+        ctx.beginPath();ctx.moveTo(at.x-6,at.y-6);ctx.lineTo(at.x+6,at.y+6);ctx.moveTo(at.x+6,at.y-6);ctx.lineTo(at.x-6,at.y+6);ctx.stroke();
+        const reason=range!==undefined&&Math.hypot(aim.x,aim.y)<=THROW_TARGET_RADIUS?`超出 ${range}m`:'場界不可投';
+        const x=Math.max(45,Math.min(this.width-45,at.x)),y=Math.max(16,Math.min(this.height-8,at.y-12));
+        ctx.strokeStyle='#1b1c1e';ctx.lineWidth=4;ctx.strokeText(reason,x,y);ctx.fillText(reason,x,y);
+      }
+      if(valid && throwContact){
+        const foot=project(throwContact.x,throwContact.y,p),scale=this.actorScale(throwContact);
+        ctx.lineCap='round';ctx.lineWidth=2.5;ctx.strokeStyle='#ffe09b';
+        for(const side of [0,Math.PI]){
+          ctx.beginPath();
+          ctx.ellipse(foot.x,foot.y,Math.max(12,25*scale),Math.max(5,11*scale),0,side-.68,side+.68);
+          ctx.stroke();
+        }
+      }
     }
     ctx.restore();
   }

@@ -5,7 +5,7 @@ import { advanceArrows } from './engine-arrows';
 import { advanceControl, syncStamina } from './engine-damage';
 import { initializeCards } from './engine-cards';
 export { REDRAW_COOLDOWN, redrawStones, findPayment, canPayCost, paymentStatus, chooseDeliberation, keepDeliberationPaused, knownUpcomingCards, type PaymentStatus } from './engine-cards';
-export { playCard, validateCardPlay, type CardTarget, type CardPlayRejection, type CardPlayValidation } from './engine-items';
+export { playCard, validateCardPlay, previewThrowContact, type CardTarget, type CardPlayRejection, type CardPlayValidation } from './engine-items';
 
 const STEP = 1 / 30;
 const SPECIES: { species: Species; name: string; color: string; hp: number; stamina: number; speed: number; attack: number; radius: number }[] = [

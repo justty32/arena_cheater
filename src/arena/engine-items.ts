@@ -1,9 +1,30 @@
-import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isResolvingArena, type ArenaState, type Fighter, type ThrownItem, type ThrowImpact, type ThrownKind, type Weapon } from './model';
+import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isResolvingArena, type ArenaState, type Card, type Fighter, type ThrownItem, type ThrowImpact, type ThrownKind, type Weapon } from './model';
 import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
-import { sweptCircleTime } from './geometry';
+import { sweptCircleTime, type Point } from './geometry';
 import { canPayCost, findPayment, consumeCard, drawCard, drawStones, beginDeliberation, revealUpcomingCards } from './engine-cards';
 import { applyHealthDamage, damageFighter } from './engine-damage';
+
+function sweptThrowFighterTime(from: Point, to: Point, fighter: Fighter): number | undefined {
+  return sweptCircleTime(from, to, fighter, fighter, fighter.radius + 0.11);
+}
+
+/** First contact along the aim path using the fighters' current positions. */
+export function previewThrowContact(card: Card, aim: Point | undefined, fighters: readonly Fighter[]): Fighter | undefined {
+  if (!aim || !isThrowableTarget(card, aim)) return undefined;
+  let first: Fighter | undefined;
+  let firstTime = Infinity;
+  for (const fighter of fighters) {
+    if (fighter.hp <= 0) continue;
+    const time = sweptThrowFighterTime(THROW_ORIGIN, aim, fighter);
+    if (time === undefined) continue;
+    if (!first || time < firstTime || (time === firstTime && fighter.id.localeCompare(first.id) < 0)) {
+      first = fighter;
+      firstTime = time;
+    }
+  }
+  return first;
+}
 
 export interface CardTarget { fighterId?: string; x?: number; y?: number }
 export type CardPlayRejection = 'not-started' | 'finished' | 'resolving' | 'card-missing' |
@@ -123,7 +144,7 @@ export function advanceItems(state: ArenaState, _dt?: number): void {
     const end = Math.min(state.time,a.landsAt);
     if (end < start) continue;
     for (const fighter of state.fighters.filter(value => value.hp > 0)) {
-      const t = sweptCircleTime(positionAt(a,start),positionAt(a,end),fighter,fighter,fighter.radius+0.11);
+      const t = sweptThrowFighterTime(positionAt(a,start),positionAt(a,end),fighter);
       if (t !== undefined) contacts.push({a,fighter,time:start+(end-start)*t});
     }
   }

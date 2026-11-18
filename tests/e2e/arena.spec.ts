@@ -14,6 +14,8 @@ async function open(page: Page) {
 const hand = (page: Page) => page.locator('button[data-hand-card]');
 const stones = (page: Page) => page.locator('button[data-stone]');
 const cardButton = (page: Page, id: number) => page.locator(`button[data-hand-card="${id}"]`);
+const nearGateFighter = (state: ArenaState, side: -1 | 1) =>
+  state.fighters.find(fighter => fighter.y > 0 && fighter.x * side > 1)!;
 async function inventory(page: Page) {
   return { hand: await hand(page).evaluateAll(es => es.map(e => e.getAttribute('data-hand-card'))), stones: await stones(page).evaluateAll(es => es.map(e => e.getAttribute('data-stone'))) };
 }
@@ -220,7 +222,27 @@ test('暫停投送先驗目標、取消與拖曳；成功只消耗當張牌一�
   await paused(page);
   const before = await inventory(page);
   await cardButton(page, sword.id).click();
-  await page.getByTestId('arena-canvas').click({ position: { x: 3, y: 3 } });
+  const canvas = page.getByTestId('arena-canvas');
+  await canvas.scrollIntoViewIfNeeded();
+  const hoverBox = (await canvas.boundingBox())!;
+  const projection = createProjection(hoverBox.width, hoverBox.height);
+  const preview = page.getByTestId('arena-throw-range');
+  // The near-right and near-left gates each have a clear path from the throw seat.
+  for (const side of [1, -1] as const) {
+    const fighter = nearGateFighter(state, side);
+    const point = project(fighter.x, fighter.y, projection);
+    await page.mouse.move(hoverBox.x + point.x, hoverBox.y + point.y);
+    await page.clock.runFor(32);
+    await expect(preview).toBeVisible();
+    await expect(preview).toHaveAttribute('data-intercept-id', fighter.id);
+  }
+  await page.mouse.move(2, 2);
+  await page.clock.runFor(32);
+  await expect(preview).toHaveAttribute('data-aimed', 'false');
+  expect(await inventory(page)).toEqual(before);
+  await canvas.click({ position: { x: 3, y: 3 } });
+  await expect(preview).toHaveAttribute('data-valid', 'false');
+  await expect(preview).toHaveAttribute('data-intercept-id', '');
   expect(await inventory(page)).toEqual(before);
   await page.locator('[data-cancel]').click();
   expect(await inventory(page)).toEqual(before);
@@ -356,8 +378,37 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   await page.getByTestId('arena-start').tap();
   await expect(changeSupport).toBeHidden();
   await page.getByTestId('arena-start').tap();
+  await page.setViewportSize({ width: 390, height: 740 });
+  await page.clock.runFor(32);
   await cardButton(page, openingBow.id).tap();
-  await center(page);
+  await page.evaluate(() => scrollTo(0, 0));
+  const canvas = page.getByTestId('arena-canvas');
+  await canvas.scrollIntoViewIfNeeded();
+  const holdBox = (await canvas.boundingBox())!;
+  const intercept = nearGateFighter(opening, 1);
+  const hold = project(intercept.x, intercept.y, createProjection(holdBox.width, holdBox.height));
+  const preview = page.getByTestId('arena-throw-range');
+  const beforeHold = await inventory(page);
+  const touch = await context.newCDPSession(page);
+  const holdPoint = { x: holdBox.x + hold.x, y: holdBox.y + hold.y };
+  const scrollBeforeHold = await page.evaluate(() => scrollY);
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [holdPoint] });
+  await page.clock.runFor(32);
+  await expect(preview).toHaveAttribute('data-intercept-id', intercept.id);
+  expect(await inventory(page)).toEqual(beforeHold);
+  for (let step = 1; step <= 8; step++) {
+    await touch.send('Input.dispatchTouchEvent', {
+      type: 'touchMove', touchPoints: [{ x: holdPoint.x, y: holdPoint.y - step * 12 }],
+    });
+  }
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(scrollBeforeHold);
+  await page.clock.runFor(32);
+  await expect(preview).toHaveAttribute('data-aimed', 'false');
+  await expect(preview).toHaveAttribute('data-intercept-id', '');
+  expect(await inventory(page)).toEqual(beforeHold);
+  await canvas.tap({ position: hold });
+  await expect(cardButton(page, openingBow.id)).toHaveCount(0);
   await expect(page.getByTestId('arena-recent-throw')).toBeVisible();
   for (const viewport of [{ width: 390, height: 844 }, { width: 320, height: 740 }]) {
     await page.setViewportSize(viewport); await page.clock.runFor(32);
@@ -389,7 +440,6 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   const panBox = await scrollingCard.boundingBox();
   const panPoint = { x: panBox!.x + panBox!.width / 2, y: panBox!.y + panBox!.height / 2 };
   const scrollBefore = await page.evaluate(() => scrollY);
-  const touch = await context.newCDPSession(page);
   await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [panPoint] });
   for (let step = 1; step <= 8; step++) {
     await touch.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: panPoint.x, y: panPoint.y - step * 12 }] });
@@ -400,7 +450,6 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   await expect(scrollingCard).toHaveAttribute('aria-pressed', 'true');
   expect(await stones(page).evaluateAll(nodes => nodes.filter(node => node.getAttribute('aria-pressed') === 'true').map(node => node.getAttribute('data-stone')))).toEqual(chosenStones);
   await expect(page.locator('[data-drag-label]')).toBeHidden();
-  const canvas = page.getByTestId('arena-canvas');
   await canvas.scrollIntoViewIfNeeded();
   const canvasBox = await canvas.boundingBox();
   await canvas.tap({ position: project(0, 6, createProjection(canvasBox!.width, canvasBox!.height)) });
@@ -458,6 +507,8 @@ test('射程投擲拒絕遠處目標，合法投擲後顯示戰報', async ({ pa
   const projection = createProjection(box!.width, box!.height);
   // The center is inside the arena but beyond the pot’s reach from the player’s seat.
   await canvas.click({ position: project(0, 0, projection) });
+  await expect(page.getByTestId('arena-feedback')).toHaveAttribute('data-reason', 'out-of-range');
+  await expect(page.getByTestId('arena-throw-range')).toHaveAttribute('data-intercept-id', '');
   expect(await inventory(page)).toEqual(before);
   await expect(cardButton(page, instance.id)).toHaveAttribute('aria-pressed', 'true');
   await canvas.click({ position: project(0, 6, projection) });

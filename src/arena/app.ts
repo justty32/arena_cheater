@@ -1,5 +1,5 @@
-import { advanceArena, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, paymentStatus, validateCardPlay, type CardTarget, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
-import { CARDS, THROW_PROFILES, isResolvingArena, isAreaSpellTarget, areaSpellTargets } from './model';
+import { advanceArena, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, paymentStatus, previewThrowContact, validateCardPlay, type CardTarget, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
+import { CARDS, THROW_PROFILES, isResolvingArena, isAreaSpellTarget, isThrowableTarget, areaSpellTargets } from './model';
 import type { Card, Fighter, ThrownKind } from './model';
 import { ArenaView } from './view';
 import { createHandView } from './hand-view';
@@ -51,6 +51,7 @@ export function mountArena(root: HTMLElement): void {
   const el = <T extends HTMLElement = HTMLElement>(selector: string): T => root.querySelector<T>(selector)!;
   const canvas = el<HTMLCanvasElement>('[data-testid="arena-canvas"]');
   const view = new ArenaView(canvas);
+  const throwPreview = el('[data-testid="arena-throw-range"]');
   const start = el<HTMLButtonElement>('[data-testid="arena-start"]');
   const selfPay = el<HTMLButtonElement>('[data-testid="arena-deliberation-pay"]');
   const deliberationHeading = el('[data-deliberation-heading]');
@@ -74,6 +75,7 @@ export function mountArena(root: HTMLElement): void {
     const card = currentCard();
     if (!card) return;
     const status = paymentStatus(state, card.cost, [...paymentStones]);
+    if (!status.valid && card.target === 'ground') aim = undefined;
     feedback = status.valid ? card.target === 'self' ? `支付用石已備妥，可${selfPaymentAction(card)}。` : '支付用石已備妥，點目標施放。' : `${paymentProblem(status)}；請調整支付用石。`;
     el('[data-testid="arena-feedback"]').dataset.reason = '';
   }
@@ -121,7 +123,10 @@ export function mountArena(root: HTMLElement): void {
       canvasSizeChanged = false;
       renderedPixelRatio = ratio;
     }
-    view.render(state, selectedId, fieldCard?.target ?? null, fieldCard, aim);
+    const throwCard = fieldCard?.target === 'ground' ? fieldCard : undefined;
+    const throwAim = resolving ? undefined : aim;
+    const throwContact = throwCard && throwAim ? previewThrowContact(throwCard, throwAim, state.fighters) : undefined;
+    view.render(state, selectedId, fieldCard?.target ?? null, fieldCard, throwCard ? throwAim : aim, throwContact);
     start.disabled = Boolean(pending);
     selfPay.hidden = !selfCard;
     selfPay.disabled = !selfCard || !canAct() || !paymentCheck?.valid;
@@ -159,8 +164,17 @@ export function mountArena(root: HTMLElement): void {
     el('[data-testid="arena-card-detail"]').classList.toggle('is-empty', !activeCard);
     el('[data-payment-toggle-label]').textContent = finished || pending ? '查看剩餘魔法石' : exchanging ? '選擇要放棄的石頭' : '改選支付石';
     el('[data-payment-brief]').textContent = finished || pending ? '' : exchanging ? `已選 ${exchangeStones.size} 顆` : paymentCheck ? `${paymentCheck.selectedCount}/${paymentCheck.requiredCount} 顆 · ${paymentCheck.valid ? '已備妥' : '待調整'}` : '選牌後可改選';
-    el('[data-testid="arena-throw-range"]').hidden = !activeCard?.throwRange || exchanging;
-    el('[data-testid="arena-throw-range"]').textContent = activeCard?.throwRange ? `從下方投擲席投出，射程 ${activeCard.throwRange}m。只能投向亮區；沿途碰到鬥士或其他投擲物會提前落下。` : '';
+    const rangeText = throwCard?.throwRange ? `從下方投擲席投出，射程 ${throwCard.throwRange}m。只能投向亮區；沿途碰到鬥士或其他投擲物會提前落下。` : '';
+    const contactText = throwContact ? `依目前站位，先經過${throwContact.name}。` : '';
+    const previewText = rangeText && contactText ? `${rangeText} ${contactText}` : rangeText || contactText;
+    const aimed = String(Boolean(throwCard && throwAim));
+    const valid = String(Boolean(throwCard && throwAim && isThrowableTarget(throwCard, throwAim)));
+    const interceptId = throwContact?.id ?? '';
+    if (throwPreview.hidden !== !previewText) throwPreview.hidden = !previewText;
+    if (throwPreview.textContent !== previewText) throwPreview.textContent = previewText;
+    if (throwPreview.dataset.aimed !== aimed) throwPreview.dataset.aimed = aimed;
+    if (throwPreview.dataset.valid !== valid) throwPreview.dataset.valid = valid;
+    if (throwPreview.dataset.interceptId !== interceptId) throwPreview.dataset.interceptId = interceptId;
     const areaPreview = el('[data-testid="arena-area-preview"]');
     areaPreview.hidden = activeCard?.target !== 'area' || exchanging;
     const affected = activeCard?.target === 'area' && aim ? areaSpellTargets(state.fighters, activeCard, aim) : [];
@@ -328,6 +342,7 @@ export function mountArena(root: HTMLElement): void {
   el('[data-testid="arena-redraw"]').addEventListener('click', () => {
     if (!canAct() || state.time < state.redrawAvailableAt) return;
     exchanging = true; exchangeStones.clear();
+    aim = undefined;
     mobilePanels.open('payment');
     feedback = '選一張要放棄的手牌，再點選要重抽的魔法石。確認前不會消耗。';
     render();
@@ -344,6 +359,7 @@ export function mountArena(root: HTMLElement): void {
     if (state.status === 'finished' || state.pendingDeliberation) return;
     el('[data-testid="arena-feedback"]').dataset.reason = '';
     activeHandId = activeHandId === handId ? undefined : handId;
+    aim = undefined;
     const card = currentCard();
     if (card?.target === 'self' && !exchanging) mobilePanels.open('payment');
     feedback = card ? exchanging ? `將放棄${card.name}。請選擇要重抽的石頭。` : `${card.name}：${card.description}。${canAct() ? '' : '開始戰鬥後施放。'}` : '已取消選牌。';
@@ -409,11 +425,11 @@ export function mountArena(root: HTMLElement): void {
     if (replacement) handView.focusCard(replacement.id);
   }
 
-  function cast(clientX: number, clientY: number): void {
+  function cast(clientX: number, clientY: number, touch = false): void {
     const card = currentCard();
     const fighter = view.pick(clientX, clientY, state, card?.target === 'fighter');
     if (!card || card.target === 'self' || exchanging || state.pendingDeliberation) { if (fighter) selectedId = fighter.id; render(); return; }
-    updateAim(clientX, clientY);
+    if (!touch || card.target !== 'ground') updateAim(clientX, clientY);
     const target: CardTarget = card.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : {}) : view.point(clientX, clientY);
     attemptPlay(target);
     render();
@@ -428,24 +444,29 @@ export function mountArena(root: HTMLElement): void {
   }
   function hasAimPreview(): boolean {
     const card = currentCard();
-    return !exchanging && (card?.target === 'area' || (card?.target === 'ground' && Boolean(card.throwRange)));
+    return !exchanging && (card?.target === 'area' || card?.target === 'ground');
   }
-  canvas.addEventListener('pointerdown', (event) => {
-    if (!event.isPrimary || event.pointerType !== 'touch' || exchanging || currentCard()?.target !== 'area') return;
-    updateAim(event.clientX, event.clientY); render();
-  }, {passive:true});
-  canvas.addEventListener('pointercancel', (event) => {
-    if (!event.isPrimary || event.pointerType !== 'touch') return;
-    aim = undefined; render();
-  }, {passive:true});
-  canvas.addEventListener('pointermove', (event) => {
-    if (updateAim(event.clientX, event.clientY) && hasAimPreview()) aimChanged = true;
-  });
-  canvas.addEventListener('pointerleave', () => {
+  function clearPointerAim(): void {
     if (aim && hasAimPreview()) aimChanged = true;
     aim = undefined;
-  });
-  canvas.addEventListener('click', (event) => cast(event.clientX, event.clientY));
+  }
+  canvas.addEventListener('pointerdown', (event) => {
+    if (!event.isPrimary || event.pointerType !== 'touch' || !hasAimPreview()) return;
+    updateAim(event.clientX, event.clientY); render();
+  }, {passive:true});
+  canvas.addEventListener('pointermove', (event) => {
+    if (event.isPrimary && hasAimPreview() && updateAim(event.clientX, event.clientY)) aimChanged = true;
+  }, {passive:true});
+  canvas.addEventListener('pointerup', (event) => {
+    if (event.isPrimary && event.pointerType === 'touch' && currentCard()?.target === 'ground') clearPointerAim();
+  }, {passive:true});
+  canvas.addEventListener('pointercancel', (event) => {
+    if (event.isPrimary) clearPointerAim();
+  }, {passive:true});
+  canvas.addEventListener('pointerleave', (event) => {
+    if (event.isPrimary) clearPointerAim();
+  }, {passive:true});
+  canvas.addEventListener('click', (event) => cast(event.clientX, event.clientY, event instanceof PointerEvent && event.pointerType === 'touch'));
   el('[data-testid="arena-payment-auto"]').addEventListener('click', () => {
     const card = currentCard();
     if (!card || exchanging) return;

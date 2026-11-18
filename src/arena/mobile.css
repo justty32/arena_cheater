@@ -37,6 +37,7 @@
   .support-hud { order: 3; flex-basis: 100%; min-width: 0; max-width: none; margin: 0; }
   .support-readout { font-size: 11px; }
   .arena-canvas-wrap, .arena-canvas-wrap canvas { min-height: clamp(230px, 33svh, 280px); }
+  .arena-canvas-wrap canvas { touch-action: pan-y pinch-zoom; }
   .arena-controls { min-height: 48px; padding: 4px 8px; gap: 4px; }
   .arena-primary { min-height: 40px; padding: 7px 11px; }
   .arena-reset { min-height: 40px; }

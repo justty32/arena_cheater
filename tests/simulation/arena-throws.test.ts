@@ -1,5 +1,5 @@
 import { describe,expect,it } from 'vitest';
-import { advanceArena,createArena,playCard,toggleArena } from '../../src/arena/engine';
+import { advanceArena,createArena,playCard,previewThrowContact,toggleArena } from '../../src/arena/engine';
 import { advanceItems } from '../../src/arena/engine-items';
 import { applyHealthDamage,attackDamage,syncStamina } from '../../src/arena/engine-damage';
 import { advanceArrows } from '../../src/arena/engine-arrows';
@@ -9,6 +9,36 @@ function flight(id:number,weapon:ThrownKind='sword',fromX=-2,fromY=0,toX=2,toY=0
 }
 function arena(){const state=createArena(42);toggleArena(state);state.fighters.forEach(f=>{f.x=6;f.y=3;f.speed=0;f.nextAttack=Infinity;});return state;}
 describe('V2 thrown hits and fighter traits',()=>{
+ it('previews the same first live fighter the current path actually hits',()=>{
+  const state=arena(),[far,near,dead]=state.fighters;state.fighters=[far,near,dead];
+  Object.assign(far,{x:0,y:1});Object.assign(near,{x:0,y:4});Object.assign(dead,{x:0,y:6,hp:0});
+  const sword=CARDS.find(card=>card.id==='sword')!, aim={x:0,y:0};
+  const snapshot=structuredClone(state);
+  expect(previewThrowContact(sword,aim,state.fighters)).toBe(near);
+  expect(state).toEqual(snapshot);
+  state.items=[flight(900,'sword',0,7.5,aim.x,aim.y)];
+  state.time=1;advanceItems(state);
+  expect(near.hp).toBe(snapshot.fighters[1].hp-1);
+  expect(far.hp).toBe(snapshot.fighters[0].hp);
+ });
+ it('breaks equal preview contact times by fighter ID regardless of list order',()=>{
+  const state=arena(),[first,second]=state.fighters;
+  Object.assign(first,{x:-0.15,y:4,radius:0.4});
+  Object.assign(second,{x:0.15,y:4,radius:0.4});
+  const sword=CARDS.find(card=>card.id==='sword')!;
+  expect(previewThrowContact(sword,{x:0,y:0},[second,first])).toBe(first);
+ });
+ it('does not preview missing, invalid, out-of-range or non-ground aims',()=>{
+  const state=arena(),[fighter]=state.fighters;Object.assign(fighter,{x:0,y:5});
+  const stone=CARDS.find(card=>card.id==='stone')!, sword=CARDS.find(card=>card.id==='sword')!;
+  const lightning=CARDS.find(card=>card.id==='lightning')!;
+  expect(previewThrowContact(stone,{x:0,y:2.5},[fighter])).toBe(fighter);
+  expect(previewThrowContact(stone,{x:0,y:2.49},[fighter])).toBeUndefined();
+  expect(previewThrowContact(sword,{x:0,y:-7.5},[fighter])).toBeUndefined();
+  expect(previewThrowContact(sword,{x:0,y:NaN},[fighter])).toBeUndefined();
+  expect(previewThrowContact(sword,undefined,[fighter])).toBeUndefined();
+  expect(previewThrowContact(lightning,{x:0,y:0},[fighter])).toBeUndefined();
+ });
  it('stops at the first live body, deals one hit and leaves equipment pickable',()=>{
   const state=arena(),[first,second,dead]=state.fighters;state.fighters=[first,second,dead];
   first.x=0;first.y=0;second.x=1;second.y=0;dead.x=-1;dead.y=0;dead.hp=0;
