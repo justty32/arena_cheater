@@ -25,7 +25,11 @@ agent 不用重猜的事。always-on 鐵律在 AGENTS.md，這裡是**這位使�
 
 專案原始需求見 [PROJECT](../../../PROJECT.md)。使用者提供的 repository 為 [justty32/arena_cheater](https://github.com/justty32/arena_cheater)，已設為本機 origin。參考 repo 的偏好與授權不自動套用本專案。
 
-## 本輪委派與語言
+## 委派與試玩
+
+2026-11-18 使用者允許並行開多個 agent，但同一時間只能有一個 agent 試玩，以免太多 Node.js 程序同時執行。當輪普通工作交給 Sol，試玩交給 Astra。所有 agent 動手前都要先讀 `wf/` 規矩。
+
+## 2026-11-17 委派與語言
 
 2026-11-17 使用者原文：
 
