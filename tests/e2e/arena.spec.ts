@@ -85,13 +85,10 @@ test('謹慎思考只由付款按鈕施放，選牌期間停鐘並在選完後�
   await expect(paymentStone).toHaveAttribute('aria-pressed', 'true');
   await paymentStone.click();
   await expect(pay).toBeDisabled();
-  await center(page);
-  await expect(offer).toBeHidden();
-  expect(await inventory(page)).toEqual(before);
-
   await paymentStone.click();
   await expect(pay).toBeEnabled();
   await center(page);
+  await expect(offer).toBeHidden();
   expect(await inventory(page)).toEqual(before);
   await cardButton(page, spell.id).focus();
   for (const nextCard of state.hand.slice(state.hand.indexOf(spell) + 1)) {

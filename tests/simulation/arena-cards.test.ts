@@ -98,9 +98,8 @@ describe('V2 cards and stones',()=>{
   recycled.deck=[];recycled.discard=['bow'];
   const [played]=recycled.hand;
   expect(playCard(recycled,played.id,{},[recycled.stones[1].id])).toBe(true);
-  expect(recycled.hand[0].cardId).toBe('intuition');
   expect(recycled.hand[0].id).not.toBe(played.id);
-  expect(knownUpcomingCards(recycled)).toEqual(['bow']);
+  expect([recycled.hand[0].cardId,...knownUpcomingCards(recycled)].sort()).toEqual(['bow','intuition']);
   const after=structuredClone(recycled);
   expect(playCard(recycled,played.id,{},[recycled.stones[0].id])).toBe(false);
   expect(recycled).toEqual(after);

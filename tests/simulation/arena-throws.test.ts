@@ -18,18 +18,6 @@ function dungFight(){
  return {state,target,other,aim:{x:0,y:3}};
 }
 describe('V2 thrown hits and fighter traits',()=>{
- it('previews the same first live fighter the current path actually hits',()=>{
-  const state=arena(),[far,near,dead]=state.fighters;state.fighters=[far,near,dead];
-  Object.assign(far,{x:0,y:1});Object.assign(near,{x:0,y:4});Object.assign(dead,{x:0,y:6,hp:0});
-  const sword=CARDS.find(card=>card.id==='sword')!, aim={x:0,y:0};
-  const snapshot=structuredClone(state);
-  expect(previewThrowContact(sword,aim,state.fighters)).toBe(near);
-  expect(state).toEqual(snapshot);
-  state.items=[flight(900,'sword',0,7.5,aim.x,aim.y)];
-  state.time=1;advanceItems(state);
-  expect(near.hp).toBe(snapshot.fighters[1].hp-1);
-  expect(far.hp).toBe(snapshot.fighters[0].hp);
- });
  it('breaks equal preview contact times by fighter ID regardless of list order',()=>{
   const state=arena(),[first,second]=state.fighters;
   Object.assign(first,{x:-0.15,y:4,radius:0.4});
@@ -48,12 +36,19 @@ describe('V2 thrown hits and fighter traits',()=>{
   expect(previewThrowContact(sword,undefined,[fighter])).toBeUndefined();
   expect(previewThrowContact(lightning,{x:0,y:0},[fighter])).toBeUndefined();
  });
- it('stops at the first live body, deals one hit and leaves equipment pickable',()=>{
-  const state=arena(),[first,second,dead]=state.fighters;state.fighters=[first,second,dead];
-  first.x=0;first.y=0;second.x=1;second.y=0;dead.x=-1;dead.y=0;dead.hp=0;
-  state.items=[flight(900)];const hp=first.hp,otherHp=second.hp;state.time=1;advanceItems(state);
-  expect(first.hp).toBe(hp-1);expect(second.hp).toBe(otherHp);expect(first.weapon).toBe('sword');expect(state.items).toEqual([]);
-  advanceItems(state);expect(first.hp).toBe(hp-1);
+ it('previews and hits the first live fighter once, then leaves the equipment pickable',()=>{
+  const state=arena(),[far,near,dead]=state.fighters;state.fighters=[far,near,dead];
+  Object.assign(far,{x:0,y:1});Object.assign(near,{x:0,y:4});Object.assign(dead,{x:0,y:6,hp:0});
+  const sword=CARDS.find(card=>card.id==='sword')!,aim={x:0,y:0};
+  const before=structuredClone(state);
+  expect(previewThrowContact(sword,aim,state.fighters)).toBe(near);
+  expect(state).toEqual(before);
+  state.items=[flight(900,'sword',0,7.5,aim.x,aim.y)];
+  state.time=1;advanceItems(state);
+  const hp=before.fighters[1].hp;
+  expect(near.hp).toBe(hp-1);expect(far.hp).toBe(before.fighters[0].hp);
+  expect(near.weapon).toBe('sword');expect(state.items).toEqual([]);
+  advanceItems(state);expect(near.hp).toBe(hp-1);
  });
  it('delivers a pickable spear across the arena for one stone and deals one impact damage',()=>{
   const state=arena(),target=state.fighters[0];target.x=0;target.y=0;
