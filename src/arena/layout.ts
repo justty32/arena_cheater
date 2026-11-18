@@ -1,4 +1,3 @@
-import { drawWeapon } from './puppet';
 import { drawAreaCard } from './area-art';
 import { drawThrowable } from './thrown-art';
 import type { Card, Fighter, StoneColor, StoneCost } from './model';
@@ -59,8 +58,15 @@ export function drawCardArt(canvas: HTMLCanvasElement, card: Card): void {
     ctx.rotate(0.55); ctx.beginPath(); ctx.moveTo(-5, 15); ctx.lineTo(-5, -20); ctx.lineTo(0, -32); ctx.lineTo(5, -20); ctx.lineTo(5, 15); ctx.closePath(); ctx.fill();
     line([[-14, 17], [14, 17]]); line([[0, 17], [0, 30]]);
   } else if (card.id === 'spear') {
-    ctx.save(); ctx.rotate(0.85); ctx.scale(1.35, 1.35); ctx.translate(0, 12);
-    drawWeapon(ctx, 'spear'); ctx.restore();
+    ctx.save(); ctx.rotate(0.85);
+    ctx.strokeStyle = '#bf925b'; ctx.lineWidth = 4;
+    line([[0, 37], [0, -16]]);
+    ctx.beginPath(); ctx.moveTo(0, -41);
+    ctx.quadraticCurveTo(16, -23, 9, -17); ctx.lineTo(0, -11);
+    ctx.lineTo(-9, -17); ctx.quadraticCurveTo(-16, -23, 0, -41); ctx.closePath();
+    ctx.fillStyle = '#e6efeb'; ctx.fill(); ctx.strokeStyle = '#384448'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.strokeStyle = '#80999d'; line([[0, -35], [0, -16]]);
+    ctx.restore();
   } else if (card.id === 'shield') {
     ctx.beginPath(); ctx.moveTo(-22, -20); ctx.quadraticCurveTo(0, -10, 22, -20); ctx.lineTo(19, 4); ctx.quadraticCurveTo(12, 22, 0, 28); ctx.quadraticCurveTo(-12, 22, -19, 4); ctx.closePath(); ctx.stroke();
     line([[0, -12], [0, 17]]); line([[-11, 0], [11, 0]]);
