@@ -142,7 +142,7 @@ export function mountArena(root: HTMLElement): void {
     el('[data-alive]').textContent = state.fighters.filter((f) => f.hp > 0).length.toString();
     el('[data-round]').textContent = `第 ${round.toString().padStart(2, '0')} 場`;
     el('[data-status]').textContent = resolving ? resolvingTitle : { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
-    start.textContent = pending ? '選牌中' : { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '直接再戰' }[state.status];
+    start.textContent = pending ? '選牌中' : { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '直接開新局' }[state.status];
     const feedbackNode = el('[data-testid="arena-feedback"]');
     const feedbackText = resolvingMessage || feedback;
     if (feedbackNode.textContent !== feedbackText) feedbackNode.textContent = feedbackText;
@@ -215,7 +215,8 @@ export function mountArena(root: HTMLElement): void {
     el('[data-result]').hidden = !finished;
     if (finished) {
       el('[data-result-title]').textContent = winner ? `${winner.name} 勝出` : '本場平局';
-      el('[data-result-copy]').textContent = winner?.id === state.supportedId ? '你的鬥士站到了最後。這場勝利，有你的手筆。' : '競技場從不保證公平。下一場，換你改寫結局。';
+      const resultCopy = winner?.id === state.supportedId ? '你的鬥士站到了最後。這場勝利，有你的手筆。' : '競技場從不保證公平。下一場，換你改寫結局。';
+      el('[data-result-copy]').textContent = `${resultCopy}重試會保留起手牌與入場位置。`;
     }
   }
   function renderDetails(f: Fighter): void {
@@ -252,17 +253,20 @@ export function mountArena(root: HTMLElement): void {
   const sameStartIntent = (intent: StartIntent): boolean => intent.arena === state && intent.phase === state.status;
   const clearStartIntent = (): void => { startPointer = undefined; startSpace = undefined; };
 
-  function reset(): void {
+  function reset(retry = false): void {
     clearStartIntent();
+    clearResultIntent();
     returnAfterSupport = false;
-    const speed = state.speed;
-    state = createArena(73021 + round++);
+    const { seed, speed, supportedId } = state;
+    state = createArena(retry ? seed : 73021 + round++);
     state.speed = speed;
-    selectedId = state.fighters[0]?.id ?? '';
+    if (retry) state.supportedId = supportedId;
+    selectedId = state.supportedId;
+    lastFrame = performance.now();
     clearSelection();
     // IDs restart with each round, so reset keyed nodes at this explicit lifecycle boundary.
     handView.reset();
-    feedback = '新一場鬥士已入場。選擇你的支持對象。';
+    feedback = retry ? '鬥士已重新入場。可調整支持對象，再開始本場。' : '新一場鬥士已入場。選擇你的支持對象。';
     render();
   }
   document.addEventListener('pointerdown', clearStartIntent, true);
@@ -275,7 +279,11 @@ export function mountArena(root: HTMLElement): void {
   document.addEventListener('pointercancel', clearStartIntent);
   window.addEventListener('blur', clearStartIntent);
   start.addEventListener('keydown', (event) => {
-    if (event.key === ' ' && !event.repeat) startSpace = {arena:state,phase:state.status};
+    if (event.repeat && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      return;
+    }
+    if (event.key === ' ') startSpace = {arena:state,phase:state.status};
     if (event.key === 'Escape') clearStartIntent();
   });
   start.addEventListener('keyup', (event) => {
@@ -298,24 +306,60 @@ export function mountArena(root: HTMLElement): void {
     feedback = state.status === 'running' ? '戰鬥開始。點牌再點目標；滑鼠也可拖牌進場。' : '戰鬥已暫停，仍可出牌；效果倒數、換石冷卻與動畫保持停止。';
     render();
   });
-  el('[data-testid="arena-reset"]').addEventListener('click', reset);
-  const resultReset = el<HTMLButtonElement>('[data-result-reset]');
-  let resultResetPointer: number | undefined;
-  document.addEventListener('pointerdown', () => { resultResetPointer = undefined; }, true);
-  resultReset.addEventListener('pointerdown', (event) => {
-    if (event.isPrimary && event.button === 0) resultResetPointer = event.pointerId;
-  });
+  el('[data-testid="arena-reset"]').addEventListener('click', () => reset());
+
+  type ResultIntent = StartIntent & { button: HTMLButtonElement };
+  let resultPointer: (ResultIntent & { pointerId: number }) | undefined;
+  let resultKey: ResultIntent | undefined;
+  function clearResultIntent(): void {
+    resultPointer = undefined;
+    resultKey = undefined;
+  }
+  document.addEventListener('pointerdown', clearResultIntent, true);
   document.addEventListener('pointerup', (event) => {
-    if (!resultReset.contains(event.target as Node)) resultResetPointer = undefined;
+    if (resultPointer?.pointerId === event.pointerId && !resultPointer.button.contains(event.target as Node)) resultPointer = undefined;
   });
-  document.addEventListener('pointercancel', () => { resultResetPointer = undefined; });
-  window.addEventListener('blur', () => { resultResetPointer = undefined; });
-  resultReset.addEventListener('click', (event) => {
-    // A newly appearing result panel must not turn an in-progress cast into a reset.
-    const sameGesture = event instanceof PointerEvent && event.pointerId === resultResetPointer;
-    resultResetPointer = undefined;
-    if (event.detail === 0 || sameGesture) reset();
-  });
+  document.addEventListener('pointercancel', clearResultIntent);
+  window.addEventListener('blur', clearResultIntent);
+
+  function bindResultAction(button: HTMLButtonElement, retry: boolean): void {
+    const canActivate = (): boolean => !retry || state.status === 'finished';
+    button.addEventListener('pointerdown', (event) => {
+      if (event.isPrimary && event.button === 0 && canActivate()) {
+        resultPointer = { pointerId: event.pointerId, button, arena: state, phase: state.status };
+      }
+    });
+    button.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') clearResultIntent();
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      if (event.repeat || !canActivate()) {
+        event.preventDefault();
+        return;
+      }
+      resultKey = { button, arena: state, phase: state.status };
+    });
+    button.addEventListener('keyup', (event) => {
+      if (event.key === ' ' && (!resultKey || resultKey.button !== button || !sameStartIntent(resultKey))) {
+        event.preventDefault();
+        resultKey = undefined;
+      }
+    });
+    button.addEventListener('blur', () => {
+      if (resultKey?.button === button) resultKey = undefined;
+    });
+    button.addEventListener('click', (event) => {
+      // A newly appearing result panel must not turn an in-progress cast into a reset.
+      const intent = event.detail === 0 ? resultKey ?? resultPointer : resultPointer;
+      const validIntent = !intent || (intent.button === button && sameStartIntent(intent));
+      const validPointer = event.detail === 0 || (event instanceof PointerEvent && resultPointer?.pointerId === event.pointerId);
+      clearResultIntent();
+      if (!canActivate() || !validIntent || !validPointer) return;
+      reset(retry);
+      if (retry) start.focus({ preventScroll: true });
+    });
+  }
+  bindResultAction(el('[data-result-reset]'), false);
+  bindResultAction(el('[data-result-retry]'), true);
   root.querySelectorAll<HTMLButtonElement>('[data-speed]').forEach((button) => {
     button.addEventListener('click', () => {
       state.speed = Number(button.dataset.speed);
