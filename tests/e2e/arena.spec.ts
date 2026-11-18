@@ -47,18 +47,97 @@ async function seek(page: Page, predicate: (state: ArenaState) => boolean) {
 test('三張實例手牌與三石可檢視；缺色仍可選牌且不消耗', async ({ page }, info) => {
   const errors = observeErrors(page);
   await open(page);
-  const state = await seek(page, s => s.hand.some(h => !findPayment(s, CARDS.find(c => c.id === h.cardId)!.cost)));
+  const missingRedSpell = (state: ArenaState) => state.hand.find(card =>
+    (card.cardId === 'lightning' || card.cardId === 'bloodlust') && !state.stones.some(stone => stone.color === 'red'));
+  const state = await seek(page, s => Boolean(missingRedSpell(s)));
   await expect(hand(page)).toHaveCount(3);
   await expect(stones(page)).toHaveCount(3);
   await expect(page.locator('[data-fighter]')).toHaveCount(7);
-  const unavailable = state.hand.find(h => !findPayment(state, CARDS.find(c => c.id === h.cardId)!.cost))!;
+  const unavailable = missingRedSpell(state)!;
   const before = await inventory(page);
   await cardButton(page, unavailable.id).click();
   await expect(page.getByTestId('arena-card-detail')).toBeVisible();
   await paused(page);
   await page.locator('[data-fighter]').first().click();
+  await expect(page.getByTestId('arena-feedback')).toHaveAttribute('data-reason', 'insufficient-stones');
   expect(await inventory(page)).toEqual(before);
   await page.screenshot({ path: info.outputPath('arena-desktop.png'), fullPage: true });
+  expect(errors).toEqual([]);
+});
+
+test('謹慎思考只由付款按鈕施放，選牌期間停鐘並在選完後續戰', async ({ page }) => {
+  const errors = observeErrors(page);
+  await open(page);
+  const state = await seek(page, s => s.hand.some(card => card.cardId === 'deliberate') &&
+    s.stones.some(stone => stone.color === 'blue'));
+  const spell = state.hand.find(card => card.cardId === 'deliberate')!;
+  const blue = state.stones.find(stone => stone.color === 'blue')!;
+  const start = page.getByTestId('arena-start');
+  const pay = page.getByTestId('arena-deliberation-pay');
+  const offer = page.getByTestId('arena-deliberation');
+  const timer = page.getByTestId('arena-time');
+  await start.click();
+  await cardButton(page, spell.id).click();
+  const before = await inventory(page);
+  const paymentStone = page.locator(`[data-stone="${blue.id}"]`);
+  await expect(paymentStone).toHaveAttribute('aria-pressed', 'true');
+  await paymentStone.click();
+  await expect(pay).toBeDisabled();
+  await center(page);
+  await expect(offer).toBeHidden();
+  expect(await inventory(page)).toEqual(before);
+
+  await paymentStone.click();
+  await expect(pay).toBeEnabled();
+  await center(page);
+  expect(await inventory(page)).toEqual(before);
+  await cardButton(page, spell.id).focus();
+  for (const nextCard of state.hand.slice(state.hand.indexOf(spell) + 1)) {
+    await page.keyboard.press('Tab');
+    await expect(cardButton(page, nextCard.id)).toBeFocused();
+  }
+  await page.keyboard.press('Tab');
+  await expect(pay).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(offer).toBeVisible();
+  await expect(offer.getByRole('heading')).toBeFocused();
+  await expect(start).toBeDisabled();
+  await expect(cardButton(page, spell.id)).toHaveCount(0);
+  await expect(hand(page)).toHaveCount(2);
+  const pending = await inventory(page);
+  expect(pending.stones).toHaveLength(before.stones.length + 1);
+  expect(pending.stones).not.toContain(String(blue.id));
+  for (const unspent of before.stones.filter(id => id !== String(blue.id))) expect(pending.stones).toContain(unspent);
+  const pausedTime = await timer.innerText();
+  await page.keyboard.press('Escape');
+  await page.keyboard.press('1');
+  await page.clock.runFor(1100);
+  await expect(timer).toHaveText(pausedTime);
+  expect(await inventory(page)).toEqual(pending);
+
+  const choices = offer.getByTestId('arena-deliberation-choice');
+  await expect(choices).toHaveCount(3);
+  const choice = choices.nth(1);
+  const chosenName = await choice.locator('strong').innerText();
+  await page.keyboard.press('Tab');
+  await expect(choices.first()).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(choice).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(offer).toBeHidden();
+  await expect(start).toBeEnabled();
+  await expect(hand(page)).toHaveCount(3);
+  const after = await inventory(page);
+  expect(after.stones).toEqual(pending.stones);
+  expect(after.hand.filter(id => pending.hand.includes(id))).toEqual(pending.hand);
+  const added = after.hand.filter(id => !pending.hand.includes(id));
+  expect(added).toHaveLength(1);
+  const replacement = cardButton(page, Number(added[0]));
+  await expect(replacement.locator('.card-name')).toHaveText(chosenName);
+  await expect(replacement).toBeFocused();
+  await expect(replacement).toHaveAttribute('aria-pressed', 'false');
+  await page.clock.runFor(1100);
+  await expect(timer).not.toHaveText(pausedTime);
   expect(errors).toEqual([]);
 });
 

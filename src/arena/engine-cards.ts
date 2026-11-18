@@ -1,4 +1,4 @@
-import { CARDS, isResolvingArena, type ArenaState, type CardId, type StoneColor, type StoneCost } from './model';
+import { CARDS, isResolvingArena, type ArenaState, type CardId, type DeliberationOffer, type StoneColor, type StoneCost } from './model';
 
 export const REDRAW_COOLDOWN = 3;
 const COLORS: StoneColor[] = ['yellow', 'blue', 'green', 'black', 'red'];
@@ -15,12 +15,15 @@ function shuffle(state: ArenaState, cards: CardId[]): void {
 export function drawStones(state: ArenaState, count: number): void {
   for (let i = 0; i < count; i++) state.stones.push({ id: state.nextId++, color: COLORS[Math.floor(random(state) * COLORS.length)] });
 }
-export function drawCard(state: ArenaState): void {
+function takeTopCard(state: ArenaState): CardId | undefined {
   if (!state.deck.length && state.discard.length) {
     state.deck = state.discard.splice(0);
     shuffle(state, state.deck);
   }
-  const cardId = state.deck.pop();
+  return state.deck.pop();
+}
+export function drawCard(state: ArenaState): void {
+  const cardId = takeTopCard(state);
   if (cardId) state.hand.push({ id: state.nextId++, cardId });
 }
 export function initializeCards(state: ArenaState): void {
@@ -30,7 +33,7 @@ export function initializeCards(state: ArenaState): void {
   drawStones(state, 3);
 }
 export function canUseCards(state: ArenaState): boolean {
-  return (state.status === 'running' || state.status === 'paused') && !isResolvingArena(state);
+  return (state.status === 'running' || state.status === 'paused') && !isResolvingArena(state) && !state.pendingDeliberation;
 }
 export function findPayment(state: ArenaState, cost: StoneCost): number[] | undefined {
   const selected: number[] = [];
@@ -68,11 +71,41 @@ export function paymentStatus(state: ArenaState, cost: StoneCost, stoneIds: read
 export function canPayCost(state: ArenaState, cost: StoneCost, stoneIds: readonly number[]): boolean {
   return paymentStatus(state,cost,stoneIds).valid;
 }
-export function consumeCard(state: ArenaState, handCardId: number, stoneIds: readonly number[]): void {
+function spendCard(state: ArenaState, handCardId: number, stoneIds: readonly number[]): CardId {
   const index = state.hand.findIndex(card => card.id === handCardId);
-  state.discard.push(state.hand[index].cardId);
-  state.hand.splice(index, 1);
+  const [card] = state.hand.splice(index, 1);
   state.stones = state.stones.filter(stone => !stoneIds.includes(stone.id));
+  return card.cardId;
+}
+export function consumeCard(state: ArenaState, handCardId: number, stoneIds: readonly number[]): void {
+  state.discard.push(spendCard(state, handCardId, stoneIds));
+}
+/** The caller validates the payment and that at least one candidate exists. */
+export function beginDeliberation(state: ArenaState, handCardId: number, stoneIds: readonly number[]): void {
+  const playedCard = spendCard(state, handCardId, stoneIds);
+  drawStones(state, 2);
+  const candidates: CardId[] = [];
+  for (let i = 0; i < 3; i++) {
+    const cardId = takeTopCard(state);
+    if (cardId === undefined) break;
+    candidates.push(cardId);
+  }
+  // The spell joins the discard only after the candidates have been drawn.
+  state.discard.push(playedCard);
+  state.pendingDeliberation = { candidates, resumeOnChoice: state.status === 'running' };
+  state.status = 'paused';
+}
+export function chooseDeliberation(state: ArenaState, offer: DeliberationOffer, index: number): boolean {
+  if (!state.pendingDeliberation || state.pendingDeliberation !== offer || state.status !== 'paused' ||
+      !Number.isInteger(index) || index < 0 || index >= offer.candidates.length) return false;
+  state.hand.push({ id: state.nextId++, cardId: offer.candidates[index] });
+  state.discard.push(...offer.candidates.filter((_, candidateIndex) => candidateIndex !== index));
+  state.pendingDeliberation = undefined;
+  if (offer.resumeOnChoice) state.status = 'running';
+  return true;
+}
+export function keepDeliberationPaused(state: ArenaState): void {
+  if (state.pendingDeliberation) state.pendingDeliberation.resumeOnChoice = false;
 }
 export function redrawStones(state: ArenaState, handCardId: number, stoneIds: number[]): boolean {
   if (!stoneIds.length || !canUseCards(state) || state.time < state.redrawAvailableAt || !state.hand.some(card => card.id === handCardId) ||

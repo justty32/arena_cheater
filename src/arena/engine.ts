@@ -4,7 +4,7 @@ import { advanceItems } from './engine-items';
 import { advanceArrows } from './engine-arrows';
 import { advanceControl, syncStamina } from './engine-damage';
 import { initializeCards } from './engine-cards';
-export { REDRAW_COOLDOWN, redrawStones, findPayment, canPayCost, paymentStatus, type PaymentStatus } from './engine-cards';
+export { REDRAW_COOLDOWN, redrawStones, findPayment, canPayCost, paymentStatus, chooseDeliberation, keepDeliberationPaused, type PaymentStatus } from './engine-cards';
 export { playCard, validateCardPlay, type CardTarget, type CardPlayRejection, type CardPlayValidation } from './engine-items';
 
 const STEP = 1 / 30;
@@ -34,7 +34,7 @@ export function createArena(seed = 73021): ArenaState {
   return state;
 }
 export function toggleArena(state: ArenaState): void {
-  if (state.status === 'finished') return;
+  if (state.status === 'finished' || state.pendingDeliberation) return;
   state.status = state.status === 'running' ? 'paused' : 'running';
 }
 function step(state: ArenaState): void {

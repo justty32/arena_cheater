@@ -13,13 +13,16 @@ export function paymentProblem(status: PaymentStatus): string {
 export function paymentReadout(state: ArenaState, card: Card, ids: readonly number[], status: PaymentStatus): string {
   const colors = STONE_COLORS.map(color => ({ color, count: state.stones.filter(stone => stone.color === color && ids.includes(stone.id)).length }))
     .filter(({ count }) => count).map(({ color, count }) => `${STONE_NAMES[color]} ${count}`).join(' ＋ ');
-  return `支付 ${status.selectedCount} / ${status.requiredCount} 顆${colors ? `（${colors}）` : ''} · ${status.valid ? '點目標施放，可先點石頭改選' : paymentProblem(status)} · 費用：${costText(card.cost)}`;
+  const ready = card.target === 'self' ? '按支付藍石開始抽牌，可先改選' : '點目標施放，可先點石頭改選';
+  return `支付 ${status.selectedCount} / ${status.requiredCount} 顆${colors ? `（${colors}）` : ''} · ${status.valid ? ready : paymentProblem(status)} · 費用：${costText(card.cost)}`;
 }
 
 const rejectionText: Record<Exclude<CardPlayRejection, 'target-required'>, string> = {
   'not-started': '請先開始戰鬥，再施放卡牌。',
   finished: '這場戰鬥已結束，請開新一場。',
   resolving: '正在結算在途投擲物與箭，本場不再接受出牌。',
+  'deliberation-pending': '請先選完謹慎思考的候選牌。',
+  'empty-deck': '目前沒有可抽的候選牌。',
   'card-missing': '這張牌已不在手中，請重新選牌。',
   'target-missing': '找不到這位鬥士，請重新選擇目標。',
   'target-dead': '這位鬥士已陣亡，請選擇仍存活的鬥士。',
@@ -35,6 +38,7 @@ const rejectionText: Record<Exclude<CardPlayRejection, 'target-required'>, strin
 const targetRequiredText: Record<Card['target'], string> = {
   fighter: '請點選存活鬥士的身體。',
   ground: '請點選場地落點。',
+  self: '請使用卡牌的付款按鈕。',
   area: '請點選範圍圓心。',
 };
 

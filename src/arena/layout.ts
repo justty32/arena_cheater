@@ -25,11 +25,17 @@ export function arenaLayout(fighters: Fighter[]): string {
         <p class="recent-throw" data-testid="arena-recent-throw" hidden><span>最近投送</span><span data-throw-result></span></p>
         <div class="hand-table">
           <section class="stone-pouch" aria-label="魔法石袋"><div class="stone-heading"><h3>魔法石袋</h3><span data-stone-total></span></div><div class="stone-summary" data-stone-summary data-testid="arena-stone-summary"></div><details class="stone-payment" data-mobile-panel="payment" open><summary data-testid="arena-payment-toggle"><span data-payment-toggle-label>改選支付石</span><small data-payment-brief>選牌後可改選</small></summary><div class="stone-actions"><span data-stone-mode>持有魔法石</span><button data-testid="arena-payment-auto" hidden>自動選石</button></div><div class="stone-tray" data-testid="arena-stones" aria-label="持有魔法石"></div><p class="stone-help" data-stone-help>費用中的數字可用任意顏色支付。</p><p class="payment-preview" data-testid="arena-payment"></p></details></section>
-          <div class="hand-play"><div class="arena-cards" data-hand-list></div><div class="card-detail" data-testid="arena-card-detail"><details class="card-effect" data-mobile-panel="effect" open><summary data-testid="arena-effect-toggle">完整效果與操作說明</summary><p data-selected-description>選牌後點擊鬥士施法，或點擊場地投送武器。</p></details><p class="throw-instruction" data-testid="arena-throw-range" hidden></p><p class="area-instruction" data-testid="arena-area-preview" data-target-count="0" data-valid="false" hidden></p></div></div>
+          <div class="hand-play"><div class="arena-cards" data-hand-list></div>
+            <button type="button" class="deliberation-pay" data-testid="arena-deliberation-pay" hidden>支付藍石，抽三選一</button>
+            <section class="deliberation" data-testid="arena-deliberation" aria-labelledby="deliberation-heading" hidden>
+              <h3 id="deliberation-heading" data-deliberation-heading tabindex="-1">選一張加入手牌</h3>
+              <p data-deliberation-resume></p>
+              <div class="deliberation-choices" data-deliberation-choices></div>
+            </section><div class="card-detail" data-testid="arena-card-detail"><details class="card-effect" data-mobile-panel="effect" open><summary data-testid="arena-effect-toggle">完整效果與操作說明</summary><p data-selected-description>選牌後點擊鬥士施法，或點擊場地投送武器。</p></details><p class="throw-instruction" data-testid="arena-throw-range" hidden></p><p class="area-instruction" data-testid="arena-area-preview" data-target-count="0" data-valid="false" hidden></p></div></div>
           <details class="hand-exchange" data-mobile-panel="exchange" open><summary data-testid="arena-exchange-toggle">棄牌換石</summary><span class="section-eyebrow">A CHANGE OF FORTUNE</span><h3>換個手氣</h3><p>放棄一張手牌，重抽部分魔法石。</p><button data-testid="arena-redraw">棄牌換石</button><div data-redraw-controls hidden><p data-testid="arena-redraw-preview"></p><button data-testid="arena-redraw-confirm">確認換石</button></div><small data-redraw-help>先選一張要放棄的手牌。</small></details>
         </div>
         <div class="hand-footer"><p data-testid="arena-feedback" role="status" aria-live="polite"></p><span class="hand-tip">1–3 選牌 · 滑鼠拖曳或點選施放</span></div>
-        <details class="hand-guide"><summary>怎麼動手腳？</summary><p>觸控先點牌，再點場內目標；滑鼠也可拖牌施放。起手三張牌、三顆魔法石。成功出牌後補兩顆石頭與一張牌；你支持的鬥士每次擊殺，再獲得三顆魔法石。彩色費用必須用同色石頭，數字費用可用任意顏色。選牌時會預選支付用石；點石頭可取消或改選，點目標才實際花費。</p></details>
+        <details class="hand-guide"><summary>怎麼動手腳？</summary><p>先點牌查看操作方式；有場內目標的牌也可用滑鼠拖曳施放。起手三張牌、三顆魔法石。成功出牌後補兩顆石頭與一張牌；你支持的鬥士每次擊殺，再獲得三顆魔法石。彩色費用必須用同色石頭，數字費用可用任意顏色。選牌時會預選支付用石；點石頭可取消或改選。點選目標或按牌面指示的付款按鈕後才會扣石。</p></details>
       </section>
     </main>
     <footer class="arena-footer"><span>沒有人喜歡作弊，除了贏的那個。</span><a href="?prototype=classic">舊版棋盤原型 ↗</a></footer>
@@ -79,6 +85,15 @@ export function drawCardArt(canvas: HTMLCanvasElement, card: Card): void {
   } else if (card.id === 'club') {
     ctx.rotate(0.6); ctx.beginPath(); ctx.roundRect(-9, -30, 18, 37, 6); ctx.fill(); line([[0, 6], [0, 31]]);
     ctx.strokeStyle = '#33281f'; line([[-3, -24], [-3, -7]]);
+  } else if (card.id === 'deliberate') {
+    for (const tilt of [-0.5, 0.5, 0]) {
+      ctx.save(); ctx.translate(0, 20); ctx.rotate(tilt);
+      const top = tilt === 0 ? -52 : -44;
+      ctx.fillStyle = tilt === 0 ? '#437d9a' : '#263f52'; ctx.strokeStyle = '#b4e5ee';
+      ctx.beginPath(); ctx.roundRect(-12, top, 24, 44, 3); ctx.fill(); ctx.stroke();
+      if (tilt === 0) line([[0, -40], [6, -31], [0, -22], [-6, -31], [0, -40]]);
+      ctx.restore();
+    }
   } else if (card.id === 'bloodlust') {
     line([[-20, 18], [-23, 3], [-16, -4], [-14, -20], [-6, -23], [-2, -7], [4, -25], [12, -22], [12, -6], [19, -15], [25, -9], [18, 17], [6, 26], [-12, 25], [-20, 18]]);
   } else if (card.id === 'lightning') {
@@ -106,5 +121,13 @@ export function costText(cost: StoneCost): string {
 
 export function handCardMarkup(card: Card, handId: number, index: number): string {
   const cost = `${card.cost.generic ? `<span class="cost-generic" title="任意顏色">${card.cost.generic}</span>` : ''}${STONE_COLORS.filter((color) => card.cost.colored[color]).map((color) => `<span class="cost-stone" data-color="${color}">${STONE_NAMES[color]}${card.cost.colored[color]! > 1 ? `×${card.cost.colored[color]}` : ''}</span>`).join('')}`;
-  return `<button class="arena-card" data-testid="arena-hand-card" data-hand-card="${handId}" data-card="${card.id}" aria-pressed="false" style="--card-color:${card.color}" aria-label="${card.name}，費用 ${costText(card.cost)}，${card.description}"><span class="card-top"><kbd>${index + 1}</kbd><span class="card-cost">${cost}</span></span><canvas class="card-art" width="180" height="94" aria-hidden="true"></canvas><span class="card-name">${card.name}</span><span class="card-subtitle">${card.target === 'area' ? `範圍直徑 ${card.areaRadius * 2}m` : card.throwRange ? `一次投擲 · ${card.throwRange}m` : card.target === 'fighter' ? '指定鬥士' : '投向場地'}</span><span class="card-description">${card.description}</span><span class="card-affordability" data-affordability></span></button>`;
+  return `<button class="arena-card" data-testid="arena-hand-card" data-hand-card="${handId}" data-card="${card.id}" aria-pressed="false" style="--card-color:${card.color}" aria-label="${card.name}，費用 ${costText(card.cost)}，${card.description}"><span class="card-top"><kbd>${index + 1}</kbd><span class="card-cost">${cost}</span></span><canvas class="card-art" width="180" height="94" aria-hidden="true"></canvas><span class="card-name">${card.name}</span><span class="card-subtitle">${card.target === 'area' ? `範圍直徑 ${card.areaRadius * 2}m` : card.throwRange ? `一次投擲 · ${card.throwRange}m` : card.target === 'fighter' ? '指定鬥士' : card.id === 'deliberate' ? '抽三選一' : '投向場地'}</span><span class="card-description">${card.description}</span><span class="card-affordability" data-affordability></span></button>`;
+}
+
+
+export function deliberationChoiceMarkup(card: Card, index: number): string {
+  return `<button type="button" class="deliberation-choice" data-testid="arena-deliberation-choice" data-deliberation-choice="${index}" style="--card-color:${card.color}">
+    <strong>${card.name}</strong><span class="deliberation-cost">費用 ${costText(card.cost)}</span>
+    <span class="deliberation-purpose">${card.description}</span>
+  </button>`;
 }

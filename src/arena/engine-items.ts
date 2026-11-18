@@ -2,23 +2,27 @@ import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGI
 import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime } from './geometry';
-import { canPayCost, findPayment, consumeCard, drawCard, drawStones } from './engine-cards';
+import { canPayCost, findPayment, consumeCard, drawCard, drawStones, beginDeliberation } from './engine-cards';
 import { applyHealthDamage, damageFighter } from './engine-damage';
 
 export interface CardTarget { fighterId?: string; x?: number; y?: number }
 export type CardPlayRejection = 'not-started' | 'finished' | 'resolving' | 'card-missing' |
   'target-required' | 'target-missing' | 'target-dead' | 'target-full-health' | 'invalid-point' |
-  'outside-arena' | 'out-of-range' | 'empty-area' | 'insufficient-stones' | 'invalid-payment';
+  'outside-arena' | 'out-of-range' | 'empty-area' | 'deliberation-pending' | 'empty-deck' | 'insufficient-stones' | 'invalid-payment';
 export type CardPlayValidation = { ok: true } | { ok: false; reason: CardPlayRejection };
 /** Pure preflight shared by feedback and the authoritative command. */
 export function validateCardPlay(state: ArenaState, handCardId: number, target: CardTarget, stoneIds: readonly number[]): CardPlayValidation {
   if (state.status === 'ready') return {ok:false,reason:'not-started'};
   if (state.status === 'finished') return {ok:false,reason:'finished'};
+  if (state.pendingDeliberation) return {ok:false,reason:'deliberation-pending'};
   if (isResolvingArena(state)) return {ok:false,reason:'resolving'};
   const instance = state.hand.find(value => value.id === handCardId);
   const card = CARDS.find(value => value.id === instance?.cardId);
   if (!card) return {ok:false,reason:'card-missing'};
-  if (card.target === 'fighter') {
+  if (card.target === 'self') {
+    if (target.x !== undefined || target.y !== undefined || target.fighterId !== undefined) return {ok:false,reason:'invalid-point'};
+    if (!state.deck.length && !state.discard.length) return {ok:false,reason:'empty-deck'};
+  } else if (card.target === 'fighter') {
     if (target.fighterId === undefined) return {ok:false,reason:'target-required'};
     const fighter = state.fighters.find(value => value.id === target.fighterId);
     if (!fighter) return {ok:false,reason:'target-missing'};
@@ -41,6 +45,10 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
   if (!validateCardPlay(state,handCardId,target,stoneIds).ok) return false;
   const instance = state.hand.find(value => value.id === handCardId)!;
   const card = CARDS.find(value => value.id === instance.cardId)!;
+  if (card.target === 'self') {
+    beginDeliberation(state, handCardId, stoneIds);
+    return true;
+  }
   const fighter = state.fighters.find(value => value.id === target.fighterId);
   const {x,y} = target;
   const areaTargets = card.target === 'area' ? areaSpellTargets(state.fighters,card,{x:x!,y:y!}) : [];

@@ -1,7 +1,7 @@
 export type Species = 'wolf' | 'bear' | 'elephant' | 'bull' | 'porcupine' | 'snake' | 'deer';
 export type Weapon = 'fists' | 'sword' | 'spear' | 'club' | 'shield' | 'bow';
 export type ThrownKind = Exclude<Weapon, 'fists'> | 'stone' | 'pot';
-export type CardId = 'sword' | 'spear' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath';
+export type CardId = 'sword' | 'spear' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath' | 'deliberate';
 export type StoneColor = 'yellow' | 'blue' | 'green' | 'black' | 'red';
 export interface MagicStone { id: number; color: StoneColor }
 export interface HandCard { id: number; cardId: CardId }
@@ -27,14 +27,19 @@ export interface ThrowFeedback {
 }
 export interface Arrow { id: number; ownerId: string; x: number; y: number; vx: number; vy: number; damage: number; expiresAt: number }
 export interface ArenaEffect { id: number; x: number; y: number; text: string; color: string; at: number; kind: 'hit' | 'spell' | 'pickup' | 'impact' | 'area'; itemKind?: ThrownKind; areaRadius?: number; cardId?: CardId }
+export interface DeliberationOffer {
+ readonly candidates: readonly CardId[];
+ resumeOnChoice: boolean;
+}
 export interface ArenaState {
  seed: number; time: number; accumulator: number; status: 'ready' | 'running' | 'paused' | 'finished'; speed: number;
+ pendingDeliberation?: DeliberationOffer;
  fighters: Fighter[]; latestThrow?: ThrowFeedback; items: ThrownItem[]; arrows: Arrow[]; effects: ArenaEffect[]; logs: string[];
  hand: HandCard[]; stones: MagicStone[]; randomState: number; deck: CardId[]; discard: CardId[]; redrawAvailableAt: number; supportedId: string; winnerId?: string; nextId: number;
  supportKillRewardStones: number;
 }
 interface CardBase { id: CardId; name: string; subtitle: string; description: string; cost: StoneCost; throwRange?: number; color: string; icon: string }
-export type Card = CardBase & ({ target: 'fighter' | 'ground' } | { target: 'area'; areaRadius: number; damage: number });
+export type Card = CardBase & ({ target: 'fighter' | 'ground' | 'self' } | { target: 'area'; areaRadius: number; damage: number });
 export const ARENA_RADIUS = 7.5;
 export const THROW_TARGET_RADIUS = ARENA_RADIUS - 0.2;
 export const THROW_ORIGIN = { x: 0, y: ARENA_RADIUS };
@@ -68,6 +73,7 @@ export const CARDS: Card[] = [
  { id:'bow',name:'長弓',subtitle:'雙手遠程',description:'雙手弓；附三支箭，射完後回到徒手',cost:{generic:1,colored:{}},target:'ground',color:'#9eb98c',icon:'⌒' },
  { id:'lightning',name:'閃電劍',subtitle:'紅色法術',description:'目標受到 3 點傷害，無視盾與方向',cost:{generic:0,colored:{red:1}},target:'fighter',color:'#df776a',icon:'ϟ' },
  { id:'bloodlust',name:'殺紅眼',subtitle:'紅色法術',description:'攻擊力 +3，持續 5 秒',cost:{generic:1,colored:{red:1}},target:'fighter',color:'#df776a',icon:'✦' },
+ { id:'deliberate',name:'謹慎思考',subtitle:'藍色法術',description:'抽最多三張，選一張加入手牌，其餘棄掉',cost:{generic:0,colored:{blue:1}},target:'self',color:'#79a9ce',icon:'◇' },
  { id:'growth',name:'野性成長',subtitle:'綠色法術',description:'恢復 10 點生命，不超過生命上限',cost:{generic:2,colored:{green:1}},target:'fighter',color:'#86b18b',icon:'✚' },
 ];
 

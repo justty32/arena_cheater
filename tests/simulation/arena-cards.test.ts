@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { advanceArena, canPayCost, createArena, findPayment, paymentStatus, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
+import { advanceArena, canPayCost, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, paymentStatus, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
 import { attackDamage, damageFighter } from '../../src/arena/engine-damage';
 import { advanceArrows } from '../../src/arena/engine-arrows';
 import { drawCard } from '../../src/arena/engine-cards';
@@ -15,8 +15,68 @@ function cast(state:ArenaState):boolean {
 describe('V2 cards and stones',()=>{
  it('deals three cards and three stones from a reproducible finite deck',()=>{
   const a=createArena(42);expect(a).toEqual(createArena(42));expect(a.hand).toHaveLength(3);expect(a.stones).toHaveLength(3);
-  const all=[...a.hand.map(c=>c.cardId),...a.deck];expect(all).toHaveLength(24);
+  const all=[...a.hand.map(c=>c.cardId),...a.deck];expect(all).toHaveLength(26);
   for(const card of CARDS)expect(all.filter(id=>id===card.id)).toHaveLength(2);
+ });
+ it('pays once, holds all candidates until one is chosen, and resumes a running arena',()=>{
+  const state=ready('deliberate');
+  state.hand.push({id:state.nextId++,cardId:'sword'});
+  state.deck=['stone','bow','bow'];state.discard=[];
+  const [spell,sword]=state.hand,[red,blue]=state.stones;
+  const before=structuredClone(state);
+  expect(validateCardPlay(state,spell.id,{},[blue.id])).toEqual({ok:true});
+  expect(playCard(state,spell.id,{},[red.id])).toBe(false);
+  expect(state).toEqual(before);
+
+  expect(playCard(state,spell.id,{},[blue.id])).toBe(true);
+  const offer=state.pendingDeliberation!;
+  expect([...offer.candidates].sort()).toEqual(['bow','bow','stone']);
+  expect(state.deck).toEqual([]);expect(state.discard).toEqual(['deliberate']);
+  expect(state.status).toBe('paused');expect(state.hand).toEqual([sword]);
+  expect(state.stones).toHaveLength(4);
+  expect(state.stones.some(stone=>stone.id===blue.id)).toBe(false);
+  const pending=structuredClone(state);
+  expect(validateCardPlay(state,sword.id,{x:0,y:0},[red.id])).toEqual({ok:false,reason:'deliberation-pending'});
+  expect(playCard(state,spell.id,{},[blue.id])).toBe(false);
+  expect(redrawStones(state,sword.id,[red.id])).toBe(false);
+  expect(chooseDeliberation(state,offer,3)).toBe(false);
+  toggleArena(state);advanceArena(state,1);
+  expect(state).toEqual(pending);
+
+  expect(chooseDeliberation(state,offer,offer.candidates.lastIndexOf('bow'))).toBe(true);
+  expect(state.pendingDeliberation).toBeUndefined();expect(state.status).toBe('running');
+  expect(state.hand.map(card=>card.cardId)).toEqual(['sword','bow']);
+  expect([...state.deck,...state.discard,...state.hand.map(card=>card.cardId)].sort())
+   .toEqual([...before.deck,...before.discard,...before.hand.map(card=>card.cardId)].sort());
+  expect(state.stones).toEqual(pending.stones);
+  const chosen=structuredClone(state);
+  expect(chooseDeliberation(state,offer,0)).toBe(false);expect(state).toEqual(chosen);
+ });
+ it('recycles only cards already discarded and protects an outstanding offer from old choices',()=>{
+  const state=ready('deliberate');toggleArena(state);
+  state.deck=[];state.discard=['deliberate'];
+  expect(playCard(state,state.hand[0].id,{},[state.stones[1].id])).toBe(true);
+  const oldOffer=state.pendingDeliberation!;
+  expect(oldOffer.candidates).toEqual(['deliberate']);
+  expect(chooseDeliberation(state,oldOffer,0)).toBe(true);
+  expect(state.status).toBe('paused');expect(state.discard).toEqual(['deliberate']);
+
+  const next=ready('deliberate');
+  next.deck=[];next.discard=['deliberate'];
+  expect(playCard(next,next.hand[0].id,{},[next.stones[1].id])).toBe(true);
+  const pending=structuredClone(next);
+  expect(createArena(next.seed+1).pendingDeliberation).toBeUndefined();
+  expect(chooseDeliberation(next,oldOffer,0)).toBe(false);expect(next).toEqual(pending);
+  keepDeliberationPaused(next);
+  expect(chooseDeliberation(next,next.pendingDeliberation!,0)).toBe(true);
+  expect(next.status).toBe('paused');
+ });
+ it('rejects deliberation without candidates before spending a card, stones, or random draws',()=>{
+  const state=ready('deliberate');state.deck=[];state.discard=[];
+  const before=structuredClone(state),id=state.hand[0].id,payment=[state.stones[1].id];
+  expect(validateCardPlay(state,id,{},payment)).toEqual({ok:false,reason:'empty-deck'});
+  expect(playCard(state,id,{},payment)).toBe(false);
+  expect(state).toEqual(before);
  });
  it('requires exact distinct payment with the specified colors',()=>{
   const state=ready('bloodlust');const cost=CARDS.find(c=>c.id==='bloodlust')!.cost;

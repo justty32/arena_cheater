@@ -104,3 +104,10 @@
   .support-button { min-height: 44px; font-size: 12px; }
   .arena-footer { margin-top: 9px; }
 }
+
+@media (max-width: 800px) {
+  .deliberation-pay { width: 100%; }
+  .deliberation-choices { grid-template-columns: 1fr; gap: 5px; }
+  .deliberation-choice { display: grid; grid-template-columns: 1fr auto; padding: 7px 10px; gap: 2px 8px; align-items: center; border-top-width: 1px; border-left: 3px solid var(--card-color); }
+  .deliberation-purpose { grid-column: 1 / -1; }
+}

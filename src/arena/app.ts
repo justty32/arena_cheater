@@ -1,4 +1,4 @@
-import { advanceArena, createArena, findPayment, paymentStatus, validateCardPlay, type CardTarget, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
+import { advanceArena, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, paymentStatus, validateCardPlay, type CardTarget, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
 import { CARDS, isResolvingArena, isAreaSpellTarget, areaSpellTargets } from './model';
 import type { Card, Fighter } from './model';
 import { ArenaView } from './view';
@@ -40,18 +40,21 @@ export function mountArena(root: HTMLElement): void {
   const canvas = el<HTMLCanvasElement>('[data-testid="arena-canvas"]');
   const view = new ArenaView(canvas);
   const start = el<HTMLButtonElement>('[data-testid="arena-start"]');
+  const deliberationPay = el<HTMLButtonElement>('[data-testid="arena-deliberation-pay"]');
+  const deliberationHeading = el('[data-deliberation-heading]');
+  const deliberationResume = el('[data-deliberation-resume]');
   const support = el<HTMLButtonElement>('[data-support]');
   const supportChange = el<HTMLButtonElement>('[data-support-change]');
   const rows = [...root.querySelectorAll<HTMLButtonElement>('[data-fighter]')];
   const handView = createHandView(root, bindCard, (id) => {
-    if (!exchanging && !currentCard()) return;
+    if (state.pendingDeliberation || (!exchanging && !currentCard())) return;
     const selected = exchanging ? exchangeStones : paymentStones;
     if (selected.has(id)) selected.delete(id); else selected.add(id);
     if (!exchanging) refreshPaymentFeedback();
     render();
-  });
+  }, selectDeliberation);
   const currentCard = (): Card | undefined => CARDS.find((card) => card.id === state.hand.find((hand) => hand.id === activeHandId)?.cardId);
-  const canAct = (): boolean => (state.status === 'running' || state.status === 'paused') && !isResolvingArena(state);
+  const canAct = (): boolean => (state.status === 'running' || state.status === 'paused') && !isResolvingArena(state) && !state.pendingDeliberation;
   const canCastFromRoster = (card: Card | undefined): boolean => canAct() && card?.target === 'fighter' && !exchanging;
   const pixelRatio = (): number => Math.min(window.devicePixelRatio || 1, 2);
 
@@ -59,7 +62,7 @@ export function mountArena(root: HTMLElement): void {
     const card = currentCard();
     if (!card) return;
     const status = paymentStatus(state, card.cost, [...paymentStones]);
-    feedback = status.valid ? '支付用石已備妥，點目標施放。' : `${paymentProblem(status)}；請調整支付用石。`;
+    feedback = status.valid ? card.target === 'self' ? '支付用石已備妥，可開始抽三選一。' : '支付用石已備妥，點目標施放。' : `${paymentProblem(status)}；請調整支付用石。`;
     el('[data-testid="arena-feedback"]').dataset.reason = '';
   }
 
@@ -86,6 +89,8 @@ export function mountArena(root: HTMLElement): void {
       : '正在結算在途投擲物與箭，本場不可再出牌或換石。' : '';
     if (activeHandId !== undefined && !state.hand.some((hand) => hand.id === activeHandId)) clearSelection();
     const activeCard = currentCard();
+    const pending = state.pendingDeliberation;
+    const selfCard = activeCard?.target === 'self' && !exchanging;
     const rosterCasting = canCastFromRoster(activeCard);
     if (activeHandId !== paymentHandId) {
       paymentStones.clear();
@@ -98,32 +103,38 @@ export function mountArena(root: HTMLElement): void {
     renderThrowFeedback(state);
     const payment = [...paymentStones];
     const paymentCheck = activeCard ? paymentStatus(state, activeCard.cost, payment) : undefined;
-    view.render(state, selectedId, exchanging ? null : activeCard?.target ?? null, exchanging ? undefined : activeCard, aim);
+    const fieldCard = exchanging || selfCard ? undefined : activeCard;
+    view.render(state, selectedId, fieldCard?.target ?? null, fieldCard, aim);
+    start.disabled = Boolean(pending);
+    deliberationPay.hidden = !selfCard;
+    deliberationPay.disabled = !selfCard || !canAct() || !paymentCheck?.valid;
+    const resumeText = pending ? pending.resumeOnChoice ? '選完自動繼續' : '選完保持暫停' : '';
+    if (deliberationResume.textContent !== resumeText) deliberationResume.textContent = resumeText;
     el('[data-testid="arena-time"]').textContent = `${Math.floor(state.time / 60).toString().padStart(2, '0')}:${Math.floor(state.time % 60).toString().padStart(2, '0')}`;
     el('[data-alive]').textContent = state.fighters.filter((f) => f.hp > 0).length.toString();
     el('[data-round]').textContent = `第 ${round.toString().padStart(2, '0')} 場`;
     el('[data-status]').textContent = resolving ? resolvingTitle : { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
-    start.textContent = { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '直接再戰' }[state.status];
+    start.textContent = pending ? '選牌中' : { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '直接再戰' }[state.status];
     el('[data-testid="arena-feedback"]').textContent = resolvingMessage || feedback;
     const fighterPrompt = rosterCasting ? '點場內鬥士或名單施法' : '開戰後可施法';
-    el('[data-card-prompt]').textContent = finished ? '本場手牌' : resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? fighterPrompt : '點選場地投送'}` : '三張手牌，改寫勝負';
+    el('[data-card-prompt]').textContent = finished ? '本場手牌' : pending ? '謹慎思考' : resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? fighterPrompt : selfCard ? '抽三選一' : '點選場地投送'}` : '三張手牌，改寫勝負';
     const rosterSummary = el('[data-testid="arena-fighters-toggle"]');
     const rosterSubtitle = el('[data-fighters-subtitle]');
     const summary = rosterCasting ? '鬥士名單 · 點名字直接施法' : '鬥士名單 · 點選查看';
     const subtitle = rosterCasting ? '點名字直接施法' : state.status === 'ready' ? '查看後可支持' : '點選查看';
     if (rosterSummary.textContent !== summary) rosterSummary.textContent = summary;
     if (rosterSubtitle.textContent !== subtitle) rosterSubtitle.textContent = subtitle;
-    el('.hand-tip').hidden = finished;
+    el('.hand-tip').hidden = finished || Boolean(pending) || selfCard;
     const deliveryDescription = activeCard && ['sword', 'spear', 'club', 'bow'].includes(activeCard.id)
       ? '投送途中可能傷到任何鬥士，包含你支持的鬥士；碰撞會使裝備提前落地，之後可能被其他鬥士拾取。'
       : activeCard?.id === 'shield' ? '投送途中命中鬥士會截停並落地，不造成投擲傷害；落地後可能被其他鬥士拾取。' : '';
-    el('[data-selected-description]').textContent = finished ? '可以從鬥士名單查看鬥士詳情。' : activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}${deliveryDescription ? ` ${deliveryDescription}` : ''}` : resolvingMessage || '選牌後點擊鬥士施法，或點擊場地投送武器。';
-    el('[data-testid="arena-payment"]').textContent = finished ? '本場出牌已結束。' : resolvingMessage || (exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard && paymentCheck ? paymentReadout(state, activeCard, payment, paymentCheck) : '每次成功出牌，補兩顆魔法石與一張手牌。');
+    el('[data-selected-description]').textContent = finished ? '可以從鬥士名單查看鬥士詳情。' : activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}${deliveryDescription ? ` ${deliveryDescription}` : ''}` : pending ? '選一張加入手牌。' : resolvingMessage || '選牌後點擊鬥士施法，或點擊場地投送武器。';
+    el('[data-testid="arena-payment"]').textContent = finished ? '本場出牌已結束。' : pending ? '已付款，選牌時無須再支付。' : resolvingMessage || (exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard && paymentCheck ? paymentReadout(state, activeCard, payment, paymentCheck) : '每次成功出牌，補兩顆魔法石與一張手牌。');
     el('[data-testid="arena-payment"]').dataset.valid = String(!exchanging && Boolean(paymentCheck?.valid));
     el('[data-testid="arena-payment-auto"]').hidden = !activeCard || exchanging;
     el('[data-testid="arena-card-detail"]').classList.toggle('is-empty', !activeCard);
-    el('[data-payment-toggle-label]').textContent = finished ? '查看剩餘魔法石' : exchanging ? '選擇要放棄的石頭' : '改選支付石';
-    el('[data-payment-brief]').textContent = finished ? '' : exchanging ? `已選 ${exchangeStones.size} 顆` : paymentCheck ? `${paymentCheck.selectedCount}/${paymentCheck.requiredCount} 顆 · ${paymentCheck.valid ? '已備妥' : '待調整'}` : '選牌後可改選';
+    el('[data-payment-toggle-label]').textContent = finished || pending ? '查看剩餘魔法石' : exchanging ? '選擇要放棄的石頭' : '改選支付石';
+    el('[data-payment-brief]').textContent = finished || pending ? '' : exchanging ? `已選 ${exchangeStones.size} 顆` : paymentCheck ? `${paymentCheck.selectedCount}/${paymentCheck.requiredCount} 顆 · ${paymentCheck.valid ? '已備妥' : '待調整'}` : '選牌後可改選';
     el('[data-testid="arena-throw-range"]').hidden = !activeCard?.throwRange || exchanging;
     el('[data-testid="arena-throw-range"]').textContent = activeCard?.throwRange ? `從下方投擲席投出，射程 ${activeCard.throwRange}m。只能投向亮區；沿途碰到鬥士或其他投擲物會提前落下。` : '';
     const areaPreview = el('[data-testid="arena-area-preview"]');
@@ -133,7 +144,7 @@ export function mountArena(root: HTMLElement): void {
     areaPreview.dataset.valid = String(Boolean(activeCard?.target === 'area' && aim && isAreaSpellTarget(activeCard, aim) && affected.length));
     areaPreview.textContent = activeCard?.target === 'area' ? `直徑 ${activeCard.areaRadius * 2}m · ${!aim ? '點場內施放；按住不移動可先看範圍。所有鬥士都會受傷。' : !isAreaSpellTarget(activeCard, aim) ? '圓心必須在場內，不會消耗資源。' : !affected.length ? '圈內沒有存活鬥士，不會消耗資源。' : `命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包括你支持的鬥士！' : '，不限陣營。'}`}` : '';
     el('[data-cancel]').hidden = !activeCard && !exchanging;
-    canvas.classList.toggle('is-targeting', Boolean(activeCard) && !exchanging);
+    canvas.classList.toggle('is-targeting', Boolean(fieldCard));
     el('[data-redraw-controls]').hidden = !exchanging;
     const remaining = Math.max(0, state.redrawAvailableAt - state.time);
     el<HTMLButtonElement>('[data-testid="arena-redraw"]').disabled = !canAct() || remaining > 0;
@@ -232,7 +243,7 @@ export function mountArena(root: HTMLElement): void {
       ? !intent || sameStartIntent(intent)
       : event instanceof PointerEvent && startPointer?.pointerId === event.pointerId && sameStartIntent(startPointer);
     clearStartIntent();
-    if (!valid) return;
+    if (!valid || state.pendingDeliberation) return;
     returnAfterSupport = false;
     if (state.status === 'finished') reset();
     toggleArena(state);
@@ -297,7 +308,7 @@ export function mountArena(root: HTMLElement): void {
     render();
   });
   el('[data-testid="arena-redraw-confirm"]').addEventListener('click', () => {
-    if (activeHandId === undefined) return;
+    if (activeHandId === undefined || state.pendingDeliberation) return;
     const count = exchangeStones.size;
     if (redrawStones(state, activeHandId, [...exchangeStones])) {
       clearSelection(); feedback = `已放棄一張牌與 ${count} 顆石頭，抽得 ${count + 1} 顆魔法石及一張新牌。`;
@@ -305,16 +316,17 @@ export function mountArena(root: HTMLElement): void {
     render();
   });
   function select(handId: number): void {
-    if (state.status === 'finished') return;
+    if (state.status === 'finished' || state.pendingDeliberation) return;
     el('[data-testid="arena-feedback"]').dataset.reason = '';
     activeHandId = activeHandId === handId ? undefined : handId;
     const card = currentCard();
+    if (card?.target === 'self' && !exchanging) mobilePanels.open('payment');
     feedback = card ? exchanging ? `將放棄${card.name}。請選擇要重抽的石頭。` : `${card.name}：${card.description}。${canAct() ? '' : '開始戰鬥後施放。'}` : '已取消選牌。';
     render();
   }
   function attemptPlay(target: CardTarget): void {
     const card = currentCard();
-    if (!card || activeHandId === undefined || exchanging) return;
+    if (!card || card.target === 'self' || activeHandId === undefined || exchanging || state.pendingDeliberation) return;
     const payment = [...paymentStones];
     const validation = validateCardPlay(state, activeHandId, target, payment);
     el('[data-testid="arena-feedback"]').dataset.reason = validation.ok ? '' : validation.reason;
@@ -331,10 +343,40 @@ export function mountArena(root: HTMLElement): void {
     }
   }
 
+  deliberationPay.addEventListener('click', () => {
+    const card = currentCard();
+    if (card?.target !== 'self' || activeHandId === undefined || exchanging || !canAct()) return;
+    const payment = [...paymentStones];
+    const validation = validateCardPlay(state, activeHandId, {}, payment);
+    el('[data-testid="arena-feedback"]').dataset.reason = validation.ok ? '' : validation.reason;
+    if (!validation.ok) {
+      feedback = cardPlayFailure(validation.reason, card, paymentStatus(state, card.cost, payment));
+      render();
+      return;
+    }
+    if (!playCard(state, activeHandId, {}, payment)) return;
+    if (document.hidden) keepDeliberationPaused(state);
+    clearStartIntent();
+    clearSelection();
+    feedback = '已補兩顆魔法石。請選一張加入手牌。';
+    render();
+    deliberationHeading.focus();
+  });
+
+  function selectDeliberation(offer: NonNullable<typeof state.pendingDeliberation>, index: number): void {
+    const previousHand = new Set(state.hand.map(card => card.id));
+    if (!chooseDeliberation(state, offer, index)) return;
+    if (state.status === 'running') lastFrame = performance.now();
+    const replacement = state.hand.find(card => !previousHand.has(card.id));
+    feedback = '已將選中的牌加入手牌。';
+    render();
+    if (replacement) handView.focusCard(replacement.id);
+  }
+
   function cast(clientX: number, clientY: number): void {
     const card = currentCard();
     const fighter = view.pick(clientX, clientY, state, card?.target === 'fighter');
-    if (!card || exchanging) { if (fighter) selectedId = fighter.id; render(); return; }
+    if (!card || card.target === 'self' || exchanging || state.pendingDeliberation) { if (fighter) selectedId = fighter.id; render(); return; }
     updateAim(clientX, clientY);
     const target: CardTarget = card.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : {}) : view.point(clientX, clientY);
     attemptPlay(target);
@@ -378,6 +420,7 @@ export function mountArena(root: HTMLElement): void {
   });
   el('[data-cancel]').addEventListener('click', () => { clearSelection(); feedback = '已取消，沒有消耗資源。'; render(); });
   function bindCard(button: HTMLButtonElement, handId: number): void {
+    const selfCard = CARDS.some(card => card.id === button.dataset.card && card.target === 'self');
     let dragStart: { x: number; y: number; pointerId: number } | undefined;
     let moved = false;
     let suppressClick = false;
@@ -395,10 +438,10 @@ export function mountArena(root: HTMLElement): void {
       select(handId);
     });
     button.addEventListener('pointerdown', (event) => {
-      if (state.status === 'finished') return;
+      if (state.status === 'finished' || state.pendingDeliberation) return;
       // Touch cards scroll natively; taps select a card and the next target casts it.
       if (event.pointerType === 'touch') { suppressClick = false; return; }
-      if (event.button !== 0 || exchanging) return;
+      if (event.button !== 0 || exchanging || selfCard) return;
       cancelCardDrag?.();
       dragStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
       moved = false; suppressClick = false; cancelCardDrag = cancelThisDrag;
@@ -434,7 +477,7 @@ export function mountArena(root: HTMLElement): void {
     button.addEventListener('lostpointercapture', cancelPointer);
   }
   document.addEventListener('keydown', (event) => {
-    if (state.status === 'finished') return;
+    if (state.status === 'finished' || state.pendingDeliberation) return;
     if (event.key === 'Escape') { clearSelection(); feedback = '已取消，沒有消耗資源。'; render(); }
     if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || (event.target instanceof HTMLElement && event.target.isContentEditable)) return;
     const index = Number(event.key) - 1;
@@ -442,6 +485,10 @@ export function mountArena(root: HTMLElement): void {
   });
   document.addEventListener('visibilitychange', () => {
     lastFrame = performance.now();
+    if (document.hidden && state.pendingDeliberation) {
+      keepDeliberationPaused(state);
+      render();
+    }
     if (document.hidden && state.status === 'running') { toggleArena(state); feedback = '離開頁面時已自動暫停。'; render(); }
   });
   new ResizeObserver(() => {
