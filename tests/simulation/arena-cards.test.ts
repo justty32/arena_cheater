@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { advanceArena, canPayCost, createArena, findPayment, paymentStatus, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
-import { applyHealthDamage, attackDamage, damageFighter } from '../../src/arena/engine-damage';
+import { attackDamage, damageFighter } from '../../src/arena/engine-damage';
 import { advanceArrows } from '../../src/arena/engine-arrows';
 import { drawCard } from '../../src/arena/engine-cards';
 import { CARDS, type ArenaState, type CardId, type StoneColor } from '../../src/arena/model';
@@ -147,14 +147,28 @@ describe('V2 cards and stones',()=>{
   state.fighters=[attacker,arrowTarget];arrowTarget.hp=1;arrowTarget.x=1;arrowTarget.y=0;
   state.arrows=[{id:state.nextId++,ownerId:attacker.id,x:0,y:0,vx:12,vy:0,damage:10,expiresAt:2}];
   advanceArrows(state,0.2);expect(arrowTarget.hp).toBe(0);expect(state.stones).toEqual(stones);
+  expect(state.supportKillRewardStones).toBe(0);
  });
- it('rewards supported melee and dead archers exactly once, with no spell kill reward',()=>{
+ it('accumulates support rewards independently of spell payment and starts each round at zero',()=>{
   const state=ready(),[a,b]=state.fighters;b.hp=1;
-  damageFighter(state,b,20,a,a);expect(state.stones).toHaveLength(6);expect(state.logs[0]).toContain('獲得 3 顆魔法石');damageFighter(state,b,20,a,a);expect(state.stones).toHaveLength(6);
-  const c=state.fighters[2];c.hp=1;applyHealthDamage(state,c,3);expect(state.stones).toHaveLength(6);
+  expect(state.supportKillRewardStones).toBe(0);
+  damageFighter(state,b,20,a,a);
+  expect(state.stones).toHaveLength(6);expect(state.supportKillRewardStones).toBe(3);
+  expect(state.logs[0]).toContain('獲得 3 顆魔法石');
+  damageFighter(state,b,20,a,a);
+  expect(state.stones).toHaveLength(6);expect(state.supportKillRewardStones).toBe(3);
+
+  const c=state.fighters[2];c.hp=1;
+  const payment=state.stones[0].id;
+  expect(playCard(state,state.hand[0].id,{fighterId:c.id},[payment])).toBe(true);
+  expect(c.hp).toBe(0);expect(state.stones.some(stone=>stone.id===payment)).toBe(false);
+  expect(state.stones).toHaveLength(7);expect(state.supportKillRewardStones).toBe(3);
+
   a.hp=0;const d=state.fighters[3];d.hp=1;d.x=1;d.y=0;
   state.fighters=[a,d];state.arrows=[{id:state.nextId++,ownerId:a.id,x:0,y:0,vx:12,vy:0,damage:10,expiresAt:2}];
-  advanceArrows(state,0.2);expect(d.hp).toBe(0);expect(state.stones).toHaveLength(9);
+  advanceArrows(state,0.2);expect(d.hp).toBe(0);expect(state.stones).toHaveLength(10);
+  expect(state.supportKillRewardStones).toBe(6);
+  expect(createArena(state.seed + 1).supportKillRewardStones).toBe(0);
  });
  it('does not stun a distant archer when its arrow is parried',()=>{
   const state=ready(),[a,b]=state.fighters;state.fighters=[a,b];a.pose='idle';b.x=1;b.y=0;b.facing=Math.PI;b.shield=true;b.parryUntil=1;

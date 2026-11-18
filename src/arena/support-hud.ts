@@ -6,12 +6,14 @@ export function createSupportHud(root: HTMLElement) {
   const name = hud.querySelector('[data-testid="arena-support-name"]')!;
   const hp = hud.querySelector('[data-testid="arena-support-hp"]')!;
   const status = hud.querySelector('[data-testid="arena-support-state"]')!;
+  const reward = hud.querySelector<HTMLElement>('[data-support-reward]')!;
   const bar = hud.querySelector<HTMLElement>('[data-support-health]')!;
   const fill = bar.querySelector<HTMLElement>('i')!;
   const announcement = hud.querySelector('[data-support-announcement]')!;
   let previousId: string | undefined;
+  let previousRewardStones = 0;
   let wasDead = false;
-  return (fighter: Fighter | undefined): void => {
+  return (fighter: Fighter | undefined, rewardStones: number): void => {
     const dead = Boolean(fighter && fighter.hp <= 0);
     const health = fighter ? Math.max(0, Math.ceil(fighter.hp)) : 0;
     hud.dataset.fighterId = fighter?.id ?? '';
@@ -22,6 +24,11 @@ export function createSupportHud(root: HTMLElement) {
     bar.setAttribute('aria-valuemax', String(fighter?.maxHp ?? 0));
     bar.setAttribute('aria-valuenow', String(health));
     fill.style.width = `${fighter ? Math.max(0, fighter.hp / fighter.maxHp * 100) : 0}%`;
+    if (rewardStones !== previousRewardStones) {
+      reward.hidden = rewardStones === 0;
+      reward.textContent = rewardStones > 0 ? `擊殺累計 +${rewardStones} 石` : '';
+      previousRewardStones = rewardStones;
+    }
     if (fighter?.id !== previousId || !dead) announcement.textContent = '';
     else if (!wasDead) announcement.textContent = `你支持的${fighter!.name}已陣亡。`;
     previousId = fighter?.id;

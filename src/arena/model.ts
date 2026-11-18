@@ -31,6 +31,7 @@ export interface ArenaState {
  seed: number; time: number; accumulator: number; status: 'ready' | 'running' | 'paused' | 'finished'; speed: number;
  fighters: Fighter[]; latestThrow?: ThrowFeedback; items: ThrownItem[]; arrows: Arrow[]; effects: ArenaEffect[]; logs: string[];
  hand: HandCard[]; stones: MagicStone[]; randomState: number; deck: CardId[]; discard: CardId[]; redrawAvailableAt: number; supportedId: string; winnerId?: string; nextId: number;
+ supportKillRewardStones: number;
 }
 interface CardBase { id: CardId; name: string; subtitle: string; description: string; cost: StoneCost; throwRange?: number; color: string; icon: string }
 export type Card = CardBase & ({ target: 'fighter' | 'ground' } | { target: 'area'; areaRadius: number; damage: number });

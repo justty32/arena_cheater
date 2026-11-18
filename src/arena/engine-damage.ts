@@ -85,9 +85,11 @@ export function applyHealthDamage(state: ArenaState, target: Fighter, damage: nu
       effect(state,killer,'擊殺狂熱','#df776a','spell');
     }
     if (sourceFighterId === state.supportedId && sourceFighterId !== target.id) {
-      drawStones(state, 3);
+      const rewardStones = 3;
+      drawStones(state, rewardStones);
+      state.supportKillRewardStones += rewardStones;
       const source = state.fighters.find(fighter => fighter.id === sourceFighterId);
-      log(state, `支持的鬥士${source?.name ?? sourceFighterId}擊殺，獲得 3 顆魔法石`);
+      log(state, `支持的鬥士${source?.name ?? sourceFighterId}擊殺，獲得 ${rewardStones} 顆魔法石`);
     }
   }
 }

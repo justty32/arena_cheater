@@ -29,7 +29,7 @@ export function createArena(seed = 73021): ArenaState {
       pose: 'idle', poseUntil: 0, lastAttack: -10, lastMoved: -10, nextAttack: random() * 0.3, buffs: [], ammo: 0, durability: 0, parryUntil: 0, nextParry: 0 };
   });
   const state: ArenaState = { seed, time: 0, accumulator: 0, status: 'ready', speed: 1, fighters, items: [], arrows: [], effects: [],
-    logs: ['七位鬥士已入場。選擇你的支持者，準備暗中出手。'], hand: [], stones: [], randomState: (seed ^ 0x9e3779b9) >>> 0, deck: [], discard: [], redrawAvailableAt: 0, supportedId: fighters[0].id, nextId: 1 };
+    logs: ['七位鬥士已入場。選擇你的支持者，準備暗中出手。'], hand: [], stones: [], randomState: (seed ^ 0x9e3779b9) >>> 0, deck: [], discard: [], redrawAvailableAt: 0, supportedId: fighters[0].id, supportKillRewardStones: 0, nextId: 1 };
   initializeCards(state);
   return state;
 }
