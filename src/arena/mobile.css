@@ -1,6 +1,8 @@
 .support-change { min-width: 44px; min-height: 44px; padding: 5px 8px; border: 1px solid #6a6749; background: #30382a; color: #e0ca95; font-size: 11px; }
 .arena-stage-top:has([data-support-change]:not([hidden])) { height: 56px; }
 .fighter-detail .support-button { margin: 0 0 12px; }
+.fighter-detail .detail-equipment { align-items: baseline; gap: 8px; margin: 0 0 10px; }
+.detail-equipment strong { min-width: 0; overflow-wrap: anywhere; }
 .recent-throw { margin: -2px 0 8px; color: #c9c9ac; font-size: 11px; line-height: 1.6; overflow-wrap: anywhere; }
 .recent-throw > :first-child { color: #a4bba4; margin-right: 8px; white-space: nowrap; }
 .support-hud { min-width: 200px; max-width: 310px; flex: 1; margin: 0 24px; }
