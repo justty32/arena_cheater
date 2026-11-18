@@ -2,7 +2,7 @@ import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGI
 import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime } from './geometry';
-import { canPayCost, findPayment, consumeCard, drawCard, drawStones, beginDeliberation } from './engine-cards';
+import { canPayCost, findPayment, consumeCard, drawCard, drawStones, beginDeliberation, revealUpcomingCards } from './engine-cards';
 import { applyHealthDamage, damageFighter } from './engine-damage';
 
 export interface CardTarget { fighterId?: string; x?: number; y?: number }
@@ -45,7 +45,7 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
   if (!validateCardPlay(state,handCardId,target,stoneIds).ok) return false;
   const instance = state.hand.find(value => value.id === handCardId)!;
   const card = CARDS.find(value => value.id === instance.cardId)!;
-  if (card.target === 'self') {
+  if (card.id === 'deliberate') {
     beginDeliberation(state, handCardId, stoneIds);
     return true;
   }
@@ -69,7 +69,7 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
     }
     state.effects.push({id:state.nextId++,x:x!,y:y!,at:state.time,kind:'area',areaRadius:card.areaRadius,cardId:card.id,text:card.name,color:card.color});
     log(state,`${card.name}命中 ${areaTargets.length} 名鬥士`);
-  } else {
+  } else if (card.target === 'ground') {
     const {x:fromX,y:fromY} = THROW_ORIGIN;
     const itemId = state.nextId++;
     state.items.push({ id: itemId, weapon: card.id as ThrownKind, x: fromX, y: fromY, fromX, fromY,
@@ -79,6 +79,7 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
   }
   drawStones(state, 2);
   drawCard(state);
+  if (card.id === 'intuition') revealUpcomingCards(state);
   return true;
 }
 

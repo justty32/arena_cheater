@@ -1,7 +1,7 @@
 export type Species = 'wolf' | 'bear' | 'elephant' | 'bull' | 'porcupine' | 'snake' | 'deer';
 export type Weapon = 'fists' | 'sword' | 'spear' | 'club' | 'shield' | 'bow';
 export type ThrownKind = Exclude<Weapon, 'fists'> | 'stone' | 'pot';
-export type CardId = 'sword' | 'spear' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath' | 'deliberate';
+export type CardId = 'sword' | 'spear' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath' | 'deliberate' | 'intuition';
 export type StoneColor = 'yellow' | 'blue' | 'green' | 'black' | 'red';
 export interface MagicStone { id: number; color: StoneColor }
 export interface HandCard { id: number; cardId: CardId }
@@ -34,6 +34,7 @@ export interface DeliberationOffer {
 export interface ArenaState {
  seed: number; time: number; accumulator: number; status: 'ready' | 'running' | 'paused' | 'finished'; speed: number;
  pendingDeliberation?: DeliberationOffer;
+ knownUpcomingCount: number;
  fighters: Fighter[]; latestThrow?: ThrowFeedback; items: ThrownItem[]; arrows: Arrow[]; effects: ArenaEffect[]; logs: string[];
  hand: HandCard[]; stones: MagicStone[]; randomState: number; deck: CardId[]; discard: CardId[]; redrawAvailableAt: number; supportedId: string; winnerId?: string; nextId: number;
  supportKillRewardStones: number;
@@ -74,6 +75,7 @@ export const CARDS: Card[] = [
  { id:'lightning',name:'閃電劍',subtitle:'紅色法術',description:'目標受到 3 點傷害，無視盾與方向',cost:{generic:0,colored:{red:1}},target:'fighter',color:'#df776a',icon:'ϟ' },
  { id:'bloodlust',name:'殺紅眼',subtitle:'紅色法術',description:'攻擊力 +3，持續 5 秒',cost:{generic:1,colored:{red:1}},target:'fighter',color:'#df776a',icon:'✦' },
  { id:'deliberate',name:'謹慎思考',subtitle:'藍色法術',description:'抽最多三張，選一張加入手牌，其餘棄掉',cost:{generic:0,colored:{blue:1}},target:'self',color:'#79a9ce',icon:'◇' },
+ { id:'intuition',name:'直覺',subtitle:'藍色法術',description:'補牌後，看見接下來最多兩張牌',cost:{generic:0,colored:{blue:1}},target:'self',color:'#79a9ce',icon:'◈' },
  { id:'growth',name:'野性成長',subtitle:'綠色法術',description:'恢復 10 點生命，不超過生命上限',cost:{generic:2,colored:{green:1}},target:'fighter',color:'#86b18b',icon:'✚' },
 ];
 

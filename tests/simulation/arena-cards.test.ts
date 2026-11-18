@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { advanceArena, canPayCost, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, paymentStatus, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
+import { advanceArena, canPayCost, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, knownUpcomingCards, paymentStatus, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
 import { attackDamage, damageFighter } from '../../src/arena/engine-damage';
 import { advanceArrows } from '../../src/arena/engine-arrows';
-import { drawCard } from '../../src/arena/engine-cards';
+import { drawCard, drawStones } from '../../src/arena/engine-cards';
 import { CARDS, type ArenaState, type CardId, type StoneColor } from '../../src/arena/model';
 function ready(cardId:CardId='lightning', colors:StoneColor[]=['red','blue','green']):ArenaState {
  const state=createArena(42);toggleArena(state);
@@ -15,8 +15,95 @@ function cast(state:ArenaState):boolean {
 describe('V2 cards and stones',()=>{
  it('deals three cards and three stones from a reproducible finite deck',()=>{
   const a=createArena(42);expect(a).toEqual(createArena(42));expect(a.hand).toHaveLength(3);expect(a.stones).toHaveLength(3);
-  const all=[...a.hand.map(c=>c.cardId),...a.deck];expect(all).toHaveLength(26);
+  const all=[...a.hand.map(c=>c.cardId),...a.deck];expect(all).toHaveLength(28);
   for(const card of CARDS)expect(all.filter(id=>id===card.id)).toHaveLength(2);
+ });
+ it('reveals the real draw order across recycling, equipment play and stone exchange',()=>{
+  const state=ready('intuition'), [red,blue]=state.stones;
+  const intuition=state.hand[0];
+  state.deck=['bow','spear'];state.discard=['shield'];
+  expect(playCard(state,intuition.id,{},[blue.id])).toBe(true);
+  const spear=state.hand[0];
+  expect(spear.cardId).toBe('spear');
+  expect(state.status).toBe('running');
+  expect(state.stones).toHaveLength(4);
+  const [first,second]=knownUpcomingCards(state);
+  expect(first).toBe('bow');
+  expect(['intuition','shield']).toContain(second);
+  expect(state.discard).toEqual([]);
+
+  expect(playCard(state,spear.id,{x:0,y:0},[red.id])).toBe(true);
+  const bow=state.hand[0];
+  expect(bow.cardId).toBe(first);
+  expect(knownUpcomingCards(state)).toEqual([second]);
+  expect(state.discard).toEqual(['spear']);
+  const afterFirst=structuredClone(state);
+  expect(redrawStones(state,bow.id,[])).toBe(false);
+  expect(state).toEqual(afterFirst);
+  expect(redrawStones(state,bow.id,[state.stones[0].id])).toBe(true);
+  expect(state.hand[0].cardId).toBe(second);
+  expect(knownUpcomingCards(state)).toEqual([]);
+  expect(state.discard).toEqual(['spear','bow']);
+ });
+ it('keeps intuition preflight pure and consumes known cards when deliberation reveals them',()=>{
+  const state=ready('intuition',['blue','blue','red']);
+  state.deck=['sword','bow','shield','deliberate'];state.discard=[];
+  const spell=state.hand[0], [blue,otherBlue,red]=state.stones;
+  const before=structuredClone(state);
+  expect(knownUpcomingCards(state)).toEqual([]);
+  expect(validateCardPlay(state,spell.id,{},[blue.id])).toEqual({ok:true});
+  expect(playCard(state,spell.id,{x:0,y:0},[blue.id])).toBe(false);
+  expect(playCard(state,spell.id,{},[red.id])).toBe(false);
+  expect(playCard(state,spell.id + 999,{},[blue.id])).toBe(false);
+  expect(state).toEqual(before);
+  const onlyStoneDraws=structuredClone(state);
+  drawStones(onlyStoneDraws,2);
+  expect(playCard(state,spell.id,{},[blue.id])).toBe(true);
+  expect(state.randomState).toBe(onlyStoneDraws.randomState);
+  expect(knownUpcomingCards(state)).toEqual(['shield','bow']);
+  expect(knownUpcomingCards(createArena(state.seed + 1))).toEqual([]);
+
+  expect(playCard(state,state.hand[0].id,{},[otherBlue.id])).toBe(true);
+  const offer=state.pendingDeliberation!;
+  expect(offer.candidates).toEqual(['shield','bow','sword']);
+  expect(knownUpcomingCards(state)).toEqual([]);
+  const pending=structuredClone(state);
+  expect(chooseDeliberation(state,{...offer},0)).toBe(false);
+  expect(state).toEqual(pending);
+  expect(chooseDeliberation(state,offer,1)).toBe(true);
+  expect(state.hand[0].cardId).toBe('bow');
+  expect(knownUpcomingCards(state)).toEqual([]);
+ });
+ it('rejects intuition without blue or a draw pile and reveals just one card when available',()=>{
+  const state=ready('intuition',['red']);
+  const spell=state.hand[0], red=state.stones[0].id;
+  const noBlue=structuredClone(state);
+  expect(validateCardPlay(state,spell.id,{},[red])).toEqual({ok:false,reason:'insufficient-stones'});
+  expect(playCard(state,spell.id,{},[red])).toBe(false);
+  expect(state).toEqual(noBlue);
+
+  state.stones[0].color='blue';state.deck=[];state.discard=[];
+  const noCards=structuredClone(state);
+  expect(validateCardPlay(state,spell.id,{},[red])).toEqual({ok:false,reason:'empty-deck'});
+  expect(playCard(state,spell.id,{},[red])).toBe(false);
+  expect(state).toEqual(noCards);
+
+  state.deck=['spear'];toggleArena(state);
+  expect(playCard(state,spell.id,{},[red])).toBe(true);
+  expect(state.status).toBe('paused');
+  expect(state.hand[0].cardId).toBe('spear');
+  expect(knownUpcomingCards(state)).toEqual(['intuition']);
+
+  const recycled=ready('intuition');
+  recycled.deck=[];recycled.discard=['bow'];
+  const [played]=recycled.hand;
+  expect(playCard(recycled,played.id,{},[recycled.stones[1].id])).toBe(true);
+  expect(recycled.hand[0].cardId).toBe('intuition');
+  expect(recycled.hand[0].id).not.toBe(played.id);
+  expect(knownUpcomingCards(recycled)).toEqual(['bow']);
+  const after=structuredClone(recycled);
+  expect(playCard(recycled,played.id,{},[recycled.stones[0].id])).toBe(false);
+  expect(recycled).toEqual(after);
  });
  it('pays once, holds all candidates until one is chosen, and resumes a running arena',()=>{
   const state=ready('deliberate');
@@ -182,6 +269,11 @@ describe('V2 cards and stones',()=>{
   toggleArena(state);advanceArena(state,3.1);expect(redrawStones(state,state.hand[0].id,[state.stones[0].id])).toBe(true);
  });
  it('recycles only discarded cards when the deck runs dry',()=>{
+  const castFromEmpty=ready();castFromEmpty.deck=[];castFromEmpty.discard=[];
+  const used=castFromEmpty.hand[0];
+  expect(cast(castFromEmpty)).toBe(true);
+  expect(castFromEmpty.hand[0]).toMatchObject({cardId:used.cardId});
+  expect(castFromEmpty.hand[0].id).not.toBe(used.id);
   const state=ready();state.deck=[];state.discard=['bow','sword'];state.hand=[];
   drawCard(state);drawCard(state);expect(state.hand.map(c=>c.cardId).sort()).toEqual(['bow','sword']);expect(state.discard).toEqual([]);
  });

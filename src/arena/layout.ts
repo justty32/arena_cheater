@@ -25,8 +25,11 @@ export function arenaLayout(fighters: Fighter[]): string {
         <p class="recent-throw" data-testid="arena-recent-throw" hidden><span>最近投送</span><span data-throw-result></span></p>
         <div class="hand-table">
           <section class="stone-pouch" aria-label="魔法石袋"><div class="stone-heading"><h3>魔法石袋</h3><span data-stone-total></span></div><div class="stone-summary" data-stone-summary data-testid="arena-stone-summary"></div><details class="stone-payment" data-mobile-panel="payment" open><summary data-testid="arena-payment-toggle"><span data-payment-toggle-label>改選支付石</span><small data-payment-brief>選牌後可改選</small></summary><div class="stone-actions"><span data-stone-mode>持有魔法石</span><button data-testid="arena-payment-auto" hidden>自動選石</button></div><div class="stone-tray" data-testid="arena-stones" aria-label="持有魔法石"></div><p class="stone-help" data-stone-help>費用中的數字可用任意顏色支付。</p><p class="payment-preview" data-testid="arena-payment"></p></details></section>
-          <div class="hand-play"><div class="arena-cards" data-hand-list></div>
-            <button type="button" class="deliberation-pay" data-testid="arena-deliberation-pay" hidden>支付藍石，抽三選一</button>
+          <div class="hand-play"><ol class="known-order" data-testid="arena-known-order" aria-label="已知牌序" hidden>
+            <li data-known-slot hidden><span>下一張</span> <strong data-known-name></strong></li>
+            <li data-known-slot hidden><span>再下一張</span> <strong data-known-name></strong></li>
+          </ol><div class="arena-cards" data-hand-list></div>
+            <button type="button" class="deliberation-pay" data-self-pay data-testid="arena-deliberation-pay" hidden>支付藍石，抽三選一</button>
             <section class="deliberation" data-testid="arena-deliberation" aria-labelledby="deliberation-heading" hidden>
               <h3 id="deliberation-heading" data-deliberation-heading tabindex="-1">選一張加入手牌</h3>
               <p data-deliberation-resume></p>
@@ -85,6 +88,13 @@ export function drawCardArt(canvas: HTMLCanvasElement, card: Card): void {
   } else if (card.id === 'club') {
     ctx.rotate(0.6); ctx.beginPath(); ctx.roundRect(-9, -30, 18, 37, 6); ctx.fill(); line([[0, 6], [0, 31]]);
     ctx.strokeStyle = '#33281f'; line([[-3, -24], [-3, -7]]);
+  } else if (card.id === 'intuition') {
+    ctx.strokeStyle = '#b4e5ee'; ctx.fillStyle = '#314e62'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(-33, 0); ctx.quadraticCurveTo(0, -34, 33, 0);
+    ctx.quadraticCurveTo(0, 34, -33, 0); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#d4f1e9'; ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#294354'; ctx.beginPath(); ctx.arc(0, 0, 4.5, 0, Math.PI * 2); ctx.fill();
+    line([[0, -22], [0, -30]]); line([[-14, -17], [-18, -23]]); line([[14, -17], [18, -23]]);
   } else if (card.id === 'deliberate') {
     for (const tilt of [-0.5, 0.5, 0]) {
       ctx.save(); ctx.translate(0, 20); ctx.rotate(tilt);
@@ -121,7 +131,7 @@ export function costText(cost: StoneCost): string {
 
 export function handCardMarkup(card: Card, handId: number, index: number): string {
   const cost = `${card.cost.generic ? `<span class="cost-generic" title="任意顏色">${card.cost.generic}</span>` : ''}${STONE_COLORS.filter((color) => card.cost.colored[color]).map((color) => `<span class="cost-stone" data-color="${color}">${STONE_NAMES[color]}${card.cost.colored[color]! > 1 ? `×${card.cost.colored[color]}` : ''}</span>`).join('')}`;
-  return `<button class="arena-card" data-testid="arena-hand-card" data-hand-card="${handId}" data-card="${card.id}" aria-pressed="false" style="--card-color:${card.color}" aria-label="${card.name}，費用 ${costText(card.cost)}，${card.description}"><span class="card-top"><kbd>${index + 1}</kbd><span class="card-cost">${cost}</span></span><canvas class="card-art" width="180" height="94" aria-hidden="true"></canvas><span class="card-name">${card.name}</span><span class="card-subtitle">${card.target === 'area' ? `範圍直徑 ${card.areaRadius * 2}m` : card.throwRange ? `一次投擲 · ${card.throwRange}m` : card.target === 'fighter' ? '指定鬥士' : card.id === 'deliberate' ? '抽三選一' : '投向場地'}</span><span class="card-description">${card.description}</span><span class="card-affordability" data-affordability></span></button>`;
+  return `<button class="arena-card" data-testid="arena-hand-card" data-hand-card="${handId}" data-card="${card.id}" aria-pressed="false" style="--card-color:${card.color}" aria-label="${card.name}，費用 ${costText(card.cost)}，${card.description}"><span class="card-top"><kbd>${index + 1}</kbd><span class="card-cost">${cost}</span></span><canvas class="card-art" width="180" height="94" aria-hidden="true"></canvas><span class="card-name">${card.name}</span><span class="card-subtitle">${card.target === 'area' ? `範圍直徑 ${card.areaRadius * 2}m` : card.throwRange ? `一次投擲 · ${card.throwRange}m` : card.target === 'fighter' ? '指定鬥士' : card.id === 'deliberate' ? '抽三選一' : card.id === 'intuition' ? '預知牌序' : '投向場地'}</span><span class="card-description">${card.description}</span><span class="card-affordability" data-affordability></span></button>`;
 }
 
 

@@ -1,5 +1,5 @@
-import { findPayment } from './engine';
-import { CARDS, type ArenaState, type Card } from './model';
+import { findPayment, knownUpcomingCards } from './engine';
+import { CARDS, isResolvingArena, type ArenaState, type Card } from './model';
 import { deliberationChoiceMarkup, drawCardArt, handCardMarkup, STONE_COLORS, STONE_NAMES } from './layout';
 
 type Deliberation = NonNullable<ArenaState['pendingDeliberation']>;
@@ -7,6 +7,11 @@ type Deliberation = NonNullable<ArenaState['pendingDeliberation']>;
 /** Reconcile only changed instances so animation frames preserve focus and pointer capture. */
 export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonElement, handId: number) => void, onStoneToggle: (stoneId: number) => void, onDeliberationChoice: (offer: Deliberation, index: number) => void) {
   const el = <T extends HTMLElement = HTMLElement>(selector: string): T => root.querySelector<T>(selector)!;
+  const knownOrder = el('[data-testid="arena-known-order"]');
+  const knownSlots = [...knownOrder.querySelectorAll<HTMLElement>('[data-known-slot]')].map(slot => ({
+    slot,
+    name: slot.querySelector('[data-known-name]')!,
+  }));
   const cardNodes = new Map<number, HTMLButtonElement>();
   const stoneNodes = new Map<number, HTMLButtonElement>();
   let lastHand = '';
@@ -24,6 +29,18 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
     if (!offer) return;
     choices.querySelectorAll<HTMLButtonElement>('[data-deliberation-choice]').forEach((button, index) => {
       button.addEventListener('click', () => onDeliberationChoice(offer, index));
+    });
+  }
+
+  function renderKnownOrder(state: ArenaState): void {
+    const upcoming = knownUpcomingCards(state);
+    const known = upcoming.length && (state.status === 'finished' || isResolvingArena(state)) ? [] : upcoming;
+    const hidden = known.length === 0;
+    if (knownOrder.hidden !== hidden) knownOrder.hidden = hidden;
+    knownSlots.forEach(({ slot, name }, index) => {
+      const cardName = CARDS.find(card => card.id === known[index])?.name ?? '';
+      if (slot.hidden !== !cardName) slot.hidden = !cardName;
+      if (name.textContent !== cardName) name.textContent = cardName;
     });
   }
 
@@ -107,13 +124,14 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
     el('[data-stone-total]').textContent = `${state.stones.length} 顆`;
     el('[data-stone-mode]').textContent = exchanging ? '放棄的石頭' : activeCard ? '支付用石 · 勾選才花費' : '持有魔法石';
     el('[data-stone-help]').hidden = state.status === 'finished';
-    el('[data-stone-help]').textContent = exchanging ? '目前是換石：選中的石頭會被放棄，確認換石才消耗。' : activeCard ? activeCard.target === 'self' ? '可取消或改選藍石，確認抽牌時才付款。' : '點石頭可取消或改選，保留需要的顏色；點目標才付款。' : '選卡後可改選支付用石；數字費用可用任意色。';
+    el('[data-stone-help]').textContent = exchanging ? '目前是換石：選中的石頭會被放棄，確認換石才消耗。' : activeCard ? activeCard.target === 'self' ? '可取消或改選藍石，按付款按鈕後才扣石。' : '點石頭可取消或改選，保留需要的顏色；點目標才付款。' : '選卡後可改選支付用石；數字費用可用任意色。';
   }
 
   return {
     render(state: ArenaState, activeHandId: number | undefined, exchanging: boolean, exchangeStones: Set<number>, paymentStones: Set<number>): void {
       const card = CARDS.find((entry) => entry.id === state.hand.find((hand) => hand.id === activeHandId)?.cardId);
       renderDeliberation(state.pendingDeliberation);
+      renderKnownOrder(state);
       const stonesKey = state.stones.map((stone) => `${stone.id}:${stone.color}`).join('|');
       const handKey = JSON.stringify([state.hand.map((hand) => `${hand.id}:${hand.cardId}`), stonesKey,
         state.status, activeHandId, exchanging, Boolean(state.pendingDeliberation)]);

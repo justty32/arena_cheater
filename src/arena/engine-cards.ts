@@ -1,6 +1,7 @@
 import { CARDS, isResolvingArena, type ArenaState, type CardId, type DeliberationOffer, type StoneColor, type StoneCost } from './model';
 
 export const REDRAW_COOLDOWN = 3;
+const INTUITION_CARD_COUNT = 2;
 const COLORS: StoneColor[] = ['yellow', 'blue', 'green', 'black', 'red'];
 function random(state: ArenaState): number {
   state.randomState = (Math.imul(state.randomState, 1664525) + 1013904223) >>> 0;
@@ -19,12 +20,28 @@ function takeTopCard(state: ArenaState): CardId | undefined {
   if (!state.deck.length && state.discard.length) {
     state.deck = state.discard.splice(0);
     shuffle(state, state.deck);
+    state.knownUpcomingCount = 0;
   }
-  return state.deck.pop();
+  const cardId = state.deck.pop();
+  if (cardId !== undefined && state.knownUpcomingCount > 0) state.knownUpcomingCount--;
+  return cardId;
 }
 export function drawCard(state: ArenaState): void {
   const cardId = takeTopCard(state);
   if (cardId) state.hand.push({ id: state.nextId++, cardId });
+}
+export function revealUpcomingCards(state: ArenaState): void {
+  if (state.deck.length < INTUITION_CARD_COUNT && state.discard.length) {
+    const recycled = state.discard.splice(0);
+    shuffle(state, recycled);
+    // Draws pop from the end, so the original top stays ahead of the recycled cards.
+    state.deck = recycled.concat(state.deck);
+  }
+  state.knownUpcomingCount = Math.min(INTUITION_CARD_COUNT, state.deck.length);
+}
+export function knownUpcomingCards(state: ArenaState): readonly CardId[] {
+  if (!state.knownUpcomingCount) return [];
+  return state.deck.slice(-state.knownUpcomingCount).reverse();
 }
 export function initializeCards(state: ArenaState): void {
   state.deck = CARDS.flatMap(card => [card.id, card.id]);

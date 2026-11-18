@@ -6,7 +6,7 @@ import { createHandView } from './hand-view';
 import { createThrowFeedback } from './throw-feedback';
 import { createSupportHud } from './support-hud';
 import { createMobilePanels } from './mobile-panels';
-import { cardPlayFailure, paymentProblem, paymentReadout } from './payment-ui';
+import { cardPlayFailure, paymentProblem, paymentReadout, selfPaymentAction } from './payment-ui';
 import { arenaLayout } from './layout';
 import './arena.css';
 import './hand.css';
@@ -52,7 +52,7 @@ export function mountArena(root: HTMLElement): void {
   const canvas = el<HTMLCanvasElement>('[data-testid="arena-canvas"]');
   const view = new ArenaView(canvas);
   const start = el<HTMLButtonElement>('[data-testid="arena-start"]');
-  const deliberationPay = el<HTMLButtonElement>('[data-testid="arena-deliberation-pay"]');
+  const selfPay = el<HTMLButtonElement>('[data-testid="arena-deliberation-pay"]');
   const deliberationHeading = el('[data-deliberation-heading]');
   const deliberationResume = el('[data-deliberation-resume]');
   const support = el<HTMLButtonElement>('[data-support]');
@@ -74,7 +74,7 @@ export function mountArena(root: HTMLElement): void {
     const card = currentCard();
     if (!card) return;
     const status = paymentStatus(state, card.cost, [...paymentStones]);
-    feedback = status.valid ? card.target === 'self' ? '支付用石已備妥，可開始抽三選一。' : '支付用石已備妥，點目標施放。' : `${paymentProblem(status)}；請調整支付用石。`;
+    feedback = status.valid ? card.target === 'self' ? `支付用石已備妥，可${selfPaymentAction(card)}。` : '支付用石已備妥，點目標施放。' : `${paymentProblem(status)}；請調整支付用石。`;
     el('[data-testid="arena-feedback"]').dataset.reason = '';
   }
 
@@ -123,8 +123,12 @@ export function mountArena(root: HTMLElement): void {
     }
     view.render(state, selectedId, fieldCard?.target ?? null, fieldCard, aim);
     start.disabled = Boolean(pending);
-    deliberationPay.hidden = !selfCard;
-    deliberationPay.disabled = !selfCard || !canAct() || !paymentCheck?.valid;
+    selfPay.hidden = !selfCard;
+    selfPay.disabled = !selfCard || !canAct() || !paymentCheck?.valid;
+    if (selfCard) {
+      const payLabel = `支付藍石，${selfPaymentAction(activeCard)}`;
+      if (selfPay.textContent !== payLabel) selfPay.textContent = payLabel;
+    }
     const resumeText = pending ? pending.resumeOnChoice ? '選完自動繼續' : '選完保持暫停' : '';
     if (deliberationResume.textContent !== resumeText) deliberationResume.textContent = resumeText;
     el('[data-testid="arena-time"]').textContent = `${Math.floor(state.time / 60).toString().padStart(2, '0')}:${Math.floor(state.time % 60).toString().padStart(2, '0')}`;
@@ -132,9 +136,11 @@ export function mountArena(root: HTMLElement): void {
     el('[data-round]').textContent = `第 ${round.toString().padStart(2, '0')} 場`;
     el('[data-status]').textContent = resolving ? resolvingTitle : { ready: '入場就緒', running: '激戰中', paused: '戰鬥暫停', finished: '本場結束' }[state.status];
     start.textContent = pending ? '選牌中' : { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '直接再戰' }[state.status];
-    el('[data-testid="arena-feedback"]').textContent = resolvingMessage || feedback;
+    const feedbackNode = el('[data-testid="arena-feedback"]');
+    const feedbackText = resolvingMessage || feedback;
+    if (feedbackNode.textContent !== feedbackText) feedbackNode.textContent = feedbackText;
     const fighterPrompt = rosterCasting ? '點場內鬥士或名單施法' : '開戰後可施法';
-    el('[data-card-prompt]').textContent = finished ? '本場手牌' : pending ? '謹慎思考' : resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? fighterPrompt : selfCard ? '抽三選一' : '點選場地投送'}` : '三張手牌，改寫勝負';
+    el('[data-card-prompt]').textContent = finished ? '本場手牌' : pending ? '謹慎思考' : resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? fighterPrompt : selfCard ? selfPaymentAction(activeCard) : '點選場地投送'}` : '三張手牌，改寫勝負';
     const rosterSummary = el('[data-testid="arena-fighters-toggle"]');
     const rosterSubtitle = el('[data-fighters-subtitle]');
     const summary = rosterCasting ? '鬥士名單 · 點名字直接施法' : '鬥士名單 · 點選查看';
@@ -361,7 +367,7 @@ export function mountArena(root: HTMLElement): void {
     }
   }
 
-  deliberationPay.addEventListener('click', () => {
+  selfPay.addEventListener('click', () => {
     const card = currentCard();
     if (card?.target !== 'self' || activeHandId === undefined || exchanging || !canAct()) return;
     const payment = [...paymentStones];
@@ -372,22 +378,33 @@ export function mountArena(root: HTMLElement): void {
       render();
       return;
     }
+    const previousHand = new Set(state.hand.map(card => card.id));
     if (!playCard(state, activeHandId, {}, payment)) return;
-    if (document.hidden) keepDeliberationPaused(state);
-    clearStartIntent();
     clearSelection();
-    feedback = '已補兩顆魔法石。請選一張加入手牌。';
+    if (state.pendingDeliberation) {
+      if (document.hidden) keepDeliberationPaused(state);
+      clearStartIntent();
+      feedback = '已補兩顆魔法石。請選一張加入手牌。';
+      render();
+      deliberationHeading.focus();
+      return;
+    }
+    feedback = '已補兩顆魔法石與一張牌，接下來的牌序已揭示。';
     render();
-    deliberationHeading.focus();
+    focusReplacement(previousHand);
   });
 
   function selectDeliberation(offer: NonNullable<typeof state.pendingDeliberation>, index: number): void {
     const previousHand = new Set(state.hand.map(card => card.id));
     if (!chooseDeliberation(state, offer, index)) return;
     if (state.status === 'running') lastFrame = performance.now();
-    const replacement = state.hand.find(card => !previousHand.has(card.id));
     feedback = '已將選中的牌加入手牌。';
     render();
+    focusReplacement(previousHand);
+  }
+
+  function focusReplacement(previousHand: ReadonlySet<number>): void {
+    const replacement = state.hand.find(card => !previousHand.has(card.id));
     if (replacement) handView.focusCard(replacement.id);
   }
 

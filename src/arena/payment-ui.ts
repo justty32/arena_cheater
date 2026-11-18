@@ -10,10 +10,14 @@ export function paymentProblem(status: PaymentStatus): string {
   return parts.join('；') || '費用已備妥';
 }
 
+export function selfPaymentAction(card: Card): string {
+  return card.id === 'intuition' ? '查看牌序' : '抽三選一';
+}
+
 export function paymentReadout(state: ArenaState, card: Card, ids: readonly number[], status: PaymentStatus): string {
   const colors = STONE_COLORS.map(color => ({ color, count: state.stones.filter(stone => stone.color === color && ids.includes(stone.id)).length }))
     .filter(({ count }) => count).map(({ color, count }) => `${STONE_NAMES[color]} ${count}`).join(' ＋ ');
-  const ready = card.target === 'self' ? '按支付藍石開始抽牌，可先改選' : '點目標施放，可先點石頭改選';
+  const ready = card.target === 'self' ? `可先改選藍石，確認後${selfPaymentAction(card)}` : '點目標施放，可先點石頭改選';
   return `支付 ${status.selectedCount} / ${status.requiredCount} 顆${colors ? `（${colors}）` : ''} · ${status.valid ? ready : paymentProblem(status)} · 費用：${costText(card.cost)}`;
 }
 
