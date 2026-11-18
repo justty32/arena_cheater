@@ -354,6 +354,9 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   const opening = await seek(page, state => state.hand.some(card => card.cardId === 'bow') &&
     state.hand.filter(card => CARDS.find(definition => definition.id === card.cardId)!.target === 'ground').length >= 2);
   const openingBow = opening.hand.find(card => card.cardId === 'bow')!;
+  const logToggle = page.getByTestId('arena-log-toggle');
+  const latestLog = logToggle.locator('[data-log-latest]');
+  const firstLog = page.locator('[data-log] > li').first();
   const panCard = opening.hand.find(card => card.id !== openingBow.id && CARDS.find(definition => definition.id === card.cardId)!.target === 'ground')!;
   const hud = page.getByTestId('arena-support-hud');
   const supportedId = await hud.getAttribute('data-fighter-id');
@@ -407,6 +410,14 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   await canvas.tap({ position: hold });
   await expect(cardButton(page, openingBow.id)).toHaveCount(0);
   await expect(page.getByTestId('arena-recent-throw')).toBeVisible();
+  await expect(logToggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(latestLog).toBeVisible();
+  await expect(latestLog).toContainText(CARDS.find(card => card.id === openingBow.cardId)!.name);
+  await expect(latestLog).toHaveText(await firstLog.textContent() ?? '');
+  await logToggle.tap();
+  await expect(latestLog).toBeHidden();
+  await expect(firstLog).toBeVisible();
+  await logToggle.tap();
   for (const viewport of [{ width: 390, height: 844 }, { width: 320, height: 740 }]) {
     await page.setViewportSize(viewport); await page.clock.runFor(32);
     await page.evaluate(() => scrollTo(0, 0));
@@ -452,7 +463,8 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   await canvas.tap({ position: project(0, 6, createProjection(canvasBox!.width, canvasBox!.height)) });
   await expect(scrollingCard).toHaveCount(0);
   await page.locator('[data-speed="2"]').tap(); await page.getByTestId('arena-start').tap();
-  await page.clock.runFor(2000);
+  // Use one frame per 100 ms jump to advance the same fixed simulation steps.
+  for (let i = 0; i < 20; i++) await page.clock.fastForward(100);
   const time = await page.getByTestId('arena-time').innerText();
   expect(Number(time.split(':')[1])).toBeGreaterThanOrEqual(3);
   await page.getByTestId('arena-start').tap();
@@ -466,6 +478,8 @@ test('手機一屏可選牌改選付款與換石，倍速及重置仍可操作',
   await expect(page.locator(`[data-hand-card="${discarded}"]`)).toHaveCount(0);
   await page.getByTestId('arena-reset').tap();
   await expect(page.getByTestId('arena-time')).toHaveText('00:00');
+  await expect(latestLog).toBeHidden();
+  await expect(latestLog).toBeEmpty();
   await expect(changeSupport).toBeVisible();
   await expect(page.locator('[data-speed="2"]')).toHaveAttribute('aria-pressed', 'true');
   await page.screenshot({ path: info.outputPath('arena-mobile.png'), fullPage: true });
@@ -652,6 +666,8 @@ test('工程事件fixture：結算層接住舊觸控不重開，新手勢與鍵�
 });
 
 test('真實結算防止舊手勢，重試保留開局與支持，新局仍向前', async ({ page }) => {
+  // This case plays two full battles through the browser before checking the result controls.
+  test.setTimeout(90_000);
   const errors = observeErrors(page);
   await open(page);
   const opening = await seek(page, state => state.hand.some(card => card.cardId === 'spear'));

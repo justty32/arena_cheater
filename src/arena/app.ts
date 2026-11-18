@@ -218,6 +218,10 @@ export function mountArena(root: HTMLElement): void {
     const logKey = state.logs.join('|');
     if (logKey !== lastLogs) {
       lastLogs = logKey;
+      const latestLog = el('[data-log-latest]');
+      const latestText = state.logs.length > 1 ? state.logs[0] : '';
+      latestLog.hidden = !latestText;
+      if (latestLog.textContent !== latestText) latestLog.textContent = latestText;
       el('[data-log]').replaceChildren(...state.logs.slice(0, 5).map((text) => {
         const entry = document.createElement('li'); entry.textContent = text; return entry;
       }));
@@ -425,7 +429,8 @@ export function mountArena(root: HTMLElement): void {
     aim = undefined;
     const card = currentCard();
     if (card?.target === 'self' && !exchanging) mobilePanels.open('payment');
-    feedback = card ? exchanging ? `將放棄${card.name}。請選擇要重抽的石頭。` : `${card.name}：${card.description}。${canAct() ? '' : '開始戰鬥後施放。'}` : '已取消選牌。';
+    const punctuation = card && !/[。！？.!?…]$/.test(card.description) ? '。' : '';
+    feedback = card ? exchanging ? `將放棄${card.name}。請選擇要重抽的石頭。` : `${card.name}：${card.description}${punctuation}${canAct() ? '' : '開始戰鬥後施放。'}` : '已取消選牌。';
     render();
   }
   function attemptPlay(target: CardTarget): void {

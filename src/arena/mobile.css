@@ -102,6 +102,8 @@
   .fighter-detail > summary span { margin-left: auto; color: #aab09b; font-size: 11px; }
   .fighter-detail .detail-heading { margin-top: 7px; }
   .battle-log { min-height: 0; }
+  .battle-log [data-log-latest] { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #bac1ac; font-size: 11px; }
+  .battle-log[open] [data-log-latest] { display: none; }
   .battle-log ol { display: block; }
   .battle-log li { font-size: 11px; }
   .support-button { min-height: 44px; font-size: 12px; }
