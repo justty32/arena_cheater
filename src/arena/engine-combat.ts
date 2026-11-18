@@ -4,7 +4,7 @@ import { fireArrow } from './engine-arrows';
 import { advanceControl, attackDamage, clampFighter, damageFighter, distance, hasBuff, log, syncStamina } from './engine-damage';
 export { clampFighter, distance, effect, hasBuff, log, syncStamina } from './engine-damage';
 
-type AttackProfile = { windup: number; cooldown: number } & (
+type AttackProfile = { windup: number; cooldown: number; staminaCost?: number } & (
   | { kind: 'melee'; startGap: number; hitGap: number }
   | { kind: 'ranged'; centerReach: number }
 );
@@ -14,6 +14,7 @@ const ATTACK_PROFILES: Record<Weapon, AttackProfile> = {
   fists:  { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },
   sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },
   spear:  { kind: 'melee', startGap: 1, hitGap: 1.3, windup: 0.25, cooldown: 1 },
+  hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },
   club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },
   shield: { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },
   bow:    { kind: 'ranged', centerReach: 5.5, windup: 0.45, cooldown: 1.6 },
@@ -71,8 +72,9 @@ export function act(state: ArenaState, fighter: Fighter, dt: number): void {
   const attack = ATTACK_PROFILES[fighter.weapon];
   const reach = attack.kind === 'ranged' ? attack.centerReach : fighter.radius + target.radius + attack.startGap;
   if (destination === target && distance(fighter, target) <= reach) {
-    if (state.time >= fighter.nextAttack && fighter.stamina >= 12 && Math.abs(delta) < 0.65) {
-      fighter.stamina -= 12; fighter.lastAttack = state.time;
+    const staminaCost = attack.staminaCost ?? 12;
+    if (state.time >= fighter.nextAttack && fighter.stamina >= staminaCost && Math.abs(delta) < 0.65) {
+      fighter.stamina -= staminaCost; fighter.lastAttack = state.time;
       fighter.pose = 'attack'; fighter.poseUntil = state.time + attack.windup;
       fighter.nextAttack = state.time + attack.cooldown;
     }

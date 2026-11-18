@@ -26,6 +26,26 @@ describe('V2 thrown hits and fighter traits',()=>{
   state.time=state.items[0].landsAt;advanceItems(state);
   expect(target.hp).toBe(hp-1);expect(target.weapon).toBe('spear');expect(state.items).toEqual([]);
  });
+ it('pays two any stones and one yellow to deliver a pickable hatchet without breaking a shield',()=>{
+  const state=arena(),target=state.fighters[0];target.x=0;target.y=0;
+  target.shield=true;target.facing=0;
+  state.hand=[{id:900,cardId:'hatchet'}];
+  state.stones=[{id:901,color:'blue'},{id:902,color:'red'},{id:903,color:'green'}];
+  const before=structuredClone(state);
+  expect(playCard(state,900,{x:0,y:0},[901,902,903])).toBe(false);
+  expect(state).toEqual(before);
+  state.stones.push({id:904,color:'yellow'});
+  expect(playCard(state,900,{x:0,y:0},[901,902,904])).toBe(true);
+  expect(state.stones.map(stone=>stone.id)).toContain(903);
+  expect(state.stones.some(stone=>[901,902,904].includes(stone.id))).toBe(false);
+  expect(state.stones).toHaveLength(3);
+  expect(target.weapon).toBe('fists');
+  const hp=target.hp;
+  state.time=state.items[0].landsAt;advanceItems(state);
+  expect(target.hp).toBe(hp-2);
+  expect(target.weapon).toBe('hatchet');expect(target.shield).toBe(true);
+  expect(state.items).toEqual([]);
+ });
  it('resolves an early body hit before a later item collision, and early item collision before body hits',()=>{
   for(const earlyBody of [true,false]){
    const state=arena(),target=state.fighters[0];state.fighters=[target];target.x=earlyBody?-.8:1;target.y=0;target.weapon='club';
@@ -52,10 +72,13 @@ describe('V2 thrown hits and fighter traits',()=>{
    expect(state.items.every(item=>item.landed)).toBe(true);
   }
  });
- it('blocks a physical thrown club, stops it and applies only reduced damage',()=>{
-  const state=arena(),target=state.fighters[0];state.fighters=[target];target.x=0;target.y=0;target.shield=true;target.facing=Math.PI;target.weapon='club';
-  const hp=target.hp,stamina=target.stamina;state.items=[flight(900,'club')];state.time=1;advanceItems(state);
-  expect(target.hp).toBe(hp-2);expect(target.stamina).toBe(stamina-6);expect(state.items[0].landed).toBe(true);
+ it('blocks physical equipment throws without breaking the shield',()=>{
+  for(const [weapon,damage] of [['club',2],['hatchet',1]] as const){
+   const state=arena(),target=state.fighters[0];state.fighters=[target];target.x=0;target.y=0;target.shield=true;target.facing=Math.PI;target.weapon='club';
+   const hp=target.hp,stamina=target.stamina;state.items=[flight(900,weapon)];state.time=1;advanceItems(state);
+   expect(target.hp).toBe(hp-damage);expect(target.stamina).toBe(stamina-6);
+   expect(target.shield).toBe(true);expect(state.items[0].landed).toBe(true);
+  }
  });
  it('rejects out-of-range throws without any mutation and keeps disposable objects out of equipment',()=>{
   for(const [kind,range] of [['stone',5],['pot',2]] as const){

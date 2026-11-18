@@ -26,7 +26,8 @@ export function syncStamina(fighter: Fighter, time: number): void {
 }
 export function attackDamage(fighter: Fighter): number {
   const isSwordOrSpear = fighter.weapon === 'sword' || fighter.weapon === 'spear';
-  let damage = fighter.attack * (isSwordOrSpear ? 1.65 : fighter.weapon === 'club' ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);
+  const isClubOrHatchet = fighter.weapon === 'club' || fighter.weapon === 'hatchet';
+  let damage = fighter.attack * (isSwordOrSpear ? 1.65 : isClubOrHatchet ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);
   if (fighter.species === 'elephant' && fighter.weapon === 'club') damage *= 1.2;
   if (hasBuff(fighter, 'fury')) damage *= 1.65;
   if (hasBuff(fighter, 'weakness')) damage *= 0.55;
@@ -61,7 +62,14 @@ export function damageFighter(state: ArenaState, target: Fighter, rawDamage: num
   }
   damage = Math.max(1, Math.round(damage));
   applyHealthDamage(state, target, damage, sourceFighterId);
-  effect(state, target, `${blocked ? '格擋 ' : ''}−${damage}`, blocked ? '#e7d29c' : '#f0a393');
+  const shieldBroken = blocked && attacker?.weapon === 'hatchet';
+  if (shieldBroken) {
+    target.shield = false;
+    target.parryUntil = 0;
+    log(state, `${target.name} 的盾牌被短斧打碎了`);
+  }
+  const hitLabel = shieldBroken ? '破盾 ' : blocked ? '格擋 ' : '';
+  effect(state, target, `${hitLabel}−${damage}`, blocked ? '#e7d29c' : '#f0a393');
   if (target.hp > 0) {
     if (knockback) launchFighter(state, target, origin);
     else if (blocked) { target.pose = 'block'; target.poseUntil = state.time + 0.2; }

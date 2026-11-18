@@ -13,13 +13,16 @@ function emptyArena() { const state = createArena(42); state.fighters = []; retu
 
 describe('equipment slots and continuous delivery collisions', () => {
   it('allows a single-handed weapon plus shield in either order and forbids two-handed conflicts', () => {
-    for (const weapon of ['sword', 'spear'] as const) {
+    for (const weapon of ['sword', 'spear', 'hatchet'] as const) {
       for (const order of [[weapon, 'shield'], ['shield', weapon]] as const) {
         const fighter = createArena().fighters[0];
         for (const equipment of order) equip(fighter, equipment);
         expect(fighter.weapon).toBe(weapon); expect(fighter.shield).toBe(true);
         expect(canEquip(fighter, 'club')).toBe(false);
         expect(canEquip(fighter, 'bow')).toBe(false);
+        expect(canEquip(fighter, 'hatchet')).toBe(false);
+        equip(fighter, 'hatchet');
+        expect(fighter.weapon).toBe(weapon);
       }
     }
     for (const weapon of ['club', 'bow'] as const) {

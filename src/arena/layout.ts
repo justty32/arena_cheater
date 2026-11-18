@@ -1,3 +1,4 @@
+import { drawWeapon } from './puppet';
 import { drawAreaCard } from './area-art';
 import { drawThrowable } from './thrown-art';
 import type { Card, Fighter, StoneColor, StoneCost } from './model';
@@ -66,6 +67,9 @@ export function drawCardArt(canvas: HTMLCanvasElement, card: Card): void {
   } else if (card.id === 'sword') {
     ctx.rotate(0.55); ctx.beginPath(); ctx.moveTo(-5, 15); ctx.lineTo(-5, -20); ctx.lineTo(0, -32); ctx.lineTo(5, -20); ctx.lineTo(5, 15); ctx.closePath(); ctx.fill();
     line([[-14, 17], [14, 17]]); line([[0, 17], [0, 30]]);
+  } else if (card.id === 'hatchet') {
+    ctx.save(); ctx.rotate(0.48); ctx.scale(2, 2); ctx.translate(-5, 7);
+    drawWeapon(ctx, 'hatchet'); ctx.restore();
   } else if (card.id === 'spear') {
     ctx.save(); ctx.rotate(0.85);
     ctx.strokeStyle = '#bf925b'; ctx.lineWidth = 4;

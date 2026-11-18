@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { advanceArena, createArena, toggleArena } from '../../src/arena/engine';
 import { act, hit, syncStamina } from '../../src/arena/engine-combat';
 import { advanceArrows, fireArrow } from '../../src/arena/engine-arrows';
-import { advanceControl, damageFighter } from '../../src/arena/engine-damage';
+import { advanceControl, attackDamage, damageFighter } from '../../src/arena/engine-damage';
 import { equip } from '../../src/arena/equipment';
 
 function pair() {
@@ -54,6 +54,83 @@ describe('P3 equipment combat', () => {
     act(state, a, 1 / 30);
     expect(b.hp).toBe(b.maxHp);
     expect(a.pose).toBe('walk');
+  });
+
+  it('spends exactly 18 stamina to swing the hatchet and swings faster than the club', () => {
+    const hatchet = pair(), club = pair();
+    equip(hatchet.a, 'hatchet'); equip(club.a, 'club');
+    hatchet.a.nextAttack = club.a.nextAttack = 0;
+    hatchet.a.lastAttack = 0;
+    hatchet.a.stamina = 17;
+    act(hatchet.state, hatchet.a, 1 / 30);
+    expect(hatchet.a.pose).toBe('idle');
+    expect(hatchet.a.stamina).toBe(17);
+
+    hatchet.a.stamina = 18;
+    act(hatchet.state, hatchet.a, 1 / 30);
+    act(club.state, club.a, 1 / 30);
+    expect(hatchet.a.pose).toBe('attack');
+    expect(hatchet.a.stamina).toBe(0);
+    expect(hatchet.a.poseUntil).toBeLessThan(club.a.poseUntil);
+    expect(hatchet.a.nextAttack).toBeLessThan(club.a.nextAttack);
+
+    hatchet.b.x = hatchet.a.radius + hatchet.b.radius + 0.75;
+    hatchet.state.time = hatchet.a.poseUntil;
+    act(hatchet.state, hatchet.a, 1 / 30);
+    expect(hatchet.b.hp).toBe(hatchet.b.maxHp);
+  });
+
+  it('breaks a shield after its first ordinary block and lands the next attack undefended', () => {
+    const { state, a, b } = pair();
+    equip(a, 'hatchet'); equip(b, 'shield');
+    a.nextAttack = 0;
+    const damage = attackDamage(a);
+    act(state, a, 1 / 30);
+    expect(a.pose).toBe('attack');
+    state.time = a.poseUntil;
+    act(state, a, 1 / 30);
+    expect(b.hp).toBe(b.maxHp - Math.round(damage / 2));
+    expect(b.stamina).toBe(b.maxStamina - 6);
+    expect(b.shield).toBe(false);
+
+    state.time = a.nextAttack;
+    act(state, a, 1 / 30);
+    expect(a.pose).toBe('attack');
+    state.time = a.poseUntil;
+    act(state, a, 1 / 30);
+    expect(b.hp).toBe(b.maxHp - Math.round(damage / 2) - Math.round(damage));
+    expect(b.stamina).toBe(b.maxStamina - 6);
+  });
+
+  it.each([
+    { condition: 'parry', facing: Math.PI, stamina: 10, parryUntil: 1, damageScale: 0, spend: 10 },
+    { condition: 'side', facing: Math.PI / 2, stamina: 20, parryUntil: 0, damageScale: 1, spend: 0 },
+    { condition: 'back', facing: 0, stamina: 20, parryUntil: 0, damageScale: 1.2, spend: 0 },
+    { condition: 'low stamina', facing: Math.PI, stamina: 5, parryUntil: 0, damageScale: 1, spend: 0 },
+  ])('leaves the shield intact on a $condition hatchet hit', ({ facing, stamina, parryUntil, damageScale, spend }) => {
+    const { state, a, b } = pair();
+    equip(a, 'hatchet'); equip(b, 'shield');
+    Object.assign(b, { facing, stamina, parryUntil });
+    hit(state, a);
+    expect(b.hp).toBe(b.maxHp - Math.round(attackDamage(a) * damageScale));
+    expect(b.stamina).toBe(stamina - spend);
+    expect(b.shield).toBe(true);
+  });
+
+  it('lets an arrow be blocked without breaking the shield after the archer equips a hatchet', () => {
+    const { state, a, b } = pair();
+    equip(a, 'bow'); equip(b, 'shield');
+    a.ammo = 1;
+    fireArrow(state, a);
+    const damage = state.arrows[0].damage;
+    equip(a, 'hatchet');
+    expect(a.weapon).toBe('hatchet');
+    state.time = 0.2;
+    advanceArrows(state, 0.2);
+    expect(state.arrows).toHaveLength(0);
+    expect(b.hp).toBe(b.maxHp - Math.round(damage / 2));
+    expect(b.stamina).toBe(b.maxStamina - 6);
+    expect(b.shield).toBe(true);
   });
 
   it('fires three real arrows, preserves launch damage and returns to fists', () => {

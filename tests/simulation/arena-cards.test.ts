@@ -15,7 +15,7 @@ function cast(state:ArenaState):boolean {
 describe('V2 cards and stones',()=>{
  it('deals three cards and three stones from a reproducible finite deck',()=>{
   const a=createArena(42);expect(a).toEqual(createArena(42));expect(a.hand).toHaveLength(3);expect(a.stones).toHaveLength(3);
-  const all=[...a.hand.map(c=>c.cardId),...a.deck];expect(all).toHaveLength(28);
+  const all=[...a.hand.map(c=>c.cardId),...a.deck];expect(all).toHaveLength(30);
   for(const card of CARDS)expect(all.filter(id=>id===card.id)).toHaveLength(2);
  });
  it('reveals the real draw order across recycling, equipment play and stone exchange',()=>{
@@ -279,7 +279,7 @@ describe('V2 cards and stones',()=>{
  });
  it('conserves two copies of every card over repeated discard reshuffles',()=>{
   const state=createArena(42);toggleArena(state);let reshuffles=0;
-  for(let i=0;i<55;i++){
+  for(let i=0;i<CARDS.length*4;i++){
    const wasEmpty=state.deck.length===0;
    expect(redrawStones(state,state.hand[0].id,[state.stones[0].id])).toBe(true);
    if(wasEmpty)reshuffles++;

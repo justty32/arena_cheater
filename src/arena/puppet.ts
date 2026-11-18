@@ -29,6 +29,14 @@ export function drawWeapon(ctx: Context, weapon: Weapon, draw = 0): void {
     ctx.beginPath(); ctx.moveTo(0, -40); ctx.lineTo(3.5, -30); ctx.lineTo(0, -25); ctx.fill();
     ctx.fillStyle = '#ceac71'; ctx.fillRect(-2.5, -25, 5, 3);
     ctx.fillStyle = '#66483e'; ctx.fillRect(-2, -4, 4, 9);
+  } else if (weapon === 'hatchet') {
+    polygon(ctx, [-2, 9, -2, -19, 2, -20, 2, 3, 1, 10], '#bd8b52');
+    ctx.beginPath(); ctx.moveTo(-5, -22); ctx.lineTo(3, -21);
+    ctx.quadraticCurveTo(8, -21, 14, -25); ctx.quadraticCurveTo(21, -17, 15, -8);
+    ctx.quadraticCurveTo(10, -14, 3, -15); ctx.lineTo(-5, -16); ctx.closePath();
+    ctx.fillStyle = '#aebfc0'; ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = '#f2ebcb'; ctx.lineWidth = 1.8;
+    ctx.beginPath(); ctx.moveTo(14, -23); ctx.quadraticCurveTo(19, -17, 15, -10); ctx.stroke();
   } else if (weapon === 'club') {
     polygon(ctx, [-2, 8, -3, -8, -7, -17, -5, -25, 4, -26, 7, -19, 3, -8, 2, 8], '#93724b');
     ctx.strokeStyle = '#d0b683'; ctx.beginPath(); ctx.moveTo(-2, -21); ctx.lineTo(0, -8); ctx.stroke();
@@ -125,6 +133,9 @@ export function drawPuppet(ctx: Context, f: Fighter, time: number, scale: number
         ? Math.min(1, Math.max(0, (time-f.lastAttack)/attackDuration))**2 : 0;
       const angle=Math.atan2(forwardY,forwardX)+Math.PI/2-.18*(1-extension);
       right=arm(12,17+forwardX*17*extension,-8+forwardY*15*extension,'spear',angle);
+    } else if(f.weapon==='hatchet'){
+      const swing=f.pose==='attack' ? Math.max(0,Math.min(1,(time-f.lastAttack)/(f.poseUntil-f.lastAttack || 1))) : 0;
+      right=arm(12,17+8*swing-step*3,-4-6*Math.sin(swing*Math.PI),'hatchet',.18-.6*Math.sin(swing*Math.PI)+1.3*swing*swing);
     } else {
       right=arm(12,14+strike*9-step*5,2-strike*12,f.weapon,-strike*.8);
     }

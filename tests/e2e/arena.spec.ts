@@ -141,26 +141,20 @@ test('謹慎思考只由付款按鈕施放，選牌期間停鐘並在選完後�
   expect(errors).toEqual([]);
 });
 
-test('直覺付款後保持交戰，換石及投送依序收到預告牌', async ({ page }) => {
+test('直覺付款後保持交戰，依序換入兩張不同的預告牌', async ({ page }) => {
   const errors = observeErrors(page);
   await open(page);
   const payable = (s: ArenaState) => s.hand.some(card => card.cardId === 'intuition') &&
     s.stones.some(stone => stone.color === 'blue');
-  const equipment = (s: ArenaState) => s.hand.find(handCard => {
-    const card = CARDS.find(definition => definition.id === handCard.cardId)!;
-    return card.target === 'ground' && !card.throwRange;
-  });
-  const state = await seek(page, s => payable(s) && Boolean(equipment(s)) &&
-    new Set(s.deck.slice(-3, -1)).size === 2);
-  const delivery = equipment(state)!;
-  const discarded = state.hand.find(card => card.cardId !== 'intuition' && card.id !== delivery.id)!;
+  const state = await seek(page, s => payable(s) && new Set(s.deck.slice(-3, -1)).size === 2);
+  const spell = state.hand.find(card => card.cardId === 'intuition')!;
+  const [discardFirst, discardSecond] = state.hand.filter(card => card.id !== spell.id);
   const start = page.getByTestId('arena-start');
   const pay = page.locator('[data-self-pay]');
   const preview = page.getByTestId('arena-known-order');
   const shown = preview.locator('[data-known-slot]:not([hidden]) [data-known-name]');
   const [replacement, first, second] = state.deck.slice(-3).reverse();
   const name = (id: typeof first) => CARDS.find(card => card.id === id)!.name;
-  const spell = state.hand.find(card => card.cardId === 'intuition')!;
   const blue = state.stones.find(stone => stone.color === 'blue')!;
   const initial = await inventory(page);
 
@@ -181,7 +175,7 @@ test('直覺付款後保持交戰，換石及投送依序收到預告牌', async
   await expect(page.locator(`[data-stone="${blue.id}"]`)).toHaveCount(0);
   await expect(page.locator('[data-status]')).toHaveText('激戰中');
 
-  await cardButton(page, discarded.id).click();
+  await cardButton(page, discardFirst.id).click();
   await page.getByTestId('arena-redraw').click();
   await stones(page).first().click();
   await page.getByTestId('arena-redraw-confirm').click();
@@ -189,13 +183,18 @@ test('直覺付款後保持交戰，換石及投送依序收到預告牌', async
   await expect(shown).toHaveText([name(second)]);
   await expect(stones(page)).toHaveCount(initial.stones.length + 2);
 
-  await cardButton(page, delivery.id).click();
-  await center(page);
+  const redraw = page.getByTestId('arena-redraw');
+  await expect(redraw).toBeDisabled();
+  await page.clock.runFor(3200);
+  await expect(redraw).toBeEnabled();
+  await cardButton(page, discardSecond.id).click();
+  await redraw.click();
+  await stones(page).first().click();
+  await page.getByTestId('arena-redraw-confirm').click();
   await expect(hand(page).last()).toHaveAttribute('data-card', second);
   await expect(preview).toBeHidden();
   await expect(hand(page)).toHaveCount(3);
-  const cost = CARDS.find(card => card.id === delivery.cardId)!.cost.generic;
-  await expect(stones(page)).toHaveCount(initial.stones.length + 4 - cost);
+  await expect(stones(page)).toHaveCount(initial.stones.length + 3);
   await expect(page.locator('[data-status]')).toHaveText('激戰中');
 
   // Reopen the original seed sequence and reset while the preview still contains cards.

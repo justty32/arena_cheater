@@ -1,6 +1,6 @@
 import { advanceArena, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, paymentStatus, validateCardPlay, type CardTarget, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
-import { CARDS, isResolvingArena, isAreaSpellTarget, areaSpellTargets } from './model';
-import type { Card, Fighter } from './model';
+import { CARDS, THROW_PROFILES, isResolvingArena, isAreaSpellTarget, areaSpellTargets } from './model';
+import type { Card, Fighter, ThrownKind } from './model';
 import { ArenaView } from './view';
 import { createHandView } from './hand-view';
 import { createThrowFeedback } from './throw-feedback';
@@ -13,7 +13,7 @@ import './hand.css';
 import './mobile.css';
 
 const poseLabels = { idle: '伺機而動', walk: '尋找對手', attack: '發起攻擊', hit: '受到攻擊', fallen: '倒地', airborne: '遭到擊飛', rising: '正在起身', block: '盾牌格擋', parry: '成功招架', dead: '已出局' };
-const weaponLabels = { fists: '徒手', sword: '直劍（單手）', spear: '長矛（單手）', club: '木棍（雙手）', shield: '圓盾（單手）', bow: '長弓（雙手）' };
+const weaponLabels = { fists: '徒手', sword: '直劍（單手）', spear: '長矛（單手）', hatchet: '短斧（單手）', club: '木棍（雙手）', shield: '圓盾（單手）', bow: '長弓（雙手）' };
 
 function fighterTrait(fighter: Fighter): string {
   switch (fighter.species) {
@@ -148,9 +148,10 @@ export function mountArena(root: HTMLElement): void {
     if (rosterSummary.textContent !== summary) rosterSummary.textContent = summary;
     if (rosterSubtitle.textContent !== subtitle) rosterSubtitle.textContent = subtitle;
     el('.hand-tip').hidden = finished || Boolean(pending) || selfCard;
-    const deliveryDescription = activeCard && ['sword', 'spear', 'club', 'bow'].includes(activeCard.id)
+    const delivery = activeCard?.target === 'ground' ? THROW_PROFILES[activeCard.id as ThrownKind] : undefined;
+    const deliveryDescription = !delivery || delivery.disposable ? '' : delivery.damage > 0
       ? '投送途中可能傷到任何鬥士，包含你支持的鬥士；碰撞會使裝備提前落地，之後可能被其他鬥士拾取。'
-      : activeCard?.id === 'shield' ? '投送途中命中鬥士會截停並落地，不造成投擲傷害；落地後可能被其他鬥士拾取。' : '';
+      : '投送途中命中鬥士會截停並落地，不造成投擲傷害；落地後可能被其他鬥士拾取。';
     el('[data-selected-description]').textContent = finished ? '可以從鬥士名單查看鬥士詳情。' : activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}${deliveryDescription ? ` ${deliveryDescription}` : ''}` : pending ? '選一張加入手牌。' : resolvingMessage || '選牌後點擊鬥士施法，或點擊場地投送武器。';
     el('[data-testid="arena-payment"]').textContent = finished ? '本場出牌已結束。' : pending ? '已付款，選牌時無須再支付。' : resolvingMessage || (exchanging ? (activeCard ? `將放棄：${activeCard.name}` : '請選一張要放棄的手牌。') : activeCard && paymentCheck ? paymentReadout(state, activeCard, payment, paymentCheck) : '每次成功出牌，補兩顆魔法石與一張手牌。');
     el('[data-testid="arena-payment"]').dataset.valid = String(!exchanging && Boolean(paymentCheck?.valid));
