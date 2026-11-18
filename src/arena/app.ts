@@ -22,6 +22,8 @@ export function mountArena(root: HTMLElement): void {
   let activeHandId: number | undefined;
   let exchanging = false;
   let aim: { x: number; y: number } | undefined;
+  let aimChanged = false;
+  let renderedPixelRatio = 0;
   const exchangeStones = new Set<number>();
   const paymentStones = new Set<number>();
   let paymentHandId: number | undefined;
@@ -50,6 +52,7 @@ export function mountArena(root: HTMLElement): void {
   });
   const currentCard = (): Card | undefined => CARDS.find((card) => card.id === state.hand.find((hand) => hand.id === activeHandId)?.cardId);
   const canAct = (): boolean => (state.status === 'running' || state.status === 'paused') && !isResolvingArena(state);
+  const pixelRatio = (): number => Math.min(window.devicePixelRatio || 1, 2);
 
   function refreshPaymentFeedback(): void {
     const card = currentCard();
@@ -72,6 +75,8 @@ export function mountArena(root: HTMLElement): void {
 
 
   function render(): void {
+    aimChanged = false;
+    renderedPixelRatio = pixelRatio();
     const finished = state.status === 'finished';
     const resolving = (state.status === 'running' || state.status === 'paused') && isResolvingArena(state);
     const resolvingTitle = state.status === 'paused' ? '結算暫停' : '結算中';
@@ -222,6 +227,7 @@ export function mountArena(root: HTMLElement): void {
     returnAfterSupport = false;
     if (state.status === 'finished') reset();
     toggleArena(state);
+    if (state.status === 'running') lastFrame = performance.now();
     feedback = state.status === 'running' ? '戰鬥開始。點牌再點目標；滑鼠也可拖牌進場。' : '戰鬥已暫停，仍可出牌；效果倒數、換石冷卻與動畫保持停止。';
     render();
   });
@@ -325,10 +331,17 @@ export function mountArena(root: HTMLElement): void {
     attemptPlay(target);
     render();
   }
-  function updateAim(clientX: number, clientY: number): void {
-    if (state.status === 'finished') return;
+  function updateAim(clientX: number, clientY: number): boolean {
+    if (state.status === 'finished') return false;
     const rect = canvas.getBoundingClientRect();
-    aim = clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom ? view.point(clientX, clientY) : undefined;
+    const next = clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom ? view.point(clientX, clientY) : undefined;
+    const changed = aim?.x !== next?.x || aim?.y !== next?.y;
+    aim = next;
+    return changed;
+  }
+  function hasAimPreview(): boolean {
+    const card = currentCard();
+    return !exchanging && (card?.target === 'area' || (card?.target === 'ground' && Boolean(card.throwRange)));
   }
   canvas.addEventListener('pointerdown', (event) => {
     if (!event.isPrimary || event.pointerType !== 'touch' || exchanging || currentCard()?.target !== 'area') return;
@@ -338,8 +351,13 @@ export function mountArena(root: HTMLElement): void {
     if (!event.isPrimary || event.pointerType !== 'touch') return;
     aim = undefined; render();
   }, {passive:true});
-  canvas.addEventListener('pointermove', (event) => { updateAim(event.clientX, event.clientY); });
-  canvas.addEventListener('pointerleave', () => { aim = undefined; });
+  canvas.addEventListener('pointermove', (event) => {
+    if (updateAim(event.clientX, event.clientY) && hasAimPreview()) aimChanged = true;
+  });
+  canvas.addEventListener('pointerleave', () => {
+    if (aim && hasAimPreview()) aimChanged = true;
+    aim = undefined;
+  });
   canvas.addEventListener('click', (event) => cast(event.clientX, event.clientY));
   el('[data-testid="arena-payment-auto"]').addEventListener('click', () => {
     const card = currentCard();
@@ -414,9 +432,14 @@ export function mountArena(root: HTMLElement): void {
     if (/^[1-3]$/.test(event.key) && state.hand[index]) { event.preventDefault(); select(state.hand[index].id); }
   });
   document.addEventListener('visibilitychange', () => {
+    lastFrame = performance.now();
     if (document.hidden && state.status === 'running') { toggleArena(state); feedback = '離開頁面時已自動暫停。'; render(); }
   });
-  new ResizeObserver(() => render()).observe(canvas);
+  new ResizeObserver(() => {
+    // The previous pointer position was projected using the old canvas dimensions.
+    aim = undefined;
+    render();
+  }).observe(canvas);
   let lastFrame = performance.now();
   function frame(now: number): void {
     const elapsed = Math.max(0, Math.min((now - lastFrame) / 1000, 0.1));
@@ -427,7 +450,7 @@ export function mountArena(root: HTMLElement): void {
       clearSelection();
       feedback = '本場已結束。查看戰果，或準備下一場。';
     }
-    render();
+    if (previousStatus === 'running' || aimChanged || pixelRatio() !== renderedPixelRatio) render();
     requestAnimationFrame(frame);
   }
   render();

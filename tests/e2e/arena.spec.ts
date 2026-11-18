@@ -461,6 +461,15 @@ test('工程時計：控制列舊手勢跨結算不重開，明確再戰與鍵�
   const start = page.getByTestId('arena-start');
   const result = page.locator('[data-result]');
   const round = page.locator('[data-round]');
+  async function advanceToResult() {
+    // Each jump runs at most one animation frame; 100 ms fits the arena's frame delta cap.
+    // At 3x the 180-second battle limit fits in 60 seconds of clock time.
+    for (let elapsed = 0; elapsed < 61_000; elapsed += 100) {
+      await page.clock.fastForward(100);
+      if ((elapsed + 100) % 1000 === 0 && await result.isVisible()) return;
+    }
+    throw new Error('3× 戰鬥推進 61 秒測試時鐘後仍未結算');
+  }
   await page.locator('[data-speed="3"]').click();
   await start.click();
   await expect(start).toContainText('暫停');
@@ -478,7 +487,7 @@ test('工程時計：控制列舊手勢跨結算不重開，明確再戰與鍵�
   const box = await start.boundingBox();
   await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
   await page.mouse.down();
-  while (!(await result.isVisible())) await page.clock.runFor(1000);
+  await advanceToResult();
   await page.mouse.up();
   await expect(result).toBeVisible();
   await expect(round).toHaveText(firstRound);
@@ -500,7 +509,7 @@ test('工程時計：控制列舊手勢跨結算不重開，明確再戰與鍵�
 
   const secondRound = await round.innerText();
   await page.keyboard.down('Space');
-  while (!(await result.isVisible())) await page.clock.runFor(1000);
+  await advanceToResult();
   await page.keyboard.down('Space'); // Real repeat must retain the initial running intent.
   await page.keyboard.up('Space');
   await expect(result).toBeVisible();
