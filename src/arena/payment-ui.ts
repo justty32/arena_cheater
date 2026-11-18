@@ -17,7 +17,7 @@ export function selfPaymentAction(card: Card): string {
 export function paymentReadout(state: ArenaState, card: Card, ids: readonly number[], status: PaymentStatus): string {
   const colors = STONE_COLORS.map(color => ({ color, count: state.stones.filter(stone => stone.color === color && ids.includes(stone.id)).length }))
     .filter(({ count }) => count).map(({ color, count }) => `${STONE_NAMES[color]} ${count}`).join(' ＋ ');
-  const ready = card.target === 'self' ? `可先改選藍石，確認後${selfPaymentAction(card)}` : '點目標施放，可先點石頭改選';
+  const ready = card.target === 'self' ? `可先改選藍石，確認後${selfPaymentAction(card)}` : card.target === 'trap' ? '點場內地面布置，可先點石頭改選' : '點目標施放，可先點石頭改選';
   return `支付 ${status.selectedCount} / ${status.requiredCount} 顆${colors ? `（${colors}）` : ''} · ${status.valid ? ready : paymentProblem(status)} · 費用：${costText(card.cost)}`;
 }
 
@@ -42,6 +42,7 @@ const rejectionText: Record<Exclude<CardPlayRejection, 'target-required'>, strin
 const targetRequiredText: Record<Card['target'], string> = {
   fighter: '請點選存活鬥士的身體。',
   ground: '請點選場地落點。',
+  trap: '請點選場內地面布置陷阱。',
   self: '請使用卡牌的付款按鈕。',
   area: '請點選範圍圓心。',
 };

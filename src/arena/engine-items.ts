@@ -1,8 +1,9 @@
-import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isResolvingArena, type ArenaState, type Card, type Fighter, type ThrownItem, type ThrowImpact, type ThrownKind, type Weapon } from './model';
+import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isTrapTarget, isResolvingArena, type ArenaState, type Card, type Fighter, type ThrownItem, type ThrowImpact, type ThrownKind, type Weapon } from './model';
 import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime, type Point } from './geometry';
 import { canPayCost, findPayment, consumeCard, drawCard, drawStones, beginDeliberation, revealUpcomingCards } from './engine-cards';
+import { placeSpikePit } from './engine-traps';
 import { applyDungStatus, applyHealthDamage, damageFighter } from './engine-damage';
 
 function sweptThrowFighterTime(from: Point, to: Point, fighter: Fighter): number | undefined {
@@ -53,10 +54,13 @@ export function validateCardPlay(state: ArenaState, handCardId: number, target: 
     const {x,y} = target;
     if (x === undefined || y === undefined) return {ok:false,reason:'target-required'};
     if (!Number.isFinite(x) || !Number.isFinite(y)) return {ok:false,reason:'invalid-point'};
-    if (Math.hypot(x,y) > (card.target === 'area' ? ARENA_RADIUS : THROW_TARGET_RADIUS)) return {ok:false,reason:'outside-arena'};
+    const insideArena = card.target === 'trap'
+      ? isTrapTarget(card, {x,y})
+      : Math.hypot(x,y) <= (card.target === 'area' ? ARENA_RADIUS : THROW_TARGET_RADIUS);
+    if (!insideArena) return {ok:false,reason:'outside-arena'};
     if (card.target === 'area') {
       if (!areaSpellTargets(state.fighters,card,{x,y}).length) return {ok:false,reason:'empty-area'};
-    } else if (!isThrowableTarget(card,{x,y})) return {ok:false,reason:'out-of-range'};
+    } else if (card.target === 'ground' && !isThrowableTarget(card,{x,y})) return {ok:false,reason:'out-of-range'};
   }
   if (!findPayment(state,card.cost)) return {ok:false,reason:'insufficient-stones'};
   if (!canPayCost(state,card.cost,stoneIds)) return {ok:false,reason:'invalid-payment'};
@@ -90,6 +94,8 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
     }
     state.effects.push({id:state.nextId++,x:x!,y:y!,at:state.time,kind:'area',areaRadius:card.areaRadius,cardId:card.id,text:card.name,color:card.color});
     log(state,`${card.name}命中 ${areaTargets.length} 名鬥士`);
+  } else if (card.target === 'trap') {
+    placeSpikePit(state, {x:x!, y:y!});
   } else if (card.target === 'ground') {
     const {x:fromX,y:fromY} = THROW_ORIGIN;
     const itemId = state.nextId++;

@@ -1,5 +1,5 @@
 import { advanceArena, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, paymentStatus, previewThrowContact, validateCardPlay, type CardTarget, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
-import { CARDS, THROW_PROFILES, hasPendingDungDamage, hasPendingDungTick, isResolvingArena, isAreaSpellTarget, isThrowableTarget, areaSpellTargets } from './model';
+import { CARDS, THROW_PROFILES, hasPendingDungDamage, hasPendingDungTick, isResolvingArena, isAreaSpellTarget, isThrowableTarget, isTrapTarget, areaSpellTargets } from './model';
 import type { Card, Fighter, ThrownKind } from './model';
 import { ArenaView } from './view';
 import { createHandView } from './hand-view';
@@ -52,6 +52,7 @@ export function mountArena(root: HTMLElement): void {
   const canvas = el<HTMLCanvasElement>('[data-testid="arena-canvas"]');
   const view = new ArenaView(canvas);
   const throwPreview = el('[data-testid="arena-throw-range"]');
+  const trapPreview = el('[data-testid="arena-trap-preview"]');
   const start = el<HTMLButtonElement>('[data-testid="arena-start"]');
   const selfPay = el<HTMLButtonElement>('[data-testid="arena-deliberation-pay"]');
   const deliberationHeading = el('[data-deliberation-heading]');
@@ -75,8 +76,8 @@ export function mountArena(root: HTMLElement): void {
     const card = currentCard();
     if (!card) return;
     const status = paymentStatus(state, card.cost, [...paymentStones]);
-    if (!status.valid && card.target === 'ground') aim = undefined;
-    feedback = status.valid ? card.target === 'self' ? `支付用石已備妥，可${selfPaymentAction(card)}。` : '支付用石已備妥，點目標施放。' : `${paymentProblem(status)}；請調整支付用石。`;
+    if (!status.valid && (card.target === 'ground' || card.target === 'trap')) aim = undefined;
+    feedback = status.valid ? card.target === 'self' ? `支付用石已備妥，可${selfPaymentAction(card)}。` : card.target === 'trap' ? '支付用石已備妥，點場內地面布置。' : '支付用石已備妥，點目標施放。' : `${paymentProblem(status)}；請調整支付用石。`;
     el('[data-testid="arena-feedback"]').dataset.reason = '';
   }
 
@@ -118,7 +119,7 @@ export function mountArena(root: HTMLElement): void {
     renderThrowFeedback(state);
     const payment = [...paymentStones];
     const paymentCheck = activeCard ? paymentStatus(state, activeCard.cost, payment) : undefined;
-    const fieldCard = exchanging || selfCard ? undefined : activeCard;
+    const fieldCard = exchanging || selfCard || (resolving && activeCard?.target === 'trap') ? undefined : activeCard;
     const ratio = pixelRatio();
     if (canvasSizeChanged || ratio !== renderedPixelRatio) {
       view.resize(ratio);
@@ -126,6 +127,7 @@ export function mountArena(root: HTMLElement): void {
       renderedPixelRatio = ratio;
     }
     const throwCard = fieldCard?.target === 'ground' ? fieldCard : undefined;
+    const trapCard = fieldCard?.target === 'trap' ? fieldCard : undefined;
     const throwAim = resolving ? undefined : aim;
     const throwContact = throwCard && throwAim ? previewThrowContact(throwCard, throwAim, state.fighters) : undefined;
     view.render(state, selectedId, fieldCard?.target ?? null, fieldCard, throwCard ? throwAim : aim, throwContact);
@@ -147,7 +149,8 @@ export function mountArena(root: HTMLElement): void {
     const feedbackText = resolvingMessage || feedback;
     if (feedbackNode.textContent !== feedbackText) feedbackNode.textContent = feedbackText;
     const fighterPrompt = rosterCasting ? '點場內鬥士或名單施法' : '開戰後可施法';
-    el('[data-card-prompt]').textContent = finished ? '本場手牌' : pending ? '謹慎思考' : resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? fighterPrompt : selfCard ? selfPaymentAction(activeCard) : '點選場地投送'}` : '三張手牌，改寫勝負';
+    const trapPrompt = canAct() ? '點場內地面布置' : '開戰後可布置';
+    el('[data-card-prompt]').textContent = finished ? '本場手牌' : pending ? '謹慎思考' : resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? fighterPrompt : selfCard ? selfPaymentAction(activeCard) : activeCard.target === 'trap' ? trapPrompt : '點選場地投送'}` : '三張手牌，改寫勝負';
     const rosterSummary = el('[data-testid="arena-fighters-toggle"]');
     const rosterSubtitle = el('[data-fighters-subtitle]');
     const summary = rosterCasting ? '鬥士名單 · 點名字直接施法' : '鬥士名單 · 點選查看';
@@ -183,6 +186,14 @@ export function mountArena(root: HTMLElement): void {
     areaPreview.dataset.targetCount = String(affected.length);
     areaPreview.dataset.valid = String(Boolean(activeCard?.target === 'area' && aim && isAreaSpellTarget(activeCard, aim) && affected.length));
     areaPreview.textContent = activeCard?.target === 'area' ? `直徑 ${activeCard.areaRadius * 2}m · ${!aim ? '點場內施放；按住不移動可先看範圍。所有鬥士都會受傷。' : !isAreaSpellTarget(activeCard, aim) ? '圓心必須在場內，不會消耗資源。' : !affected.length ? '圈內沒有存活鬥士，不會消耗資源。' : `命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包括你支持的鬥士！' : '，不限陣營。'}`}` : '';
+    const trapAimed = Boolean(trapCard && aim);
+    const trapValid = Boolean(trapCard && aim && isTrapTarget(trapCard, aim));
+    const trapText = !trapCard ? '' : !aim ? `${trapPrompt}。按住場內可預覽位置。`
+      : trapValid ? '布置後 0.6 遊戲秒生效。' : '布置點須在場界內。';
+    if (trapPreview.hidden !== !trapCard) trapPreview.hidden = !trapCard;
+    if (trapPreview.textContent !== trapText) trapPreview.textContent = trapText;
+    if (trapPreview.dataset.aimed !== String(trapAimed)) trapPreview.dataset.aimed = String(trapAimed);
+    if (trapPreview.dataset.valid !== String(trapValid)) trapPreview.dataset.valid = String(trapValid);
     el('[data-cancel]').hidden = !activeCard && !exchanging;
     canvas.classList.toggle('is-targeting', Boolean(fieldCard));
     el('[data-redraw-controls]').hidden = !exchanging;
@@ -429,6 +440,11 @@ export function mountArena(root: HTMLElement): void {
     }
     const affected = card.target === 'area' ? areaSpellTargets(state.fighters, card, { x: target.x!, y: target.y! }) : [];
     if (playCard(state, activeHandId, target, payment)) {
+      if (card.target === 'trap') {
+        feedback = '刺洞已布置，0.6 遊戲秒後生效。已補兩顆魔法石與一張牌。';
+        clearSelection();
+        return;
+      }
       const targetName = target.fighterId ? state.fighters.find((f) => f.id === target.fighterId)?.name : undefined;
       feedback = `${card.name}${card.target === 'area' ? `已施放，命中 ${affected.length} 位鬥士${affected.some(f => f.id === state.supportedId) ? '，包含你支持的鬥士' : ''}` : targetName ? `已施放於${targetName}` : state.status === 'paused' ? '已排入投送，繼續戰鬥後飛向場內' : card.throwRange ? '已投出，沿途命中或落地後消耗，不會被拾取' : '已投出，任何鬥士都能拾取'}。已補兩顆魔法石與一張牌。`;
       if (target.fighterId) selectedId = target.fighterId;
@@ -481,7 +497,7 @@ export function mountArena(root: HTMLElement): void {
     const card = currentCard();
     const fighter = view.pick(clientX, clientY, state, card?.target === 'fighter');
     if (!card || card.target === 'self' || exchanging || state.pendingDeliberation) { if (fighter) selectedId = fighter.id; render(); return; }
-    if (!touch || card.target !== 'ground') updateAim(clientX, clientY);
+    if (!touch || (card.target !== 'ground' && card.target !== 'trap')) updateAim(clientX, clientY);
     const target: CardTarget = card.target === 'fighter' ? (fighter ? { fighterId: fighter.id } : {}) : view.point(clientX, clientY);
     attemptPlay(target);
     render();
@@ -496,7 +512,7 @@ export function mountArena(root: HTMLElement): void {
   }
   function hasAimPreview(): boolean {
     const card = currentCard();
-    return !exchanging && (card?.target === 'area' || card?.target === 'ground');
+    return !exchanging && (card?.target === 'area' || card?.target === 'ground' || card?.target === 'trap');
   }
   function clearPointerAim(): void {
     if (aim && hasAimPreview()) aimChanged = true;
@@ -510,7 +526,8 @@ export function mountArena(root: HTMLElement): void {
     if (event.isPrimary && hasAimPreview() && updateAim(event.clientX, event.clientY)) aimChanged = true;
   }, {passive:true});
   canvas.addEventListener('pointerup', (event) => {
-    if (event.isPrimary && event.pointerType === 'touch' && currentCard()?.target === 'ground') clearPointerAim();
+    const target = currentCard()?.target;
+    if (event.isPrimary && event.pointerType === 'touch' && (target === 'ground' || target === 'trap')) clearPointerAim();
   }, {passive:true});
   canvas.addEventListener('pointercancel', (event) => {
     if (event.isPrimary) clearPointerAim();

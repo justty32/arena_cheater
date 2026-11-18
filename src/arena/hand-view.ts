@@ -129,7 +129,7 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
     el('[data-stone-total]').textContent = `${state.stones.length} 顆`;
     el('[data-stone-mode]').textContent = exchanging ? '放棄的石頭' : activeCard ? '支付用石 · 勾選才花費' : '持有魔法石';
     el('[data-stone-help]').hidden = state.status === 'finished';
-    el('[data-stone-help]').textContent = exchanging ? '目前是換石：選中的石頭會被放棄，確認換石才消耗。' : activeCard ? activeCard.target === 'self' ? '可取消或改選藍石，按付款按鈕後才扣石。' : '點石頭可取消或改選，保留需要的顏色；點目標才付款。' : '選卡後可改選支付用石；數字費用可用任意色。';
+    el('[data-stone-help]').textContent = exchanging ? '目前是換石：選中的石頭會被放棄，確認換石才消耗。' : activeCard ? activeCard.target === 'self' ? '可取消或改選藍石，按付款按鈕後才扣石。' : activeCard.target === 'trap' ? '可取消或改選支付用石，布置陷阱時才扣石。' : '點石頭可取消或改選，保留需要的顏色；點目標才付款。' : '選卡後可改選支付用石；數字費用可用任意色。';
   }
 
   return {

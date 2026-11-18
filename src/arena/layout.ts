@@ -1,5 +1,5 @@
 import { drawWeapon } from './puppet';
-import { drawAreaCard } from './area-art';
+import { drawAreaCard, drawSpikePit } from './area-art';
 import { drawThrowable } from './thrown-art';
 import type { Card, Fighter, StoneColor, StoneCost } from './model';
 
@@ -35,7 +35,7 @@ export function arenaLayout(fighters: Fighter[]): string {
               <h3 id="deliberation-heading" data-deliberation-heading tabindex="-1">選一張加入手牌</h3>
               <p data-deliberation-resume></p>
               <div class="deliberation-choices" data-deliberation-choices></div>
-            </section><div class="card-detail" data-testid="arena-card-detail"><details class="card-effect" data-mobile-panel="effect" open><summary data-testid="arena-effect-toggle">完整效果與操作說明</summary><p data-selected-description>選牌後點擊鬥士施法，或點擊場地投送武器。</p></details><p class="throw-instruction" data-testid="arena-throw-range" hidden></p><p class="area-instruction" data-testid="arena-area-preview" data-target-count="0" data-valid="false" hidden></p></div></div>
+            </section><div class="card-detail" data-testid="arena-card-detail"><details class="card-effect" data-mobile-panel="effect" open><summary data-testid="arena-effect-toggle">完整效果與操作說明</summary><p data-selected-description>選牌後點擊鬥士施法，或點擊場地投送武器。</p></details><p class="throw-instruction" data-testid="arena-throw-range" hidden></p><p class="area-instruction" data-testid="arena-area-preview" data-target-count="0" data-valid="false" hidden></p><p class="area-instruction" data-testid="arena-trap-preview" hidden></p></div></div>
           <details class="hand-exchange" data-mobile-panel="exchange" open><summary data-testid="arena-exchange-toggle">棄牌換石</summary><span class="section-eyebrow">A CHANGE OF FORTUNE</span><h3>換個手氣</h3><p>放棄一張手牌，重抽部分魔法石。</p><button data-testid="arena-redraw">棄牌換石</button><div data-redraw-controls hidden><p data-testid="arena-redraw-preview"></p><button data-testid="arena-redraw-confirm">確認換石</button></div><small data-redraw-help>先選一張要放棄的手牌。</small></details>
         </div>
         <div class="hand-footer"><p data-testid="arena-feedback" role="status" aria-live="polite"></p><span class="hand-tip">1–3 選牌 · 滑鼠拖曳或點選施放</span></div>
@@ -60,7 +60,9 @@ export function drawCardArt(canvas: HTMLCanvasElement, card: Card): void {
   ctx.beginPath(); ctx.arc(0, 0, 38, -0.3, 2.5); ctx.stroke();
   ctx.strokeStyle = card.color; ctx.fillStyle = card.color; ctx.lineWidth = 3; ctx.lineCap = 'round';
   const line = (points: number[][]) => { ctx.beginPath(); points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.stroke(); };
-  if (card.id === 'lightning-rain' || card.id === 'divine-wrath') {
+  if (card.id === 'spike-pit') {
+    drawSpikePit(ctx, 0, 3, 32, true);
+  } else if (card.id === 'lightning-rain' || card.id === 'divine-wrath') {
     drawAreaCard(ctx, card.id);
   } else if (card.id === 'stone' || card.id === 'pot' || card.id === 'dung') {
     ctx.save(); ctx.scale(1.65, 1.65); drawThrowable(ctx, card.id); ctx.restore();
@@ -135,7 +137,7 @@ export function costText(cost: StoneCost): string {
 
 export function handCardMarkup(card: Card, handId: number, index: number): string {
   const cost = `${card.cost.generic ? `<span class="cost-generic" title="任意顏色">${card.cost.generic}</span>` : ''}${STONE_COLORS.filter((color) => card.cost.colored[color]).map((color) => `<span class="cost-stone" data-color="${color}">${STONE_NAMES[color]}${card.cost.colored[color]! > 1 ? `×${card.cost.colored[color]}` : ''}</span>`).join('')}`;
-  return `<button class="arena-card" data-testid="arena-hand-card" data-hand-card="${handId}" data-card="${card.id}" aria-pressed="false" style="--card-color:${card.color}" aria-label="${card.name}，費用 ${costText(card.cost)}，${card.description}"><span class="card-top"><kbd>${index + 1}</kbd><span class="card-cost">${cost}</span></span><canvas class="card-art" width="180" height="94" aria-hidden="true"></canvas><span class="card-name">${card.name}</span><span class="card-subtitle">${card.target === 'area' ? `範圍直徑 ${card.areaRadius * 2}m` : card.throwRange ? `一次投擲 · ${card.throwRange}m` : card.target === 'fighter' ? '指定鬥士' : card.id === 'deliberate' ? '抽三選一' : card.id === 'intuition' ? '預知牌序' : '投向場地'}</span><span class="card-description">${card.description}</span><span class="card-affordability" data-affordability></span></button>`;
+  return `<button class="arena-card" data-testid="arena-hand-card" data-hand-card="${handId}" data-card="${card.id}" aria-pressed="false" style="--card-color:${card.color}" aria-label="${card.name}，費用 ${costText(card.cost)}，${card.description}"><span class="card-top"><kbd>${index + 1}</kbd><span class="card-cost">${cost}</span></span><canvas class="card-art" width="180" height="94" aria-hidden="true"></canvas><span class="card-name">${card.name}</span><span class="card-subtitle">${card.target === 'area' ? `範圍直徑 ${card.areaRadius * 2}m` : card.throwRange ? `一次投擲 · ${card.throwRange}m` : card.target === 'trap' ? '布置陷阱' : card.target === 'fighter' ? '指定鬥士' : card.id === 'deliberate' ? '抽三選一' : card.id === 'intuition' ? '預知牌序' : '投向場地'}</span><span class="card-description">${card.description}</span><span class="card-affordability" data-affordability></span></button>`;
 }
 
 

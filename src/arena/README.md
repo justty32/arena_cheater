@@ -12,6 +12,7 @@
 | [engine-arrows.ts](engine-arrows.ts) | 三箭發射、直線掃掠命中、飛行到期 |
 | [engine-cards.ts](engine-cards.ts) | 牌堆與石頭抽取、實例付款與缺額狀態、出牌消耗及換石冷卻 |
 | [engine-items.ts](engine-items.ts) | 共用出牌驗證與拒絕原因、卡牌目標與效果、範圍法術、投送物碰撞排序、裝備拾取及最新投送結構化結果 |
+| [engine-traps.ts](engine-traps.ts) | 刺洞放置、武裝與到期、首位踩中判定及傷害結算 |
 | [equipment.ts](equipment.ts) | 單雙手與盾互斥、裝備初始化彈藥／耐久 |
 | [geometry.ts](geometry.ts) | 同時間段的移動圓碰撞掃掠 |
 | [projection.ts](projection.ts) | 45° 投影、逆投影與圓場範圍 |

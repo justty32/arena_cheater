@@ -1,4 +1,4 @@
-import { ARENA_RADIUS, type ArenaEffect } from './model';
+import { ARENA_RADIUS, SPIKE_PIT_RADIUS, type ArenaEffect } from './model';
 import { FORESHORTENING, project, type Projection } from './projection';
 type Context = CanvasRenderingContext2D;
 const bolt = (ctx: Context, x: number, y: number, size: number): void => {
@@ -16,6 +16,48 @@ export function drawAreaCard(ctx: Context, kind: 'lightning-rain' | 'divine-wrat
     for (let i = 0; i < 7; i++) { const a = Math.PI + i * Math.PI / 6; ctx.beginPath(); ctx.moveTo(Math.cos(a) * 24, -10 + Math.sin(a) * 24); ctx.lineTo(Math.cos(a) * 30, -10 + Math.sin(a) * 30); ctx.stroke(); }
     ctx.lineWidth = 4; bolt(ctx, 0, 6, 24);
     ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(0, 32, 33, 8, 0, 0, Math.PI * 2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// The rim follows the ground plane; the raised teeth remain upright.
+export function drawSpikePit(ctx: Context, x: number, y: number, radius: number, armed: boolean): void {
+  ctx.save(); ctx.translate(x, y);
+  ctx.lineWidth = Math.max(1.25, radius * .065);
+  ctx.fillStyle = '#322a29'; ctx.strokeStyle = armed ? '#dac29a' : '#d3b891';
+  if (!armed) ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.ellipse(0, 0, radius, radius * FORESHORTENING, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.setLineDash([]);
+  if (armed) {
+    ctx.lineJoin = 'round'; ctx.fillStyle = '#eee0bb'; ctx.strokeStyle = '#473b33';
+    for (const offset of [-.52, .52, 0]) {
+      const base = radius * (offset === 0 ? .46 : .2);
+      ctx.beginPath(); ctx.moveTo(radius * (offset - .19), base);
+      ctx.lineTo(radius * (offset + .05), base - radius * (offset === 0 ? 1.35 : .95));
+      ctx.lineTo(radius * (offset + .19), base); ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
+  } else {
+    ctx.strokeStyle = '#b59a77'; ctx.lineWidth = Math.max(1.5, radius * .12);
+    for (const offset of [-.4, 0, .4]) {
+      ctx.beginPath(); ctx.moveTo(radius * (offset - .12), radius * .27);
+      ctx.lineTo(radius * (offset + .14), -radius * .27); ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+
+export function drawTrapPreview(ctx: Context, p: Projection, point: {x:number;y:number}, legal: boolean): void {
+  const at = project(point.x, point.y, p), radius = SPIKE_PIT_RADIUS * p.scale;
+  ctx.save();
+  ctx.lineWidth = 2; ctx.strokeStyle = legal ? '#f6deb1' : '#efada2';
+  if (legal) {
+    ctx.fillStyle = '#edd69835';
+    ctx.beginPath(); ctx.ellipse(at.x, at.y, radius, radius * FORESHORTENING, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(at.x - 3, at.y); ctx.lineTo(at.x + 3, at.y);
+    ctx.moveTo(at.x, at.y - 3); ctx.lineTo(at.x, at.y + 3); ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.moveTo(at.x - 5, at.y - 5); ctx.lineTo(at.x + 5, at.y + 5);
+    ctx.moveTo(at.x + 5, at.y - 5); ctx.lineTo(at.x - 5, at.y + 5); ctx.stroke();
   }
   ctx.restore();
 }

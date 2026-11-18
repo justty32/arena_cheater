@@ -1,6 +1,6 @@
-import { ARENA_RADIUS, THROW_ORIGIN, THROW_TARGET_RADIUS, isThrowableTarget, isAreaSpellTarget, areaSpellTargets, type ArenaState, type Card, type Fighter } from './model';
+import { ARENA_RADIUS, THROW_ORIGIN, THROW_TARGET_RADIUS, SPIKE_PIT_RADIUS, isTrapTarget, isThrowableTarget, isAreaSpellTarget, areaSpellTargets, type ArenaState, type Card, type Fighter } from './model';
 import { LabelLayout } from './label-layout';
-import { drawAreaEffect, drawAreaPreview } from './area-art';
+import { drawAreaEffect, drawAreaPreview, drawSpikePit, drawTrapPreview } from './area-art';
 import { drawPuppet, drawWeapon } from './puppet';
 import { drawThrowable, drawThrowImpact } from './thrown-art';
 import { airborneHeight, riseProgress } from './animation';
@@ -65,6 +65,12 @@ export class ArenaView {
     if(this.labelState!==state||this.labelSupport!==state.supportedId){this.labels.reset();this.labelState=state;this.labelSupport=state.supportedId;}
     ctx.lineWidth=1;ctx.lineCap='butt';ctx.lineJoin='miter';ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.setLineDash([]);
     ctx.clearRect(0,0,this.width,this.height);this.venue(state.time);
+    for(const trap of state.traps){
+      if(state.time>=trap.expiresAt)continue;
+      const at=project(trap.x,trap.y,p);
+      drawSpikePit(ctx,at.x,at.y,SPIKE_PIT_RADIUS*p.scale,state.time>=trap.armedAt);
+    }
+    if(targetMode==='trap'&&targetCard&&aim)drawTrapPreview(ctx,p,aim,isTrapTarget(targetCard,aim));
     if(targetMode==='ground'){
       ctx.save();ctx.strokeStyle='#d5b97d88';ctx.lineWidth=2;ctx.setLineDash([5,7]);
       ctx.beginPath();ctx.ellipse(p.cx,p.cy,THROW_TARGET_RADIUS*p.scale,THROW_TARGET_RADIUS*p.scale*FORESHORTENING,0,0,Math.PI*2);ctx.stroke();ctx.restore();

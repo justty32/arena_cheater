@@ -15,7 +15,7 @@ function cast(state:ArenaState):boolean {
 describe('V2 cards and stones',()=>{
  it('deals three cards and three stones from a reproducible finite deck',()=>{
   const a=createArena(42);expect(a).toEqual(createArena(42));expect(a.hand).toHaveLength(3);expect(a.stones).toHaveLength(3);
-  const all=[...a.hand.map(c=>c.cardId),...a.deck];expect(all).toHaveLength(32);
+  const all=[...a.hand.map(c=>c.cardId),...a.deck];expect(all).toHaveLength(34);
   for(const card of CARDS)expect(all.filter(id=>id===card.id)).toHaveLength(2);
  });
  it('reveals the real draw order across recycling, equipment play and stone exchange',()=>{

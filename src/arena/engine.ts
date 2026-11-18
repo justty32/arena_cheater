@@ -1,6 +1,7 @@
 import { ARENA_RADIUS, hasPendingDungDamage, type ArenaState, type Fighter, type Species } from './model';
 import { act, log, separateFighters } from './engine-combat';
 import { advanceItems } from './engine-items';
+import { advanceSpikePits, spikePitMovementStart } from './engine-traps';
 import { advanceArrows } from './engine-arrows';
 import { advanceControl, advanceDungDamage, syncStamina } from './engine-damage';
 import { initializeCards } from './engine-cards';
@@ -28,7 +29,7 @@ export function createArena(seed = 73021): ArenaState {
       facing: angle + Math.PI, maxHp: spec.hp, maxStamina: spec.stamina, baseMaxStamina: spec.stamina, weapon: 'fists', shield: false,
       pose: 'idle', poseUntil: 0, lastAttack: -10, lastMoved: -10, nextAttack: random() * 0.3, buffs: [], ammo: 0, durability: 0, parryUntil: 0, nextParry: 0 };
   });
-  const state: ArenaState = { seed, time: 0, accumulator: 0, status: 'ready', speed: 1, fighters, items: [], arrows: [], effects: [],
+  const state: ArenaState = { seed, time: 0, accumulator: 0, status: 'ready', speed: 1, fighters, items: [], traps: [], arrows: [], effects: [],
     logs: ['七位鬥士已入場。選擇你的支持者，準備暗中出手。'], hand: [], stones: [], randomState: (seed ^ 0x9e3779b9) >>> 0, deck: [], discard: [], redrawAvailableAt: 0, knownUpcomingCount: 0, supportedId: fighters[0].id, supportKillRewardStones: 0, nextId: 1 };
   initializeCards(state);
   return state;
@@ -38,11 +39,13 @@ export function toggleArena(state: ArenaState): void {
   state.status = state.status === 'running' ? 'paused' : 'running';
 }
 function step(state: ArenaState): void {
+  const startedAt = state.time;
   state.time += STEP;
   advanceItems(state, STEP);
   advanceArrows(state, STEP);
   advanceDungDamage(state);
   const mayAct = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
+  const trapMovement = mayAct && state.traps.length ? spikePitMovementStart(state, startedAt) : undefined;
   for (const fighter of state.fighters) {
     if (mayAct) act(state, fighter, STEP);
     else {
@@ -52,8 +55,10 @@ function step(state: ArenaState): void {
     }
   }
   separateFighters(state);
+  if (mayAct && state.traps.length) advanceSpikePits(state, startedAt, trapMovement);
   state.effects = state.effects.filter(effect => state.time - effect.at < 1.8);
   const alive = state.fighters.filter(fighter => fighter.hp > 0);
+  if ((!mayAct || alive.length <= 1) && state.traps.length) state.traps = [];
   if ((alive.length <= 1 || state.time >= 180) && state.arrows.length === 0 && state.items.every(item => item.landed) && !hasPendingDungDamage(state)) {
     state.status = 'finished';
     state.winnerId = alive.length === 1 ? alive[0].id : undefined;
