@@ -15,6 +15,7 @@ export class ArenaView {
   private projection: Projection = createProjection(1000,600);
   private width = 1000;
   private height = 600;
+  private pixelRatio = 1;
   private labels = new LabelLayout();
   private labelState?: ArenaState;
   private labelSupport?: string;
@@ -22,12 +23,18 @@ export class ArenaView {
     const ctx=canvas.getContext('2d');if(!ctx)throw new Error('無法建立競技場畫布');this.ctx=ctx;
     canvas.setAttribute('aria-label','45 度俯視競技場；點擊鬥士查看或施法，點擊地面投送武器或施放範圍法術');
   }
-  private resize(): void {
-    const rect=this.canvas.getBoundingClientRect();this.width=Math.max(1,rect.width);this.height=Math.max(1,rect.height);
-    const ratio=Math.min(window.devicePixelRatio||1,2);
-    const w=Math.round(this.width*ratio),h=Math.round(this.height*ratio);
-    if(this.canvas.width!==w||this.canvas.height!==h){this.canvas.width=w;this.canvas.height=h;}
-    this.ctx.setTransform(ratio,0,0,ratio,0,0);this.projection=createProjection(this.width,this.height);
+  resize(pixelRatio: number): void {
+    const rect = this.canvas.getBoundingClientRect();
+    this.width = Math.max(1, rect.width);
+    this.height = Math.max(1, rect.height);
+    this.pixelRatio = pixelRatio;
+    const width = Math.round(this.width * pixelRatio);
+    const height = Math.round(this.height * pixelRatio);
+    if (this.canvas.width !== width || this.canvas.height !== height) {
+      this.canvas.width = width;
+      this.canvas.height = height;
+    }
+    this.projection = createProjection(this.width, this.height);
   }
   ground(clientX: number, clientY: number): {x:number;y:number}|undefined {
     const p=this.point(clientX,clientY);return insideArena(p.x,p.y)?p:undefined;
@@ -53,7 +60,8 @@ export class ArenaView {
   }
   private actorScale(f: Fighter): number {return this.projection.scale/38*(f.species==='bear'||f.species==='elephant'?1.13:1);}
   render(state: ArenaState, selectedId: string, targetMode?: Card['target']|null, targetCard?: Card, aim?: {x:number;y:number}): void {
-    this.resize();const ctx=this.ctx,p=this.projection;
+    const ctx=this.ctx,p=this.projection;
+    ctx.setTransform(this.pixelRatio,0,0,this.pixelRatio,0,0);
     if(this.labelState!==state||this.labelSupport!==state.supportedId){this.labels.reset();this.labelState=state;this.labelSupport=state.supportedId;}
     ctx.lineWidth=1;ctx.lineCap='butt';ctx.lineJoin='miter';ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.setLineDash([]);
     ctx.clearRect(0,0,this.width,this.height);this.venue(state.time);

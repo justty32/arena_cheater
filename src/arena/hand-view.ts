@@ -9,7 +9,9 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
   const el = <T extends HTMLElement = HTMLElement>(selector: string): T => root.querySelector<T>(selector)!;
   const cardNodes = new Map<number, HTMLButtonElement>();
   const stoneNodes = new Map<number, HTMLButtonElement>();
-  let lastStones = '';
+  let lastHand = '';
+  let lastStones: string | undefined;
+  let lastStoneControls = '';
   let shownOffer: Deliberation | undefined;
 
   function renderDeliberation(offer: Deliberation | undefined): void {
@@ -31,7 +33,7 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
     const focused = document.activeElement;
     let focusIndex = -1;
     for (const [id, node] of cardNodes) {
-      if (!state.hand.some((hand) => hand.id === id)) {
+      if (!state.hand.some((hand) => hand.id === id && hand.cardId === node.dataset.card)) {
         if (focused === node) focusIndex = [...list.children].indexOf(node);
         node.remove(); cardNodes.delete(id);
       }
@@ -65,13 +67,16 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
     el('[data-hand-count]').textContent = `手牌 ${state.hand.length} 張`;
   }
 
-  function renderStones(state: ArenaState, activeCard: Card | undefined, exchanging: boolean, exchangeStones: Set<number>, paymentStones: Set<number>): void {
+  function renderStones(state: ArenaState, key: string, activeCard: Card | undefined, exchanging: boolean, exchangeStones: Set<number>, paymentStones: Set<number>): void {
     const tray = el('[data-testid="arena-stones"]');
-    const key = state.stones.map((stone) => `${stone.id}:${stone.color}`).join('|');
     if (key !== lastStones) {
       lastStones = key;
       for (const [id, node] of stoneNodes) {
-        if (!state.stones.some((stone) => stone.id === id)) { node.remove(); stoneNodes.delete(id); exchangeStones.delete(id); paymentStones.delete(id); }
+        const stone = state.stones.find((entry) => entry.id === id);
+        if (stone?.color === node.dataset.color) continue;
+        node.remove();
+        stoneNodes.delete(id);
+        if (!stone) { exchangeStones.delete(id); paymentStones.delete(id); }
       }
       for (const stone of state.stones) {
         if (stoneNodes.has(stone.id)) continue;
@@ -88,8 +93,11 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
       el('[data-stone-summary]').innerHTML = STONE_COLORS.map((color) => `<span data-color="${color}">${STONE_NAMES[color]} <b>${state.stones.filter((stone) => stone.color === color).length}</b></span>`).join('');
     }
     const mode = exchanging ? 'exchange' : activeCard ? 'payment' : 'idle';
-    tray.dataset.mode = mode;
     const selected = exchanging ? exchangeStones : paymentStones;
+    const controlsKey = JSON.stringify([key, state.status, mode, activeCard?.target, [...selected]]);
+    if (controlsKey === lastStoneControls) return;
+    lastStoneControls = controlsKey;
+    tray.dataset.mode = mode;
     for (const [id, button] of stoneNodes) {
       button.disabled = mode === 'idle';
       button.setAttribute('aria-pressed', String(selected.has(id)));
@@ -106,8 +114,14 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
     render(state: ArenaState, activeHandId: number | undefined, exchanging: boolean, exchangeStones: Set<number>, paymentStones: Set<number>): void {
       const card = CARDS.find((entry) => entry.id === state.hand.find((hand) => hand.id === activeHandId)?.cardId);
       renderDeliberation(state.pendingDeliberation);
-      renderHand(state, activeHandId, exchanging);
-      renderStones(state, card, exchanging, exchangeStones, paymentStones);
+      const stonesKey = state.stones.map((stone) => `${stone.id}:${stone.color}`).join('|');
+      const handKey = JSON.stringify([state.hand.map((hand) => `${hand.id}:${hand.cardId}`), stonesKey,
+        state.status, activeHandId, exchanging, Boolean(state.pendingDeliberation)]);
+      if (handKey !== lastHand) {
+        lastHand = handKey;
+        renderHand(state, activeHandId, exchanging);
+      }
+      renderStones(state, stonesKey, card, exchanging, exchangeStones, paymentStones);
     },
     focusCard(id: number): void {
       const node = cardNodes.get(id);
@@ -117,7 +131,9 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
       node?.focus();
     },
     reset(): void {
-      cardNodes.clear(); stoneNodes.clear(); lastStones = '';
+      cardNodes.clear(); stoneNodes.clear();
+      lastHand = ''; lastStones = undefined; lastStoneControls = '';
+      renderDeliberation(undefined);
       el('[data-hand-list]').replaceChildren(); el('[data-testid="arena-stones"]').replaceChildren();
     },
   };

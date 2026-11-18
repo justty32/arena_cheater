@@ -35,6 +35,7 @@ export function mountArena(root: HTMLElement): void {
   let aim: { x: number; y: number } | undefined;
   let aimChanged = false;
   let renderedPixelRatio = 0;
+  let canvasSizeChanged = true;
   const exchangeStones = new Set<number>();
   const paymentStones = new Set<number>();
   let paymentHandId: number | undefined;
@@ -91,7 +92,6 @@ export function mountArena(root: HTMLElement): void {
 
   function render(): void {
     aimChanged = false;
-    renderedPixelRatio = pixelRatio();
     const finished = state.status === 'finished';
     const resolving = (state.status === 'running' || state.status === 'paused') && isResolvingArena(state);
     const resolvingTitle = state.status === 'paused' ? '結算暫停' : '結算中';
@@ -115,6 +115,12 @@ export function mountArena(root: HTMLElement): void {
     const payment = [...paymentStones];
     const paymentCheck = activeCard ? paymentStatus(state, activeCard.cost, payment) : undefined;
     const fieldCard = exchanging || selfCard ? undefined : activeCard;
+    const ratio = pixelRatio();
+    if (canvasSizeChanged || ratio !== renderedPixelRatio) {
+      view.resize(ratio);
+      canvasSizeChanged = false;
+      renderedPixelRatio = ratio;
+    }
     view.render(state, selectedId, fieldCard?.target ?? null, fieldCard, aim);
     start.disabled = Boolean(pending);
     deliberationPay.hidden = !selfCard;
@@ -504,6 +510,7 @@ export function mountArena(root: HTMLElement): void {
     if (document.hidden && state.status === 'running') { toggleArena(state); feedback = '離開頁面時已自動暫停。'; render(); }
   });
   new ResizeObserver(() => {
+    canvasSizeChanged = true;
     // The previous pointer position was projected using the old canvas dimensions.
     aim = undefined;
     render();
