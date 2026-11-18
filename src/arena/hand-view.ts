@@ -1,6 +1,6 @@
 import { findPayment, knownUpcomingCards } from './engine';
 import { CARDS, isResolvingArena, type ArenaState, type Card } from './model';
-import { deliberationChoiceMarkup, drawCardArt, handCardMarkup, STONE_COLORS, STONE_NAMES } from './layout';
+import { costText, deliberationChoiceMarkup, drawCardArt, handCardMarkup, STONE_COLORS, STONE_NAMES } from './layout';
 
 type Deliberation = NonNullable<ArenaState['pendingDeliberation']>;
 
@@ -11,6 +11,7 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
   const knownSlots = [...knownOrder.querySelectorAll<HTMLElement>('[data-known-slot]')].map(slot => ({
     slot,
     name: slot.querySelector('[data-known-name]')!,
+    cost: slot.querySelector('[data-known-cost]')!,
   }));
   const cardNodes = new Map<number, HTMLButtonElement>();
   const stoneNodes = new Map<number, HTMLButtonElement>();
@@ -37,10 +38,14 @@ export function createHandView(root: HTMLElement, bindCard: (button: HTMLButtonE
     const known = upcoming.length && (state.status === 'finished' || isResolvingArena(state)) ? [] : upcoming;
     const hidden = known.length === 0;
     if (knownOrder.hidden !== hidden) knownOrder.hidden = hidden;
-    knownSlots.forEach(({ slot, name }, index) => {
-      const cardName = CARDS.find(card => card.id === known[index])?.name ?? '';
+    knownSlots.forEach(({ slot, name, cost }, index) => {
+      const card = CARDS.find(entry => entry.id === known[index]);
+      const cardName = card?.name ?? '';
       if (slot.hidden !== !cardName) slot.hidden = !cardName;
-      if (name.textContent !== cardName) name.textContent = cardName;
+      if (name.textContent !== cardName) {
+        name.textContent = cardName;
+        cost.textContent = card ? `出牌費用 ${costText(card.cost)}` : '';
+      }
     });
   }
 

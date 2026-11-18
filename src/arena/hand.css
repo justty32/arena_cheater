@@ -179,5 +179,6 @@
 .deliberation-purpose { color: #c6cfbf; }
 
 .known-order { display: flex; flex-wrap: wrap; gap: 4px 18px; max-width: 690px; margin: 0 auto 5px; padding: 4px 2px; list-style: none; color: #a7cbd5; font-size: 12px; line-height: 1.5; }
-.known-order li { display: inline-flex; gap: 5px; align-items: baseline; }
+.known-order li { display: inline-flex; flex-wrap: wrap; gap: 0 5px; align-items: baseline; max-width: 100%; }
 .known-order strong { font-weight: 500; color: #e2ebe6; }
+.known-order .known-cost { color: #d8c99f; }

@@ -26,8 +26,8 @@ export function arenaLayout(fighters: Fighter[]): string {
         <div class="hand-table">
           <section class="stone-pouch" aria-label="魔法石袋"><div class="stone-heading"><h3>魔法石袋</h3><span data-stone-total></span></div><div class="stone-summary" data-stone-summary data-testid="arena-stone-summary"></div><details class="stone-payment" data-mobile-panel="payment" open><summary data-testid="arena-payment-toggle"><span data-payment-toggle-label>改選支付石</span><small data-payment-brief>選牌後可改選</small></summary><div class="stone-actions"><span data-stone-mode>持有魔法石</span><button data-testid="arena-payment-auto" hidden>自動選石</button></div><div class="stone-tray" data-testid="arena-stones" aria-label="持有魔法石"></div><p class="stone-help" data-stone-help>費用中的數字可用任意顏色支付。</p><p class="payment-preview" data-testid="arena-payment"></p></details></section>
           <div class="hand-play"><ol class="known-order" data-testid="arena-known-order" aria-label="已知牌序" hidden>
-            <li data-known-slot hidden><span>下一張</span> <strong data-known-name></strong></li>
-            <li data-known-slot hidden><span>再下一張</span> <strong data-known-name></strong></li>
+            <li data-known-slot hidden><span>下一張</span> <strong data-known-name></strong> <span class="known-cost" data-known-cost></span></li>
+            <li data-known-slot hidden><span>再下一張</span> <strong data-known-name></strong> <span class="known-cost" data-known-cost></span></li>
           </ol><div class="arena-cards" data-hand-list></div>
             <button type="button" class="deliberation-pay" data-self-pay data-testid="arena-deliberation-pay" hidden>支付藍石，抽三選一</button>
             <section class="deliberation" data-testid="arena-deliberation" aria-labelledby="deliberation-heading" hidden>
