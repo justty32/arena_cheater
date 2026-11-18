@@ -4,12 +4,28 @@ import { fireArrow } from './engine-arrows';
 import { advanceControl, attackDamage, clampFighter, damageFighter, distance, hasBuff, log, syncStamina } from './engine-damage';
 export { clampFighter, distance, effect, hasBuff, log, syncStamina } from './engine-damage';
 
+type AttackProfile = { windup: number; cooldown: number } & (
+  | { kind: 'melee'; startGap: number; hitGap: number }
+  | { kind: 'ranged'; centerReach: number }
+);
+
+// Melee gaps are measured between the fighters' collision boundaries.
+const ATTACK_PROFILES: Record<Weapon, AttackProfile> = {
+  fists:  { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },
+  sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },
+  spear:  { kind: 'melee', startGap: 1, hitGap: 1.3, windup: 0.25, cooldown: 1 },
+  club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },
+  shield: { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },
+  bow:    { kind: 'ranged', centerReach: 5.5, windup: 0.45, cooldown: 1.6 },
+};
+
 export function hit(state: ArenaState, fighter: Fighter): void {
   if (fighter.hp <= 0) return;
   const target = state.fighters.find(other => other.id === fighter.targetId && other.id !== fighter.id && other.hp > 0);
   if (!target) return;
-  if (fighter.weapon === 'bow') { fireArrow(state, fighter); return; }
-  if (distance(fighter, target) > fighter.radius + target.radius + 0.8) return;
+  const attack = ATTACK_PROFILES[fighter.weapon];
+  if (attack.kind === 'ranged') { fireArrow(state, fighter); return; }
+  if (distance(fighter, target) > fighter.radius + target.radius + attack.hitGap) return;
   const club = fighter.weapon === 'club';
   const connected = damageFighter(state, target, attackDamage(fighter), fighter, fighter, club);
   if (club && connected) {
@@ -52,12 +68,13 @@ export function act(state: ArenaState, fighter: Fighter, dt: number): void {
   const angle = Math.atan2(dy, dx);
   const delta = Math.atan2(Math.sin(angle - fighter.facing), Math.cos(angle - fighter.facing));
   fighter.facing += Math.max(-dt * 5, Math.min(dt * 5, delta));
-  const reach = fighter.weapon === 'bow' ? 5.5 : fighter.radius + target.radius + (fighter.weapon === 'sword' ? 0.5 : 0.3);
+  const attack = ATTACK_PROFILES[fighter.weapon];
+  const reach = attack.kind === 'ranged' ? attack.centerReach : fighter.radius + target.radius + attack.startGap;
   if (destination === target && distance(fighter, target) <= reach) {
     if (state.time >= fighter.nextAttack && fighter.stamina >= 12 && Math.abs(delta) < 0.65) {
       fighter.stamina -= 12; fighter.lastAttack = state.time;
-      fighter.pose = 'attack'; fighter.poseUntil = state.time + (fighter.weapon === 'club' ? 0.55 : fighter.weapon === 'bow' ? 0.45 : 0.3);
-      fighter.nextAttack = state.time + (fighter.weapon === 'club' ? 1.8 : fighter.weapon === 'bow' ? 1.6 : 1.15);
+      fighter.pose = 'attack'; fighter.poseUntil = state.time + attack.windup;
+      fighter.nextAttack = state.time + attack.cooldown;
     }
     return;
   }

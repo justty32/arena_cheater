@@ -14,6 +14,48 @@ function pair() {
 }
 
 describe('P3 equipment combat', () => {
+  it('starts and lands a spear attack from beyond sword reach with a faster cadence', () => {
+    const spear = pair(), sword = pair();
+    equip(spear.a, 'spear'); equip(sword.a, 'sword');
+    spear.a.nextAttack = sword.a.nextAttack = 0;
+    const distance = spear.a.radius + spear.b.radius + 0.9;
+    spear.b.x = sword.b.x = distance;
+    act(spear.state, spear.a, 1 / 30);
+    act(sword.state, sword.a, 1 / 30);
+    expect(spear.a.pose).toBe('attack');
+    expect(spear.b.hp).toBe(spear.b.maxHp);
+    expect(sword.a.pose).toBe('walk');
+
+    sword.b.x = sword.a.x + sword.a.radius + sword.b.radius + 0.3;
+    act(sword.state, sword.a, 1 / 30);
+    expect(sword.a.pose).toBe('attack');
+    expect(spear.a.poseUntil).toBeLessThan(sword.a.poseUntil);
+    expect(spear.a.nextAttack).toBeLessThan(sword.a.nextAttack);
+    expect(spear.a.maxStamina - spear.a.stamina).toBe(sword.a.maxStamina - sword.a.stamina);
+
+    spear.state.time = spear.a.poseUntil;
+    sword.state.time = sword.a.poseUntil;
+    act(spear.state, spear.a, 1 / 30);
+    act(sword.state, sword.a, 1 / 30);
+    expect(spear.b.hp).toBeLessThan(spear.b.maxHp);
+    expect(spear.b.maxHp - spear.b.hp).toBe(sword.b.maxHp - sword.b.hp);
+  });
+
+  it('misses when a spear target retreats during windup', () => {
+    const { state, a, b } = pair();
+    equip(a, 'spear');
+    a.nextAttack = 0;
+    b.x = a.radius + b.radius + 0.9;
+    act(state, a, 1 / 30);
+    expect(a.pose).toBe('attack');
+
+    b.x += 1;
+    state.time = a.poseUntil;
+    act(state, a, 1 / 30);
+    expect(b.hp).toBe(b.maxHp);
+    expect(a.pose).toBe('walk');
+  });
+
   it('fires three real arrows, preserves launch damage and returns to fists', () => {
     const { state, a, b } = pair(); b.x = 4;
     equip(a, 'bow'); a.buffs.push({ kind: 'fury', until: 8 });

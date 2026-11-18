@@ -1,4 +1,5 @@
 import type { Fighter, Weapon } from './model';
+import { FORESHORTENING } from './projection';
 import { riseProgress } from './animation';
 type Context = CanvasRenderingContext2D;
 interface Bone { x: number; y: number; angle?: number; paint?: (ctx: Context) => void; children?: Bone[] }
@@ -21,6 +22,13 @@ export function drawWeapon(ctx: Context, weapon: Weapon, draw = 0): void {
     ctx.strokeStyle = '#ffffe3'; ctx.beginPath(); ctx.moveTo(1, -22); ctx.lineTo(1, -2); ctx.stroke();
     ctx.strokeStyle = '#29262a'; ctx.fillStyle = '#bd9658'; ctx.fillRect(-7, 0, 15, 3); ctx.strokeRect(-7, 0, 15, 3);
     ctx.fillStyle = '#5f3f35'; ctx.fillRect(-1, 3, 4, 7);
+  } else if (weapon === 'spear') {
+    polygon(ctx, [-1.7, 17, -1.7, -25, 1.7, -25, 1.7, 17], '#b78c58');
+    polygon(ctx, [0, -42, 4.5, -30, 2, -24, -2, -24, -4.5, -30], '#d4e1dd');
+    ctx.fillStyle = '#809ca2';
+    ctx.beginPath(); ctx.moveTo(0, -40); ctx.lineTo(3.5, -30); ctx.lineTo(0, -25); ctx.fill();
+    ctx.fillStyle = '#ceac71'; ctx.fillRect(-2.5, -25, 5, 3);
+    ctx.fillStyle = '#66483e'; ctx.fillRect(-2, -4, 4, 9);
   } else if (weapon === 'club') {
     polygon(ctx, [-2, 8, -3, -8, -7, -17, -5, -25, 4, -26, 7, -19, 3, -8, 2, 8], '#93724b');
     ctx.strokeStyle = '#d0b683'; ctx.beginPath(); ctx.moveTo(-2, -21); ctx.lineTo(0, -8); ctx.stroke();
@@ -110,7 +118,16 @@ export function drawPuppet(ctx: Context, f: Fighter, time: number, scale: number
     const shieldX=defense?10:-17,shieldY=f.pose==='parry'?-16:defense?-10:0;
     left=arm(-12,f.shield?shieldX:-14+step*8,f.shield?shieldY:2,'fists');
     if(f.shield)left=arm(-12,shieldX,shieldY,'shield',f.pose==='parry'?-.5:0);
-    right=arm(12,14+strike*9-step*5,2-strike*12,f.weapon,-strike*.8);
+    if(f.weapon==='spear'){
+      const forwardX=Math.abs(Math.cos(f.facing)),forwardY=Math.sin(f.facing)*FORESHORTENING;
+      const attackDuration=f.poseUntil-f.lastAttack;
+      const extension=f.pose==='attack' && attackDuration>0
+        ? Math.min(1, Math.max(0, (time-f.lastAttack)/attackDuration))**2 : 0;
+      const angle=Math.atan2(forwardY,forwardX)+Math.PI/2-.18*(1-extension);
+      right=arm(12,17+forwardX*17*extension,-8+forwardY*15*extension,'spear',angle);
+    } else {
+      right=arm(12,14+strike*9-step*5,2-strike*12,f.weapon,-strike*.8);
+    }
   }
   const torsoPaint=(c:Context)=>{polygon(c,[-11,-24,10,-24,13,-7,8,1,-8,1,-13,-7],f.color);c.fillStyle='#3f3b45';c.fillRect(-10,-5,21,6);c.fillStyle='#c7a869';c.fillRect(-2,-5,5,5);polygon(c,[-11,-24,-4,-26,-6,-15,-13,-14],'#b6a78b');};
   const headBone:Bone={x:0,y:-26,angle:step*.04,paint:c=>head(c,f)};

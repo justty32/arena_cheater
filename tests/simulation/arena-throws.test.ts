@@ -16,6 +16,16 @@ describe('V2 thrown hits and fighter traits',()=>{
   expect(first.hp).toBe(hp-1);expect(second.hp).toBe(otherHp);expect(first.weapon).toBe('sword');expect(state.items).toEqual([]);
   advanceItems(state);expect(first.hp).toBe(hp-1);
  });
+ it('delivers a pickable spear across the arena for one stone and deals one impact damage',()=>{
+  const state=arena(),target=state.fighters[0];target.x=0;target.y=0;
+  state.hand=[{id:900,cardId:'spear'}];state.stones=[{id:901,color:'blue'}];
+  const hp=target.hp;
+  expect(playCard(state,900,{x:0,y:0},[901])).toBe(true);
+  expect(state.stones.some(stone=>stone.id===901)).toBe(false);
+  expect(target.weapon).toBe('fists');
+  state.time=state.items[0].landsAt;advanceItems(state);
+  expect(target.hp).toBe(hp-1);expect(target.weapon).toBe('spear');expect(state.items).toEqual([]);
+ });
  it('resolves an early body hit before a later item collision, and early item collision before body hits',()=>{
   for(const earlyBody of [true,false]){
    const state=arena(),target=state.fighters[0];state.fighters=[target];target.x=earlyBody?-.8:1;target.y=0;target.weapon='club';

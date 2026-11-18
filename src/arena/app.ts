@@ -13,7 +13,7 @@ import './hand.css';
 import './mobile.css';
 
 const poseLabels = { idle: '伺機而動', walk: '尋找對手', attack: '發起攻擊', hit: '受到攻擊', fallen: '倒地', airborne: '遭到擊飛', rising: '正在起身', block: '盾牌格擋', parry: '成功招架', dead: '已出局' };
-const weaponLabels = { fists: '徒手', sword: '直劍（單手）', club: '木棍（雙手）', shield: '圓盾（單手）', bow: '長弓（雙手）' };
+const weaponLabels = { fists: '徒手', sword: '直劍（單手）', spear: '長矛（單手）', club: '木棍（雙手）', shield: '圓盾（單手）', bow: '長弓（雙手）' };
 
 export function mountArena(root: HTMLElement): void {
   let round = 1;
@@ -98,7 +98,7 @@ export function mountArena(root: HTMLElement): void {
     start.textContent = { ready: '開始混戰', running: 'Ⅱ 暫停', paused: '▶ 繼續', finished: '直接再戰' }[state.status];
     el('[data-testid="arena-feedback"]').textContent = resolvingMessage || feedback;
     el('[data-card-prompt]').textContent = resolving ? resolvingTitle : exchanging ? '放棄一張牌，換一手魔法石' : activeCard ? `${activeCard.name} · ${activeCard.target === 'area' ? '點選範圍圓心' : activeCard.throwRange ? '點亮區投擲' : activeCard.target === 'fighter' ? '點選鬥士施法' : '點選場地投送'}` : '三張手牌，改寫勝負';
-    const deliveryDescription = activeCard && ['sword', 'club', 'bow'].includes(activeCard.id)
+    const deliveryDescription = activeCard && ['sword', 'spear', 'club', 'bow'].includes(activeCard.id)
       ? '投送途中可能傷到任何鬥士，包含你支持的鬥士；碰撞會使裝備提前落地，之後可能被其他鬥士拾取。'
       : activeCard?.id === 'shield' ? '投送途中命中鬥士會截停並落地，不造成投擲傷害；落地後可能被其他鬥士拾取。' : '';
     el('[data-selected-description]').textContent = activeCard ? `${activeCard.description}${activeCard.id === 'growth' ? '；需要受傷鬥士。' : ''}${deliveryDescription ? ` ${deliveryDescription}` : ''}` : resolvingMessage || '選牌後點擊鬥士施法，或點擊場地投送武器。';

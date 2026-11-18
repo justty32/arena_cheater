@@ -12,13 +12,15 @@ function flight(id: number, fromX: number, fromY: number, toX: number, toY: numb
 function emptyArena() { const state = createArena(42); state.fighters = []; return state; }
 
 describe('equipment slots and continuous delivery collisions', () => {
-  it('allows sword plus shield in either order and forbids two-handed conflicts in both directions', () => {
-    for (const first of ['sword', 'shield'] as const) {
-      const fighter = createArena().fighters[0];
-      equip(fighter, first); equip(fighter, first === 'sword' ? 'shield' : 'sword');
-      expect(fighter.weapon).toBe('sword'); expect(fighter.shield).toBe(true);
-      expect(canEquip(fighter, 'club')).toBe(false);
-      expect(canEquip(fighter, 'bow')).toBe(false);
+  it('allows a single-handed weapon plus shield in either order and forbids two-handed conflicts', () => {
+    for (const weapon of ['sword', 'spear'] as const) {
+      for (const order of [[weapon, 'shield'], ['shield', weapon]] as const) {
+        const fighter = createArena().fighters[0];
+        for (const equipment of order) equip(fighter, equipment);
+        expect(fighter.weapon).toBe(weapon); expect(fighter.shield).toBe(true);
+        expect(canEquip(fighter, 'club')).toBe(false);
+        expect(canEquip(fighter, 'bow')).toBe(false);
+      }
     }
     for (const weapon of ['club', 'bow'] as const) {
       const fighter = createArena().fighters[0];

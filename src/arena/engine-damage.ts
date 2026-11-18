@@ -25,7 +25,8 @@ export function syncStamina(fighter: Fighter, time: number): void {
   fighter.stamina = Math.min(fighter.stamina, fighter.maxStamina);
 }
 export function attackDamage(fighter: Fighter): number {
-  let damage = fighter.attack * (fighter.weapon === 'sword' ? 1.65 : fighter.weapon === 'club' ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);
+  const isSwordOrSpear = fighter.weapon === 'sword' || fighter.weapon === 'spear';
+  let damage = fighter.attack * (isSwordOrSpear ? 1.65 : fighter.weapon === 'club' ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);
   if (fighter.species === 'elephant' && fighter.weapon === 'club') damage *= 1.2;
   if (hasBuff(fighter, 'fury')) damage *= 1.65;
   if (hasBuff(fighter, 'weakness')) damage *= 0.55;

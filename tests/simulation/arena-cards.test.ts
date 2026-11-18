@@ -15,7 +15,8 @@ function cast(state:ArenaState):boolean {
 describe('V2 cards and stones',()=>{
  it('deals three cards and three stones from a reproducible finite deck',()=>{
   const a=createArena(42);expect(a).toEqual(createArena(42));expect(a.hand).toHaveLength(3);expect(a.stones).toHaveLength(3);
-  const all=[...a.hand.map(c=>c.cardId),...a.deck];for(const card of CARDS)expect(all.filter(id=>id===card.id)).toHaveLength(2);
+  const all=[...a.hand.map(c=>c.cardId),...a.deck];expect(all).toHaveLength(24);
+  for(const card of CARDS)expect(all.filter(id=>id===card.id)).toHaveLength(2);
  });
  it('requires exact distinct payment with the specified colors',()=>{
   const state=ready('bloodlust');const cost=CARDS.find(c=>c.id==='bloodlust')!.cost;

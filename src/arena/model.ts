@@ -1,7 +1,7 @@
 export type Species = 'wolf' | 'bear' | 'elephant' | 'bull' | 'porcupine' | 'snake' | 'deer';
-export type Weapon = 'fists' | 'sword' | 'club' | 'shield' | 'bow';
+export type Weapon = 'fists' | 'sword' | 'spear' | 'club' | 'shield' | 'bow';
 export type ThrownKind = Exclude<Weapon, 'fists'> | 'stone' | 'pot';
-export type CardId = 'sword' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath';
+export type CardId = 'sword' | 'spear' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath';
 export type StoneColor = 'yellow' | 'blue' | 'green' | 'black' | 'red';
 export interface MagicStone { id: number; color: StoneColor }
 export interface HandCard { id: number; cardId: CardId }
@@ -38,7 +38,8 @@ export const ARENA_RADIUS = 7.5;
 export const THROW_TARGET_RADIUS = ARENA_RADIUS - 0.2;
 export const THROW_ORIGIN = { x: 0, y: ARENA_RADIUS };
 export const THROW_PROFILES: Record<ThrownKind, { damage: number; disposable: boolean; bypassDefense: boolean }> = {
- sword: {damage:1,disposable:false,bypassDefense:false}, club: {damage:3,disposable:false,bypassDefense:false},
+ sword: {damage:1,disposable:false,bypassDefense:false}, spear: {damage:1,disposable:false,bypassDefense:false},
+ club: {damage:3,disposable:false,bypassDefense:false},
  bow: {damage:1,disposable:false,bypassDefense:false}, shield: {damage:0,disposable:false,bypassDefense:false},
  stone: {damage:1,disposable:true,bypassDefense:false}, pot: {damage:3,disposable:true,bypassDefense:true},
 };
@@ -60,6 +61,7 @@ export const CARDS: Card[] = [
  { id:'stone',name:'石頭',subtitle:'一次性投擲',description:'直線投擲，命中造成 1 點傷害；最遠 5 公尺',cost:{generic:1,colored:{}},target:'ground',throwRange:5,color:'#a6adb5',icon:'●' },
  { id:'pot',name:'陶罐',subtitle:'一次性投擲',description:'命中造成 3 點傷害，無視防禦；最遠 2 公尺',cost:{generic:2,colored:{}},target:'ground',throwRange:2,color:'#c58f67',icon:'▱' },
  { id:'sword',name:'直劍',subtitle:'投送裝備',description:'單手劍；落地後可被任何鬥士拾取',cost:{generic:2,colored:{}},target:'ground',color:'#b7c9d0',icon:'†' },
+ { id:'spear',name:'長矛',subtitle:'投送裝備',description:'單手長矛；比直劍出手更快、攻擊距離更遠',cost:{generic:1,colored:{}},target:'ground',color:'#b7c9d0',icon:'↑' },
  { id:'club',name:'木棍',subtitle:'投送裝備',description:'雙手重擊可擊飛，兩次有效命中後斷裂',cost:{generic:2,colored:{}},target:'ground',color:'#c59b72',icon:'╱' },
  { id:'shield',name:'圓盾',subtitle:'投送裝備',description:'單手盾；消耗體力格擋或短窗招架',cost:{generic:3,colored:{}},target:'ground',color:'#dfbc70',icon:'⛨' },
  { id:'bow',name:'長弓',subtitle:'雙手遠程',description:'雙手弓；附三支箭，射完後回到徒手',cost:{generic:1,colored:{}},target:'ground',color:'#9eb98c',icon:'⌒' },
