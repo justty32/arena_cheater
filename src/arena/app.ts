@@ -1,5 +1,5 @@
 import { advanceArena, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, paymentStatus, previewThrowContact, validateCardPlay, type CardTarget, playCard, redrawStones, REDRAW_COOLDOWN, toggleArena } from './engine';
-import { CARDS, THROW_PROFILES, isResolvingArena, isAreaSpellTarget, isThrowableTarget, areaSpellTargets } from './model';
+import { CARDS, THROW_PROFILES, hasPendingDungDamage, hasPendingDungTick, isResolvingArena, isAreaSpellTarget, isThrowableTarget, areaSpellTargets } from './model';
 import type { Card, Fighter, ThrownKind } from './model';
 import { ArenaView } from './view';
 import { createHandView } from './hand-view';
@@ -99,7 +99,9 @@ export function mountArena(root: HTMLElement): void {
     const resolvingTitle = state.status === 'paused' ? '結算暫停' : '結算中';
     const resolvingMessage = resolving ? state.status === 'paused'
       ? '結算已暫停；按「繼續」完成結算。本場不可再出牌或換石。'
-      : '正在結算在途投擲物與箭，本場不可再出牌或換石。' : '';
+      : hasPendingDungDamage(state)
+        ? '正在結算剩餘持續傷害，本場不可再出牌或換石。'
+        : '正在結算在途投擲物與箭，本場不可再出牌或換石。' : '';
     if (activeHandId !== undefined && !state.hand.some((hand) => hand.id === activeHandId)) clearSelection();
     const activeCard = currentCard();
     const pending = state.pendingDeliberation;
@@ -164,7 +166,7 @@ export function mountArena(root: HTMLElement): void {
     el('[data-testid="arena-card-detail"]').classList.toggle('is-empty', !activeCard);
     el('[data-payment-toggle-label]').textContent = finished || pending ? '查看剩餘魔法石' : exchanging ? '選擇要放棄的石頭' : '改選支付石';
     el('[data-payment-brief]').textContent = finished || pending ? '' : exchanging ? `已選 ${exchangeStones.size} 顆` : paymentCheck ? `${paymentCheck.selectedCount}/${paymentCheck.requiredCount} 顆 · ${paymentCheck.valid ? '已備妥' : '待調整'}` : '選牌後可改選';
-    const rangeText = throwCard?.throwRange ? `從下方投擲席投出，射程 ${throwCard.throwRange}m。只能投向亮區；沿途碰到鬥士或其他投擲物會提前落下。` : '';
+    const rangeText = throwCard?.throwRange ? `從下方投擲席投出，射程 ${throwCard.throwRange}m。只能投向亮區；沿途碰到鬥士或其他投擲物${delivery?.disposable ? '即消耗' : '會提前落下'}。` : '';
     const contactText = throwContact ? `依目前站位，先經過${throwContact.name}。` : '';
     const previewText = rangeText && contactText ? `${rangeText} ${contactText}` : rangeText || contactText;
     const aimed = String(Boolean(throwCard && throwAim));
@@ -228,7 +230,13 @@ export function mountArena(root: HTMLElement): void {
     el('[data-testid="arena-ammo"]').textContent = f.weapon === 'bow' ? String(f.ammo) : '—';
     el('[data-testid="arena-durability"]').textContent = f.weapon === 'club' ? String(f.durability) : '—';
     el('[data-detail-defense]').textContent = f.shield ? '正面格擋 · 短窗招架' : '無盾牌';
-    el('[data-detail-buffs]').textContent = f.buffs.map((b) => `${({ bloodlust: '殺紅眼', fury: '狂熱', haste: '興奮', weakness: '虛弱' }[b.kind])} ${Math.max(0, b.until - state.time).toFixed(1)}秒`).join(' · ') || '無附加狀態';
+    const statusEffects = f.hp > 0 ? f.buffs.map((b) => `${({ bloodlust: '殺紅眼', fury: '狂熱', haste: '興奮', weakness: '虛弱' }[b.kind])} ${Math.max(0, b.until - state.time).toFixed(1)}秒`) : [];
+    if (f.dungDamage && hasPendingDungTick(f)) {
+      statusEffects.push(`持續傷害（每秒 1 點） ${Math.max(0, f.dungDamage.until - state.time).toFixed(1)}秒`);
+    }
+    const statusText = statusEffects.join(' · ') || '無附加狀態';
+    const detailEffects = el('[data-detail-buffs]');
+    if (detailEffects.textContent !== statusText) detailEffects.textContent = statusText;
     const trait = el('[data-testid="arena-trait"]');
     const traitText = fighterTrait(f);
     trait.hidden = !traitText;

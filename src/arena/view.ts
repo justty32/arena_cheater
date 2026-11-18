@@ -89,7 +89,7 @@ export class ArenaView {
     for(const effect of state.effects){const age=state.time-effect.at;if(age<0||age>1.2)continue;
       const at=project(effect.x,effect.y,p);ctx.save();ctx.globalAlpha=Math.max(0,1-age/1.2);
       if(effect.kind==='spell'){ctx.strokeStyle=effect.color;ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(at.x,at.y,10+age*35,4+age*15,0,0,Math.PI*2);ctx.stroke();}
-      if(effect.kind==='impact'&&(effect.itemKind==='stone'||effect.itemKind==='pot')){ctx.save();ctx.translate(at.x,at.y);drawThrowImpact(ctx,effect.itemKind,age,p.scale/32);ctx.restore();}
+      if(effect.kind==='impact'&&(effect.itemKind==='stone'||effect.itemKind==='pot'||effect.itemKind==='dung')){ctx.save();ctx.translate(at.x,at.y);drawThrowImpact(ctx,effect.itemKind,age,p.scale/32);ctx.restore();}
       ctx.font=`bold ${Math.max(11,p.scale*.36)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#282127';
       ctx.strokeText(effect.text,at.x,at.y-p.scale*1.8-age*25);ctx.fillStyle=effect.color;ctx.fillText(effect.text,at.x,at.y-p.scale*1.8-age*25);ctx.restore();
     }
@@ -166,7 +166,7 @@ export class ArenaView {
     const lift=item.landed?0:Math.sin(progress*Math.PI)*p.scale*2.3;
     ellipse(ctx,at.x,at.y,10,4,'#15121a55');ctx.save();ctx.translate(at.x,at.y-lift);ctx.scale(p.scale/42,p.scale/42);
     if(item.landed){ctx.rotate(Math.PI/3);ctx.shadowColor='#efd587';ctx.shadowBlur=8;}else ctx.rotate(progress*Math.PI*3);
-    if(item.weapon==='stone'||item.weapon==='pot')drawThrowable(ctx,item.weapon);else drawWeapon(ctx,item.weapon);ctx.restore();
+    if(item.weapon==='stone'||item.weapon==='pot'||item.weapon==='dung')drawThrowable(ctx,item.weapon);else drawWeapon(ctx,item.weapon);ctx.restore();
   }
   private throwGuide(card: Card, aim?: {x:number;y:number}, throwContact?: Fighter): void {
     const ctx=this.ctx,p=this.projection,range=card.throwRange;

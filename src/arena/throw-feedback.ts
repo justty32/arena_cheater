@@ -22,7 +22,10 @@ export function createThrowFeedback(root: HTMLElement) {
       outcome = phase === 'paused' ? '暫停在途，續戰後繼續' : '飛行中';
     } else if (impact.reason === 'fighter') {
       phase = 'hit';
-      outcome = `命中${fighterName(impact.fighterId)}，${impact.damage > 0 ? `傷害 ${impact.damage}` : '未造成傷害'}`;
+      const damage = impact.damage > 0 ? `傷害 ${impact.damage}` : '未造成傷害';
+      const initial = result.itemKind === 'dung' ? '初撞' : '';
+      outcome = `命中${fighterName(impact.fighterId)}，${initial}${damage}`;
+      if (impact.dungApplied) outcome += '；施加虛弱與持續傷害';
     } else if (impact.reason === 'item') {
       phase = 'collision';
       outcome = disposable ? `互撞後${result.itemKind === 'pot' ? '碎裂' : '消耗'}，未命中鬥士` : '互撞落地，等待拾取';

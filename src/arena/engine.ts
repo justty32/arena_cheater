@@ -1,8 +1,8 @@
-import { ARENA_RADIUS, type ArenaState, type Fighter, type Species } from './model';
+import { ARENA_RADIUS, hasPendingDungDamage, type ArenaState, type Fighter, type Species } from './model';
 import { act, log, separateFighters } from './engine-combat';
 import { advanceItems } from './engine-items';
 import { advanceArrows } from './engine-arrows';
-import { advanceControl, syncStamina } from './engine-damage';
+import { advanceControl, advanceDungDamage, syncStamina } from './engine-damage';
 import { initializeCards } from './engine-cards';
 export { REDRAW_COOLDOWN, redrawStones, findPayment, canPayCost, paymentStatus, chooseDeliberation, keepDeliberationPaused, knownUpcomingCards, type PaymentStatus } from './engine-cards';
 export { playCard, validateCardPlay, previewThrowContact, type CardTarget, type CardPlayRejection, type CardPlayValidation } from './engine-items';
@@ -41,6 +41,7 @@ function step(state: ArenaState): void {
   state.time += STEP;
   advanceItems(state, STEP);
   advanceArrows(state, STEP);
+  advanceDungDamage(state);
   const mayAct = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
   for (const fighter of state.fighters) {
     if (mayAct) act(state, fighter, STEP);
@@ -53,7 +54,7 @@ function step(state: ArenaState): void {
   separateFighters(state);
   state.effects = state.effects.filter(effect => state.time - effect.at < 1.8);
   const alive = state.fighters.filter(fighter => fighter.hp > 0);
-  if ((alive.length <= 1 || state.time >= 180) && state.arrows.length === 0 && state.items.every(item => item.landed)) {
+  if ((alive.length <= 1 || state.time >= 180) && state.arrows.length === 0 && state.items.every(item => item.landed) && !hasPendingDungDamage(state)) {
     state.status = 'finished';
     state.winnerId = alive.length === 1 ? alive[0].id : undefined;
     log(state, alive.length === 1 ? `${alive[0].name} 贏得競技場！` : '本場平局');

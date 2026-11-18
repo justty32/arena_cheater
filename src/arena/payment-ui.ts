@@ -24,7 +24,7 @@ export function paymentReadout(state: ArenaState, card: Card, ids: readonly numb
 const rejectionText: Record<Exclude<CardPlayRejection, 'target-required'>, string> = {
   'not-started': '請先開始戰鬥，再施放卡牌。',
   finished: '這場戰鬥已結束，請開新一場。',
-  resolving: '正在結算在途投擲物與箭，本場不再接受出牌。',
+  resolving: '本場正在結算，不再接受出牌。',
   'deliberation-pending': '請先選完謹慎思考的候選牌。',
   'empty-deck': '目前沒有可抽的候選牌。',
   'card-missing': '這張牌已不在手中，請重新選牌。',

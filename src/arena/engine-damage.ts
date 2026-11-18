@@ -1,4 +1,4 @@
-import { ARENA_RADIUS, type ArenaState, type Fighter } from './model';
+import { ARENA_RADIUS, DUNG_TICK_EPSILON, type ArenaState, type Fighter } from './model';
 import { drawStones } from './engine-cards';
 
 export function log(state: ArenaState, message: string): void {
@@ -23,6 +23,42 @@ export function syncStamina(fighter: Fighter, time: number): void {
   fighter.buffs = fighter.buffs.filter(buff => buff.until > time);
   fighter.maxStamina = fighter.baseMaxStamina * (hasBuff(fighter, 'weakness') ? 0.6 : 1);
   fighter.stamina = Math.min(fighter.stamina, fighter.maxStamina);
+}
+const DUNG_DURATION = 5;
+const DUNG_TICK_INTERVAL = 1;
+const DUNG_TICK_DAMAGE = 1;
+
+export function applyDungStatus(state: ArenaState, target: Fighter): void {
+  const until = state.time + DUNG_DURATION;
+  const previous = target.dungDamage;
+  const nextTickAt = previous && state.time <= previous.until + DUNG_TICK_EPSILON
+    ? previous.nextTickAt : state.time + DUNG_TICK_INTERVAL;
+  target.dungDamage = { nextTickAt, until };
+
+  let weaknessUntil = until;
+  target.buffs = target.buffs.filter(buff => {
+    if (buff.kind !== 'weakness') return true;
+    weaknessUntil = Math.max(weaknessUntil, buff.until);
+    return false;
+  });
+  target.buffs.push({ kind: 'weakness', until: weaknessUntil });
+  syncStamina(target, state.time);
+}
+
+export function advanceDungDamage(state: ArenaState): void {
+  for (const target of state.fighters) {
+    const damage = target.dungDamage;
+    if (!damage || target.hp <= 0) continue;
+    while (target.hp > 0 && damage.nextTickAt <= Math.min(state.time, damage.until) + DUNG_TICK_EPSILON) {
+      damage.nextTickAt += DUNG_TICK_INTERVAL;
+      applyHealthDamage(state, target, DUNG_TICK_DAMAGE);
+      effect(state, target, `−${DUNG_TICK_DAMAGE}`, '#ad907a');
+    }
+    if (target.hp > 0 && damage.until - state.time <= DUNG_TICK_EPSILON) {
+      target.dungDamage = undefined;
+      syncStamina(target, Math.max(state.time, damage.until));
+    }
+  }
 }
 export function attackDamage(fighter: Fighter): number {
   const isSwordOrSpear = fighter.weapon === 'sword' || fighter.weapon === 'spear';
@@ -85,6 +121,7 @@ export function applyHealthDamage(state: ArenaState, target: Fighter, damage: nu
   target.hp = Math.max(0, target.hp - damage);
   if (target.hp === 0) {
     target.pose = 'dead'; target.poseUntil = Infinity; target.knockback = undefined;
+    target.dungDamage = undefined;
     log(state, `${target.name} 倒下了`);
     const killer = state.fighters.find(fighter => fighter.id === sourceFighterId && fighter.id !== target.id);
     if (killer && killer.hp > 0 && killer.species === 'wolf') {

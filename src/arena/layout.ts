@@ -62,7 +62,7 @@ export function drawCardArt(canvas: HTMLCanvasElement, card: Card): void {
   const line = (points: number[][]) => { ctx.beginPath(); points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.stroke(); };
   if (card.id === 'lightning-rain' || card.id === 'divine-wrath') {
     drawAreaCard(ctx, card.id);
-  } else if (card.id === 'stone' || card.id === 'pot') {
+  } else if (card.id === 'stone' || card.id === 'pot' || card.id === 'dung') {
     ctx.save(); ctx.scale(1.65, 1.65); drawThrowable(ctx, card.id); ctx.restore();
   } else if (card.id === 'sword') {
     ctx.rotate(0.55); ctx.beginPath(); ctx.moveTo(-5, 15); ctx.lineTo(-5, -20); ctx.lineTo(0, -32); ctx.lineTo(5, -20); ctx.lineTo(5, 15); ctx.closePath(); ctx.fill();

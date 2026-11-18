@@ -3,7 +3,7 @@ import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime, type Point } from './geometry';
 import { canPayCost, findPayment, consumeCard, drawCard, drawStones, beginDeliberation, revealUpcomingCards } from './engine-cards';
-import { applyHealthDamage, damageFighter } from './engine-damage';
+import { applyDungStatus, applyHealthDamage, damageFighter } from './engine-damage';
 
 function sweptThrowFighterTime(from: Point, to: Point, fighter: Fighter): number | undefined {
   return sweptCircleTime(from, to, fighter, fighter, fighter.radius + 0.11);
@@ -165,8 +165,13 @@ export function advanceItems(state: ArenaState, _dt?: number): void {
           effect(state,target,`−${profile.damage}`,'#f0a393');
         } else damageFighter(state,target,profile.damage,{x:item.fromX,y:item.fromY});
       }
-      log(state,`${CARDS.find(card=>card.id===item.weapon)?.name ?? '投送物'}命中${target.name}`);
-      landItem(state,item,contact.time,{reason:'fighter',fighterId:target.id,damage:healthBefore-target.hp});
+      const dungApplied = item.weapon === 'dung' && target.hp > 0;
+      if (dungApplied) applyDungStatus(state, target);
+      log(state,`${CARDS.find(card=>card.id===item.weapon)?.name ?? '投送物'}命中${target.name}${dungApplied ? '，造成虛弱與持傷' : ''}`);
+      landItem(state,item,contact.time,{
+        reason:'fighter', fighterId:target.id, damage:healthBefore-target.hp,
+        ...(dungApplied ? {dungApplied} : {}),
+      });
     }
   }
   for (const item of flying) {

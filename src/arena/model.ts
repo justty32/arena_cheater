@@ -1,7 +1,7 @@
 export type Species = 'wolf' | 'bear' | 'elephant' | 'bull' | 'porcupine' | 'snake' | 'deer';
 export type Weapon = 'fists' | 'sword' | 'spear' | 'hatchet' | 'club' | 'shield' | 'bow';
-export type ThrownKind = Exclude<Weapon, 'fists'> | 'stone' | 'pot';
-export type CardId = 'sword' | 'spear' | 'hatchet' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath' | 'deliberate' | 'intuition';
+export type ThrownKind = Exclude<Weapon, 'fists'> | 'stone' | 'pot' | 'dung';
+export type CardId = 'sword' | 'spear' | 'hatchet' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath' | 'deliberate' | 'intuition' | 'dung';
 export type StoneColor = 'yellow' | 'blue' | 'green' | 'black' | 'red';
 export interface MagicStone { id: number; color: StoneColor }
 export interface HandCard { id: number; cardId: CardId }
@@ -14,11 +14,12 @@ export interface Fighter {
  lastAttack: number; lastMoved: number; nextAttack: number; targetId?: string;
  ammo: number; durability: number; parryUntil: number; nextParry: number;
  knockback?: { fromX: number; fromY: number; toX: number; toY: number; start: number; until: number };
+ dungDamage?: { nextTickAt: number; until: number };
  buffs: { kind: 'fury' | 'haste' | 'weakness' | 'bloodlust'; until: number }[];
 }
 export interface ThrownItem { id: number; weapon: ThrownKind; x: number; y: number; fromX: number; fromY: number; toX: number; toY: number; launched: number; landsAt: number; landed: boolean }
 export type ThrowImpact = { at: number; x: number; y: number } & (
- { reason: 'fighter'; fighterId: string; damage: number } |
+ { reason: 'fighter'; fighterId: string; damage: number; dungApplied?: boolean } |
  { reason: 'item'; otherItemId: number } | { reason: 'ground' }
 );
 export interface ThrowFeedback {
@@ -49,6 +50,7 @@ export const THROW_PROFILES: Record<ThrownKind, { damage: number; disposable: bo
  hatchet: {damage:2,disposable:false,bypassDefense:false}, club: {damage:3,disposable:false,bypassDefense:false},
  bow: {damage:1,disposable:false,bypassDefense:false}, shield: {damage:0,disposable:false,bypassDefense:false},
  stone: {damage:1,disposable:true,bypassDefense:false}, pot: {damage:3,disposable:true,bypassDefense:true},
+ dung: {damage:1,disposable:true,bypassDefense:true},
 };
 export function isThrowableTarget(card: Card, target: {x:number;y:number}): boolean {
  return card.target === 'ground' && Number.isFinite(target.x) && Number.isFinite(target.y) &&
@@ -67,6 +69,7 @@ export const CARDS: Card[] = [
  { id:'divine-wrath',name:'神怒',subtitle:'範圍法術',description:'直徑 5 公尺內的鬥士受到 3 點傷害',cost:{generic:0,colored:{red:4}},target:'area',areaRadius:2.5,damage:3,color:'#e8b16a',icon:'✹' },
  { id:'stone',name:'石頭',subtitle:'一次性投擲',description:'直線投擲，命中造成 1 點傷害；最遠 5 公尺',cost:{generic:1,colored:{}},target:'ground',throwRange:5,color:'#a6adb5',icon:'●' },
  { id:'pot',name:'陶罐',subtitle:'一次性投擲',description:'命中造成 3 點傷害，無視防禦；最遠 2 公尺',cost:{generic:2,colored:{}},target:'ground',throwRange:2,color:'#c58f67',icon:'▱' },
+ { id:'dung',name:'屎',subtitle:'一次性投擲',description:'射程 5 公尺，命中造成 1 點傷害。存活者虛弱 5 秒，每秒再扣 1 點生命。再次命中刷新效果。',cost:{generic:0,colored:{black:1}},target:'ground',throwRange:5,color:'#ad907a',icon:'●' },
  { id:'sword',name:'直劍',subtitle:'投送裝備',description:'單手劍；落地後可被任何鬥士拾取',cost:{generic:2,colored:{}},target:'ground',color:'#b7c9d0',icon:'†' },
  { id:'spear',name:'長矛',subtitle:'投送裝備',description:'單手長矛；比直劍出手更快、攻擊距離更遠',cost:{generic:1,colored:{}},target:'ground',color:'#b7c9d0',icon:'↑' },
  { id:'hatchet',name:'短斧',subtitle:'投送裝備',description:'單手。近戰遇到普通格擋時先減傷再碎盾，成功招架或場邊投送則保留盾牌。',cost:{generic:2,colored:{yellow:1}},target:'ground',color:'#d8b573',icon:'⌙' },
@@ -79,6 +82,15 @@ export const CARDS: Card[] = [
  { id:'intuition',name:'直覺',subtitle:'藍色法術',description:'補牌後，看見接下來最多兩張牌',cost:{generic:0,colored:{blue:1}},target:'self',color:'#79a9ce',icon:'◈' },
  { id:'growth',name:'野性成長',subtitle:'綠色法術',description:'恢復 10 點生命，不超過生命上限',cost:{generic:2,colored:{green:1}},target:'fighter',color:'#86b18b',icon:'✚' },
 ];
+
+export const DUNG_TICK_EPSILON = 1e-9;
+export function hasPendingDungTick(fighter: Fighter): boolean {
+ const damage = fighter.dungDamage;
+ return fighter.hp > 0 && damage !== undefined && damage.nextTickAt <= damage.until + DUNG_TICK_EPSILON;
+}
+export function hasPendingDungDamage(state: ArenaState): boolean {
+ return state.fighters.some(hasPendingDungTick);
+}
 
 /** No new interventions once combat is only draining its last in-flight attacks. */
 export function isResolvingArena(state: ArenaState): boolean {
