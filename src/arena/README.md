@@ -5,21 +5,21 @@
 <!-- wf-nav -->
 | 入口 | 職責 |
 |------|------|
-| [model.ts](model.ts) | 鬥士、卡牌、裝備與對局型別、卡牌設定及範圍法術目標判定 |
+| [model.ts](model.ts) | 鬥士、卡牌、裝備、共用地面陷阱與定身截止狀態及對局型別、卡牌設定及範圍法術目標判定 |
 | [engine.ts](engine.ts) | seed 入場、固定步進、生命週期、資源與結算 |
-| [engine-combat.ts](engine-combat.ts) | 自動移動、面向、出招、體力、招架時機與角色分離 |
+| [engine-combat.ts](engine-combat.ts) | 自主移動與定身限制、面向、出招、體力、招架時機與角色分離 |
 | [engine-damage.ts](engine-damage.ts) | 傷害、防禦耗能、虛弱上限與擊飛／跌倒／起身 |
 | [engine-arrows.ts](engine-arrows.ts) | 三箭發射、直線掃掠命中、飛行到期 |
 | [engine-cards.ts](engine-cards.ts) | 牌堆與石頭抽取、實例付款與缺額狀態、出牌消耗及換石冷卻 |
 | [engine-items.ts](engine-items.ts) | 共用出牌驗證與拒絕原因、卡牌目標與效果、範圍法術、投送物碰撞排序、裝備拾取及最新投送結構化結果 |
-| [engine-traps.ts](engine-traps.ts) | 刺洞放置、武裝與到期、首位踩中判定及傷害結算 |
+| [engine-traps.ts](engine-traps.ts) | 刺洞／捕獸夾共用放置、武裝與到期、首位掃掠接觸判定、傷害及生還者定身 |
 | [equipment.ts](equipment.ts) | 單雙手與盾互斥、裝備初始化彈藥／耐久 |
 | [geometry.ts](geometry.ts) | 同時間段的移動圓碰撞掃掠 |
 | [projection.ts](projection.ts) | 45° 投影、逆投影與圓場範圍 |
 | [animation.ts](animation.ts) | 依遊戲時鐘取樣擊飛高度與起身進度 |
 | [puppet.ts](puppet.ts) | 階層骨骼、獸人部件與手部裝備繪製 |
 | [thrown-art.ts](thrown-art.ts) | 石頭、陶罐及投擲命中碎片繪製 |
-| [area-art.ts](area-art.ts) | 範圍法術卡面、投影預覽圈及依遊戲時鐘演出的雷紋 |
+| [area-art.ts](area-art.ts) | 範圍法術卡面、刺洞／捕獸夾圖形、投影預覽圈及依遊戲時鐘演出的雷紋 |
 | [label-layout.ts](label-layout.ts) | 畫面座標中的姓名與資源條避讓配置，不改角色碰撞或選取位置 |
 | [view.ts](view.ts) | Canvas 場地、八門、遮擋排序、角色標籤、箭矢／投送、特效及選取判定 |
 | [layout.ts](layout.ts) | 靜態 DOM 佈局、控制項、卡牌標記、費用文案與 Canvas 卡面 |
@@ -31,7 +31,7 @@
 | [app.ts](app.ts) | mountArena 入口、DOM 與介面模組組裝，依原順序綁定事件 |
 | [arena-session.ts](arena-session.ts) | 每次掛載的對局與介面共享狀態、模組接線型別 |
 | [arena-hud.ts](arena-hud.ts) | HUD、名單、付款／瞄準提示、戰報及結果呈現，呼叫 Canvas 與既有子視圖 |
-| [fighter-details.ts](fighter-details.ts) | 鬥士詳情、姿態／武器名稱、種族特性與狀態呈現 |
+| [fighter-details.ts](fighter-details.ts) | 鬥士詳情、姿態／武器名稱、種族特性與狀態（含定身倒數）呈現 |
 | [card-actions.ts](card-actions.ts) | 選牌、精確付款、自動選石、施放、換石、謹慎思考選牌與替補牌焦點 |
 | [arena-input.ts](arena-input.ts) | Canvas 點擊／觸控瞄準、卡牌拖曳／取消與快捷鍵 |
 | [arena-controls.ts](arena-controls.ts) | 開始／暫停、reset／retry 與手勢防護、倍速、名單與支持者操作 |

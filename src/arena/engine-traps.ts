@@ -1,19 +1,19 @@
 import { applyHealthDamage, effect, log } from './engine-damage';
 import { sweptCircleTime, type Point } from './geometry';
-import { SPIKE_PIT_RADIUS, type ArenaState, type Fighter } from './model';
+import { SPIKE_PIT_RADIUS, type ArenaState, type Fighter, type TrapKind } from './model';
 
 const ARM_SECONDS = 0.6;
 const ARMED_LIFETIME = 12;
-const DAMAGE = 3;
+const ROOT_SECONDS = 3;
 const CLOCK_EPSILON = 1e-9;
 
-export function placeSpikePit(state: ArenaState, point: Point): void {
+export function placeTrap(state: ArenaState, point: Point, kind: TrapKind): void {
   const armedAt = state.time + ARM_SECONDS;
-  state.traps.push({ id: state.nextId++, ...point, armedAt, expiresAt: armedAt + ARMED_LIFETIME });
-  log(state, '已布置刺洞');
+  state.traps.push({ id: state.nextId++, kind, ...point, armedAt, expiresAt: armedAt + ARMED_LIFETIME });
+  log(state, kind === 'bear-trap' ? '已布置捕獸夾' : '已布置刺洞');
 }
 
-export function spikePitMovementStart(state: ArenaState, startedAt: number): Map<Fighter, Point> | undefined {
+export function trapMovementStart(state: ArenaState, startedAt: number): Map<Fighter, Point> | undefined {
   if (!state.traps.some(trap => state.time + CLOCK_EPSILON >= trap.armedAt && startedAt + CLOCK_EPSILON < trap.expiresAt)) return undefined;
   const positions = new Map<Fighter, Point>();
   for (const fighter of state.fighters) {
@@ -22,7 +22,7 @@ export function spikePitMovementStart(state: ArenaState, startedAt: number): Map
   return positions;
 }
 
-export function advanceSpikePits(state: ArenaState, startedAt: number, positions: ReadonlyMap<Fighter, Point> | undefined): void {
+export function advanceTraps(state: ArenaState, startedAt: number, positions: ReadonlyMap<Fighter, Point> | undefined): void {
   const duration = state.time - startedAt;
   // The array stays in placement order, so multiple traps resolve by their IDs.
   state.traps = state.traps.filter(trap => {
@@ -57,9 +57,13 @@ export function advanceSpikePits(state: ArenaState, startedAt: number, positions
       }
     }
     if (!first) return !expired;
-    applyHealthDamage(state, first, DAMAGE);
-    effect(state, first, `刺洞 −${DAMAGE}`, '#b59980');
-    log(state, `${first.name}踩中刺洞，受到 ${DAMAGE} 點傷害`);
+    const rooted = trap.kind === 'bear-trap';
+    const damage = rooted ? 1 : 3;
+    const name = rooted ? '捕獸夾' : '刺洞';
+    applyHealthDamage(state, first, damage);
+    if (rooted && first.hp > 0) first.rootedUntil = state.time + ROOT_SECONDS;
+    effect(state, first, `${name} −${damage}${rooted && first.hp > 0 ? ' · 定身' : ''}`, rooted ? '#87c6bd' : '#b59980');
+    log(state, `${first.name}踩中${name}，受到 ${damage} 點傷害${rooted && first.hp > 0 ? '，定身 3 秒' : ''}`);
     return false;
   });
 }

@@ -1,7 +1,7 @@
 export type Species = 'wolf' | 'bear' | 'elephant' | 'bull' | 'porcupine' | 'snake' | 'deer';
 export type Weapon = 'fists' | 'sword' | 'spear' | 'hatchet' | 'club' | 'shield' | 'bow';
 export type ThrownKind = Exclude<Weapon, 'fists'> | 'stone' | 'pot' | 'dung';
-export type CardId = 'sword' | 'spear' | 'hatchet' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath' | 'deliberate' | 'intuition' | 'dung' | 'spike-pit';
+export type CardId = 'sword' | 'spear' | 'hatchet' | 'club' | 'shield' | 'bow' | 'lightning' | 'bloodlust' | 'growth' | 'stone' | 'pot' | 'lightning-rain' | 'divine-wrath' | 'deliberate' | 'intuition' | 'dung' | 'spike-pit' | 'bear-trap';
 export type StoneColor = 'yellow' | 'blue' | 'green' | 'black' | 'red';
 export interface MagicStone { id: number; color: StoneColor }
 export interface HandCard { id: number; cardId: CardId }
@@ -14,10 +14,12 @@ export interface Fighter {
  lastAttack: number; lastMoved: number; nextAttack: number; targetId?: string;
  ammo: number; durability: number; parryUntil: number; nextParry: number;
  knockback?: { fromX: number; fromY: number; toX: number; toY: number; start: number; until: number };
+ rootedUntil?: number;
  dungDamage?: { nextTickAt: number; until: number };
  buffs: { kind: 'fury' | 'haste' | 'weakness' | 'bloodlust'; until: number }[];
 }
-export interface SpikePit { id: number; x: number; y: number; armedAt: number; expiresAt: number }
+export type TrapKind = 'spike-pit' | 'bear-trap';
+export interface GroundTrap { kind: TrapKind; id: number; x: number; y: number; armedAt: number; expiresAt: number }
 export interface ThrownItem { id: number; weapon: ThrownKind; x: number; y: number; fromX: number; fromY: number; toX: number; toY: number; launched: number; landsAt: number; landed: boolean }
 export type ThrowImpact = { at: number; x: number; y: number } & (
  { reason: 'fighter'; fighterId: string; damage: number; dungApplied?: boolean } |
@@ -37,7 +39,7 @@ export interface ArenaState {
  seed: number; time: number; accumulator: number; status: 'ready' | 'running' | 'paused' | 'finished'; speed: number;
  pendingDeliberation?: DeliberationOffer;
  knownUpcomingCount: number;
- fighters: Fighter[]; latestThrow?: ThrowFeedback; items: ThrownItem[]; traps: SpikePit[]; arrows: Arrow[]; effects: ArenaEffect[]; logs: string[];
+ fighters: Fighter[]; latestThrow?: ThrowFeedback; items: ThrownItem[]; traps: GroundTrap[]; arrows: Arrow[]; effects: ArenaEffect[]; logs: string[];
  hand: HandCard[]; stones: MagicStone[]; randomState: number; deck: CardId[]; discard: CardId[]; redrawAvailableAt: number; supportedId: string; winnerId?: string; nextId: number;
  supportKillRewardStones: number;
 }
@@ -77,6 +79,7 @@ export const CARDS: Card[] = [
  { id:'pot',name:'陶罐',subtitle:'一次性投擲',description:'命中造成 3 點傷害，無視防禦；最遠 2 公尺',cost:{generic:2,colored:{}},target:'ground',throwRange:2,color:'#c58f67',icon:'▱' },
  { id:'dung',name:'屎',subtitle:'一次性投擲',description:'射程 5 公尺，命中造成 1 點傷害。存活者虛弱 5 秒，每秒再扣 1 點生命。再次命中刷新效果。',cost:{generic:0,colored:{black:1}},target:'ground',throwRange:5,color:'#ad907a',icon:'●' },
  { id:'spike-pit',name:'刺洞',subtitle:'地面陷阱',description:'放置 0.6 秒後生效。首位踩中的鬥士受到 3 點傷害，陷阱隨即消失，或於生效 12 秒後失效。',cost:{generic:2,colored:{}},target:'trap',color:'#b59980',icon:'⌄' },
+ { id:'bear-trap',name:'捕獸夾',subtitle:'地面陷阱',description:'放置 0.6 秒後生效，首位踩中的鬥士受到 1 點傷害並定身 3 秒，仍可攻擊與防禦。生效 12 秒後失效。',cost:{generic:2,colored:{}},target:'trap',color:'#87c6bd',icon:'⋈' },
  { id:'sword',name:'直劍',subtitle:'投送裝備',description:'單手劍；落地後可被任何鬥士拾取',cost:{generic:2,colored:{}},target:'ground',color:'#b7c9d0',icon:'†' },
  { id:'spear',name:'長矛',subtitle:'投送裝備',description:'單手長矛；比直劍出手更快、攻擊距離更遠',cost:{generic:1,colored:{}},target:'ground',color:'#b7c9d0',icon:'↑' },
  { id:'hatchet',name:'短斧',subtitle:'投送裝備',description:'單手。近戰遇到普通格擋時先減傷再碎盾，成功招架或場邊投送則保留盾牌。',cost:{generic:2,colored:{yellow:1}},target:'ground',color:'#d8b573',icon:'⌙' },

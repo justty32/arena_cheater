@@ -1,7 +1,7 @@
 import { ARENA_RADIUS, hasPendingDungDamage, type ArenaState, type Fighter, type Species } from './model';
 import { act, log, separateFighters } from './engine-combat';
 import { advanceItems } from './engine-items';
-import { advanceSpikePits, spikePitMovementStart } from './engine-traps';
+import { advanceTraps, trapMovementStart } from './engine-traps';
 import { advanceArrows } from './engine-arrows';
 import { advanceControl, advanceDungDamage, syncStamina } from './engine-damage';
 import { initializeCards } from './engine-cards';
@@ -45,7 +45,7 @@ function step(state: ArenaState): void {
   advanceArrows(state, STEP);
   advanceDungDamage(state);
   const mayAct = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
-  const trapMovement = mayAct && state.traps.length ? spikePitMovementStart(state, startedAt) : undefined;
+  const trapMovement = mayAct && state.traps.length ? trapMovementStart(state, startedAt) : undefined;
   for (const fighter of state.fighters) {
     if (mayAct) act(state, fighter, STEP);
     else {
@@ -55,7 +55,7 @@ function step(state: ArenaState): void {
     }
   }
   separateFighters(state);
-  if (mayAct && state.traps.length) advanceSpikePits(state, startedAt, trapMovement);
+  if (mayAct && state.traps.length) advanceTraps(state, startedAt, trapMovement);
   state.effects = state.effects.filter(effect => state.time - effect.at < 1.8);
   const alive = state.fighters.filter(fighter => fighter.hp > 0);
   if ((!mayAct || alive.length <= 1) && state.traps.length) state.traps = [];

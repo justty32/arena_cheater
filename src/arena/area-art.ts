@@ -46,6 +46,28 @@ export function drawSpikePit(ctx: Context, x: number, y: number, radius: number,
   ctx.restore();
 }
 
+/** Open steel jaws distinguish the snare from the pit's upright spikes. */
+export function drawBearTrap(ctx: Context, x: number, y: number, radius: number, armed: boolean): void {
+  ctx.save(); ctx.translate(x, y); ctx.scale(1, FORESHORTENING);
+  ctx.strokeStyle = armed ? '#a4e3d5' : '#63847f'; ctx.fillStyle = '#253d39';
+  ctx.lineWidth = Math.max(1.5, radius * .1);
+  if (!armed) ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.ellipse(0, 0, radius, radius * .8, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.setLineDash([]);
+  for (const side of [-1, 1]) {
+    ctx.beginPath(); ctx.moveTo(-radius * .75, side * radius * .5);
+    for (let i = 0; i < 5; i++) {
+      const x = radius * (-.6 + i * .3);
+      ctx.lineTo(x, side * radius * (armed ? .12 : .35));
+      ctx.lineTo(x + radius * .15, side * radius * .6);
+    }
+    ctx.stroke();
+  }
+  ctx.fillStyle = armed ? '#e7d799' : '#63847f';
+  ctx.fillRect(-radius * .2, -radius * .16, radius * .4, radius * .32);
+  ctx.restore();
+}
+
 export function drawTrapPreview(ctx: Context, p: Projection, point: {x:number;y:number}, legal: boolean): void {
   const at = project(point.x, point.y, p), radius = SPIKE_PIT_RADIUS * p.scale;
   ctx.save();

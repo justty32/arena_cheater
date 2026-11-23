@@ -1,5 +1,5 @@
 import { drawWeapon } from './puppet';
-import { drawAreaCard, drawSpikePit } from './area-art';
+import { drawAreaCard, drawSpikePit, drawBearTrap } from './area-art';
 import { drawThrowable } from './thrown-art';
 import type { Card, Fighter, StoneColor, StoneCost } from './model';
 
@@ -60,7 +60,9 @@ export function drawCardArt(canvas: HTMLCanvasElement, card: Card): void {
   ctx.beginPath(); ctx.arc(0, 0, 38, -0.3, 2.5); ctx.stroke();
   ctx.strokeStyle = card.color; ctx.fillStyle = card.color; ctx.lineWidth = 3; ctx.lineCap = 'round';
   const line = (points: number[][]) => { ctx.beginPath(); points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.stroke(); };
-  if (card.id === 'spike-pit') {
+  if (card.id === 'bear-trap') {
+    drawBearTrap(ctx, 0, 3, 32, true);
+  } else if (card.id === 'spike-pit') {
     drawSpikePit(ctx, 0, 3, 32, true);
   } else if (card.id === 'lightning-rain' || card.id === 'divine-wrath') {
     drawAreaCard(ctx, card.id);

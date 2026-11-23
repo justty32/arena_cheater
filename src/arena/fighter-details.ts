@@ -31,6 +31,9 @@ export function createFighterDetails(el: <T extends HTMLElement = HTMLElement>(s
     if (f.dungDamage && hasPendingDungTick(f)) {
       statusEffects.push(`持續傷害（每秒 1 點） ${Math.max(0, f.dungDamage.until - getState().time).toFixed(1)}秒`);
     }
+    if (f.hp > 0 && f.rootedUntil !== undefined && getState().time < f.rootedUntil) {
+      statusEffects.push(`定身（仍可攻防） ${(f.rootedUntil - getState().time).toFixed(1)}秒`);
+    }
     const statusText = statusEffects.join(' · ') || '無附加狀態';
     const detailEffects = el('[data-detail-buffs]');
     if (detailEffects.textContent !== statusText) detailEffects.textContent = statusText;

@@ -80,7 +80,8 @@ export function act(state: ArenaState, fighter: Fighter, dt: number): void {
     }
     return;
   }
-  if (fighter.stamina < 12) return;
+  // Rooting blocks only voluntary translation, not attacks, turning or recovery above.
+  if (fighter.stamina < 12 || (fighter.rootedUntil !== undefined && state.time < fighter.rootedUntil)) return;
   const speed = fighter.speed * (hasBuff(fighter, 'haste') ? 1.65 : 1);
   const step = Math.min(speed * dt, Math.hypot(dx, dy));
   fighter.x += Math.cos(angle) * step; fighter.y += Math.sin(angle) * step;

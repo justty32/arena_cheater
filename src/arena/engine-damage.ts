@@ -121,7 +121,7 @@ export function applyHealthDamage(state: ArenaState, target: Fighter, damage: nu
   target.hp = Math.max(0, target.hp - damage);
   if (target.hp === 0) {
     target.pose = 'dead'; target.poseUntil = Infinity; target.knockback = undefined;
-    target.dungDamage = undefined;
+    target.dungDamage = undefined; target.rootedUntil = undefined;
     log(state, `${target.name} 倒下了`);
     const killer = state.fighters.find(fighter => fighter.id === sourceFighterId && fighter.id !== target.id);
     if (killer && killer.hp > 0 && killer.species === 'wolf') {

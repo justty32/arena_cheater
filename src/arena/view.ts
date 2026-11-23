@@ -1,6 +1,6 @@
 import { ARENA_RADIUS, THROW_ORIGIN, THROW_TARGET_RADIUS, SPIKE_PIT_RADIUS, isTrapTarget, isThrowableTarget, isAreaSpellTarget, areaSpellTargets, type ArenaState, type Card, type Fighter } from './model';
 import { LabelLayout } from './label-layout';
-import { drawAreaEffect, drawAreaPreview, drawSpikePit, drawTrapPreview } from './area-art';
+import { drawAreaEffect, drawAreaPreview, drawSpikePit, drawBearTrap, drawTrapPreview } from './area-art';
 import { drawPuppet, drawWeapon } from './puppet';
 import { drawThrowable, drawThrowImpact } from './thrown-art';
 import { airborneHeight, riseProgress } from './animation';
@@ -68,7 +68,7 @@ export class ArenaView {
     for(const trap of state.traps){
       if(state.time>=trap.expiresAt)continue;
       const at=project(trap.x,trap.y,p);
-      drawSpikePit(ctx,at.x,at.y,SPIKE_PIT_RADIUS*p.scale,state.time>=trap.armedAt);
+      (trap.kind==='bear-trap'?drawBearTrap:drawSpikePit)(ctx,at.x,at.y,SPIKE_PIT_RADIUS*p.scale,state.time>=trap.armedAt);
     }
     if(targetMode==='trap'&&targetCard&&aim)drawTrapPreview(ctx,p,aim,isTrapTarget(targetCard,aim));
     if(targetMode==='ground'){
@@ -107,6 +107,13 @@ export class ArenaView {
     const ctx=this.ctx,at=this.visualPosition(f,state.time),s=this.actorScale(f);
     ctx.save();ctx.translate(at.x,at.y);drawPuppet(ctx,f,state.time,s);ctx.restore();
     if(f.hp<=0)return;
+    if(f.rootedUntil!==undefined&&state.time<f.rootedUntil){
+      ctx.save();ctx.strokeStyle='#a4e3d5';ctx.lineWidth=2;
+      ctx.beginPath();ctx.ellipse(at.x,at.y+3*s,18*s,7*s,0,0,Math.PI*2);ctx.stroke();
+      ctx.font=`bold ${Math.max(10,11*s)}px system-ui`;ctx.textAlign='center';
+      ctx.strokeStyle='#182d29';ctx.lineWidth=3;ctx.strokeText('定身',at.x,at.y+30*s);
+      ctx.fillStyle='#a4e3d5';ctx.fillText('定身',at.x,at.y+30*s);ctx.restore();
+    }
     ctx.font=`${Math.max(9,10*s)}px system-ui`;ctx.textAlign='center';
     if(f.buffs.some(b=>b.kind==='fury')){
       ctx.fillStyle='#f7d498';ctx.strokeStyle='#382419';ctx.lineWidth=3;ctx.font=`bold ${Math.max(10,11*s)}px system-ui`;

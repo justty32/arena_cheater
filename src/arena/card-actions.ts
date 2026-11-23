@@ -50,7 +50,7 @@ export function createCardActions(context: Pick<ArenaContext, 'session' | 'el' |
     const affected = card.target === 'area' ? areaSpellTargets(session.state.fighters, card, { x: target.x!, y: target.y! }) : [];
     if (playCard(session.state, session.activeHandId, target, payment)) {
       if (card.target === 'trap') {
-        session.feedback = '刺洞已布置，0.6 遊戲秒後生效。已補兩顆魔法石與一張牌。';
+        session.feedback = `${card.name}已布置，0.6 遊戲秒後生效。已補兩顆魔法石與一張牌。`;
         clearSelection();
         return;
       }
