@@ -38,6 +38,7 @@
 ```
 
 - 小修正照 [WORKFLOWS](../WORKFLOWS.md) 的「可以跳流程」，可以省掉 design。
+- 只改 `wf/` 文件的批次（沒碰 `src/`、`tests/`、設定檔）不經 review 和 qa，由 main 直接交 integration 提交，信裡註明「文件批次，免 review/qa」。
 - review 或 qa 回 FAILED 時，由 main 轉回 dev。
 - 部門之間的請求和回報都用 aos 信件。照 aos 的規矩，接了請求，最後一定要回 DONE、BLOCKED、NEEDS-USER 或 FAILED 其中一種。
 - **部門之間的協調機制邊用邊做**：這是 2026-11-23 使用者定的。訊息交流、留言板、公告欄，以及部門之間交換資產，例如好用的工具、手冊，現在都還沒有固定做法。開始工作以後，用到了再長出來。長出來的機制寫在這份 README，或者另外開一個子資料夾。
@@ -57,7 +58,7 @@
 
 **只放要長期保留的東西**：`wf/org/` 會進 git，暫存的東西一律放 `/tmp/aos/arena_cheater/<部門>/`。電腦重開機或例行清理都可能把它清掉，所以要留下來的結果必須搬回 `wf/`。
 
-**進行中的狀態不放這裡**：進度記 SESSION-LOG，等使用者的事記 WAIT_USER，部門之間用信件，照 [STRUCTURE](../STRUCTURE.md) 的原則 4。
+**進行中的狀態不放這裡**：進度記 SESSION-LOG，等使用者的事記 WAIT_USER，部門之間用信件，照 [STRUCTURE](../STRUCTURE.md) 的原則 4。SESSION-LOG 和 WAIT_USER 只有 main 能寫；其他部門的進度和待決事項，寫在信裡寄給 main。
 
 **部門資料夾照四級成長**：照 [STRUCTURE](../STRUCTURE.md) 的成長軌跡，部門一開始只有角色卡。有了長期產出才建 `assets/`，`assets/` 撐大了才分子資料夾。條列資料超過 1 KB，就照鐵律 3 存成資料檔。
 
