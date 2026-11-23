@@ -19,7 +19,7 @@
 
 - **可以寫**：`wf/org/review/`。
 - **唯讀**：其他所有地方。審 diff 用 `git diff`，這是唯讀的 git 指令。
-- **資產庫**：還沒建立。之後同一類問題出現第二次，就收進 `assets/review-checklist.md`。清單只列要檢查的項目，再連到 conventions，不重抄慣例的內容。
+- **資產庫**：[審查清單](assets/review-checklist.md)。同一類問題出現第二次，就收進清單；只列檢查項目並連到依據，不重抄慣例的內容。
 - **暫存**：`/tmp/aos/arena_cheater/review/`
 
 ## 交接

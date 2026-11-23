@@ -1,0 +1,70 @@
+{
+ "contract": "wf-table/1",
+ "source": "../pending-defaults.md",
+ "extracted": "2026-11-23",
+ "link_columns": [
+  "source_path"
+ ],
+ "columns": [
+  "id",
+  "topic",
+  "requirement_ids",
+  "confirmation",
+  "blocking",
+  "question",
+  "recommendation",
+  "source_path",
+  "evidence",
+  "scope"
+ ],
+ "rows": [
+  {
+   "id": "PD01",
+   "topic": "棄牌換石補牌與節奏",
+   "requirement_ids": "V201",
+   "confirmation": "未確認",
+   "blocking": "不阻擋捕獸夾",
+   "question": "是否維持現行最少換石條件、棄牌後補牌與遊戲時間冷卻？",
+   "recommendation": "先維持現行行為，待資源節奏專項試玩後集中確認，不在捕獸夾批次改動。",
+   "source_path": "../specs/cheating-arena-v2.md#本輪可調實作預設",
+   "evidence": "V2 規格標為原文未定；本次捕獸夾授權不包含重新確認 V201。",
+   "scope": "只索引補足規則；原文棄 N 石得 N+1 石不是待確認預設。"
+  },
+  {
+   "id": "PD02",
+   "topic": "抽石分布與起手保底",
+   "requirement_ids": "C02",
+   "confirmation": "未確認",
+   "blocking": "不阻擋捕獸夾",
+   "question": "是否維持現行色石分布及不設起手可支付保底？",
+   "recommendation": "維持現況；先收集自然抽牌試玩，不從定向測試推定資源節奏良好。",
+   "source_path": "../specs/cheating-arena-v2.md#本輪可調實作預設",
+   "evidence": "V2 規格明示機率與支付語意不是原文明定；尚未在本次核對的授權中找到確認。",
+   "scope": "只含分布及保底；數字費用支付語意本批未盤點。"
+  },
+  {
+   "id": "PD03",
+   "topic": "牌庫重複數與回收",
+   "requirement_ids": "C13",
+   "confirmation": "未確認",
+   "blocking": "不阻擋捕獸夾",
+   "question": "是否維持現行各卡重複數與抽乾洗棄牌規則？",
+   "recommendation": "先維持；新增卡片沿既有模式，不以此推定整體牌庫已獲永久確認。",
+   "source_path": "../specs/cheating-arena-v2.md#待釐清與驗收",
+   "evidence": "V2 規格將牌庫組成、重複數及抽乾方式列可調預設；捕獸夾新增兩張已個別授權。",
+   "scope": "整體牌庫原則；不儲存現行總張數，以免新增卡片後過時。"
+  },
+  {
+   "id": "PD04",
+   "topic": "捕獸夾切片補足規則",
+   "requirement_ids": "T01／C03／C05／C12",
+   "confirmation": "已同意",
+   "blocking": "無待裁示阻礙",
+   "question": "無；不可把本項再次當成待拍板問題。",
+   "recommendation": "依已授權 spec 實作，只有新衝突或超出範圍才再請 main 協調。",
+   "source_path": "../specs/bear-trap.md",
+   "evidence": "2026-11-23 main 轉達使用者「A，預設照design的就好」；原請求信 01795415200461286128.1071878.2318232。",
+   "scope": "費用、兩張入庫、沿用刺洞布置與觸發、定身只封自主移動、被動位移、刷新與生命週期及呈現；逐項見 spec。不涵蓋其他候選。"
+  }
+ ]
+}

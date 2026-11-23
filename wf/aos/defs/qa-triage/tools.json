@@ -1,0 +1,4 @@
+{"tools": {
+  "read": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/read"}},
+  "glob": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/glob"}},
+  "grep": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/grep"}}}}

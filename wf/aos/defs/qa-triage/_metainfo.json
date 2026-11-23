@@ -1,0 +1,9 @@
+{
+  "summary": "arena_cheater qa-triage: read-only E2E failure analysis subagent of qa (agent-fsm)",
+  "cost": {
+    "time_ms": 30000
+  },
+  "resource": [
+    "llm"
+  ]
+}

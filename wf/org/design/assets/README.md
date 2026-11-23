@@ -20,6 +20,7 @@
 | [分期開發計畫](plans/cheating-arena.md) | 已落地切片、目前階段、剩餘範圍與驗收 |
 | [捕獸夾規格](specs/bear-trap.md) | T01 原文、已同意的可調預設與定身驗收 |
 | [捕獸夾計畫](plans/bear-trap.md) | 開發步驟、核心案例、qa 與試玩交接 |
+| [可調預設索引](pending-defaults.md) | 首批資源循環預設與捕獸夾授權範圍，供 main 彙整 |
 | [需求原文](../../../../docs/design-sources/cheating-arena-2026-11-11.txt) | 使用者提供的逐字文字，僅正規化換行 |
 
 需求／內容清單已抽到 [cheating-arena-requirements.json](data/cheating-arena-requirements.json)（內容已依 V2 增補，T01 已接續 V3 與本輪授權；其餘 V3 差異未全面遷入，列數以資料檔為準）；不在 Markdown 留表格副本。
