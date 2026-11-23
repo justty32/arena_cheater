@@ -1,5 +1,5 @@
 {
-  "description": "Root daemon: owns the clock and the sweeper; agents join through procs_requests",
+  "description": "Sub-daemon: hangs under another daemon; no clock row (it follows the root's AOS_CLOCK), only its own sweeper; agents join through procs_requests",
   "procs_requests": "procs_requests",
   "procs": {
     "_sweeper": {

@@ -1,41 +1,51 @@
-# daemon-root：根 daemon 定義（只帶時鐘與清道夫，agent 之後再掛）
+# daemon：本專案的子 daemon 定義（掛在根 daemon 底下，不帶時鐘，只帶清道夫）
 
-抄自 aos 範本 `$AOS_HOME/templates/daemon-root`；本專案的分工見 [org](../../../org/README.md)。
+照 aos 範本 `$AOS_HOME/templates/daemon-sub` 的做法（原本抄自 `daemon-root`，2026-11-23 改成子 daemon 的說法）；本專案的分工見 [org](../../../org/README.md)。
 
-給「一個定義資料夾本身就是根入口」的用法：起它＝起一台根 daemon，表上只有 `_clock`（每秒寫 `$AOS_STACK/clock`，`.env` 把 `AOS_CLOCK` 指過去，子項照繼承聽這個鐘）與 `_sweeper`（每 10 分鐘清這台自己的 stderr 封存、寫 `sweeper_report.json`）；agent 不寫進 `daemon.json`，由 `aos-agent ctl add` 經 `procs_requests` 掛上、記在 stack 的表裡。
+本專案的掛法：上層＝根 daemon `~/aos-home/.stack`，表上名字 `mine_arena`，ws＝專案資料夾 `/mnt/c/code/mine/arena_cheater`，stack 用預設的 `~/aos-home/.stack/procs/mine_arena/`；底下的部門 agent 見 [aos](../../README.md)。
+
+給「在一台已經在跑的 daemon 底下再開一台 daemon」的用法：它是上層表上的一列，起它＝起一台子 daemon，表上只有 `_sweeper`（每 10 分鐘清這台自己的 stderr 封存、寫 `sweeper_report.json`）；agent 不寫進 `daemon.json`，由 `aos-agent ctl add` 經 `procs_requests` 掛上、記在它自己 stack 的表裡。要起的是一整棵樹最上面那台（沒有上層）就用 `daemon-root`，不是這份。
+
+除了 `daemon.json` 少了 `_clock` 那列、`.env` 只留 `AOS_HOME`、`_entry` 與 `daemon.json` 的說明句、這份 README，其餘跟 `daemon-root` 一樣。
 
 | 檔 | 做什麼 |
 |---|---|
-| `_entry` | `aos-daemon --enable-logs daemon.json`（狀態變化印到 stdout） |
-| `daemon.json` | `procs_requests` 信箱＋`_clock`、`_sweeper` 兩列，沒有身體 |
-| `.env` | 預設值（殼裡已有同名的就不蓋，起之前 `unset` 舊的）：`AOS_CLOCK=${AOS_STACK}/clock`；`AOS_LLM_KERNEL=${AOS_WS}/../llms/stacks/llm`（專案旁邊的 llms 專案，`--stack stacks/llm` 起的；擺法不同就在殼裡 export 蓋過去，或改這行）；最後一行 `AOS_HOME=${AOS_HOME}`＝必填檢查，沒設就在起根當下報 `DotenvBad … .env line N`（上面那行註解換成 `AOS_HOME=…` 就不用 export） |
+| `_entry` | `aos-daemon --enable-logs daemon.json`（狀態變化印到 stdout；掛在上層底下時子項的 stdout 接 `/dev/null`，所以看不到，要看狀態用 `ls`；跟 `daemon-root` 同一行，只有說明句不同） |
+| `daemon.json` | `procs_requests` 信箱＋`_sweeper` 一列，沒有鐘列、沒有身體 |
+| `.env` | 只有最後一行 `AOS_HOME=${AOS_HOME}`＝必填檢查（上層傳下來的有值就過）；`AOS_CLOCK`、`AOS_LLM_KERNEL` 故意不寫，由上層傳下來 |
+
+## 為什麼不帶鐘列、`.env` 只留 `AOS_HOME`
+
+- **鐘只在根**：根的 `_clock` 每秒寫根 stack 裡的 `clock`，根的 `.env` 把 `AOS_CLOCK` 指過去；子 daemon 是根的子項，照繼承拿到同一個 `AOS_CLOCK`，再傳給自己底下每一隻，整棵樹聽同一個鐘。子 daemon 自己再帶 `_clock`，只會多寫一份自己 stack 裡的 `clock`，底下的 agent 照樣聽根的（上層傳下來的 `AOS_CLOCK` 贏過 `.env`），那份沒人讀。
+- **`AOS_LLM_KERNEL` 也從上層來**：`daemon-root` 那行 `AOS_LLM_KERNEL=${AOS_WS}/../llms/stacks/llm` 是給根用的擺法；放在子 daemon 裡，上層有傳就被蓋掉、沒傳就指到一個多半不存在的地方，留著只會讓人誤會。想讓這台底下用別的 llm kernel：上層沒傳時在這份 `.env` 加一行就好；上層有傳，`.env` 蓋不過它。
+- 有特殊需求（這台底下要聽另一個鐘）才自己加 `_clock` 列與 `AOS_CLOCK`（aos repo 的 `proto8/docs/CONVENTION.md`「時鐘」那條）。
 
 ## 用法
 
-下面的 `defs`、`stacks/root`、`ann` **只是例子**：定義與 stack 可以叫別的名字、可以分散在 `defs_1`、`defs_2`、可以放在別的外部資料夾，也不必在同一層或同一個 repo——一切由 `aos-exec` 的參數與你給的路徑決定，範本與程式都不假設這些名字。
+下面的 `<上層 stack>`、`<名>`、`<子定義>`、`<ws>` **只是佔位**：定義放哪、叫什麼名字都可以，範本與程式都不假設。
 
 ```sh
-cd <你的專案>
-export AOS_HOME=<這台 proto8 的絕對路徑>                  # 或寫進 defs/.env，就不用 export
-cp -r $AOS_HOME/templates/daemon-root defs                 # 根定義
-cp -r $AOS_HOME/templates/agent-fsm defs/ann               # 一隻 agent 的定義
-mkdir -p stacks && cp $AOS_HOME/py/aos/apps/agent/stack.gitignore stacks/.gitignore   # stack 進 git 時擋掉不該帶的
-# llms 不在專案旁邊（../llms/stacks/llm）時：export AOS_LLM_KERNEL=<llm kernel 專案的 stack>
-unset AOS_CLOCK AOS_DAEMON AOS_STACK   # 起根前一定清掉：殼裡留著 AOS_DAEMON，根會以為自己是那台的下屬（.env 清不掉，外層贏）
-aos-exec --stack stacks/root defs                          # 前景起根；stacks/、stacks/root 不在會自己建
+cp -r $AOS_HOME/templates/daemon-sub <子定義>              # 例 ~/aos-home/guanyu
+aos-daemon-ctl -d <上層 stack> add --auto-restart -n <名> -w <ws> <子定義>
+aos-daemon-ctl -d <上層 stack> ls                          # <名> 是 running
+aos-daemon-ctl -d <上層 stack>/procs/<名> ls               # 只有 _sweeper
 ```
 
-另一個殼掛 agent（`-w .`＝工作區是專案資料夾；表上存相對路徑，整包搬走照樣對）：
+- **上層 stack**：要掛在哪台 daemon 底下，就給那台的 stack（根的就是起根時 `aos-exec --stack` 給的那個）。
+- **stack**：不給 `-s` 就是預設的 `<上層 stack>/procs/<名>/`，跟上層的 stack 一起搬、一起睡醒，通常照預設。要放別處才給 `-s <路徑>`。
+- **ws**：這台子 daemon 的工作區，一般是它負責的那個專案資料夾；之後掛在它底下的 agent 不給 `-w` 就用這個。不給 `-w` 就跟上層 daemon 同一個。
+- **路徑寫法**：絕對路徑原樣記在表上；相對路徑從下指令的地方算、記成相對上層 stack 的，整棵搬走照樣對。
+- `--auto-restart`：子 daemon 是常駐的，退了上層就重起它。
+
+底下掛 agent（`-d` 給子 daemon 的 stack，不是上層的）：
 
 ```sh
-aos-agent -d stacks/root ctl add --auto-restart -w . defs/ann
-aos-daemon-ctl -d stacks/root ls        # _clock、_sweeper、ann 都是 running
+aos-agent -d <上層 stack>/procs/<名> ctl add --auto-restart -n <agent 名> -w <agent 的 ws> $AOS_HOME/templates/eca-claude
+aos-daemon-ctl -d <上層 stack>/procs/<名> ls               # _sweeper、<agent 名> 都是 running
 ```
 
-子項的 stack 預設在 `stacks/root/procs/<名>/`（例 `stacks/root/procs/ann/`）。
+子項的 stack 在 `<上層 stack>/procs/<名>/procs/<agent 名>/`。
 
-- **llm kernel** 是另外一個專案、自己起停（`cp -r $AOS_HOME/templates/kernel/llm-kernel <那邊的定義>` 抄一份，再 `aos-exec --stack <那邊的 stack> <那邊的定義>`）；`AOS_LLM_KERNEL` 指它的 stack，`.env` 預設是 `${AOS_WS}/../llms/stacks/llm`。它沒開時 agent 只是一直等、不會壞。現在 `aos-agent listen`／`say` 會印一行說 llm kernel 沒在跑。
-- **下班**：`aos-daemon-ctl -d stacks/root shutdown`（子項全睡下、記在表上），再 `git` 推。
-- **換台**：`git` 拉過去、照上面設好環境變數後直接 `aos-exec --stack stacks/root defs`，睡下的 `ann` 自己醒、接著跑，不用其他指令。
-- **指到 proto8 的路徑**：範本一律寫成 `{"$env": "AOS_HOME", "$path": …}`，每台設一次 `AOS_HOME=<這台 proto8 的絕對路徑>`即可；也可在 `defs/.env` 寫 `AOS_HOME=/絕對路徑`（兩台同位置）或 `AOS_HOME=${AOS_WS}/../aos/proto8`（兩台同樣相對擺法），換台都不用跑額外指令。本範本自己沒有指進 repo 的路徑。
-- 子 daemon（領班、llm daemon）不帶鐘列，只帶自己的 `_sweeper`；鐘只在根。
+- **停**：`aos-daemon-ctl -d <上層 stack> stop <名>`（上層那列留 `stopped`、不會被 `--auto-restart` 拉起來；底下子項全睡下、記在子 daemon 的表上），回來用 `aos-daemon-ctl -d <上層 stack> start <名>`，睡下的子項自己醒。不要對子 daemon 自己下 `shutdown`：它退了，`--auto-restart` 會馬上再起它。整棵收掉照舊是對根 `shutdown`，子 daemon 跟著睡下、下次起根一起醒。
+- **拿掉**：`aos-daemon-ctl -d <上層 stack> rm <名>`（stack 留著，之後 `add` 同一個名字接著用）。
+- **起之前**：上層要有 `AOS_HOME`（這份 `.env` 最後一行檢查它）；`AOS_CLOCK`、`AOS_LLM_KERNEL` 看上層有沒有給，子 daemon 只是原樣往下傳。
