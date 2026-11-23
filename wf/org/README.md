@@ -38,7 +38,7 @@
 ```
 
 - 小修正照 [WORKFLOWS](../WORKFLOWS.md) 的「可以跳流程」，可以省掉 design。
-- 只改 `wf/` 文件的批次（沒碰 `src/`、`tests/`、設定檔）不經 review 和 qa，由 main 直接交 integration 提交，信裡註明「文件批次，免 review/qa」。
+- 只改文件的批次不經 review 和 qa。文件包括 `wf/`、`docs/`、根目錄的 README 和 PROJECT，以及 design 資產庫的資料檔；整批不能碰 `src/`、`tests/`、設定檔，也不能碰可執行的工具。這種批次由 main 直接交 integration 提交，信裡註明「文件批次，免 review/qa」。
 - review 或 qa 回 FAILED 時，由 main 轉回 dev。
 - **aos 工具批次**：改到 `wf/aos/tools/`、`wf/aos/bin/` 這類 aos 工具或腳本時，要 review 通過，加上作者的實跑證據，才交給 integration，不需要經過 qa。
 - **固定流程用工具，要判斷才用 agent**：步驟固定、結果用機器就能判讀的事，例如跑 E2E、跑 test 加 build，做成 aos 工具直接呼叫，不要另外開 agent 去做。只有需要判斷的工作才開下屬，例如分析失敗的原因、寫新的測試案例。這條是 2026-11-23 使用者點出來的。
