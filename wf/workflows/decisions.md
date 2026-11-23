@@ -15,6 +15,8 @@
 
 | 日期 | 決定 | 來源（使用者原文或誰定的）| 前提（變了就重看）|
 |------|------|-------------------------|-----------------|
+| 2026-11-23 | 部門開下屬時，權限限制只要求做到防失誤，不追求硬隔離。做法是用專用的最小定義，加上工具層的限制。部門自己判斷要不要開下屬，下屬只做需要判斷的工作。 | 使用者：「只要能做到防失誤就好。就是說，做遊戲這塊，現在的AI基本都還挺熟，不至於鬧出風險。可以放心」 | 只在遊戲開發這個領域成立；aos 本身只承諾防失誤（見 [aos-permissions](../notes/investigations/aos-permissions.md)）。如果要接觸外部服務、帳號或機密，就重新評估 |
+| 2026-11-23 | Node 工作一次只跑一件，限制的是工作數，不是程序數。test、build、E2E 都要走 `arena_verify` 和 `arena_e2e`：先拿 flock，再進 systemd scope 跑，上限是 4G 記憶體、400% CPU、256 個 task。 | 使用者：「一次只能開一個npm」「應該說nodejs」「工作數沒錯，最主要是怕cpu/mem被吃爆」「可以，就照這個數字加進去」 | 在這台 8 核、15 GB 的機器上，systemd user scope 可以用 |
 | 2026-11-23 | 用 aos 多 agent 協作。分工寫在 [org](../org/README.md)：main（eca，負責協調）加上 design、dev、qa、review、integration 五個部門，部門 agent 都用 agent-fsm。規格搬進 design 資產庫。 | 使用者：「只有你這個窗口是eca」「design我建議用astra」「策畫的規格可以搬進design/assets，因為workflows這邊會慢慢退化，只留下aos形狀」「誰負責aos提交...再開一個職位吧」「可以這樣分，開發這塊先一個」 | 熱點檔 `app.ts`、`arena.spec.ts` 拆完後，再看要不要把開發拆成兩個；試玩同一時間只能一個 agent |
 | 2026-10-29 | 先做 8×8 即時戰鬥原型；能量制與倍速 | 使用者原文見 [PROJECT](../../PROJECT.md) | 職業、數值、作弊及 D&D 借用範圍仍可調整 |
 | 2026-10-29 | 工作流採 kernel＋dev、集中於 wf/ | 使用者要求「非侵入式引入」；agent 依程式專案選 dev | 目前使用 kernel＋dev，不需要其他 flavor |

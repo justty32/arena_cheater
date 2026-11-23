@@ -31,6 +31,18 @@
   - qa 已經把 `tests/e2e/arena.spec.ts` 拆成五個 spec 檔，再加一個 helper，每個檔都在 300 行以內，E2E 20 案全綠，拆前拆後的名稱一致。wf 這邊的導覽已經同步，包括 dev 角色卡和 testing.md。review 已經通過，交給 integration 提交。
   - 待辦：arena_e2e 比對基準時，案例識別碼裡帶著檔名，拆檔之後就對不上。之後讓 qa 加一個「忽略檔名」的比對選項。
   - 沒提交的檔：`wf/org/letters.md`，補了故障矩陣和「階段交界讀信」，跟下一批一起交。
+- [org] 使用者 2026-11-23 定了兩條，已經寫進 decisions、org README 和 integration 角色卡，也發了公告：
+  - 下屬只要做到防失誤就可以開，部門自己判斷要不要開；
+  - 規則沒寫到、風險又低的事，先照判斷做，回信時附上理由。
+
+  design 那批已經在 f793c87 提交，main 的規則檔已經交給 integration 提交。
+- [org] 使用者 2026-11-23 交代：「底下的subagent在空閒的時候可以自己規劃說，可能有一些常用操作可以變成工具這樣。或是可以把職責拆分，弄成subagent掛在自己底下。」規矩寫在 org README 的「空閒時改進自己」。第一次已經派給四個空閒的部門：
+  - qa：arena_e2e 加上忽略檔名，或規劃 qa-triage 定義；
+  - review：建 review-checklist；
+  - design：做原文 diff 工具，或整理 pending-defaults；
+  - integration：等它交完這批再做。
+
+  → 各部門回報以後，工具要先經 review，才能寫進定義。
 - [org] main 等信時不用輪詢：aos 通知中心會在 main 閒著時送 new_mail 把它叫醒。wait-mail 腳本因此刪掉了，review 審它時也挑出參數和錯誤處理的問題，沒有修的價值。使用者也建議 main 開小助手，等有適合做判斷的協調工作再開。
 - [org] 給 eca-aos 的素材：dev 和 qa 的定義保留了 self_tools，所以它們可以自己替自己加工具，連 agents_ctl 也加得上。這說明「不給 agents_ctl」只是軟限制。計畫全文在 main 的信箱封存 `mailbox/archive/01795409944274550793.529656.1792613/`，大意：分成 session、hud、fighter-details、card-actions、input、controls、loop 七個模組，一次搬一塊，每塊跑 npm test 和 build，最後交 qa 跑 E2E、review 審 diff。
 - [org] 使用者 2026-11-23 交代：「這一輪結束之後，讓dev/qa總結一下他們的經驗與感想，然後跟我報告，我們來看看還可以怎麼改進組織」→ app.ts 拆檔這一輪提交完成以後，寄 REQUEST 給 dev 和 qa 寫回顧，寫完由 main 整理，向使用者報告改進建議。
