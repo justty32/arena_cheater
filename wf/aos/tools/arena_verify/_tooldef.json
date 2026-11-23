@@ -1,0 +1,32 @@
+{
+  "description": "持有共享 Node flock，依序跑 npm test／npm run build，回傳退出碼、耗時與 log 摘要。不執行 E2E。驗證失敗仍回 JSON，請讀 ok。",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "log_dir": {
+        "type": "string",
+        "description": "log 存放目錄；每次建立獨立子目錄，避免覆寫。",
+        "default": "/tmp/aos/arena_cheater/dev/verify/"
+      },
+      "step": {
+        "type": "string",
+        "description": "all、test 或 build；all 即使 test 失敗仍執行 build。",
+        "default": "all"
+      },
+      "timeout_s": {
+        "type": "integer",
+        "description": "每一步執行秒數上限，1 至 300。",
+        "default": 300
+      },
+      "lock_timeout_s": {
+        "type": "integer",
+        "description": "等待 Node 鎖的秒數上限，1 至 180。",
+        "default": 120
+      }
+    }
+  },
+  "errors": [
+    "ArgumentsBad",
+    "RunFailed"
+  ]
+}

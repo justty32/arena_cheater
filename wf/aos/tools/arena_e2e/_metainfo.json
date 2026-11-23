@@ -1,0 +1,14 @@
+{
+  "summary": "Run serialized arena E2E with JSON artifacts in the qa temporary area",
+  "resource": "cpu",
+  "side_effect": true,
+  "idempotent": true,
+  "deterministic": false,
+  "interrupt": "safe",
+  "parallel": true,
+  "arbitrary_exec": false,
+  "cost": {
+    "time_ms": 100
+  },
+  "timeout_ms": 900000
+}

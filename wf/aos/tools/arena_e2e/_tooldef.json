@@ -1,0 +1,27 @@
+{
+  "description": "Run serialized arena E2E with JSON artifacts in the qa temporary area.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "source": {
+        "type": "string",
+        "description": "Git commit identifier, or workspace for the fixed project workspace.",
+        "default": "64a7e87"
+      },
+      "baseline": {
+        "type": "string",
+        "description": "Optional prior result.json within the qa temporary area.",
+        "default": ""
+      },
+      "preflight_only": {
+        "type": "boolean",
+        "description": "Check environment without starting Node or creating a snapshot.",
+        "default": false
+      }
+    }
+  },
+  "errors": [
+    "ArgumentsBad",
+    "RunFailed"
+  ]
+}

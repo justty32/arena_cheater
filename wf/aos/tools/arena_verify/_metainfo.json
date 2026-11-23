@@ -1,0 +1,14 @@
+{
+  "summary": "持有共享 Node flock，依序跑 npm test／npm run build，回傳退出碼、耗時與 log 摘要。不執行 E2E。驗證失敗仍回 JSON，請讀 ok。",
+  "resource": "cpu",
+  "side_effect": true,
+  "idempotent": true,
+  "deterministic": false,
+  "interrupt": "safe",
+  "parallel": true,
+  "arbitrary_exec": false,
+  "cost": {
+    "time_ms": 100
+  },
+  "timeout_ms": 900000
+}
