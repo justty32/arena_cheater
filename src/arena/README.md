@@ -28,7 +28,14 @@
 | [mobile-panels.ts](mobile-panels.ts) | 窄屏原生 details 展開狀態、跨尺寸保留與 aria-expanded 同步 |
 | [throw-feedback.ts](throw-feedback.ts) | 最新投送的飛行、實際命中傷害、互撞及拾取摘要；不解析戰報 |
 | [payment-ui.ts](payment-ui.ts) | 核心付款缺額與拒絕原因的介面文字 |
-| [app.ts](app.ts) | 介面狀態、選牌／精確選石付款／施放／換石／拖曳、結算重開手勢防護、控制與幀更新 |
+| [app.ts](app.ts) | mountArena 入口、DOM 與介面模組組裝，依原順序綁定事件 |
+| [arena-session.ts](arena-session.ts) | 每次掛載的對局與介面共享狀態、模組接線型別 |
+| [arena-hud.ts](arena-hud.ts) | HUD、名單、付款／瞄準提示、戰報及結果呈現，呼叫 Canvas 與既有子視圖 |
+| [fighter-details.ts](fighter-details.ts) | 鬥士詳情、姿態／武器名稱、種族特性與狀態呈現 |
+| [card-actions.ts](card-actions.ts) | 選牌、精確付款、自動選石、施放、換石、謹慎思考選牌與替補牌焦點 |
+| [arena-input.ts](arena-input.ts) | Canvas 點擊／觸控瞄準、卡牌拖曳／取消與快捷鍵 |
+| [arena-controls.ts](arena-controls.ts) | 開始／暫停、reset／retry 與手勢防護、倍速、名單與支持者操作 |
+| [arena-loop.ts](arena-loop.ts) | 幀更新與時間上限、背景頁暫停、Canvas resize／DPR 更新 |
 | [arena.css](arena.css) | 新競技場頁面樣式入口 |
 | [mobile.css](mobile.css) | 窄屏布局、三卡與五色摘要及可展開區塊樣式 |
 | [hand.css](hand.css) | 手牌、石盤、換石及桌面／手機佈局樣式 |

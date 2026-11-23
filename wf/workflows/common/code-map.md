@@ -11,7 +11,7 @@
 <!-- wf-nav -->
 | 領域 | 檔案 | 職責 | 測試在哪 |
 |------|------|------|---------|
-| 入口與新圓場 | [main.ts](../../../src/main.ts)、[arena 導航](../../../src/arena/README.md) | 模式載入；圓場戰鬥、範圍法術、弓箭與投擲碰撞、傷害防禦、裝備槽、牌堆與精確選石付款、共用出牌驗證、支持者狀態、Canvas 演出與窄屏介面 | [核心測試](../../../tests/simulation/README.md)、[瀏覽器測試](../../../tests/e2e/README.md) |
+| 入口與新圓場 | [main.ts](../../../src/main.ts)、[arena 導航](../../../src/arena/README.md) | 模式載入；圓場介面入口與 session／HUD／卡牌操作／輸入／控制／幀更新分工；圓場戰鬥、範圍法術、弓箭與投擲碰撞、傷害防禦、裝備槽、牌堆與精確選石付款、共用出牌驗證、支持者狀態、Canvas 演出與窄屏介面 | [核心測試](../../../tests/simulation/README.md)、[瀏覽器測試](../../../tests/e2e/README.md) |
 | 狀態與規則 | [model.ts](../../../src/game/model.ts)、[rules.ts](../../../src/game/rules.ts) | 型別、編隊、數值、seed、事件 | [核心測試](../../../tests/simulation/README.md) |
 | 戰鬥模擬 | [engine.ts](../../../src/game/engine.ts)、[combat.ts](../../../src/game/combat.ts)、[attacks.ts](../../../src/game/attacks.ts)、[pathfinding.ts](../../../src/game/pathfinding.ts) | 生命週期、步進、作弊、出招、投射物／傷害、尋路及視線 | [核心測試](../../../tests/simulation/README.md) |
 | 經典介面與演出 | [classic.ts](../../../src/classic.ts)、[介面導航](../../../src/ui/README.md) | 舊棋盤輸入、幀更新、佈局、狀態、圖示及樣式 | [瀏覽器測試](../../../tests/e2e/README.md) |
@@ -19,7 +19,7 @@
 | 網站部署 | [pages.yml](../../../.github/workflows/pages.yml) | main 驗證、靜態產物與 GitHub Pages 發布 | [GitHub Pages](../dev-env.md#github-pages) |
 | 工作流工具 | [tools/](../../tools/) | 文件檢查與資料檔操作；非遊戲引擎 | 來源工具原樣導入 |
 
-表中的 `src/game/` 狀態與戰鬥模組屬經典模式。新圓場內部分工見 arena 導航；經典樣式載入順序見介面導航。測試分類見 [測試導航](../../../tests/README.md)。網頁入口為根目錄 `index.html`，型別設定為 `tsconfig.json`。
+表中的 `src/game/` 狀態與戰鬥模組屬經典模式。新圓場的 `app.ts` 僅組裝介面；共享狀態與接線型別在 `arena-session.ts`，呈現在 `arena-hud.ts`／`fighter-details.ts`，卡牌操作在 `card-actions.ts`，輸入在 `arena-input.ts`，對局控制在 `arena-controls.ts`，幀與頁面生命週期在 `arena-loop.ts`；各檔入口見 [arena 導航](../../../src/arena/README.md)。經典樣式載入順序見介面導航。測試分類見 [測試導航](../../../tests/README.md)。網頁入口為根目錄 `index.html`，型別設定為 `tsconfig.json`。
 
 ## 真相層優先序
 
