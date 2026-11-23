@@ -52,6 +52,6 @@ npm run test:e2e
 - [戰鬥原型](docs/combat-prototype.md)：目前玩法、試玩數值與邏輯／畫面邊界。
 - [AGENTS.md](AGENTS.md)：AI agent 入口。
 - [wf/INDEX.md](wf/INDEX.md)：專案與工作流導航。
-- [規劃入口](wf/workflows/planning/README.md)：需求原文、玩法與視覺規格、分期計畫。
+- [規劃入口](wf/org/design/assets/README.md)：需求原文、玩法與視覺規格、分期計畫。
 
 工作流採 kernel＋dev，收在 `wf/`；來源與適配記錄見 [導入說明](wf/import.md)。Repository：[justty32/arena_cheater](https://github.com/justty32/arena_cheater)。

@@ -64,7 +64,7 @@ Repository 的 Settings → Pages → Source 使用 **GitHub Actions**。重跑�
 
 ## 工作流工具
 
-`wf/tools/` 的 shell 工具使用 Bash，資料與文件工具使用 Python 3。選用的工作流檢查為 `bash wf/tools/wf-lint.sh --strict .`，僅在使用者要求時執行；遊戲驗證命令集中在 [testing](testing.md)。
+`wf/tools/` 的 shell 工具使用 Bash，資料與文件工具使用 Python 3。遊戲驗證命令集中在 [testing](testing.md)。
 
 ## Done when
 

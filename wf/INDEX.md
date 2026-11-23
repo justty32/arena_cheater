@@ -12,7 +12,6 @@
 | [AGENTS.md](../AGENTS.md) | Agent 薄入口 |
 | [CLAUDE.md](../CLAUDE.md) | Claude Code 轉址 |
 | `.gitattributes`／`.gitignore` | LF 換行設定與本機環境／工具快取排除 |
-| `.claude/commands/` | 根目錄的 Claude Code 指令適配層 |
 | `wf/tools/` | 自帶工作流檢查與資料檔工具；不屬於遊戲程式 |
 
 ## 工作流入口
@@ -26,5 +25,7 @@
 | [SESSION-LOG.md](SESSION-LOG.md) | 只列進行中工作 |
 | [WAIT_USER.md](WAIT_USER.md) | 只列必須由使用者處理的阻礙 |
 | [import.md](import.md) | 導入來源、版本與適配範圍 |
+| [org/README.md](org/README.md) | 多 agent 分工、部門角色卡與部門資產庫 |
+| [aos/README.md](aos/README.md) | aos 執行設定（daemon、各部門 agent 定義） |
 
 遊戲原始碼在 `src/`，核心與瀏覽器測試在 `tests/`；檔案職責見 [code map](workflows/common/code-map.md)，啟動見 [dev-env](workflows/dev-env.md)，驗證見 [testing](workflows/testing.md)。

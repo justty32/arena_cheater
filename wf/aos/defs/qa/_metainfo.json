@@ -1,0 +1,9 @@
+{
+  "summary": "arena_cheater qa (測試) department agent (agent-fsm)",
+  "cost": {
+    "time_ms": 30000
+  },
+  "resource": [
+    "llm"
+  ]
+}

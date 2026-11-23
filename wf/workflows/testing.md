@@ -9,12 +9,14 @@
 
 | 變更範圍 | 驗證 | 誰跑 |
 |----------|------|------|
-| 遊戲邏輯 | `npm test` | agent |
-| TypeScript、介面或建置設定 | `npm run build`（含型別檢查） | agent |
-| 介面互動、動畫或戰鬥整合 | `npm run test:e2e` | agent |
-| 文件 | 相對連結、導航與已確認／提案／實作狀態核對 | agent |
+| 遊戲邏輯 | `npm test` | [dev](../org/dev/README.md) |
+| TypeScript、介面或建置設定 | `npm run build`（含型別檢查） | [dev](../org/dev/README.md) |
+| 介面互動、動畫或戰鬥整合 | `npm run test:e2e` | [qa](../org/qa/README.md)（獨佔） |
+| 文件 | 相對連結、導航與已確認／提案／實作狀態核對 | 寫文件的部門 |
 
-首次安裝與 Chromium 環境見 [dev-env](dev-env.md)。Vitest 只載入 `tests/**/*.test.ts`，瀏覽器案例由 Playwright 另行執行。選用工作流 lint 為 `bash wf/tools/wf-lint.sh --strict .`，使用者要求時才跑。
+試玩、啟動 dev server 和 Playwright，同一時間只能有一個 agent 在跑，所以一律交給 qa，詳見 [org](../org/README.md)。
+
+首次安裝與 Chromium 環境見 [dev-env](dev-env.md)。Vitest 只載入 `tests/**/*.test.ts`，瀏覽器案例由 Playwright 另行執行。
 
 ## 驗證範圍
 

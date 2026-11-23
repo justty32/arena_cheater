@@ -36,6 +36,7 @@
 | 「記個想法」「以後要做」「排進 roadmap」「幫我規劃」 | **planning** | [workflows/planning.md](workflows/planning.md) |
 | 「記個決定」「為什麼選 A 不選 B」 | **decisions** | [workflows/decisions.md](workflows/decisions.md) |
 | 「我的偏好是…」「以後直接做 / 先問」 | **user** | [workflows/common/user.md](workflows/common/user.md) |
+| 「這歸誰做」「開新部門 / agent」「分工怎麼排」 | **org** | [org/README.md](org/README.md) |
 
 **都不符 → 看 [INDEX.md](INDEX.md)**。新開工作流 → 複製 [workflows/TEMPLATE.workflow.md](workflows/TEMPLATE.workflow.md) 並在上表加一列。要定期喚醒合 heartbeat 包、多 agent 協作合 multi-agent 包（都在模板 repo 的 `flavors/`）。
 

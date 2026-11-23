@@ -1,0 +1,9 @@
+{
+  "summary": "arena_cheater dev (開發) department agent (agent-fsm)",
+  "cost": {
+    "time_ms": 30000
+  },
+  "resource": [
+    "llm"
+  ]
+}

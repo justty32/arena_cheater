@@ -1,0 +1,9 @@
+{
+  "summary": "arena_cheater design (策劃) department agent (agent-fsm)",
+  "cost": {
+    "time_ms": 30000
+  },
+  "resource": [
+    "llm"
+  ]
+}
