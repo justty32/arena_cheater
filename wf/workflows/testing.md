@@ -24,7 +24,7 @@
 
 經典模式保留戰鬥生命週期、藥劑及投射物回歸：雙方與四方結算、合法格位與資源範圍、seed 重現、倍速等價、暫停、技能耗能與作弊。無效作弊不得扣資源，有效作弊應改變目標生命、耐力與影響力。投射物案例檢查延遲傷害、暫停續飛、死目標不重複命中，以及雙方最後投射物造成平局。
 
-瀏覽器測試位於 `tests/e2e/`：`arena.spec.ts` 從預設首頁操作新圓場卡牌、控制、資源、投送、代表性裝備拾取、射程投擲接線與窄畫面。`battle.spec.ts`、`effects.spec.ts` 從 `?prototype=classic` 驗證舊棋盤開局、暫停、倍速、重置、模式切換、藥劑，以及投射物暫停／續飛、命中資訊與降低動態效果。共用時計與瀏覽器錯誤觀察放在 `helpers.ts`；產物位於忽略版控的 `test-results/` 或 `playwright-report/`。Canvas 美術、骨骼姿態及紙娃娃辨識度另以畫面檢視確認，不能只靠 DOM 測試宣稱視覺通過。
+瀏覽器測試位於 `tests/e2e/`：`arena*.spec.ts` 從預設首頁操作新圓場卡牌、控制、資源、投送、代表性裝備拾取、射程投擲接線與窄畫面，依主題拆成 `arena`、`arena-delivery`、`arena-spells`、`arena-results`、`arena-mobile` 五檔，共用 setup 在 `arena-helpers.ts`；分檔內容見 `tests/e2e/README.md`。`battle.spec.ts`、`effects.spec.ts` 從 `?prototype=classic` 驗證舊棋盤開局、暫停、倍速、重置、模式切換、藥劑，以及投射物暫停／續飛、命中資訊與降低動態效果。共用時計與瀏覽器錯誤觀察放在 `helpers.ts`；產物位於忽略版控的 `test-results/` 或 `playwright-report/`。Canvas 美術、骨骼姿態及紙娃娃辨識度另以畫面檢視確認，不能只靠 DOM 測試宣稱視覺通過。
 
 文件檢查應略過程式碼圍籬中的示範連結及封存內容。既有文件工具可用於核對錨點與大清單，不以未執行的完整 lint 作通過宣稱。
 

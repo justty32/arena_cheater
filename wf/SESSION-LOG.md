@@ -24,7 +24,13 @@
   - 拿掉工具，只在工具入口層擋住了，不是 OS 擋的。
   - read 讀得到 ws 以外的檔案。
   - 下屬設了 mem_mb=2048、files=512，結果 Rolldown 報 EAGAIN，server 也 abort，E2E 一個案例都沒跑起來。我推測 rlimit 這種逐行程限制不適合 Node 工具鏈，cgroup 的 MemoryMax 才合適，但這點還沒驗證。
-- [org] 第二輪結束了。兩支工具在 749cdc2 提交，文件在 14902e0 提交；兩支工具也已經寫進 dev 和 qa 的定義，路徑寫的是絕對路徑。三份回顧放在 [org-retro-2](notes/investigations/org-retro-2/README.md)，整理好的結果和六個問題已經寄給 eca-aos，也給了使用者一份摘要。→ 等 eca-aos 回信，以及使用者和它討論的結果。
+- [org] 第二輪結束了。兩支工具在 749cdc2 提交，文件在 14902e0 提交；兩支工具也已經寫進 dev 和 qa 的定義，路徑寫的是絕對路徑。三份回顧放在 [org-retro-2](notes/investigations/org-retro-2/README.md)，整理好的結果和六個問題已經寄給 eca-aos，也給了使用者一份摘要。回顧已在 7db8a27 提交。eca-aos 回了 PROGRESS：它先查六題裡的事實部分，包括 Rolldown EAGAIN 對應的是哪個 rlimit；要不要改 aos 這類方向問題，等使用者和它談過再回。→ 等它寄來只講事實的那封信。
+- [game] 使用者 2026-11-23 交代：「繼續推進遊戲，你也可以在推進的過程中持續改進組織架構」。
+  - 使用者選了 A 捕獸夾，原話是「A，預設照design的就好」。候選清單在 `/tmp/aos/arena_cheater/design/next-slice.md`。design 已經交出 spec 和 plan，路徑是 `wf/org/design/assets/{specs,plans}/bear-trap.md`。dev 已經開始實作，src/ 這段期間歸 dev 獨佔，tests/e2e 不准動。→ dev 回 DONE 以後，派 review 審 diff，再派 qa 跑 arena_e2e、補 E2E、做真 UI 試玩，然後交 integration，最後請 design 同步產品文件。design 的檔案還沒提交，包括 assets 和 V3 原文，等 integration 這批交完，再另外當文件批次交。
+  - 外部規劃庫：https://github.com/ArnoldHsieh/arena_cheater_Game_Planning，唯讀 clone 在 `/tmp/aos/arena_cheater/ext/`。
+  - qa 已經把 `tests/e2e/arena.spec.ts` 拆成五個 spec 檔，再加一個 helper，每個檔都在 300 行以內，E2E 20 案全綠，拆前拆後的名稱一致。wf 這邊的導覽已經同步，包括 dev 角色卡和 testing.md。review 已經通過，交給 integration 提交。
+  - 待辦：arena_e2e 比對基準時，案例識別碼裡帶著檔名，拆檔之後就對不上。之後讓 qa 加一個「忽略檔名」的比對選項。
+  - 沒提交的檔：`wf/org/letters.md`，補了故障矩陣和「階段交界讀信」，跟下一批一起交。
 - [org] main 等信時不用輪詢：aos 通知中心會在 main 閒著時送 new_mail 把它叫醒。wait-mail 腳本因此刪掉了，review 審它時也挑出參數和錯誤處理的問題，沒有修的價值。使用者也建議 main 開小助手，等有適合做判斷的協調工作再開。
 - [org] 給 eca-aos 的素材：dev 和 qa 的定義保留了 self_tools，所以它們可以自己替自己加工具，連 agents_ctl 也加得上。這說明「不給 agents_ctl」只是軟限制。計畫全文在 main 的信箱封存 `mailbox/archive/01795409944274550793.529656.1792613/`，大意：分成 session、hud、fighter-details、card-actions、input、controls、loop 七個模組，一次搬一塊，每塊跑 npm test 和 build，最後交 qa 跑 E2E、review 審 diff。
 - [org] 使用者 2026-11-23 交代：「這一輪結束之後，讓dev/qa總結一下他們的經驗與感想，然後跟我報告，我們來看看還可以怎麼改進組織」→ app.ts 拆檔這一輪提交完成以後，寄 REQUEST 給 dev 和 qa 寫回顧，寫完由 main 整理，向使用者報告改進建議。
