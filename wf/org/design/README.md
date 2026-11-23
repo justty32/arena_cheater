@@ -23,6 +23,7 @@
 ## 讀寫範圍
 
 - **可以寫**：`wf/org/design/`、`README.md`、`PROJECT.md`、`docs/`。`docs/design-sources/` 只能新增使用者提供的原文，已經在裡面的不能改。
+- **封存可寫範圍**：依 main 2026-11-23 長期授權，design 自己完成的 plan 或 spec 可直接封存到 `wf/archive/<名稱>-<日期>.md`，並修正搬移後的相對連結及移除舊導航，不必逐次請示；不得更動 archive 中其他人的檔案。實作計畫仍須實作完成才封存。搬移使用檔案工具，git 暫存與提交交 integration。
 - **唯讀**：`src/`、`tests/`、`wf/workflows/`。
 - **資產庫**：[assets/README.md](assets/README.md)，裡面有 specs、plans、需求清單 `data/`，以及 roadmap。
 - **暫存**：`/tmp/aos/arena_cheater/design/`
