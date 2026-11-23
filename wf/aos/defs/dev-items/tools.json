@@ -1,0 +1,14 @@
+{"tools": {
+  "read": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/read"}},
+  "ls": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/ls"}},
+  "glob": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/glob"}},
+  "grep": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/grep"}},
+  "stat": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/stat"}},
+  "edit": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/edit"}},
+  "write": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/base/write"}},
+  "mailbox_peek": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/mailbox_peek"}},
+  "mailbox_read": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/mailbox_read"}},
+  "mailbox_send": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/mailbox_send"}},
+  "board_read": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/board_read"}},
+  "board_set": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/board_set"}},
+  "arena_verify": {"path": "/mnt/c/code/mine/arena_cheater/wf/aos/tools/arena_verify"}}}

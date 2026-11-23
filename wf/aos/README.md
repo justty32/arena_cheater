@@ -13,6 +13,7 @@
 | [defs/review](defs/review/README.md) | 審查部門，agent-fsm，模型參考 `sol`（high） |
 | [defs/integration](defs/integration/README.md) | 整合部門，agent-fsm，模型參考 `sol` |
 | [defs/qa-triage](defs/qa-triage/README.md) | qa 的下屬，負責 E2E 失敗分析；只有 read、glob、grep，用 `subagent` 開，用完就收 |
+| [defs/dev-items](defs/dev-items/README.md) | dev 的常駐下屬，負責卡牌與道具這一塊；沒有 shell，只寫任務書列的檔，用 `subagent` 開 |
 | `tools/arena_verify/` | dev 做的 aos 工具：拿 Node 鎖、在 systemd scope 裡依序跑 test 和 build，回傳 JSON |
 | `tools/arena_e2e/` | qa 做的 aos 工具：預檢、建乾淨副本、拿 Node 鎖、在 systemd scope 裡跑 E2E，回傳 JSON |
 

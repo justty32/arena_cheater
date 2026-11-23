@@ -1,0 +1,9 @@
+{
+  "summary": "arena_cheater dev-items: dev 底下的卡牌與道具常駐下屬 (agent-fsm)",
+  "cost": {
+    "time_ms": 30000
+  },
+  "resource": [
+    "llm"
+  ]
+}
