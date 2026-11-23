@@ -4,7 +4,12 @@
 
 | 檔案 | 範圍 |
 |------|------|
-| [arena.spec.ts](arena.spec.ts) | 新圓場三牌三石、實例與鍵盤自選付款、暫停出牌、換石冷卻、拖曳與Esc中斷／手機卡面原生捲動、點選施放、一屏付款／換石與固定支持者HUD與開戰前更換入口、代表性裝備拾取與最近投送結果、射程投擲與範圍法術滑鼠預覽／觸控按住預覽及放開施放接線、結算層觸控重定向與控制列跨結算手勢工程fixture |
+| [arena.spec.ts](arena.spec.ts) | 新圓場手牌、付款、謹慎思考、直覺與換石冷卻 |
+| [arena-delivery.spec.ts](arena-delivery.spec.ts) | 暫停投送、拖曳與 Esc 中斷、裝備拾取與射程投擲 |
+| [arena-spells.spec.ts](arena-spells.spec.ts) | 名單／場上施法、範圍法術滑鼠與觸控預覽 |
+| [arena-results.spec.ts](arena-results.spec.ts) | 結算層事件 fixture、真實結算、重試與新局 |
+| [arena-mobile.spec.ts](arena-mobile.spec.ts) | 手機付款、換石、原生捲動、支持者與控制 |
+| [arena-helpers.ts](arena-helpers.ts) | 新圓場 setup、選牌、投送與 seed 搜尋 |
 | [battle.spec.ts](battle.spec.ts) | 開局、暫停、倍率、重置、模式、作弊與觸控排版 |
 | [effects.spec.ts](effects.spec.ts) | 投射物暫停／續飛、命中資訊及降低動態效果 |
 | [helpers.ts](helpers.ts) | 共用時計與瀏覽器錯誤觀察 |
