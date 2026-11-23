@@ -17,6 +17,11 @@
         "type": "boolean",
         "description": "Check environment without starting Node or creating a snapshot.",
         "default": false
+      },
+      "comparison_mode": {
+        "type": "string",
+        "description": "full_name (default), or title_project to ignore file names in structured baselines.",
+        "default": "full_name"
       }
     }
   },

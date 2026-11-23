@@ -17,6 +17,9 @@ _cleanup_spec = importlib.util.spec_from_file_location("arena_cleanup", Path(__f
 _cleanup_module = importlib.util.module_from_spec(_cleanup_spec)
 _cleanup_spec.loader.exec_module(_cleanup_module)
 cleanup = _cleanup_module.cleanup
+_comparison_spec = importlib.util.spec_from_file_location("arena_comparison", Path(__file__).with_name("comparison.py"))
+_comparison_module = importlib.util.module_from_spec(_comparison_spec)
+_comparison_spec.loader.exec_module(_comparison_module)
 
 REPO = Path('/mnt/c/code/mine/arena_cheater')
 ROOT = Path('/tmp/aos/arena_cheater/qa')
@@ -79,7 +82,7 @@ def check_cancelled(cancelled):
         raise RuntimeError('cancelled by SIGTERM')
 
 
-def run(source, baseline, preflight_only):
+def run(source, baseline, preflight_only, comparison_mode='full_name'):
     started = time.monotonic()
     ROOT.mkdir(parents=True, exist_ok=True)
     folder = ROOT / ('e2e-' + uuid.uuid4().hex)
@@ -93,6 +96,7 @@ def run(source, baseline, preflight_only):
         cancelled[0] = True
     previous_sigterm = signal.signal(signal.SIGTERM, cancel)
     try:
+        _comparison_module.validate_cases([], comparison_mode)
         baseline_data = None
         if baseline:
             target = Path(baseline).resolve()
@@ -101,6 +105,7 @@ def run(source, baseline, preflight_only):
             baseline_data = json.loads(target.read_text())
             if baseline_data.get('status') != 'DONE' or not isinstance(baseline_data.get('cases'), list):
                 raise ValueError('baseline must be a successful arena_e2e result with cases')
+            _comparison_module.validate_cases(baseline_data['cases'], comparison_mode)
         if source != 'workspace':
             if not source or source.startswith('-'):
                 raise ValueError('invalid commit identifier')
@@ -188,20 +193,7 @@ def run(source, baseline, preflight_only):
                     work, env, out, err, 420, unit, result, cancelled)
             stage = 'report'
             report = json.loads((folder / 'playwright.json').read_text())
-            cases = []
-            def walk(suites, parents=()):
-                for suite in suites:
-                    prefix = parents + (suite.get('title', ''),)
-                    for spec in suite.get('specs', []):
-                        for test in spec.get('tests', []):
-                            name = ' / '.join(prefix + (spec['title'], test.get('projectName', '')))
-                            status = test.get('status')
-                            item = dict(name=name, status=status)
-                            cases.append(item)
-                            if status not in ('expected', 'skipped'):
-                                result['failures'].append(dict(name=name, status=status, errors=[r.get('error', {}) for r in test.get('results', [])]))
-                    walk(suite.get('suites', []), prefix)
-            walk(report.get('suites', []))
+            cases, result['failures'] = _comparison_module.extract_cases(report)
             result['cases'] = cases
             result.update(passed=sum(c['status'] == 'expected' for c in cases),
                           failed=sum(c['status'] not in ('expected', 'skipped') for c in cases),
@@ -213,13 +205,9 @@ def run(source, baseline, preflight_only):
                 result.update(status='BLOCKED', failure_stage='startup_or_discovery')
             if baseline_data:
                 stage = 'comparison'
-                before = {c['name']: c['status'] for c in baseline_data['cases']}
-                after = {c['name']: c['status'] for c in cases}
-                result['comparison'] = {'baseline': baseline, 'identical': before == after,
-                                        'added': sorted(after.keys() - before.keys()),
-                                        'removed': sorted(before.keys() - after.keys()),
-                                        'changed': sorted(k for k in before.keys() & after.keys() if before[k] != after[k])}
-                if before != after and result['status'] == 'DONE':
+                result['comparison'] = dict(baseline=baseline, **_comparison_module.compare_cases(
+                    baseline_data['cases'], cases, comparison_mode))
+                if not result['comparison']['identical'] and result['status'] == 'DONE':
                     result.update(status='FAILED', failure_stage='comparison')
     except Exception as exc:
         result.update(status='BLOCKED', failure_stage='cleanup' if result.get('cleanup_errors') else stage, error=str(exc))

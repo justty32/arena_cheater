@@ -24,20 +24,21 @@ except ModuleNotFoundError as _e:
 
 
 @fn.tool(meta={"side_effect": True, "deterministic": False, "timeout_ms": 900000})
-def arena_e2e(source: str = "64a7e87", baseline: str = "", preflight_only: bool = False) -> dict:
+def arena_e2e(source: str = "64a7e87", baseline: str = "", preflight_only: bool = False, comparison_mode: str = "full_name") -> dict:
     """Run serialized arena E2E with JSON artifacts in the qa temporary area.
 
     Args:
       source: Git commit identifier, or workspace for the fixed project workspace.
       baseline: Optional prior result.json within the qa temporary area.
       preflight_only: Check environment without starting Node or creating a snapshot.
+      comparison_mode: full_name (default), or title_project to ignore file names in structured baselines.
     """
     import importlib.util
     from pathlib import Path
     spec = importlib.util.spec_from_file_location("arena_e2e_runner", Path(__file__).with_name("runner.py"))
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.run(source, baseline, preflight_only)
+    return module.run(source, baseline, preflight_only, comparison_mode)
 
 
 fn.main(arena_e2e)

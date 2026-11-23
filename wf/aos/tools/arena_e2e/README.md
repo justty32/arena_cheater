@@ -8,6 +8,16 @@
 
 結果含 status、source_hash、exit_code、started_at、ended_at、duration_s、passed、failed、skipped、failure_stage、cases 及 artifacts。workspace 另外提供內容指紋。環境、啟動、零案例及工具錯誤報 BLOCKED；案例失敗或與基準案例集合／狀態不同報 FAILED。exit_code 為測試命令退出碼；預檢或命令未啟動時是 null。
 
+## 基準比對
+
+預設 `comparison_mode: "full_name"` 保留原本含檔名的案例名稱比對，可讀舊版 result.json。純搬移 spec 時可明確指定 `comparison_mode: "title_project"`：以結構化 `title_path`（describe 路徑＋案例標題，僅排除最外層檔案 suite）及 `project` 比對，不拆解顯示名稱。新結果的 cases 會保留原 name/status，另加這兩個欄位。移動 describe 群組仍算案例身分改變。
+
+兩模式皆以身分對應的狀態 Counter 比較，重複同名案例不會被覆蓋；重複次數不同也判定差異。comparison 保留 baseline/identical/added/removed/changed，新增 mode 與 duplicates（前後重複身分、總數及狀態數）。full_name 的差異清單仍為字串；title_project 為 title_path/project 物件。同身分的狀態或重複次數差異列入 changed。這不證明同名案例的實作相同。
+
+未知模式、或 title_project 基準缺少結構化欄位時，預檢即 BLOCKED，不啟動 Node、不猜測舊顯示名稱。拆檔前須用新版工具先產生新基準。舊結果不會自動改寫。空案例集的離線比較可以相等，但 runner 仍維持零案例 BLOCKED 的規則。
+
+離線測試：`PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s wf/aos/tools/arena_e2e -p 'test_*.py'`，不啟動 Node。
+
 ## 執行方式
 
 先檢查 Git 來源、npm/node 是否存在、專案 Playwright 依賴及快取 Chromium 的 ldd。Node 鎖位於 `/tmp/aos/arena_cheater/locks/node.lock`，等待上限 300 秒，測試命令上限 420 秒；工具 timeout_ms 為 900000。鎖涵蓋快照、測試命令和 scope/process group 清理。Node 是一個任務樹，不是只有一個 OS 程序。
@@ -24,7 +34,7 @@ commit 用 git archive 建立全新 UUID 目錄，目的地存在即拒絕；依
 - flock 是合作式鎖；不拿鎖的外部命令仍可並行。systemd scope 限制任務樹資源，並非檔案／網路 sandbox，也不防同 uid 蓄意移出 cgroup。
 - 動態埠在配置後到 Vite bind 前仍有競爭窗口，但不允許重用既有伺服器。
 - ldd 檢查快取內所有對應 headless shell，可能因未使用的舊版本缺依賴而保守拒絕；不是完整 Chromium smoke test。
-- 零案例時的基準差異只表示無結果，不代表測試真的被移除。名稱比對適用本專案，尚不處理同名案例碰撞及版本化報表遷移。
+- 零案例時的基準差異只表示無結果，不代表測試真的被移除。title_project 依 Playwright JSON 最外層 suite 為檔案的結構；不支援任意版本化報表遷移。
 - 受限子代理的記憶體／程序限制可能讓 Node 或 Rolldown 在測試前中止；遇到此情況回 BLOCKED，不自動放寬限制。
 
 ## 取消與清理契約
