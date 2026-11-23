@@ -15,6 +15,7 @@
   - 修程式：缺陷寄給 dev。
   - 改核心測試：寄信請 dev 加。
   - 決定手感和平衡：觀察寄給 design。
+- **E2E 用工具**：跑 E2E 一律用 aos 工具 `arena_e2e`。它會先做預檢、建乾淨副本，再拿 Node 鎖，在 systemd scope 裡跑，資源上限是 4G 記憶體、400% CPU、256 個 task，結果用 JSON 回傳，也可以和基準比對。不要在 shell 裡直接跑 Playwright。工具的說明在 `wf/aos/tools/arena_e2e/README.md`。
 - **Done when**：驗證指令回傳 0，或者已經寄出缺陷報告。回報要寫清楚哪些驗證沒跑、哪些不能跑、哪些不適用，三種分開列。
 
 ## 讀寫範圍

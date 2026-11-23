@@ -17,8 +17,15 @@
   - 我向使用者提的下一步有三件：一，main 修角色卡的漏洞，並定開工信範本；二，第二輪讓 dev 做驗證器、qa 做 E2E runner，qa 再開一個「只跑 E2E」的下屬，上層拿掉它的 shell、run_python、self_tools、tools_def，測試工具層限制能做到多硬；三，第二輪結束後寄給 eca-aos。
   - 使用者回「可以，去吧」，三件都照做。
     - 角色卡的漏洞已經修好，開工信範本放在 [letters](org/letters.md)，這些和 tools.json、org-retro-1 一起交給 integration 當文件批次提交。
-    - 第一封信已經寄給 eca-aos，內容是第一輪的權限和資源素材，加上三個事實問題 → 等它回信。
-- [org] 第二輪已經開工。dev 在做 `wf/aos/tools/arena_verify/`，不開下屬。qa 在做 `wf/aos/tools/arena_e2e/`，還會開一個受限下屬，拿掉 shell 和寫檔類工具後做探測，記錄寫到 `/tmp/aos/arena_cheater/qa/retro-2-notes.md`。→ 兩邊都回 DONE 以後，main 決定要不要把工具寫進定義，再收第二輪的回顧，整理後寄給 eca-aos。
+    - 第一封信已經寄給 eca-aos，它也回了，整理在 [aos-permissions](notes/investigations/aos-permissions.md)。重點有三：只有 aos-sandbox 擋得住路徑；只拿掉四支工具關不住下屬；跨 agent 的配額有 cgroup 總量，但沒有現成的租約。
+    - eca-aos 建議用 systemd-run scope 硬限制 Node 工作。使用者同意了，數字也定了：MemoryMax=4G、CPUQuota=400%、TasksMax=256。這項已經追加派給 dev（arena_verify）和 qa（arena_e2e）。
+- [org] 第二輪已經開工。dev 在做 `wf/aos/tools/arena_verify/`，不開下屬。qa 在做 `wf/aos/tools/arena_e2e/`。受限下屬的實驗已經取消，因為使用者指出「只跑e2e...直接套用工具...這有需要用到agent嗎？」。之後的規矩：固定流程做成工具，有需要判斷的工作才開 agent。下屬等判斷類的工作出現再開，例如分析失敗、寫回歸案例。權限能不能拿回來這個問題，等 eca-aos 回答。→ 兩邊都回 DONE 以後，main 決定要不要把工具寫進定義，再收第二輪的回顧，整理後寄給 eca-aos。
+- [org] qa 交回了 arena_e2e，對 64a7e87 跑 20 案全綠。B 部分（受限下屬）的取消信晚到了，qa 已經照原信做完。素材記在 `/tmp/aos/arena_cheater/qa/retro-2-notes.md`，要給 eca-aos 的有三點：
+  - 拿掉工具，只在工具入口層擋住了，不是 OS 擋的。
+  - read 讀得到 ws 以外的檔案。
+  - 下屬設了 mem_mb=2048、files=512，結果 Rolldown 報 EAGAIN，server 也 abort，E2E 一個案例都沒跑起來。我推測 rlimit 這種逐行程限制不適合 Node 工具鏈，cgroup 的 MemoryMax 才合適，但這點還沒驗證。
+- [org] 兩支工具送審三次才通過，審查報告是 `wf/org/review/tool-review*-2026-11-23.md`。工具已經寫進 dev 和 qa 的定義，用的是絕對路徑，check 也過了。角色卡也改成規定用工具跑。→ 交給 integration 分兩批提交：一批是工具，一批是文件。integration 擋過一次，因為規則沒寫到工具類變更，已經補上「aos 工具批次」這條規則，再派一次。wait-mail 交給 review 審，審過再提交。第二輪的回顧請求已經寄給 dev、qa、review，要它們寫到 `/tmp/aos/arena_cheater/<部門>/retro-2.md` → 三份到齊後，整理好寄給 eca-aos，再給使用者一份摘要。
+- [org] main 的協調小工具：`wf/aos/bin/wait-mail [分鐘]`，放在背景跑，用來等信，取代之前那段很長的輪詢迴圈。後來發現 main 閒著的時候，aos 通知中心也會送 new_mail 把它叫醒，所以平常不必再開 wait-mail 等信。使用者也建議 main 開小助手，等有適合判斷的協調工作再開。
 - [org] 給 eca-aos 的素材：dev 和 qa 的定義保留了 self_tools，所以它們可以自己替自己加工具，連 agents_ctl 也加得上。這說明「不給 agents_ctl」只是軟限制。計畫全文在 main 的信箱封存 `mailbox/archive/01795409944274550793.529656.1792613/`，大意：分成 session、hud、fighter-details、card-actions、input、controls、loop 七個模組，一次搬一塊，每塊跑 npm test 和 build，最後交 qa 跑 E2E、review 審 diff。
 - [org] 使用者 2026-11-23 交代：「這一輪結束之後，讓dev/qa總結一下他們的經驗與感想，然後跟我報告，我們來看看還可以怎麼改進組織」→ app.ts 拆檔這一輪提交完成以後，寄 REQUEST 給 dev 和 qa 寫回顧，寫完由 main 整理，向使用者報告改進建議。
 - [org] 使用者 2026-11-23 提出：dev 和 qa 把常用程序做成工具、自己掛 aos subagent 當團隊主管；團隊內部和團隊之間要有公告欄和留言板，先隨便做一版，再從裡面提取規則、做規劃，之後在 /tmp 就能輕鬆開板。
