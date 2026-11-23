@@ -13,8 +13,12 @@
 
 - [org] aos 多 agent 體系已經啟動（2026-11-23）。design、dev、qa、review、integration 都掛在 `mine_arena` daemon 上，`auto_restart` 都開著；用 `agents_ctl ls` 查狀態。分工見 [org](org/README.md)。
 - [org] E2E 基準全綠：b69b300 上 20 個案例全部通過，用時約 60 秒。乾淨副本留在 `/tmp/aos/arena_cheater/qa/base/`。qa 跑的時候用了獨立的埠 `ARENA_E2E_PORT=45999`，避免撞到工作區的伺服器。拆檔驗收就拿這次結果當對照組。
-- [org] app.ts 拆檔這一輪：review 通過，qa 跑 E2E 20 案全綠，和基準一致。已經交給 integration 分兩次提交：第一次是程式，第二次是 wf 的文件。→ 收到 DONE 以後，這一輪就算結束。
-- [org] 回顧第一輪：dev 和 qa 的回顧 REQUEST 已經寄出，要它們寫到 `/tmp/aos/arena_cheater/{dev,qa}/retro-1.md`，裡面要有權限與安全一段。主管工具已經加進 dev 和 qa 的定義，包括 subagent、fork、tools_def 和 board_*，check 也通過了，但 tools.json 還沒提交。→ 兩份都回來以後，main 整理成報告給使用者，再派第二輪：主管化，也就是做工具、開下屬。
+- [org] 第一輪結束了，提交是 64a7e87（程式）和 5fdcd0d（文件）。兩份回顧和摘要放在 [org-retro-1](notes/investigations/org-retro-1/README.md)，報告已經交給使用者。
+  - 我向使用者提的下一步有三件：一，main 修角色卡的漏洞，並定開工信範本；二，第二輪讓 dev 做驗證器、qa 做 E2E runner，qa 再開一個「只跑 E2E」的下屬，上層拿掉它的 shell、run_python、self_tools、tools_def，測試工具層限制能做到多硬；三，第二輪結束後寄給 eca-aos。
+  - 使用者回「可以，去吧」，三件都照做。
+    - 角色卡的漏洞已經修好，開工信範本放在 [letters](org/letters.md)，這些和 tools.json、org-retro-1 一起交給 integration 當文件批次提交。
+    - 第一封信已經寄給 eca-aos，內容是第一輪的權限和資源素材，加上三個事實問題 → 等它回信。
+- [org] 第二輪已經開工。dev 在做 `wf/aos/tools/arena_verify/`，不開下屬。qa 在做 `wf/aos/tools/arena_e2e/`，還會開一個受限下屬，拿掉 shell 和寫檔類工具後做探測，記錄寫到 `/tmp/aos/arena_cheater/qa/retro-2-notes.md`。→ 兩邊都回 DONE 以後，main 決定要不要把工具寫進定義，再收第二輪的回顧，整理後寄給 eca-aos。
 - [org] 給 eca-aos 的素材：dev 和 qa 的定義保留了 self_tools，所以它們可以自己替自己加工具，連 agents_ctl 也加得上。這說明「不給 agents_ctl」只是軟限制。計畫全文在 main 的信箱封存 `mailbox/archive/01795409944274550793.529656.1792613/`，大意：分成 session、hud、fighter-details、card-actions、input、controls、loop 七個模組，一次搬一塊，每塊跑 npm test 和 build，最後交 qa 跑 E2E、review 審 diff。
 - [org] 使用者 2026-11-23 交代：「這一輪結束之後，讓dev/qa總結一下他們的經驗與感想，然後跟我報告，我們來看看還可以怎麼改進組織」→ app.ts 拆檔這一輪提交完成以後，寄 REQUEST 給 dev 和 qa 寫回顧，寫完由 main 整理，向使用者報告改進建議。
 - [org] 使用者 2026-11-23 提出：dev 和 qa 把常用程序做成工具、自己掛 aos subagent 當團隊主管；團隊內部和團隊之間要有公告欄和留言板，先隨便做一版，再從裡面提取規則、做規劃，之後在 /tmp 就能輕鬆開板。

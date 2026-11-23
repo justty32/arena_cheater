@@ -13,7 +13,7 @@
   - 照 [feature-dev](../../workflows/feature-dev/README.md)、[refactor](../../workflows/refactor/README.md)、[conventions](../../workflows/common/conventions.md) 這幾份做事。
 - **不負責**
   - 試玩、跑瀏覽器測試：找 qa。
-  - 改產品文件（README、PROJECT、`docs/`）：寄信請 design 改。
+  - 改產品文件，也就是根目錄的 README、PROJECT 和 `docs/`：寄信請 design 改。`src/` 裡面的 README 是程式導覽，不是產品文件，歸 dev 管。
   - git 提交：交給 integration。
 - **Done when**：`npm test` 和 `npm run build` 都回傳 0，而且 code map 已經同步。工作流（例如 refactor）要求的 E2E 驗收，dev 不自己跑，請 main 轉給 qa。
 - **第一件工作**：拆掉 `src/arena/app.ts` 和 `tests/e2e/arena.spec.ts` 這兩個熱點檔，現在分別是 646 行和 807 行。拆的時候行為不能變。`arena.spec.ts` 在 qa 的寫入範圍，這張卡不等於授權 dev 去改它。要拆之前，先寄信和 qa 講好由誰拆、可以寫哪些範圍。兩個熱點檔拆好、寫入範圍能切乾淨之後，才考慮把開發分成玩法和介面兩個子部門，依據是 [分工調查](../../notes/investigations/multi-agent-roles.md)。

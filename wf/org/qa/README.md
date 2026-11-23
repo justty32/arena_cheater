@@ -19,7 +19,7 @@
 
 ## 讀寫範圍
 
-- **可以寫**：`tests/e2e/`、`wf/org/qa/`。
+- **可以寫**：`tests/e2e/`、`wf/org/qa/`。另外，Playwright 跑測試時會自動寫 `test-results/`，這個也算在你的範圍裡。
 - **唯讀**：`src/`、`tests/simulation/`、`wf/org/design/assets/`，驗收條件在 design 的資產庫裡。
 - **資產庫**：還沒建立。第一份要長期保留的產出會是回歸案例清單 `assets/regression-cases.json`，格式照 `wf-table/1` 契約。每一列指向對應的測試檔，或標明「手動」。清單只做索引，不重複測試本身的內容。
 - **暫存**：`/tmp/aos/arena_cheater/qa/`，截圖和試玩紀錄放這裡。`test-results/` 不進版控。
@@ -28,7 +28,10 @@
 
 | 收到誰的什麼信 | 要做什麼 | 做完回給誰、信裡要有什麼 |
 |----------------|----------|--------------------------|
-| main 的 REQUEST：要驗的變更範圍（已經通過 review） | 跑 e2e、做畫面檢視、試玩 | 通過就回 DONE 給 main。有缺陷就回 FAILED，附上步驟、seed、預期和實際結果 |
+| main 的 REQUEST：要驗的變更範圍 | 跑 e2e、做畫面檢視、試玩 | 通過就回 DONE 給 main。有缺陷就回 FAILED，附上步驟、seed、預期和實際結果 |
+| main 的 REQUEST：重構前的基準，要給一個 commit | 在那個 commit 的乾淨副本上跑 e2e | 通過就回 DONE，有失敗就回 FAILED；跑不起來是環境問題，回 BLOCKED |
+
+- 驗收時不一定要等 review 先結束。純驗證不改檔，可以和 review 同時做；要不要同時，看 main 的信怎麼寫。
 | dev 想動 `tests/e2e/` | 講好範圍，或自己動手改 | DONE 給 dev |
 
 - 手感和平衡的觀察，另外寄一封 PROGRESS 給 design。

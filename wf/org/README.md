@@ -40,9 +40,9 @@
 - 小修正照 [WORKFLOWS](../WORKFLOWS.md) 的「可以跳流程」，可以省掉 design。
 - 只改 `wf/` 文件的批次（沒碰 `src/`、`tests/`、設定檔）不經 review 和 qa，由 main 直接交 integration 提交，信裡註明「文件批次，免 review/qa」。
 - review 或 qa 回 FAILED 時，由 main 轉回 dev。
-- 部門之間的請求和回報都用 aos 信件。照 aos 的規矩，接了請求，最後一定要回 DONE、BLOCKED、NEEDS-USER 或 FAILED 其中一種。
+- 部門之間的請求和回報都用 aos 信件，寫法照 [letters](letters.md)。照 aos 的規矩，接了請求，最後一定要回 DONE、BLOCKED、NEEDS-USER 或 FAILED 其中一種。
 - **部門之間的協調機制邊用邊做**：這是 2026-11-23 使用者定的。訊息交流、留言板、公告欄，以及部門之間交換資產，例如好用的工具、手冊，現在都還沒有固定做法。開始工作以後，用到了再長出來。長出來的機制寫在這份 README，或者另外開一個子資料夾。
-- **留言板 v0（試用中）**：放在 `/tmp/aos/arena_cheater/board/`。`notice.md` 是公告，只有 main 寫；`wall.md` 是留言板，大家都能寫；用法寫在那裡的 README.md。每件工作開工前，先讀公告和最後幾則留言。規則用穩定以後，會搬進 `wf/org/`，並且做成工具。
+- **留言板 v0（試用中）**：放在 `/tmp/aos/arena_cheater/board/`。`notice.md` 是公告，只有 main 寫；`wall.md` 是留言板，大家都能寫，它不受各部門寫入範圍的限制；用法寫在那裡的 README.md。每件工作開工前，先讀公告和最後幾則留言。規則用穩定以後，會搬進 `wf/org/`，並且做成工具。
 
 ## 東西放哪裡
 

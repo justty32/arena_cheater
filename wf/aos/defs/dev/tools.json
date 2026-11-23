@@ -9,4 +9,4 @@
                {"$env": "AOS_HOME", "$path": "/lib/packs/goal.json"},
                {"$env": "AOS_HOME", "$path": "/lib/packs/json.json"},
                {"$env": "AOS_HOME", "$path": "/lib/packs/index.json"}],
- "tools": {"self_llm": null, "self_system": null, "self_history": null, "self_ctl": null}}
+ "tools": {"self_llm": null, "self_system": null, "self_history": null, "self_ctl": null, "subagent": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/subagent"}}, "fork": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/fork"}}, "tools_def": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/tools_def"}}, "board_set": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/board_set"}}, "board_clear": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/board_clear"}}, "board_wait": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/board_wait"}}, "board_read": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/board_read"}}, "board_ls": {"path": {"$env": "AOS_HOME", "$path": "/lib/tools/agent/board_ls"}}}}
