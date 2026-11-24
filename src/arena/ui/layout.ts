@@ -1,7 +1,7 @@
-import { drawWeapon } from './scene/puppet';
-import { drawAreaCard, drawSpikePit, drawBearTrap } from './scene/area-art';
-import { drawThrowable } from './scene/thrown-art';
-import type { Card, Fighter, StoneColor, StoneCost } from './shared/types';
+import { drawWeapon } from '../scene/puppet';
+import { drawAreaCard, drawSpikePit, drawBearTrap } from '../scene/area-art';
+import { drawThrowable } from '../scene/thrown-art';
+import type { Card, Fighter, StoneColor, StoneCost } from '../shared/types';
 
 export function arenaLayout(fighters: Fighter[]): string {
   return `<div class="arena-app">

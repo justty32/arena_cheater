@@ -1,5 +1,5 @@
-import { CARDS } from './shared/card-catalog';
-import type { CardTarget } from './items/engine-items';
+import { CARDS } from '../shared/card-catalog';
+import type { CardTarget } from '../items/engine-items';
 import type { ArenaContext } from './arena-session';
 
 export function createArenaInput(context: Pick<ArenaContext, 'session' | 'el' | 'canvas' | 'view' | 'currentCard' | 'attemptPlay' | 'render' | 'clearSelection' | 'select'>) {

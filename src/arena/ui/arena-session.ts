@@ -1,4 +1,4 @@
-import { createArena } from './sim/engine';
+import { createArena } from '../sim/engine';
 
 export function createArenaSession() {
   const state = createArena(73021);
@@ -30,12 +30,12 @@ export interface ArenaContext {
   root: HTMLElement;
   el: <T extends HTMLElement = HTMLElement>(selector: string) => T;
   canvas: HTMLCanvasElement;
-  view: import('./scene/view').ArenaView;
+  view: import('../scene/view').ArenaView;
   handView: ReturnType<typeof import('./hand-view').createHandView>;
   mobilePanels: ReturnType<typeof import('./mobile-panels').createMobilePanels>;
   renderSupport: ReturnType<typeof import('./support-hud').createSupportHud>;
   renderThrowFeedback: ReturnType<typeof import('./throw-feedback').createThrowFeedback>;
-  renderDetails: (fighter: import('./model').Fighter) => void;
+  renderDetails: (fighter: import('../model').Fighter) => void;
   throwPreview: HTMLElement;
   trapPreview: HTMLElement;
   start: HTMLButtonElement;
@@ -45,16 +45,16 @@ export interface ArenaContext {
   support: HTMLButtonElement;
   supportChange: HTMLButtonElement;
   rows: HTMLButtonElement[];
-  currentCard: () => import('./model').Card | undefined;
+  currentCard: () => import('../model').Card | undefined;
   canAct: () => boolean;
-  canCastFromRoster: (card: import('./model').Card | undefined) => boolean;
+  canCastFromRoster: (card: import('../model').Card | undefined) => boolean;
   pixelRatio: () => number;
   render: () => void;
   clearSelection: () => void;
   refreshPaymentFeedback: () => void;
   clearStartIntent: () => void;
   clearResultIntent: () => void;
-  attemptPlay: (target: import('./engine').CardTarget) => void;
+  attemptPlay: (target: import('../engine').CardTarget) => void;
   select: (handId: number) => void;
   selectDeliberation: (offer: NonNullable<ArenaSession['state']['pendingDeliberation']>, index: number) => void;
   bindCard: (button: HTMLButtonElement, handId: number) => void;

@@ -1,6 +1,6 @@
-import { CARDS } from './shared/card-catalog';
-import { THROW_PROFILES } from './shared/rules';
-import type { ArenaState } from './shared/types';
+import { CARDS } from '../shared/card-catalog';
+import { THROW_PROFILES } from '../shared/rules';
+import type { ArenaState } from '../shared/types';
 
 /** Display only the tracked throw; never infer outcomes from translated battle logs. */
 export function createThrowFeedback(root: HTMLElement) {

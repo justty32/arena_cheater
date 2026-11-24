@@ -1,5 +1,5 @@
-import { hasPendingDungTick } from './shared/status';
-import type { ArenaState, Fighter } from './shared/types';
+import { hasPendingDungTick } from '../shared/status';
+import type { ArenaState, Fighter } from '../shared/types';
 
 const poseLabels = { idle: '伺機而動', walk: '尋找對手', attack: '發起攻擊', hit: '受到攻擊', fallen: '倒地', airborne: '遭到擊飛', rising: '正在起身', block: '盾牌格擋', parry: '成功招架', dead: '已出局' };
 const weaponLabels = { fists: '徒手', sword: '直劍（單手）', spear: '長矛（單手）', hatchet: '短斧（單手）', club: '木棍（雙手）', shield: '圓盾（單手）', bow: '長弓（雙手）' };

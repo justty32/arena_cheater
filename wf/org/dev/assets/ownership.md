@@ -28,7 +28,7 @@ dev 負責契約、派工、整合與回報。依據 app.ts 拆分（64a7e87）�
 
 ### 介面與輸入：dev-ui
 
-擁有 `src/arena/{app,arena-session,arena-hud,fighter-details,card-actions,arena-input,arena-controls,arena-loop,layout,hand-view,support-hud,mobile-panels,throw-feedback,payment-ui}.ts` 與 `src/arena/{arena,hand,mobile}.css`。版面與行動版合併：DOM、手牌、輸入與 CSS 高度耦合，不另拆下屬搶檔。
+擁有 `src/arena/ui/{app,arena-session,arena-hud,fighter-details,card-actions,arena-input,arena-controls,arena-loop,layout,hand-view,support-hud,mobile-panels,throw-feedback,payment-ui}.ts` 與 `src/arena/ui/{arena,hand,mobile}.css`。版面與行動版合併：DOM、手牌、輸入與 CSS 高度耦合，不另拆下屬搶檔。
 
 對外是 mountArena；內部契約為 ArenaSession／ArenaContext 及各 create* 工廠。命令直接走 sim/engine.ts、items/engine-cards.ts 與 items/engine-items.ts API；UI 預覽直接讀 shared/targeting 的合法目標判定，不能以自行算費／本地計時取代引擎重驗。layout.ts 歸 UI；scene 只交繪圖函式契約。
 
@@ -40,7 +40,7 @@ dev 負責契約、派工、整合與回報。依據 app.ts 拆分（64a7e87）�
 
 ## 主管保管的共用契約
 
-`src/arena/shared/resources.ts` 的狀態亂數／色序／補石及 arena-resources.test.ts 的完整狀態快照由 dev 保管。`src/arena/{engine,projection,model}.ts` 相容入口及 `src/arena/shared/{types,card-catalog,targeting,status,rules}.ts` 由 dev 獨佔，分別管理型別、卡牌表、合法目標、結算狀態及規則常數；內部直接引用來源，不繞相容入口。`src/main.ts` 的模式路由、`src/arena/README.md`、`tests/simulation/README.md`、code-map 也由 dev 整合維護。跨塊驗收檔 arena-bear-trap-integration.test.ts 由 dev 擁有。不是多人任寫的共用區；其餘 src 均在上述五塊。
+`src/arena/shared/resources.ts` 的狀態亂數／色序／補石及 arena-resources.test.ts 的完整狀態快照由 dev 保管。`src/arena/{engine,projection,model,app}.ts` 相容入口及 `src/arena/shared/{types,card-catalog,targeting,status,rules}.ts` 由 dev 獨佔，分別管理型別、卡牌表、合法目標、結算狀態及規則常數；內部直接引用來源，不繞相容入口。`src/main.ts` 的模式路由、`src/arena/README.md`、`tests/simulation/README.md`、code-map 也由 dev 整合維護。跨塊驗收檔 arena-bear-trap-integration.test.ts 由 dev 擁有。不是多人任寫的共用區；其餘 src 均在上述五塊。
 
 新增介面由 owner 提案，寫清參數、輸出、狀態副作用、時間基準與呼叫順序，dev 在原 spec 範圍內決定技術契約。改到玩法語義或規格空白，仍交 main／design，不以主管身份代使用者拍板。
 
