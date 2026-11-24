@@ -6,7 +6,8 @@
 | 入口 | 職責 |
 |------|------|
 | [model.ts](model.ts) | 相容入口，明確轉出 shared 型別、規則、卡牌表與判定；內部直接引用各來源 |
-| [data/arena-balance.json](data/arena-balance.json) | 現行啟用玩法數值唯一手填來源；wf-table/1、單位及抽取前來源 metadata |
+| [data/arena-balance.json](data/arena-balance.json) | runtime 現值唯一手填來源；wf-table/1、schema_version=2，僅 id／value／unit |
+| [data/arena-balance-meta.json](data/arena-balance-meta.json) | 同 id 的抽取前來源及決策 metadata；僅測試驗證，不進 runtime import graph 或建置產物 |
 | [shared/balance-schema.ts](shared/balance-schema.ts)、[shared/balance.ts](shared/balance.ts) | id／型別／單位契約、一次性驗證與 typed 數值載入；公式仍留原模組 |
 | [shared/types.ts](shared/types.ts) | 鬥士、卡牌、裝備、地面陷阱與定身截止狀態及對局型別 |
 | [shared/rules.ts](shared/rules.ts) | 場地與陷阱半徑、投送起點／範圍／傷害設定、持續傷害時間容差 |
@@ -55,4 +56,4 @@
 
 圓場 UI 位於 `src/arena/ui/`，不與經典模式 `src/ui/` 共用規則。樣式由 `ui/app.ts` 依 `arena.css` → `hand.css` → `mobile.css` 順序載入。
 
-數值表僅為現值等價抽取，不是平衡批准或 V3 遷移。JSON 的 value／unit／來源由 design 管理，id／schema／型別／公式由 dev 管理；新增 id 或變更單位須雙方確認，寫入仍須當批唯一寫手。卡牌／戰報文案本批不模板化，由 `arena-copy.test.ts` 檢查重複數字；原完整快照及硬期望保留。固定步進、RNG、epsilon、幾何／排序／round／最小傷害公式及繪圖座標不納表。
+數值表僅為現值等價抽取，不是平衡批准或 V3 遷移。兩表均為 schema_version=2，只共用 id；design 管理數值表既有 id 的 value／unit 與 metadata 表的五個來源／決策欄位，dev 管理 id／schema／版本／columns／外框／型別／載入器及公式。新增 id 須同步兩表並由雙方確認，變更單位契約亦須雙方確認並同步 schema；每批由 main 指定唯一寫手。卡牌／戰報文案不模板化，由 `arena-copy.test.ts` 檢查重複數字；重構前數值、入場 RNG 與資源 checkpoint 的獨立硬期望保留。固定步進、RNG、epsilon、幾何／排序／round／最小傷害公式及繪圖座標不納表。

@@ -47,14 +47,13 @@ describe('balance schema validation', () => {
     ['negative hp', (t: typeof table) => { t.rows[0].value = -1; }],
     ['fractional count', (t: typeof table) => { t.rows.find(r => r.id === 'weapon.bow.ammo')!.value = 2.5; }],
     ['zero duration', (t: typeof table) => { t.rows.find(r => r.id === 'buff.fury.duration')!.value = 0; }],
-    ['invalid metadata', (t: typeof table) => { t.rows[0].source_revision = 'HEAD'; }],
   ] as const)('rejects %s', (_name, mutate) => {
     const input = structuredClone(table);
     mutate(input);
     expect(() => loadBalance(input)).toThrow();
   });
   it('rejects malformed contracts and rows', () => {
-    for (const bad of [null, [], {}, { ...table, schema_version: 2 }, { ...table, columns: [] },
+    for (const bad of [null, [], {}, { ...table, schema_version: 1 }, { ...table, columns: [] },
       { ...table, rows: [null] }, { ...table, rows: [{ ...table.rows[0], extra: 1 }] }]) {
       expect(() => loadBalance(bad)).toThrow();
     }
