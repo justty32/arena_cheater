@@ -37,6 +37,10 @@
 
 - 手感和平衡的觀察，另外寄一封 PROGRESS 給 design。
 
+## 保存的基準
+
+架構整理使用 [e2e-193affd.json](assets/baselines/e2e-193affd.json)：commit `193affd8d83892195600967f7f37c00ec3ef2c8a`，25 案全綠，含 `title_path`／`project`。`arena_e2e` 的 baseline 目前只接受 qa 暫存區內的檔案；使用前將此檔複製到 `/tmp/aos/arena_cheater/qa/baselines/e2e-193affd.json`，再以該絕對路徑配合 `comparison_mode: "title_project"` 比對。保存檔內的 artifacts 路徑是原執行紀錄，不保證重開機後存在；比對只需 cases，不會重跑基準。
+
 ## 模型
 
 - **參考設定**：`sol`。只是跑指令回報結果時，可以改用 `terra`。

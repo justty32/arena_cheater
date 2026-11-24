@@ -20,6 +20,7 @@
 | [分期開發計畫](plans/cheating-arena.md) | 已落地切片、目前階段、剩餘範圍與驗收 |
 | [捕獸夾規格](specs/bear-trap.md) | T01 原文、已同意的可調預設與定身驗收 |
 | [後續候選](follow-ups.md) | 捕獸夾地面辨識改善與人工試玩邊界，非已排程切片 |
+| [數值盤點（2026-11-24）](audits/numbers-2026-11-24/README.md) | 現值位置、V3 差異、單一來源提案及需裁示事項；只讀快照 |
 | [可調預設索引](pending-defaults.md) | 首批資源循環預設與捕獸夾授權範圍，供 main 彙整 |
 | [需求原文](../../../../docs/design-sources/cheating-arena-2026-11-11.txt) | 使用者提供的逐字文字，僅正規化換行 |
 

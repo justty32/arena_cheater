@@ -1,0 +1,368 @@
+{
+ "contract": "wf-table/1",
+ "source": "只讀盤點 HEAD 193affd8d83892195600967f7f37c00ec3ef2c8a",
+ "extracted": "2026-11-24",
+ "link_columns": [],
+ "columns": [
+  "id",
+  "kind",
+  "topic",
+  "current",
+  "reference",
+  "code_ref",
+  "document_ref",
+  "judgment"
+ ],
+ "rows": [
+  {
+   "id": "D01",
+   "kind": "來源遷移",
+   "topic": "狼生命/拳傷/體力/速度m每秒/半徑m",
+   "current": "110/11/75/1.35/0.35",
+   "reference": "100/1/10/1/0.5",
+   "code_ref": "src/arena/engine.ts:13",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:86",
+   "judgment": "V3明定，快版保留舊尺度；不能只改體力上限而保留12耗體／移動門檻"
+  },
+  {
+   "id": "D02",
+   "kind": "來源遷移",
+   "topic": "熊生命/拳傷/體力/速度m每秒/半徑m",
+   "current": "155/13/75/1.1/0.45",
+   "reference": "150/2/10/1/0.5",
+   "code_ref": "src/arena/engine.ts:14",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:96",
+   "judgment": "V3明定，快版保留舊尺度；不能只改體力上限而保留12耗體／移動門檻"
+  },
+  {
+   "id": "D03",
+   "kind": "來源遷移",
+   "topic": "象生命/拳傷/體力/速度m每秒/半徑m",
+   "current": "135/12/80/1.05/0.46",
+   "reference": "100/1/10/1/0.5",
+   "code_ref": "src/arena/engine.ts:15",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:105",
+   "judgment": "V3明定，快版保留舊尺度；不能只改體力上限而保留12耗體／移動門檻"
+  },
+  {
+   "id": "D04",
+   "kind": "來源遷移",
+   "topic": "牛生命/拳傷/體力/速度m每秒/半徑m",
+   "current": "125/12/110/1.2/0.42",
+   "reference": "100/1/12/1/0.5",
+   "code_ref": "src/arena/engine.ts:16",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:114",
+   "judgment": "V3明定，快版保留舊尺度；不能只改體力上限而保留12耗體／移動門檻"
+  },
+  {
+   "id": "D05",
+   "kind": "來源遷移",
+   "topic": "鹿生命/拳傷/體力/速度m每秒/半徑m",
+   "current": "110/11/80/1.75/0.35",
+   "reference": "100/1/10/1.2/0.5",
+   "code_ref": "src/arena/engine.ts:19",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:123",
+   "judgment": "V3明定，快版保留舊尺度；不能只改體力上限而保留12耗體／移動門檻"
+  },
+  {
+   "id": "D06",
+   "kind": "來源空白",
+   "topic": "豪豬／蛇",
+   "current": "115/11/80/1.3/0.37；105/12/80/1.4/0.32",
+   "reference": "V3仍未想到；標準100/1/10/1/0.5是否套用未指定",
+   "code_ref": "src/arena/engine.ts:17",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:130",
+   "judgment": "需選暫用標準或保留舊差異；建議新尺度採標準但需授權"
+  },
+  {
+   "id": "D07",
+   "kind": "來源遷移",
+   "topic": "狼擊殺",
+   "current": "傷害乘1.65，8秒",
+   "reference": "狂暴+3，5秒",
+   "code_ref": "src/arena/engine-damage.ts:68,129",
+   "document_ref": "wf/org/design/assets/specs/cheating-arena-v2.md:63；docs/design-sources/cheating-arena-v3-2026-11-23.txt:91；requirements F01.note",
+   "judgment": "V2預設與程式一致，V3要求尚未遷入；加成順序需定義"
+  },
+  {
+   "id": "D08",
+   "kind": "來源遷移",
+   "topic": "象鈍器",
+   "current": "木棍傷害乘1.2",
+   "reference": "鈍器傷害+2",
+   "code_ref": "src/arena/engine-damage.ts:67",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:110；docs/combat-prototype.md:37；requirements F03",
+   "judgment": "目前只實作木棍；固定加值和倍率不可視同"
+  },
+  {
+   "id": "D09",
+   "kind": "來源遷移",
+   "topic": "直劍持用數值",
+   "current": "傷害攻擊乘1.65/耗12/CD1.15/起手gap0.5",
+   "reference": "傷1/耗1/CD1.2/距0.3m",
+   "code_ref": "src/arena/engine-combat.ts:15；src/arena/engine-damage.ts:66",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:144；wf/org/design/assets/specs/cheating-arena-v2.md（對應武器切片）",
+   "judgment": "明示沿用快版，不是本輪發現的回歸；傷害欄是絕對值、加值或倍率與距離測量基準需澄清"
+  },
+  {
+   "id": "D10",
+   "kind": "來源遷移",
+   "topic": "長矛持用數值",
+   "current": "攻擊乘1.65/耗12/CD1/gap1",
+   "reference": "傷1/耗1/CD1/距1m",
+   "code_ref": "src/arena/engine-combat.ts:16；src/arena/engine-damage.ts:66",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:143；wf/org/design/assets/specs/cheating-arena-v2.md（對應武器切片）",
+   "judgment": "明示沿用快版，不是本輪發現的回歸；傷害欄是絕對值、加值或倍率與距離測量基準需澄清"
+  },
+  {
+   "id": "D11",
+   "kind": "來源遷移",
+   "topic": "短斧持用數值",
+   "current": "攻擊乘1.9/耗18/CD1/gap0.4",
+   "reference": "傷2/耗1.5/CD1/距0.2m",
+   "code_ref": "src/arena/engine-combat.ts:17；src/arena/engine-damage.ts:66",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:147；wf/org/design/assets/specs/cheating-arena-v2.md（對應武器切片）",
+   "judgment": "明示沿用快版，不是本輪發現的回歸；傷害欄是絕對值、加值或倍率與距離測量基準需澄清"
+  },
+  {
+   "id": "D12",
+   "kind": "來源遷移",
+   "topic": "木棍持用數值",
+   "current": "攻擊乘1.9/耗12/CD1.8/gap0.3",
+   "reference": "傷3/耗2/CD1.2/距0.7m",
+   "code_ref": "src/arena/engine-combat.ts:18；src/arena/engine-damage.ts:66",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:150；wf/org/design/assets/specs/cheating-arena-v2.md（對應武器切片）",
+   "judgment": "明示沿用快版，不是本輪發現的回歸；傷害欄是絕對值、加值或倍率與距離測量基準需澄清"
+  },
+  {
+   "id": "D13",
+   "kind": "來源遷移",
+   "topic": "長弓持用數值",
+   "current": "攻擊乘1.35/耗12/CD1.6/中心距5.5",
+   "reference": "傷1/耗1/CD1.5/距5m",
+   "code_ref": "src/arena/engine-combat.ts:20；src/arena/engine-damage.ts:66",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:149；wf/org/design/assets/specs/cheating-arena-v2.md（對應武器切片）",
+   "judgment": "明示沿用快版，不是本輪發現的回歸；傷害欄是絕對值、加值或倍率與距離測量基準需澄清"
+  },
+  {
+   "id": "D14",
+   "kind": "來源歧義",
+   "topic": "圓盾CD",
+   "current": "招架窗0.22、冷卻2.4、耗10；格擋耗6減半",
+   "reference": "表列CD0.5，未明示套格擋還是招架",
+   "code_ref": "src/arena/engine-combat.ts:58；src/arena/engine-damage.ts:85",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:154；requirements W13.note",
+   "judgment": "不能直接將0.5覆蓋所有盾時鐘；耗體需隨新10體力尺度配套"
+  },
+  {
+   "id": "D15",
+   "kind": "來源遷移",
+   "topic": "跌倒",
+   "current": "擊飛0.35→倒地0.8→起身0.35",
+   "reference": "跌倒3秒",
+   "code_ref": "src/arena/engine-damage.ts:77,153,158",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:61；docs/combat-prototype.md:43",
+   "judgment": "產品文件與程式一致；需確認3秒含不含起身，非捕獸夾定身3秒"
+  },
+  {
+   "id": "D16",
+   "kind": "規格行為差異",
+   "topic": "低體力移動",
+   "current": "低於12不能自主移動",
+   "reference": "舊spec寫體力不足就休息或移動",
+   "code_ref": "src/arena/engine-combat.ts:84",
+   "document_ref": "wf/org/design/assets/specs/cheating-arena.md:29",
+   "judgment": "文件語意比程式寬；只記差異不直接改；新標準體力10套入會完全卡住"
+  },
+  {
+   "id": "D17",
+   "kind": "來源未定",
+   "topic": "恢復／防禦尺度",
+   "current": "停攻2秒、停移2.5秒，10或22每秒；格擋6招架10",
+   "reference": "僅停攻2秒明定，其餘未定",
+   "code_ref": "src/arena/engine-combat.ts:40；src/arena/engine-damage.ts:85,95",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:47；requirements C10.note",
+   "judgment": "新尺度會近乎一秒回滿；不可機械照搬，也不可擅自等比例調整"
+  },
+  {
+   "id": "D18",
+   "kind": "來源歧義",
+   "topic": "背擊",
+   "current": "1.2倍，四捨五入且最小1",
+   "reference": "加倍(1.2)矛盾",
+   "code_ref": "src/arena/engine-damage.ts:93,99",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:44；requirements C08.note",
+   "judgment": "舊spec已選1.2預設；新傷害1搭配round會抹平背擊／半傷差距，需連同取整檢視"
+  },
+  {
+   "id": "D19",
+   "kind": "來源空白",
+   "topic": "虛弱",
+   "current": "傷害乘0.55、體力上限乘0.6",
+   "reference": "屎虛弱5秒；另法術虛弱2未解義",
+   "code_ref": "src/arena/engine-damage.ts:24,69",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:141,181；requirements S04.note",
+   "judgment": "既有減益可保留為預設但不等於V3指定倍率"
+  },
+  {
+   "id": "D20",
+   "kind": "文件版本落後",
+   "topic": "V2入口與舊spec",
+   "current": "產品已記V3取得；18種36張；鹿最快",
+   "reference": "V2入口仍404；章節14/18/22張；舊spec狼快鹿未定",
+   "code_ref": "src/arena/engine-cards.ts:47；src/arena/engine.ts:13",
+   "document_ref": "PROJECT.md:8；wf/org/design/assets/specs/cheating-arena-v2.md:7,23,57,69；wf/org/design/assets/specs/cheating-arena.md:31",
+   "judgment": "牌庫各章是歷史批次而非數值錯；404與舊種族敘述需版本標記避免當現況"
+  },
+  {
+   "id": "D21",
+   "kind": "需求表落後",
+   "topic": "已交付卡牌與V3命名",
+   "current": "謹慎思考抽3選1、直覺看2均落地；種子未加入",
+   "reference": "V2S10/V2S11.note仍說其餘後續；V2S05仍未命名補石",
+   "code_ref": "src/arena/model.ts:92",
+   "document_ref": "wf/org/design/assets/data/cheating-arena-requirements.json：id=V2S05/V2S10/V2S11的name/note；docs/design-sources/cheating-arena-v3-2026-11-23.txt:167,172,173",
+   "judgment": "需求來源成熟度不是完成度，但note過時；只讀記錄，不回寫"
+  },
+  {
+   "id": "D22",
+   "kind": "相符但重複",
+   "topic": "陷阱",
+   "current": "半徑0.55、等待0.6、壽命12；夾1傷3秒；刺3傷",
+   "reference": "V3只定夾1傷3秒、刺3傷；spec沿用程式",
+   "code_ref": "src/arena/model.ts:50,84；src/arena/engine-traps.ts:5,61",
+   "document_ref": "docs/combat-prototype.md:23；wf/org/design/assets/specs/bear-trap.md:21；docs/design-sources/cheating-arena-v3-2026-11-23.txt:134",
+   "judgment": "卡牌文字、log與規則重複秒數，資料化後應由同一欄位生成；無證據支持0.75/0.8/18為現值"
+  },
+  {
+   "id": "D23",
+   "kind": "相符但預設",
+   "topic": "石頭與牌庫",
+   "current": "五色均勻；每種2張；起手3牌3石；施放2石1牌；棄牌至少1石、補牌、3秒",
+   "reference": "原文明定起手/施放補給；未定等機率、重複、回收、棄牌補牌冷卻",
+   "code_ref": "src/arena/engine-cards.ts:3,17,47,103,131；src/arena/engine-items.ts:107",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:16；wf/org/design/assets/data/pending-defaults.json：PD01/PD02/PD03",
+   "judgment": "保留為現況，不擴張捕獸夾授權至全局預設"
+  },
+  {
+   "id": "D24",
+   "kind": "來源歧義",
+   "topic": "其他未實作數值",
+   "current": "未加入巨人術／防護／恐懼／惠惠",
+   "reference": "巨人速度-4；無敵3持續2秒；恐懼N；惠惠7火火火範圍10傷10",
+   "code_ref": "src/arena/model.ts:4",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:39,170,175,176",
+   "judgment": "不把速度-4當m/s直接套1m/s；單位、N、火是否紅須釐清；不屬純資料搬移"
+  },
+  {
+   "id": "D25",
+   "kind": "來源解讀",
+   "topic": "傷害／法術混合尺度",
+   "current": "近戰拳11~13；閃電3、野性治療10、投擲1/3",
+   "reference": "V3拳1/2，法術3/10與投擲1/3不變",
+   "code_ref": "src/arena/engine.ts:13；src/arena/model.ts:53；src/arena/engine-items.ts:82,87",
+   "document_ref": "docs/design-sources/cheating-arena-v3-2026-11-23.txt:77,163,169",
+   "judgment": "傷害降尺度會改變場邊介入相對價值，須量測戰局時長與180秒平局率，不能聲稱必然更平衡"
+  },
+  {
+   "id": "I01",
+   "kind": "位置",
+   "topic": "規則資料",
+   "current": "卡牌費用/範圍/投擲傷害；圓場與碰撞半徑",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "src/arena/model.ts:49",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  },
+  {
+   "id": "I02",
+   "kind": "位置",
+   "topic": "出生與時鐘",
+   "current": "SPECIES、出生半徑6.45、1/30步進、180秒",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "src/arena/engine.ts:11",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  },
+  {
+   "id": "I03",
+   "kind": "位置",
+   "topic": "戰鬥",
+   "current": "攻擊profile、恢復、轉向5rad/s、撿物偏好3m、移動門檻12",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "src/arena/engine-combat.ts:13",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  },
+  {
+   "id": "I04",
+   "kind": "位置",
+   "topic": "傷害與控制",
+   "current": "倍率、加值、取整、方向、盾、擊飛倒地、狼收益、屎跳點",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "src/arena/engine-damage.ts:22",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  },
+  {
+   "id": "I05",
+   "kind": "位置",
+   "topic": "資源與裝備",
+   "current": "機率、牌庫重複、補給、冷卻；弓3箭棍2耐久",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "src/arena/engine-cards.ts:3；src/arena/equipment.ts:20",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  },
+  {
+   "id": "I06",
+   "kind": "位置",
+   "topic": "飛行與陷阱",
+   "current": "投送距離/9+0.35、互撞0.15、拾取+0.35；箭12m/s、2.5秒；陷阱0.6/12/3",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "src/arena/engine-items.ts:103；src/arena/engine-arrows.ts:9；src/arena/engine-traps.ts:5",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  },
+  {
+   "id": "I07",
+   "kind": "位置",
+   "topic": "演出與布局",
+   "current": "45度投影、畫布尺寸映射；紙娃娃像素；起身演出硬編0.35",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "src/arena/projection.ts:3；src/arena/puppet.ts:19；src/arena/animation.ts:10",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  },
+  {
+   "id": "I08",
+   "kind": "位置",
+   "topic": "經典模式",
+   "current": "8x8、職業表、180秒、法力與影響力恢復；非圓場V3",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "src/game/model.ts:81；src/game/rules.ts:4,28",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  },
+  {
+   "id": "I09",
+   "kind": "位置",
+   "topic": "產品與規格",
+   "current": "PROJECT與combat描述現行混合版；V2/spec分批歷史、bear-trap現行契約、visuals畫面提案",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "PROJECT.md:8；docs/combat-prototype.md:37；wf/org/design/assets/specs/cheating-arena-v2.md:19",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  },
+  {
+   "id": "I10",
+   "kind": "位置",
+   "topic": "需求與預設台帳",
+   "current": "需求V1+V2增補、T01接V3；預設僅PD01~04，非數值執行來源",
+   "reference": "現行HEAD；非單一V3版本",
+   "code_ref": "wf/org/design/assets/data/cheating-arena-requirements.json；wf/org/design/assets/data/pending-defaults.json",
+   "document_ref": "",
+   "judgment": "不可將所有數字包含UI像素和演算法epsilon混成一張平衡表"
+  }
+ ]
+}
