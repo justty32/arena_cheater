@@ -30,7 +30,7 @@ export interface ArenaContext {
   root: HTMLElement;
   el: <T extends HTMLElement = HTMLElement>(selector: string) => T;
   canvas: HTMLCanvasElement;
-  view: import('./view').ArenaView;
+  view: import('./scene/view').ArenaView;
   handView: ReturnType<typeof import('./hand-view').createHandView>;
   mobilePanels: ReturnType<typeof import('./mobile-panels').createMobilePanels>;
   renderSupport: ReturnType<typeof import('./support-hud').createSupportHud>;

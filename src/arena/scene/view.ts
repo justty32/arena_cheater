@@ -1,6 +1,6 @@
-import { ARENA_RADIUS, THROW_ORIGIN, THROW_TARGET_RADIUS, SPIKE_PIT_RADIUS } from './shared/rules';
-import { isTrapTarget, isThrowableTarget, isAreaSpellTarget, areaSpellTargets } from './shared/targeting';
-import type { ArenaState, Card, Fighter } from './shared/types';
+import { ARENA_RADIUS, THROW_ORIGIN, THROW_TARGET_RADIUS, SPIKE_PIT_RADIUS } from '../shared/rules';
+import { isTrapTarget, isThrowableTarget, isAreaSpellTarget, areaSpellTargets } from '../shared/targeting';
+import type { ArenaState, Card, Fighter } from '../shared/types';
 import { LabelLayout } from './label-layout';
 import { drawAreaEffect, drawAreaPreview, drawSpikePit, drawBearTrap, drawTrapPreview } from './area-art';
 import { drawPuppet, drawWeapon } from './puppet';

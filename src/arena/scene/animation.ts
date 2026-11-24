@@ -1,4 +1,4 @@
-import type { Fighter } from './shared/types';
+import type { Fighter } from '../shared/types';
 const clamp = (value: number): number => Math.max(0, Math.min(1, value));
 /** Rendering samples simulation time; no animation state or wall clock is advanced here. */
 export function airborneHeight(fighter: Fighter, time: number): number {

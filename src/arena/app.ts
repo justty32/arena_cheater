@@ -9,7 +9,7 @@ import type { CardTarget } from './items/engine-items';
 import { CARDS } from './shared/card-catalog';
 import { isResolvingArena } from './shared/status';
 import type { Card } from './shared/types';
-import { ArenaView } from './view';
+import { ArenaView } from './scene/view';
 import { createHandView } from './hand-view';
 import { createThrowFeedback } from './throw-feedback';
 import { createSupportHud } from './support-hud';

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createProjection, insideArena, project, unproject } from '../../src/arena/projection';
+import { createProjection, insideArena, project, unproject } from '../../src/arena/scene/projection';
 describe('45 度競技場投影', () => {
   it('不同畫布尺寸都能把場地點反投影回世界座標', () => {
     for (const [width,height] of [[1200,700],[390,440]]) {

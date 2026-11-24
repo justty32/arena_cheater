@@ -22,7 +22,7 @@ dev 負責契約、派工、整合與回報。依據 app.ts 拆分（64a7e87）�
 
 ### 場景與繪圖：dev-scene
 
-擁有 `src/arena/{view,puppet,animation,projection,label-layout,area-art,thrown-art}.ts`。負責 Canvas、投影／命中選取、卡面繪圖原語與時鐘取樣。對外維持 ArenaView 的 render／選取與座標 API、project／unproject 與 draw 系列函式。
+擁有 `src/arena/scene/{view,puppet,animation,projection,label-layout,area-art,thrown-art}.ts`。負責 Canvas、投影／命中選取、卡面繪圖原語與時鐘取樣。對外維持 ArenaView 的 render／選取與座標 API、project／unproject 與 draw 系列函式。
 
 擁有 projection.test.ts、label-layout.test.ts。目前沒有 Canvas 美術品質單元驗收，不以 build 成功當視覺通過，交 qa 真 UI 驗證。
 
@@ -40,7 +40,7 @@ dev 負責契約、派工、整合與回報。依據 app.ts 拆分（64a7e87）�
 
 ## 主管保管的共用契約
 
-`src/arena/shared/resources.ts` 的狀態亂數／色序／補石及 arena-resources.test.ts 的完整狀態快照由 dev 保管。`src/arena/engine.ts` 相容入口及 `src/arena/model.ts` 相容入口及 `src/arena/shared/{types,card-catalog,targeting,status,rules}.ts` 由 dev 獨佔，分別管理型別、卡牌表、合法目標、結算狀態及規則常數；內部直接引用來源，不繞相容入口。`src/main.ts` 的模式路由、`src/arena/README.md`、`tests/simulation/README.md`、code-map 也由 dev 整合維護。跨塊驗收檔 arena-bear-trap-integration.test.ts 由 dev 擁有。不是多人任寫的共用區；其餘 src 均在上述五塊。
+`src/arena/shared/resources.ts` 的狀態亂數／色序／補石及 arena-resources.test.ts 的完整狀態快照由 dev 保管。`src/arena/{engine,projection,model}.ts` 相容入口及 `src/arena/shared/{types,card-catalog,targeting,status,rules}.ts` 由 dev 獨佔，分別管理型別、卡牌表、合法目標、結算狀態及規則常數；內部直接引用來源，不繞相容入口。`src/main.ts` 的模式路由、`src/arena/README.md`、`tests/simulation/README.md`、code-map 也由 dev 整合維護。跨塊驗收檔 arena-bear-trap-integration.test.ts 由 dev 擁有。不是多人任寫的共用區；其餘 src 均在上述五塊。
 
 新增介面由 owner 提案，寫清參數、輸出、狀態副作用、時間基準與呼叫順序，dev 在原 spec 範圍內決定技術契約。改到玩法語義或規格空白，仍交 main／design，不以主管身份代使用者拍板。
 

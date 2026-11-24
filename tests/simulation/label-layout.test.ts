@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { LabelLayout, type LabelAnchor, type LabelBounds, type PlacedLabel } from '../../src/arena/label-layout';
+import { LabelLayout, type LabelAnchor, type LabelBounds, type PlacedLabel } from '../../src/arena/scene/label-layout';
 
 function expectInside(labels: PlacedLabel[], bounds: LabelBounds): void {
   for (const label of labels) {

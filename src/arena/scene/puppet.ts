@@ -1,4 +1,4 @@
-import type { Fighter, Weapon } from './shared/types';
+import type { Fighter, Weapon } from '../shared/types';
 import { FORESHORTENING } from './projection';
 import { riseProgress } from './animation';
 type Context = CanvasRenderingContext2D;

@@ -22,13 +22,14 @@
 | [items/engine-traps.ts](items/engine-traps.ts) | 刺洞／捕獸夾共用放置、武裝與到期、首位掃掠接觸判定、傷害及生還者定身 |
 | [items/equipment.ts](items/equipment.ts) | 單雙手與盾互斥、裝備初始化彈藥／耐久 |
 | [sim/geometry.ts](sim/geometry.ts) | 同時間段的移動圓碰撞掃掠 |
-| [projection.ts](projection.ts) | 45° 投影、逆投影與圓場範圍 |
-| [animation.ts](animation.ts) | 依遊戲時鐘取樣擊飛高度與起身進度 |
-| [puppet.ts](puppet.ts) | 階層骨骼、獸人部件與手部裝備繪製 |
-| [thrown-art.ts](thrown-art.ts) | 石頭、陶罐及投擲命中碎片繪製 |
-| [area-art.ts](area-art.ts) | 範圍法術卡面、刺洞／捕獸夾圖形、投影預覽圈及依遊戲時鐘演出的雷紋 |
-| [label-layout.ts](label-layout.ts) | 畫面座標中的姓名與資源條避讓配置，不改角色碰撞或選取位置 |
-| [view.ts](view.ts) | Canvas 場地、八門、遮擋排序、角色標籤、箭矢／投送、特效及選取判定 |
+| [projection.ts](projection.ts) | 相容入口，明確轉出原投影 API |
+| [scene/projection.ts](scene/projection.ts) | 45° 投影、逆投影與圓場範圍 |
+| [scene/animation.ts](scene/animation.ts) | 依遊戲時鐘取樣擊飛高度與起身進度 |
+| [scene/puppet.ts](scene/puppet.ts) | 階層骨骼、獸人部件與手部裝備繪製 |
+| [scene/thrown-art.ts](scene/thrown-art.ts) | 石頭、陶罐及投擲命中碎片繪製 |
+| [scene/area-art.ts](scene/area-art.ts) | 範圍法術卡面、刺洞／捕獸夾圖形、投影預覽圈及依遊戲時鐘演出的雷紋 |
+| [scene/label-layout.ts](scene/label-layout.ts) | 畫面座標中的姓名與資源條避讓配置，不改角色碰撞或選取位置 |
+| [scene/view.ts](scene/view.ts) | Canvas 場地、八門、遮擋排序、角色標籤、箭矢／投送、特效及選取判定 |
 | [layout.ts](layout.ts) | 靜態 DOM 佈局、控制項、卡牌標記、費用文案與 Canvas 卡面 |
 | [hand-view.ts](hand-view.ts) | 手牌及石頭節點同步、費用可付與付款預覽 |
 | [support-hud.ts](support-hud.ts) | 固定顯示支持者姓名、生命、陣亡狀態與本場擊殺獎勵累計，並提示陣亡 |
