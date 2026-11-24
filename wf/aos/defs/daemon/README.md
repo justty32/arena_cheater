@@ -1,6 +1,6 @@
 # daemon：本專案的子 daemon 定義（掛在根 daemon 底下，不帶時鐘，只帶清道夫）
 
-照 aos 範本 `$AOS_HOME/templates/daemon-sub` 的做法（原本抄自 `daemon-root`，2026-11-23 改成子 daemon 的說法）；本專案的分工見 [org](../../../org/README.md)。
+照 aos 範本 `$AOS_HOME/templates/daemons/daemon-sub` 的做法（原本抄自 `daemon-root`，2026-11-23 改成子 daemon 的說法）；本專案的分工見 [org](../../../org/README.md)。
 
 本專案的掛法：上層＝根 daemon `~/aos-home/.stack`，表上名字 `mine_arena`，ws＝專案資料夾 `/mnt/c/code/mine/arena_cheater`，stack 用預設的 `~/aos-home/.stack/procs/mine_arena/`；底下的部門 agent 見 [aos](../../README.md)。
 
@@ -25,7 +25,7 @@
 下面的 `<上層 stack>`、`<名>`、`<子定義>`、`<ws>` **只是佔位**：定義放哪、叫什麼名字都可以，範本與程式都不假設。
 
 ```sh
-cp -r $AOS_HOME/templates/daemon-sub <子定義>              # 例 ~/aos-home/guanyu
+cp -r $AOS_HOME/templates/daemons/daemon-sub <子定義>              # 例 ~/aos-home/guanyu
 aos-daemon-ctl -d <上層 stack> add --auto-restart -n <名> -w <ws> <子定義>
 aos-daemon-ctl -d <上層 stack> ls                          # <名> 是 running
 aos-daemon-ctl -d <上層 stack>/procs/<名> ls               # 只有 _sweeper
@@ -40,7 +40,7 @@ aos-daemon-ctl -d <上層 stack>/procs/<名> ls               # 只有 _sweeper
 底下掛 agent（`-d` 給子 daemon 的 stack，不是上層的）：
 
 ```sh
-aos-agent -d <上層 stack>/procs/<名> ctl add --auto-restart -n <agent 名> -w <agent 的 ws> $AOS_HOME/templates/eca-claude
+aos-agent -d <上層 stack>/procs/<名> ctl add --auto-restart -n <agent 名> -w <agent 的 ws> $AOS_HOME/templates/agents/eca-claude
 aos-daemon-ctl -d <上層 stack>/procs/<名> ls               # _sweeper、<agent 名> 都是 running
 ```
 

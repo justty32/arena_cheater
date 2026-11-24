@@ -14,7 +14,7 @@
           "python3",
           {
             "$env": "AOS_HOME",
-            "$path": "/templates/agent-fsm/idle.py"
+            "$path": "/lib/aos/apps/agent_fsm/idle.py"
           }
         ]
       },
@@ -29,7 +29,7 @@
           "python3",
           {
             "$env": "AOS_HOME",
-            "$path": "/templates/agent-fsm/brain.py"
+            "$path": "/lib/aos/apps/agent_fsm/brain.py"
           }
         ]
       },
@@ -44,7 +44,7 @@
           "python3",
           {
             "$env": "AOS_HOME",
-            "$path": "/templates/agent-fsm/wait.py"
+            "$path": "/lib/aos/apps/agent_fsm/wait.py"
           }
         ]
       },
@@ -60,7 +60,7 @@
           "python3",
           {
             "$env": "AOS_HOME",
-            "$path": "/templates/agent-fsm/act.py"
+            "$path": "/lib/aos/apps/agent_fsm/act.py"
           }
         ],
         "timeout_ms": 0

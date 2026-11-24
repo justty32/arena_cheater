@@ -2,7 +2,7 @@
 
 寫 src/ 和核心測試；第一件工作是拆熱點檔。職責、讀寫範圍和交接方式，寫在角色卡 [wf/org/dev](../../../org/dev/README.md)，這裡不重抄。
 
-本定義是從 aos 範本 `$AOS_HOME/templates/start-api/agents/ann` 用 `agent_def new` 複製來的，屬於精簡型：沒有自帶 agent-fsm 的程式，`fsm.json` 指回 `$AOS_HOME/templates/agent-fsm/` 的程式。這台機器要先設好 `AOS_HOME`。
+本定義是從 aos 範本 `$AOS_HOME/templates/starts/start-api/agents/ann` 用 `agent_def new` 複製來的，屬於精簡型：沒有自帶 agent-fsm 的程式，`fsm.json` 指回 `$AOS_HOME/lib/aos/apps/agent_fsm/` 的程式。這台機器要先設好 `AOS_HOME`。
 
 | 檔 | 本部門改了什麼 |
 |----|----------------|
