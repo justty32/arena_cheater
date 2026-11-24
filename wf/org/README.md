@@ -82,6 +82,8 @@
 
 **Node.js 一次一個**：2026-11-23 使用者定的。整個 `mine_arena` 同一時間只能跑一件 Node.js 工作，npm、npx、node、vitest、tsc、vite、playwright 都算。限的是工作數，不是程序數：一件工作自己開出來的子程序沒關係。目的是不讓 CPU 和記憶體被吃光。所以每個 Node 指令前面都要加鎖：`flock /tmp/aos/arena_cheater/locks/node.lock <指令>`，拿不到鎖時，flock 會等前一個跑完。能只讀程式碼就判斷的事，就不要跑。這把鎖是大家約好遵守的，並沒有強制力：有人不加鎖直接跑，系統擋不住。所以 test、build 和 E2E 都改走 `arena_verify` 和 `arena_e2e` 兩支工具。工具會自己拿鎖，還會把工作放進 systemd scope 裡跑，資源上限是 4G 記憶體、400% CPU、256 個 task，這是硬限制。
 
+**這把鎖是全機共用的**：2026-11-24 使用者裁示，整台機器的 Node 一次只跑一件，跨 repo 也算。mecha-srpg 的 `scripts/heavy-lock.sh` 也鎖同一個檔 `/tmp/aos/arena_cheater/locks/node.lock`，所以等鎖的時間可能因為別的專案變長，這是預期的。**不要改這個路徑**；要改，先由 main 跟 `eca_main`（`~/aos-home/.stack` 那台 daemon）講好，兩邊一起改。
+
 **規則沒寫到的情況，先照判斷做**：2026-11-23 使用者同意。規則沒涵蓋、但風險低又能退回的事，各部門先照自己的判斷去做，回信時附上理由，main 事後核對，再補規則。不確定的事、push、對外的動作，還有要使用者拍板的方向，仍然要先問。
 
 **並行變動只看自己的範圍**：好幾個部門會同時在同一個工作區改檔。在 `git status` 看到別人改的檔，只要在自己的寫入範圍以外，就是預期內的，不必停下來問。只有自己可以寫的路徑出現不是自己改的變動，才停工問 main。
