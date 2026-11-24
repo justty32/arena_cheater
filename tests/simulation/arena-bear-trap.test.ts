@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createArena, playCard, toggleArena } from '../../src/arena/engine';
-import { drawCard } from '../../src/arena/engine-cards';
+import { createArena, playCard, toggleArena } from '../../src/arena/sim/engine';
+import { drawCard } from '../../src/arena/items/engine-cards';
 import { CARDS, THROW_TARGET_RADIUS } from '../../src/arena/model';
 
 function prepared() {

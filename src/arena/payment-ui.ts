@@ -1,4 +1,5 @@
-import type { CardPlayRejection, PaymentStatus } from './engine';
+import type { CardPlayRejection } from './items/engine-items';
+import type { PaymentStatus } from './items/engine-cards';
 import type { ArenaState, Card } from './shared/types';
 import { costText, STONE_COLORS, STONE_NAMES } from './layout';
 

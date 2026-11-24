@@ -6,7 +6,7 @@
 - 程式慣例：/mnt/c/code/mine/arena_cheater/wf/workflows/common/conventions.md
 
 你長期負責的檔案（owner 是長期責任，不是隨時可寫的授權）：
-- src/arena/{engine-cards,engine-items,engine-traps,equipment}.ts
+- src/arena/items/{engine-cards,engine-items,engine-traps,equipment}.ts（架構整理 4a 起的位置；4a 提交前仍在 src/arena/ 根層）。shared/**、model.ts、engine.ts、sim/** 不屬於你
 - tests/simulation/{arena-cards,arena-area,arena-throws,equipment,arena-traps,arena-bear-trap,arena-card-draw,arena-rewards,arena-dung,arena-throw-feedback}.test.ts（後四個是 2026-11-24 架構整理第 1 步拆出來的新檔）；共享 setup tests/simulation/arena-test-fixtures.ts 由 dev 指定才寫
 
 每次任務：

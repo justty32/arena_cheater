@@ -1,7 +1,7 @@
-import { applyHealthDamage, effect, log } from './engine-damage';
-import { sweptCircleTime, type Point } from './geometry';
-import { SPIKE_PIT_RADIUS } from './shared/rules';
-import type { ArenaState, Fighter, TrapKind } from './shared/types';
+import { applyHealthDamage, effect, log } from '../sim/engine-damage';
+import { sweptCircleTime, type Point } from '../sim/geometry';
+import { SPIKE_PIT_RADIUS } from '../shared/rules';
+import type { ArenaState, Fighter, TrapKind } from '../shared/types';
 
 const ARM_SECONDS = 0.6;
 const ARMED_LIFETIME = 12;

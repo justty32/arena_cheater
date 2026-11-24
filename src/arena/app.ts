@@ -5,7 +5,7 @@ import { createCardActions } from './card-actions';
 import { createArenaHud } from './arena-hud';
 import { createArenaSession } from './arena-session';
 import { createFighterDetails } from './fighter-details';
-import type { CardTarget } from './engine';
+import type { CardTarget } from './items/engine-items';
 import { CARDS } from './shared/card-catalog';
 import { isResolvingArena } from './shared/status';
 import type { Card } from './shared/types';

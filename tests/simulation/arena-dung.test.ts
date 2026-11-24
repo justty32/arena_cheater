@@ -1,7 +1,7 @@
 import { describe,expect,it } from 'vitest';
-import { advanceArena,chooseDeliberation,createArena,playCard,toggleArena } from '../../src/arena/engine';
-import { advanceItems } from '../../src/arena/engine-items';
-import { attackDamage } from '../../src/arena/engine-damage';
+import { advanceArena,chooseDeliberation,createArena,playCard,toggleArena } from '../../src/arena/sim/engine';
+import { advanceItems } from '../../src/arena/items/engine-items';
+import { attackDamage } from '../../src/arena/sim/engine-damage';
 import { type ThrownItem,type ThrownKind } from '../../src/arena/model';
 function flight(id:number,weapon:ThrownKind='sword',fromX=-2,fromY=0,toX=2,toY=0):ThrownItem {
  return {id,weapon,x:fromX,y:fromY,fromX,fromY,toX,toY,launched:0,landsAt:1,landed:false};

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { advanceArena, createArena, toggleArena } from '../../src/arena/engine';
-import { act, hit, syncStamina } from '../../src/arena/engine-combat';
-import { advanceArrows, fireArrow } from '../../src/arena/engine-arrows';
-import { advanceControl, attackDamage, damageFighter } from '../../src/arena/engine-damage';
-import { equip } from '../../src/arena/equipment';
+import { advanceArena, createArena, toggleArena } from '../../src/arena/sim/engine';
+import { act, hit, syncStamina } from '../../src/arena/sim/engine-combat';
+import { advanceArrows, fireArrow } from '../../src/arena/sim/engine-arrows';
+import { advanceControl, attackDamage, damageFighter } from '../../src/arena/sim/engine-damage';
+import { equip } from '../../src/arena/items/equipment';
 
 function pair() {
   const state = createArena(42); toggleArena(state); state.fighters = state.fighters.slice(0, 2);

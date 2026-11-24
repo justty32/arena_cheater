@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { createArena, findPayment, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
-import { drawCard, drawStones } from '../../src/arena/engine-cards';
-import { applyHealthDamage } from '../../src/arena/engine-damage';
+import { createArena, findPayment, playCard, redrawStones, toggleArena } from '../../src/arena/sim/engine';
+import { drawCard, drawStones } from '../../src/arena/items/engine-cards';
+import { applyHealthDamage } from '../../src/arena/sim/engine-damage';
 import { CARDS } from '../../src/arena/model';
 
 describe('resource command sequence compatibility', () => {

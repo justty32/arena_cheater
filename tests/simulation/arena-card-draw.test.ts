@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { advanceArena, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, knownUpcomingCards, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
-import { drawCard, drawStones } from '../../src/arena/engine-cards';
+import { advanceArena, chooseDeliberation, createArena, findPayment, keepDeliberationPaused, knownUpcomingCards, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/sim/engine';
+import { drawCard, drawStones } from '../../src/arena/items/engine-cards';
 import { CARDS, type ArenaState, type CardId, type StoneColor } from '../../src/arena/model';
 function ready(cardId:CardId='lightning', colors:StoneColor[]=['red','blue','green']):ArenaState {
  const state=createArena(42);toggleArena(state);

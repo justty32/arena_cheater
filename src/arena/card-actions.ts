@@ -1,4 +1,5 @@
-import { chooseDeliberation, findPayment, keepDeliberationPaused, paymentStatus, validateCardPlay, type CardTarget, playCard, redrawStones } from './engine';
+import { chooseDeliberation, findPayment, keepDeliberationPaused, paymentStatus, redrawStones } from './items/engine-cards';
+import { validateCardPlay, type CardTarget, playCard } from './items/engine-items';
 import { areaSpellTargets } from './shared/targeting';
 import { cardPlayFailure, paymentProblem, selfPaymentAction } from './payment-ui';
 import type { ArenaContext } from './arena-session';

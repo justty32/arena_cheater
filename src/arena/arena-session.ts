@@ -1,4 +1,4 @@
-import { createArena } from './engine';
+import { createArena } from './sim/engine';
 
 export function createArenaSession() {
   const state = createArena(73021);

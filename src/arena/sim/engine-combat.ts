@@ -1,6 +1,6 @@
-import { THROW_PROFILES } from './shared/rules';
-import type { ArenaState, Fighter, Weapon } from './shared/types';
-import { canEquip } from './equipment';
+import { THROW_PROFILES } from '../shared/rules';
+import type { ArenaState, Fighter, Weapon } from '../shared/types';
+import { canEquip } from '../items/equipment';
 import { fireArrow } from './engine-arrows';
 import { advanceControl, attackDamage, clampFighter, damageFighter, distance, hasBuff, log, syncStamina } from './engine-damage';
 export { clampFighter, distance, effect, hasBuff, log, syncStamina } from './engine-damage';

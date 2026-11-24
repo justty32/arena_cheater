@@ -1,13 +1,13 @@
-import { CARDS } from './shared/card-catalog';
-import { ARENA_RADIUS, THROW_TARGET_RADIUS, THROW_ORIGIN, THROW_PROFILES } from './shared/rules';
-import { areaSpellTargets, isThrowableTarget, isTrapTarget } from './shared/targeting';
-import { isResolvingArena } from './shared/status';
-import type { ArenaState, Card, Fighter, ThrownItem, ThrowImpact, ThrownKind, Weapon, TrapKind } from './shared/types';
+import { CARDS } from '../shared/card-catalog';
+import { ARENA_RADIUS, THROW_TARGET_RADIUS, THROW_ORIGIN, THROW_PROFILES } from '../shared/rules';
+import { areaSpellTargets, isThrowableTarget, isTrapTarget } from '../shared/targeting';
+import { isResolvingArena } from '../shared/status';
+import type { ArenaState, Card, Fighter, ThrownItem, ThrowImpact, ThrownKind, Weapon, TrapKind } from '../shared/types';
 import { canEquip, equip } from './equipment';
-import { sweptCircleTime, type Point } from './geometry';
+import { sweptCircleTime, type Point } from '../sim/geometry';
 import { canPayCost, findPayment, consumeCard, drawCard, drawStones, beginDeliberation, revealUpcomingCards } from './engine-cards';
 import { placeTrap } from './engine-traps';
-import { applyDungStatus, applyHealthDamage, damageFighter, distance, effect, log } from './engine-damage';
+import { applyDungStatus, applyHealthDamage, damageFighter, distance, effect, log } from '../sim/engine-damage';
 
 function sweptThrowFighterTime(from: Point, to: Point, fighter: Fighter): number | undefined {
   return sweptCircleTime(from, to, fighter, fighter, fighter.radius + 0.11);

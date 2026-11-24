@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { advanceArena, canPayCost, createArena, findPayment, paymentStatus, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/engine';
-import { attackDamage } from '../../src/arena/engine-damage';
-import { advanceArrows } from '../../src/arena/engine-arrows';
+import { advanceArena, canPayCost, createArena, findPayment, paymentStatus, validateCardPlay, playCard, redrawStones, toggleArena } from '../../src/arena/sim/engine';
+import { attackDamage } from '../../src/arena/sim/engine-damage';
+import { advanceArrows } from '../../src/arena/sim/engine-arrows';
 import { CARDS, type ArenaState, type CardId, type StoneColor } from '../../src/arena/model';
 function ready(cardId:CardId='lightning', colors:StoneColor[]=['red','blue','green']):ArenaState {
  const state=createArena(42);toggleArena(state);

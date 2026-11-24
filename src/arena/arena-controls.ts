@@ -1,4 +1,4 @@
-import { createArena, toggleArena } from './engine';
+import { createArena, toggleArena } from './sim/engine';
 import type { ArenaContext } from './arena-session';
 
 export function createArenaControls(context: Pick<ArenaContext, 'session' | 'root' | 'el' | 'start' | 'rows' | 'support' | 'supportChange' | 'mobilePanels' | 'currentCard' | 'canCastFromRoster' | 'attemptPlay' | 'handView' | 'render' | 'clearSelection'>) {

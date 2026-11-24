@@ -11,16 +11,17 @@
 | [shared/card-catalog.ts](shared/card-catalog.ts) | 原序卡牌表、費用與效果設定 |
 | [shared/targeting.ts](shared/targeting.ts) | 投送、陷阱、範圍法術合法目標與範圍內鬥士判定 |
 | [shared/status.ts](shared/status.ts) | 待結算持續傷害與停止介入判定 |
-| [engine.ts](engine.ts) | seed 入場、固定步進、生命週期、資源與結算 |
-| [engine-combat.ts](engine-combat.ts) | 自主移動與定身限制、面向、出招、體力、招架時機與角色分離 |
-| [engine-damage.ts](engine-damage.ts) | 傷害、防禦耗能、虛弱上限與擊飛／跌倒／起身 |
-| [engine-arrows.ts](engine-arrows.ts) | 三箭發射、直線掃掠命中、飛行到期 |
+| [engine.ts](engine.ts) | 相容入口，明確轉出原公共 API；內部直接引用來源 |
+| [sim/engine.ts](sim/engine.ts) | seed 入場、固定步進、生命週期、資源與結算 |
+| [sim/engine-combat.ts](sim/engine-combat.ts) | 自主移動與定身限制、面向、出招、體力、招架時機與角色分離 |
+| [sim/engine-damage.ts](sim/engine-damage.ts) | 傷害、防禦耗能、虛弱上限與擊飛／跌倒／起身 |
+| [sim/engine-arrows.ts](sim/engine-arrows.ts) | 三箭發射、直線掃掠命中、飛行到期 |
 | [shared/resources.ts](shared/resources.ts) | 共用狀態亂數、石頭色序及補石；卡牌抽取與擊殺獎勵共用同一亂數流 |
-| [engine-cards.ts](engine-cards.ts) | 牌堆抽取、實例付款與缺額狀態、出牌消耗及換石冷卻 |
-| [engine-items.ts](engine-items.ts) | 共用出牌驗證與拒絕原因、卡牌目標與效果、範圍法術、投送物碰撞排序、裝備拾取及最新投送結構化結果 |
-| [engine-traps.ts](engine-traps.ts) | 刺洞／捕獸夾共用放置、武裝與到期、首位掃掠接觸判定、傷害及生還者定身 |
-| [equipment.ts](equipment.ts) | 單雙手與盾互斥、裝備初始化彈藥／耐久 |
-| [geometry.ts](geometry.ts) | 同時間段的移動圓碰撞掃掠 |
+| [items/engine-cards.ts](items/engine-cards.ts) | 牌堆抽取、實例付款與缺額狀態、出牌消耗及換石冷卻 |
+| [items/engine-items.ts](items/engine-items.ts) | 共用出牌驗證與拒絕原因、卡牌目標與效果、範圍法術、投送物碰撞排序、裝備拾取及最新投送結構化結果 |
+| [items/engine-traps.ts](items/engine-traps.ts) | 刺洞／捕獸夾共用放置、武裝與到期、首位掃掠接觸判定、傷害及生還者定身 |
+| [items/equipment.ts](items/equipment.ts) | 單雙手與盾互斥、裝備初始化彈藥／耐久 |
+| [sim/geometry.ts](sim/geometry.ts) | 同時間段的移動圓碰撞掃掠 |
 | [projection.ts](projection.ts) | 45° 投影、逆投影與圓場範圍 |
 | [animation.ts](animation.ts) | 依遊戲時鐘取樣擊飛高度與起身進度 |
 | [puppet.ts](puppet.ts) | 階層骨骼、獸人部件與手部裝備繪製 |

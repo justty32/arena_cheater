@@ -1,5 +1,5 @@
-import { ARENA_RADIUS } from './shared/rules';
-import type { ArenaState, Fighter } from './shared/types';
+import { ARENA_RADIUS } from '../shared/rules';
+import type { ArenaState, Fighter } from '../shared/types';
 import { attackDamage, damageFighter, log } from './engine-damage';
 import { sweptCircleTime } from './geometry';
 

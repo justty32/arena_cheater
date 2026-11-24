@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { createArena, playCard, toggleArena } from '../../src/arena/engine';
-import { applyHealthDamage, attackDamage, damageFighter, syncStamina } from '../../src/arena/engine-damage';
-import { advanceArrows } from '../../src/arena/engine-arrows';
-import { advanceItems } from '../../src/arena/engine-items';
+import { createArena, playCard, toggleArena } from '../../src/arena/sim/engine';
+import { applyHealthDamage, attackDamage, damageFighter, syncStamina } from '../../src/arena/sim/engine-damage';
+import { advanceArrows } from '../../src/arena/sim/engine-arrows';
+import { advanceItems } from '../../src/arena/items/engine-items';
 import { type ArenaState, type CardId, type StoneColor, type ThrownItem, type ThrownKind } from '../../src/arena/model';
 function ready(cardId:CardId='lightning', colors:StoneColor[]=['red','blue','green']):ArenaState {
  const state=createArena(42);toggleArena(state);

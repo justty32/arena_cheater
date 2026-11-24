@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { advanceArena, createArena, playCard, toggleArena } from '../../src/arena/engine';
+import { advanceArena, createArena, playCard, toggleArena } from '../../src/arena/sim/engine';
 
 function scene(seed = 42) {
   const state = createArena(seed); toggleArena(state);

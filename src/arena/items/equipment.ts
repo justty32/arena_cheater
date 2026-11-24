@@ -1,4 +1,4 @@
-import type { Fighter, Weapon } from './shared/types';
+import type { Fighter, Weapon } from '../shared/types';
 
 export function isTwoHanded(weapon: Weapon): boolean {
   return weapon === 'club' || weapon === 'bow';

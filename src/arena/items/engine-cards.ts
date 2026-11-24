@@ -1,9 +1,9 @@
-import { CARDS } from './shared/card-catalog';
-import { isResolvingArena } from './shared/status';
-import type { ArenaState, CardId, DeliberationOffer, StoneColor, StoneCost } from './shared/types';
+import { CARDS } from '../shared/card-catalog';
+import { isResolvingArena } from '../shared/status';
+import type { ArenaState, CardId, DeliberationOffer, StoneColor, StoneCost } from '../shared/types';
 
-import { COLORS, drawStones, random } from './shared/resources';
-export { drawStones } from './shared/resources';
+import { COLORS, drawStones, random } from '../shared/resources';
+export { drawStones } from '../shared/resources';
 
 export const REDRAW_COOLDOWN = 3;
 const INTUITION_CARD_COUNT = 2;

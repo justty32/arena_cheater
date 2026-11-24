@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { createArena } from '../../src/arena/engine';
-import { advanceItems } from '../../src/arena/engine-items';
-import { canEquip, equip } from '../../src/arena/equipment';
-import { sweptCircleTime } from '../../src/arena/geometry';
+import { createArena } from '../../src/arena/sim/engine';
+import { advanceItems } from '../../src/arena/items/engine-items';
+import { canEquip, equip } from '../../src/arena/items/equipment';
+import { sweptCircleTime } from '../../src/arena/sim/geometry';
 import type { ThrownItem, ThrownKind } from '../../src/arena/model';
 
 function flight(id: number, fromX: number, fromY: number, toX: number, toY: number, landsAt = 1, weapon: ThrownKind = 'sword'): ThrownItem {

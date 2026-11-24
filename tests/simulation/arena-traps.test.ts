@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createArena } from '../../src/arena/engine';
-import { advanceTraps, placeTrap, trapMovementStart } from '../../src/arena/engine-traps';
+import { createArena } from '../../src/arena/sim/engine';
+import { advanceTraps, placeTrap, trapMovementStart } from '../../src/arena/items/engine-traps';
 import { SPIKE_PIT_RADIUS, type ArenaState, type TrapKind } from '../../src/arena/model';
 
 function setup(kind: TrapKind = 'bear-trap') {

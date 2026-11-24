@@ -1,4 +1,5 @@
-import { advanceArena, keepDeliberationPaused, toggleArena } from './engine';
+import { advanceArena, toggleArena } from './sim/engine';
+import { keepDeliberationPaused } from './items/engine-cards';
 import type { ArenaContext } from './arena-session';
 
 export function startArenaLoop(context: Pick<ArenaContext, 'session' | 'canvas' | 'render' | 'clearSelection' | 'pixelRatio'>): void {

@@ -1,5 +1,5 @@
 import { describe,expect,it } from 'vitest';
-import { advanceArena,createArena,findPayment,playCard,toggleArena } from '../../src/arena/engine';
+import { advanceArena,createArena,findPayment,playCard,toggleArena } from '../../src/arena/sim/engine';
 import { ARENA_RADIUS,CARDS,SPIKE_PIT_RADIUS,areaSpellTargets,isAreaSpellTarget,isTrapTarget,type CardId } from '../../src/arena/model';
 function prepared(cardId:CardId='lightning-rain') {
  const state=createArena(42);toggleArena(state);

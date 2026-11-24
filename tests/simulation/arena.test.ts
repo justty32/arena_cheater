@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { advanceArena, createArena, playCard, toggleArena } from '../../src/arena/engine';
-import { act, hit } from '../../src/arena/engine-combat';
-import { advanceItems } from '../../src/arena/engine-items';
+import { advanceArena, createArena, playCard, toggleArena } from '../../src/arena/sim/engine';
+import { act, hit } from '../../src/arena/sim/engine-combat';
+import { advanceItems } from '../../src/arena/items/engine-items';
 import { CARDS, type CardId } from '../../src/arena/model';
 import type { ArenaState } from '../../src/arena/model';
 
