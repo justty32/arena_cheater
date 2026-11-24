@@ -14,10 +14,9 @@
 體系與規矩見 [org](org/README.md)；main 只協調，aos 會用 new_mail 叫醒，不用輪詢。
 
 - [org] **2026-11-24 整理**（使用者：「先把程式架構、專案架構整理一下，然後來整理一下數值」）→ 架構整理完才動數值。
-- [dev] 架構整理 0～5 完成：拆測試、resources、model→shared、sim/items/scene/ui 搬目錄、數值集中到 `src/arena/data/arena-balance.json`（198 列，design 管值、dev 管 schema）。每批 review＋qa E2E title_project 全綠。後續候選：①metadata 拆出不打包（目前 gzip +10.6 kB）②V3 前把完整快照縮成關鍵欄位投影 ③第 6 步舊資源 CSS 清理（選做）④dev-items 試行數據回顧、要不要加 scene 席。
+- [dev] 架構整理 0～6 加快照縮小全部完成：拆測試、resources、model→shared、sim/items/scene/ui、數值集中到 `src/arena/data/arena-balance.json`（198 列，design 管值、dev 管 schema）、刪舊資源 CSS、完整快照縮成從舊快照投影的資源硬期望。每批都過 review，動到 UI 的批次另有 qa E2E 全綠。後續候選：metadata 拆出不打包（gzip +10.6 kB）。dev-items 試行回顧：暫不加 scene 席，等有獨立場景切片時再試雙席。
 - [design] 數值：現值單一來源已建立（盤點與核對在 design audits/）。V3 遷移的方向題在 [WAIT_USER](WAIT_USER.md)，答了才開切片。
 - [game] 捕獸夾完成（`079c602`），試玩等使用者；小修候選在 [follow-ups](org/design/assets/follow-ups.md)。未排程：V3 遷移（換尺寸時先開 art）、種子、狼象特性。
-- [org] dev 模組責任制（[ownership](org/dev/assets/ownership.md)）：dev-items 在第 1 步試行，記錄移交、返工、等鎖、review 缺陷、整合時間；試完再決定加 scene。
 - [org] eca-aos：六題已答（[aos-feedback](notes/investigations/aos-feedback.md)）；意見累積在同檔，使用者說有空才寄。
 
 ## 各工作流 session-log
