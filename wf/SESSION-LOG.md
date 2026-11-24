@@ -11,15 +11,17 @@
 
 ## 最新進度
 
-體系與規矩見 [org](org/README.md)；main 只協調，aos 會用 new_mail 叫醒，不用輪詢。
+體系與規矩見 [org](org/README.md)；main 只協調，aos 用 new_mail 叫醒。**定時做事用 aos `clock_register`（已加進 main 的工具），絕不用 Claude Code 背景 Bash sleep**：會擋住 new_mail（2026-11-24 已回報 eca-aos，原因待查）。
 
-- [org] **今天 16:55 push 一次**：使用者原話「push這塊就等今天下午四點五十五分，你push一次。」→ main 用背景計時器等到 16:55，再交 integration push（信裡附原話）。push 前工作區要乾淨，進行中的批次先提交或先擱著。
-- [org] 2026-11-24 13:30 使用者同意「你說的都可以做」：metadata 拆出不打包（dev 先評估）、空閒改進（qa 截圖穩定化、review 純搬移比對工具、kb 舊路徑掃描）。eca-aos 有空，aos-feedback 已寄出。
-- [org] **2026-11-24 整理**（使用者：「先把程式架構、專案架構整理一下，然後來整理一下數值」）→ 架構整理完才動數值。
-- [dev] 架構整理 0～6 加快照縮小全部完成：拆測試、resources、model→shared、sim/items/scene/ui、數值集中到 `src/arena/data/arena-balance.json`（198 列，design 管值、dev 管 schema）、刪舊資源 CSS、完整快照縮成從舊快照投影的資源硬期望。每批都過 review，動到 UI 的批次另有 qa E2E 全綠。後續候選：metadata 拆出不打包（gzip +10.6 kB）。dev-items 試行回顧：暫不加 scene 席，等有獨立場景切片時再試雙席。
-- [design] 數值：現值單一來源已建立（盤點與核對在 design audits/）。V3 遷移的方向題在 [WAIT_USER](WAIT_USER.md)，答了才開切片。
-- [game] 捕獸夾完成（`079c602`），試玩等使用者；小修候選在 [follow-ups](org/design/assets/follow-ups.md)。未排程：V3 遷移（換尺寸時先開 art）、種子、狼象特性。
-- [org] eca-aos：六題已答（[aos-feedback](notes/investigations/aos-feedback.md)）；意見累積在同檔，使用者說有空才寄。
+- [org] **2026-11-24 push 完成**：使用者「現在推吧」→ 57 commit 推到 origin（`4d53fd5`→`2021caf`），CI 和 Pages 都成功。之後的 commit（`8940627` review_move_check 工具、`4959f5b` metadata 分檔等）還沒推，要推得再問使用者。
+- [dev] 架構整理 0～6 加快照縮小，全部完成並已 push。
+- [dev] metadata 分檔已提交 `4959f5b`（未 push）。qa 固定幀截圖以「未達穩定」結案（15 張 10 同），tests/e2e 改動已撤回。
+- [org] **aos templates 三分**（aos `e3edcb02d`）：定義 16 檔＋README 7 檔的路徑更新交 integration 提交 → 回 eca-aos DONE 附雜湊。`wf/aos/defs/**/*.bak-trisplit-1124` 16 個備份：使用者決定不留過渡期，eca-aos 說直接刪 → kb 刪除中（未追蹤，不提交）。
+- [review] review_move_check 唯讀工具：kb 初審擋下 re-export 誤判，修好後複審通過，已提交 `8940627`（未 push）。
+- [org] eca-aos：累積的意見已寄出，記在 [aos-feedback](notes/investigations/aos-feedback.md)，該檔有未提交的改動。他們已修好下屬 board_set StackMissing（`033671bc0`）。背景 sleep 擋 new_mail 和過期通知，等今天 templates 三分切換後才查（main 會被重啟）。
+- [design] V3 數值方向四題已經在 2026-11-24 13:30 說明給使用者聽，等他回答，見 [WAIT_USER](WAIT_USER.md)。
+- [game] 捕獸夾試玩等使用者。未排程：V3 遷移（換尺寸時先開 art）、種子、狼和象的特性。dev-items 試行回顧：暫不加 scene 席。
+- [kb] 新增 3 個超標區塊（qa/improvements、design/README、review-checklist），等那幾個部門下次空閒改進時處理。
 
 ## 各工作流 session-log
 
