@@ -9,6 +9,7 @@
 | [README.md](../README.md) | 人的入口與目前可用內容 |
 | [PROJECT.md](../PROJECT.md) | 原始需求、已確認方向與待定玩法 |
 | [戰鬥原型](../docs/combat-prototype.md) | 操作、試玩規則與邏輯／畫面邊界 |
+| [經典原型](../docs/classic-prototype.md) | 舊版棋盤原型的操作與規則 |
 | [AGENTS.md](../AGENTS.md) | Agent 薄入口 |
 | [CLAUDE.md](../CLAUDE.md) | Claude Code 轉址 |
 | `.gitattributes`／`.gitignore` | LF 換行設定與本機環境／工具快取排除 |
@@ -27,5 +28,6 @@
 | [import.md](import.md) | 導入來源、版本與適配範圍 |
 | [org/README.md](org/README.md) | 多 agent 分工、部門角色卡與部門資產庫 |
 | [aos/README.md](aos/README.md) | aos 執行設定（daemon、各部門 agent 定義） |
+| [archive/README.md](archive/README.md) | 封存文件索引 |
 
 遊戲原始碼在 `src/`，核心與瀏覽器測試在 `tests/`；檔案職責見 [code map](workflows/common/code-map.md)，啟動見 [dev-env](workflows/dev-env.md)，驗證見 [testing](workflows/testing.md)。

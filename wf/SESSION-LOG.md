@@ -11,24 +11,15 @@
 
 ## 最新進度
 
-- [org] **體系現況**（2026-11-23）
-  - 部門：design、dev、qa、review、integration 都掛在 `mine_arena` 子 daemon 上，用 `agents_ctl ls` 查。分工和規矩見 [org](org/README.md)，信件格式見 [letters](org/letters.md)，決策見 [decisions](workflows/decisions.md)。
-  - 公告欄和留言板在 `/tmp/aos/arena_cheater/board/`，`notice.md` 只有 main 寫。
-  - Node 工作一律走 `arena_verify` 或 `arena_e2e`，兩支工具都會先拿 flock，再用 systemd scope 限制在 4G、400%、256。
-  - 下屬只要做到防失誤即可，由部門自己判斷。規則沒寫到、風險又低的事，先照判斷做，回信附理由。
-  - 部門空閒時可以改進自己，但 main 要寄信叫醒它，部門 agent 收到信才會動。
-- [org] **main 的工作方式**：只做協調和面對使用者，實作一律派給部門。aos 通知中心在 main 閒著時會送 new_mail 叫醒它，所以不用輪詢。aos 本身的問題寄給 `eca-aos`（daemon 是 `~/repo/aos/.stack` 的絕對路徑）。小助手等有適合的判斷型協調工作再開。
-- [game] **捕獸夾（切片 A）完成**：feat `079c602`；文件同步、plan 封存（[archive](archive/bear-trap-plan-2026-11-23.md)）和 arena_e2e `title_project` 模式由 integration 提交中。試玩等使用者（見 [WAIT_USER](WAIT_USER.md)），小修候選在 [design follow-ups](org/design/assets/follow-ups.md)。
-- [game] **還沒排程的事**：V3 完整數值遷移在 roadmap 上是待規劃，做的時候要先開 art。種子、狼和象的特性這次沒做。外部規劃庫是 https://github.com/ArnoldHsieh/arena_cheater_Game_Planning，唯讀 clone 在 `/tmp/aos/arena_cheater/ext/`。
-- [org] **dev 模組責任制**
-  - 使用者原話：「dev團隊那邊，可以開始試著學習過去軟體開發團隊的模式，也就是把整套程式拆成幾個大塊，每塊由一個工程師或一個團隊負責。」
-  - dev 的規劃已交（[ownership](org/dev/assets/ownership.md)）：分五塊，第一階段只開一席 items。main 已建好 [defs/dev-items](aos/defs/dev-items/README.md)，check 通過，還沒開。
-  - → 下一個切片由 dev 用 `subagent` 開 dev-items 試行，記錄移交次數、契約返工、等 Node 鎖的時間、review 缺陷和整合時間。試完再決定要不要加 scene。
-  - 使用者也說 qa、review 之後可能跟著擴充，原話是「一步一步來」。我預估的瓶頸依序是 Node 鎖、review、qa、main 的信量，等試行時看實際情況再提。
-- [org] **eca-aos**
-  - 兩封事實回覆都整理在 [aos-permissions](notes/investigations/aos-permissions.md)，兩輪回顧在 [org-retro-1](notes/investigations/org-retro-1/README.md) 和 [org-retro-2](notes/investigations/org-retro-2/README.md)。
-  - 六個方向題要等使用者跟 eca-aos 談過再回。
-  - 使用者說 eca-aos 很忙，不要一直寄信。意見先累積在 [aos-feedback](notes/investigations/aos-feedback.md)，等使用者說 eca-aos 有空了再寄。寄的時候信要簡短，大的內容附連結。
+體系與規矩見 [org](org/README.md)；main 只協調，aos 會用 new_mail 叫醒，不用輪詢。
+
+- [org] **2026-11-24 整理**（使用者：「先把程式架構、專案架構整理一下，然後來整理一下數值」）→ 架構整理完才動數值。
+- [dev] 架構計畫核准 0～5（6 選做）：0 基準、1 拆超標測試（dev-items 首次試行）、2 解 damage→cards、3 model 拆 shared/、4a/b/c 搬目錄、5 數值集中（只搬原值；JSON 單一來源待 dev 評估）。每批 dev → review →（4、5 加 qa title_project）→ integration。E2E 基準 25/25 @ `193affd`。
+- [kb] 結構整理第一批 DONE（INDEX、封存索引、tidy、超標基準）→ 交 integration 文件批次。定義共用等 aos 範本。
+- [design] 數值盤點完成，方向暫採 A（先抽現值）；V3 方向題在 [WAIT_USER](WAIT_USER.md)。盤點搬進 design 資產庫中。
+- [game] 捕獸夾完成（`079c602`），試玩等使用者；小修候選在 [follow-ups](org/design/assets/follow-ups.md)。未排程：V3 遷移（換尺寸時先開 art）、種子、狼象特性。
+- [org] dev 模組責任制（[ownership](org/dev/assets/ownership.md)）：dev-items 在第 1 步試行，記錄移交、返工、等鎖、review 缺陷、整合時間；試完再決定加 scene。
+- [org] eca-aos：六題已答（[aos-feedback](notes/investigations/aos-feedback.md)）；意見累積在同檔，使用者說有空才寄。
 
 ## 各工作流 session-log
 

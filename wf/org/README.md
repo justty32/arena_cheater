@@ -22,12 +22,12 @@
 | 測試 | [qa](qa/README.md) | 獨佔試玩和瀏覽器測試，維護回歸案例 | `sol` |
 | 審查 | [review](review/README.md) | 審 diff，只提意見 | `sol`（high） |
 | 整合 | [integration](integration/README.md) | 唯一的 git 提交口；push 要有授權 | `sol` |
+| 知識庫 | [kb](kb/README.md) | 專案結構、wf/ 整理、導航和壞連結；不管內容 | `terra` |
 
 參考模型是使用者定的長期設定，**僅供參考**，可以依當次工作量調整。部門要怎麼取捨的依據，見 [分工調查](../notes/investigations/multi-agent-roles.md)。
 
 以後才開的部門：
 - **美術 `art`**：下一個切片如果包含上視角改版、尺度調整或新素材，就在切片開始前開，模型用 `astra`。
-- **知識庫 `kb`**：壞連結、超標檔這類文件問題變成常態時就開，模型用 `terra`。
 - **開發拆成玩法和介面兩個子部門**：等熱點檔拆完再開。
 
 ## 標準流程
