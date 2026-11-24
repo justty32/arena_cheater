@@ -17,7 +17,7 @@
 
 ## 讀寫範圍
 
-- **可以寫**：`wf/org/review/`。
+- **可以寫**：`wf/org/review/`、`wf/aos/tools/review_*/`（自用唯讀審查工具；依 org 的工具批次流程試用與交接，不改產品程式）。
 - **唯讀**：其他所有地方。審 diff 用 `git diff`，這是唯讀的 git 指令。
 - **資產庫**：[審查清單](assets/review-checklist.md)。同一類問題出現第二次，就收進清單；只列檢查項目並連到依據，不重抄慣例的內容。
 - **暫存**：`/tmp/aos/arena_cheater/review/`

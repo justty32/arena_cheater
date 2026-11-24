@@ -1,0 +1,14 @@
+{
+  "summary": "唯讀比對 commit 與工作樹或兩個 commit：移動本文、出口提示、引用、循環與缺失。只提供詞法證據，不表示審查通過。",
+  "resource": "cpu",
+  "side_effect": false,
+  "idempotent": true,
+  "deterministic": false,
+  "interrupt": "safe",
+  "parallel": true,
+  "arbitrary_exec": false,
+  "cost": {
+    "time_ms": 100
+  },
+  "timeout_ms": 120000
+}

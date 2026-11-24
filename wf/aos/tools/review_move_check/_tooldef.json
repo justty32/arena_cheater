@@ -1,0 +1,40 @@
+{
+  "description": "唯讀比對 commit 與工作樹或兩個 commit：移動本文、出口提示、引用、循環與缺失。只提供詞法證據，不表示審查通過。",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "repo": {
+        "type": "string",
+        "description": "專案根目錄的絕對路徑。"
+      },
+      "base": {
+        "type": "string",
+        "description": "舊 commit 或 revision；不可使用 WORKTREE。",
+        "default": "HEAD"
+      },
+      "target": {
+        "type": "string",
+        "description": "新 commit 或 WORKTREE。",
+        "default": "WORKTREE"
+      },
+      "scope": {
+        "type": "string",
+        "description": "納入圖及比對的 repo 相對目錄；預設 src/arena。",
+        "default": "src/arena"
+      },
+      "moves": {
+        "type": "object",
+        "description": "舊路徑對新路徑的明確 mapping；未指定時依唯一同 basename 推測，仍需人工確認。",
+        "default": {}
+      }
+    },
+    "required": [
+      "repo"
+    ]
+  },
+  "errors": [
+    "ArgumentsBad",
+    "CheckFailed",
+    "RunFailed"
+  ]
+}
