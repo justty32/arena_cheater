@@ -41,6 +41,14 @@
 
 架構整理使用 [e2e-193affd.json](assets/baselines/e2e-193affd.json)：commit `193affd8d83892195600967f7f37c00ec3ef2c8a`，25 案全綠，含 `title_path`／`project`。`arena_e2e` 的 baseline 目前只接受 qa 暫存區內的檔案；使用前將此檔複製到 `/tmp/aos/arena_cheater/qa/baselines/e2e-193affd.json`，再以該絕對路徑配合 `comparison_mode: "title_project"` 比對。保存檔內的 artifacts 路徑是原執行紀錄，不保證重開機後存在；比對只需 cases，不會重跑基準。
 
+## 踩坑：開場白頁與網路事件
+
+開場白頁、canvas 尚未掛載時，先查失敗 `trace.zip` 的 pageError 與 network，不把等待逾時直接歸因於負載或程式回歸。若模組請求明確記錄 `response._failureText=net::ERR_NETWORK_CHANGED`，依 main 的驗收判定歸為主機網路事件；這不代表已查明是哪個介面或服務造成。
+
+處理方式是保留失敗證據，不改 timeout／測試，對同一個 workspace fingerprint 重跑一次；回報同時附兩輪 result.json、fingerprint、trace 錯誤及比對結果。同一案例連續兩次出現，或錯誤不是 `ERR_NETWORK_CHANGED`，就升級給 main，不自動忽略。重跑全綠時由 main 確認採用重跑結果驗收。
+
+2026-11-24 架構 4b：同 fingerprint `f29674c6c81264fe47cce73b845b3f3d6e1cef85ad8f718951e5640356f6c8c8` 首輪 24/25，trace 中 12 個模組請求遭 `ERR_NETWORK_CHANGED` 中斷，未見 HTTP 4xx/5xx；重跑 25/25，title_project 與基準一致。main 採重跑結果驗收，不採原先「轉譯過慢」假設。暫存證據 run 分別為 `e2e-4349c5ce5931414a88a70c663997edc8`、`e2e-6f1221452ac3420197d77288f43515c2`（位於 qa 暫存區，不保證永久存在）。
+
 ## 模型
 
 - **參考設定**：`sol`。只是跑指令回報結果時，可以改用 `terra`。
