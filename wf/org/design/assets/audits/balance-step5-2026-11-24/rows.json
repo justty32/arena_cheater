@@ -1,0 +1,1798 @@
+{
+ "contract": "wf-table/1",
+ "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+ "table_sha256": "3f80360b4af74b5219e08c5140ed0f98c10d128433a98987f1f279a8b09a9c67",
+ "columns": [
+  "id",
+  "value",
+  "unit",
+  "locator_matches",
+  "revision_matches",
+  "schema_matches",
+  "decision_matches"
+ ],
+ "rows": [
+  {
+   "id": "fighter.wolf.hp",
+   "value": 110,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.wolf.stamina",
+   "value": 75,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.wolf.speed",
+   "value": 1.35,
+   "unit": "m/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.wolf.attack",
+   "value": 11,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.wolf.radius",
+   "value": 0.35,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bear.hp",
+   "value": 155,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bear.stamina",
+   "value": 75,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bear.speed",
+   "value": 1.1,
+   "unit": "m/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bear.attack",
+   "value": 13,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bear.radius",
+   "value": 0.45,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.elephant.hp",
+   "value": 135,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.elephant.stamina",
+   "value": 80,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.elephant.speed",
+   "value": 1.05,
+   "unit": "m/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.elephant.attack",
+   "value": 12,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.elephant.radius",
+   "value": 0.46,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bull.hp",
+   "value": 125,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bull.stamina",
+   "value": 110,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bull.speed",
+   "value": 1.2,
+   "unit": "m/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bull.attack",
+   "value": 12,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.bull.radius",
+   "value": 0.42,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.porcupine.hp",
+   "value": 115,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.porcupine.stamina",
+   "value": 80,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.porcupine.speed",
+   "value": 1.3,
+   "unit": "m/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.porcupine.attack",
+   "value": 11,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.porcupine.radius",
+   "value": 0.37,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.snake.hp",
+   "value": 105,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.snake.stamina",
+   "value": 80,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.snake.speed",
+   "value": 1.4,
+   "unit": "m/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.snake.attack",
+   "value": 12,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.snake.radius",
+   "value": 0.32,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.deer.hp",
+   "value": 110,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.deer.stamina",
+   "value": 80,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.deer.speed",
+   "value": 1.75,
+   "unit": "m/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.deer.attack",
+   "value": 11,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.deer.radius",
+   "value": 0.35,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.fists.startGap",
+   "value": 0.3,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.fists.hitGap",
+   "value": 0.8,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.fists.windup",
+   "value": 0.3,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.fists.cooldown",
+   "value": 1.15,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.sword.startGap",
+   "value": 0.5,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.sword.hitGap",
+   "value": 0.8,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.sword.windup",
+   "value": 0.3,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.sword.cooldown",
+   "value": 1.15,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.spear.startGap",
+   "value": 1,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.spear.hitGap",
+   "value": 1.3,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.spear.windup",
+   "value": 0.25,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.spear.cooldown",
+   "value": 1,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.hatchet.startGap",
+   "value": 0.4,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.hatchet.hitGap",
+   "value": 0.7,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.hatchet.windup",
+   "value": 0.3,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.hatchet.cooldown",
+   "value": 1,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.hatchet.staminaCost",
+   "value": 18,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.club.startGap",
+   "value": 0.3,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.club.hitGap",
+   "value": 0.8,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.club.windup",
+   "value": 0.55,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.club.cooldown",
+   "value": 1.8,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.shield.startGap",
+   "value": 0.3,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.shield.hitGap",
+   "value": 0.8,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.shield.windup",
+   "value": 0.3,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.shield.cooldown",
+   "value": 1.15,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.bow.centerReach",
+   "value": 5.5,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.bow.windup",
+   "value": 0.45,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.bow.cooldown",
+   "value": 1.6,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.sword.damage",
+   "value": 1,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.sword.disposable",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.sword.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.spear.damage",
+   "value": 1,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.spear.disposable",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.spear.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.hatchet.damage",
+   "value": 2,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.hatchet.disposable",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.hatchet.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.club.damage",
+   "value": 3,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.club.disposable",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.club.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.bow.damage",
+   "value": 1,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.bow.disposable",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.bow.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.shield.damage",
+   "value": 0,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.shield.disposable",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.shield.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.stone.damage",
+   "value": 1,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.stone.disposable",
+   "value": true,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.stone.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.pot.damage",
+   "value": 3,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.pot.disposable",
+   "value": true,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.pot.bypassDefense",
+   "value": true,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.dung.damage",
+   "value": 1,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.dung.disposable",
+   "value": true,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.dung.bypassDefense",
+   "value": true,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.lightning-rain.generic",
+   "value": 0,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.lightning-rain.red",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.lightning-rain.areaRadius",
+   "value": 1.5,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.lightning-rain.damage",
+   "value": 1,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.divine-wrath.generic",
+   "value": 0,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.divine-wrath.red",
+   "value": 4,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.divine-wrath.areaRadius",
+   "value": 2.5,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.divine-wrath.damage",
+   "value": 3,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.stone.generic",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.stone.throwRange",
+   "value": 5,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.pot.generic",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.pot.throwRange",
+   "value": 2,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.dung.generic",
+   "value": 0,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.dung.black",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.dung.throwRange",
+   "value": 5,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.spike-pit.generic",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.bear-trap.generic",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.sword.generic",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.spear.generic",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.hatchet.generic",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.hatchet.yellow",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.club.generic",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.shield.generic",
+   "value": 3,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.bow.generic",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.lightning.generic",
+   "value": 0,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.lightning.red",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.bloodlust.generic",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.bloodlust.red",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.deliberate.generic",
+   "value": 0,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.deliberate.blue",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.intuition.generic",
+   "value": 0,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.intuition.blue",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.growth.generic",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.growth.green",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "world.radius",
+   "value": 7.5,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "trap.triggerCenterRadius",
+   "value": 0.55,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.boundaryInset",
+   "value": 0.2,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "world.entryCenterRadius",
+   "value": 6.45,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "world.entryAttackJitter",
+   "value": 0.3,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "world.matchDuration",
+   "value": 180,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.recoveryAttackDelay",
+   "value": 2,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.recoveryIdleDelay",
+   "value": 2.5,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.idleRecovery",
+   "value": 22,
+   "unit": "stamina/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.movingRecovery",
+   "value": 10,
+   "unit": "stamina/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.parryThreatWindow",
+   "value": 0.2,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.parryStamina",
+   "value": 10,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.defendFacingDot",
+   "value": 0.5,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.parryGap",
+   "value": 1,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.parryWindow",
+   "value": 0.22,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.parryCooldown",
+   "value": 2.4,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.pickupPreferenceCenterDistance",
+   "value": 3,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.defaultAttackStamina",
+   "value": 12,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.attackAngle",
+   "value": 0.65,
+   "unit": "rad",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.moveStaminaThreshold",
+   "value": 12,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.haste.speedMultiplier",
+   "value": 1.65,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.weakness.staminaMultiplier",
+   "value": 0.6,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.dung.duration",
+   "value": 5,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.dung.tickInterval",
+   "value": 1,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.dung.tickDamage",
+   "value": 1,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.swordSpear.damageMultiplier",
+   "value": 1.65,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.clubHatchet.damageMultiplier",
+   "value": 1.9,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.bow.damageMultiplier",
+   "value": 1.35,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "fighter.elephant.clubMultiplier",
+   "value": 1.2,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.fury.damageMultiplier",
+   "value": 1.65,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.weakness.attackMultiplier",
+   "value": 0.55,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.bloodlust.damageBonus",
+   "value": 3,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "control.airborneDuration",
+   "value": 0.35,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "control.parryRecoil",
+   "value": 0.45,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.backFacingDot",
+   "value": -0.5,
+   "unit": "scalar",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.backMultiplier",
+   "value": 1.2,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.blockStamina",
+   "value": 6,
+   "unit": "stamina",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.blockMultiplier",
+   "value": 0.5,
+   "unit": "ratio",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "control.blockPause",
+   "value": 0.2,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "control.hitPause",
+   "value": 0.18,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.fury.duration",
+   "value": 8,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "resource.supportKillStones",
+   "value": 3,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "control.fallenDuration",
+   "value": 0.8,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "arrow.lifetime",
+   "value": 2.5,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "arrow.collisionPadding",
+   "value": 0.07,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "arrow.boundaryPadding",
+   "value": 0.5,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.bow.ammo",
+   "value": 3,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "weapon.club.durability",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "resource.redrawCooldown",
+   "value": 3,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.intuition.revealCount",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "resource.initialHand",
+   "value": 3,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "resource.initialStones",
+   "value": 3,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "resource.playStones",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.deliberate.offerCount",
+   "value": 3,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "resource.redrawBonus",
+   "value": 1,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.fighterCollisionPadding",
+   "value": 0.11,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.lightning.damage",
+   "value": 3,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "buff.bloodlust.duration",
+   "value": 5,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "card.growth.heal",
+   "value": 10,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.speed",
+   "value": 9,
+   "unit": "m/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.flightDelay",
+   "value": 0.35,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.mutualCollisionCenterDistance",
+   "value": 0.22,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.pickupSurfaceGap",
+   "value": 0.35,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "trap.armDuration",
+   "value": 0.6,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "trap.armedLifetime",
+   "value": 12,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "trap.rootDuration",
+   "value": 3,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "trap.bear.damage",
+   "value": 1,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "trap.spike.damage",
+   "value": 3,
+   "unit": "hp",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "combat.turnRate",
+   "value": 5,
+   "unit": "rad/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "control.knockbackCenterDisplacement",
+   "value": 1.3,
+   "unit": "m",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "control.risingDuration",
+   "value": 0.35,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "arrow.speed",
+   "value": 12,
+   "unit": "m/s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "throw.mutualCollisionGrace",
+   "value": 0.15,
+   "unit": "s",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  },
+  {
+   "id": "resource.deckCopies",
+   "value": 2,
+   "unit": "count",
+   "locator_matches": true,
+   "revision_matches": true,
+   "schema_matches": true,
+   "decision_matches": true
+  }
+ ]
+}

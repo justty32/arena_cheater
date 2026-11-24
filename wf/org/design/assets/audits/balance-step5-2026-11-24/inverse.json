@@ -1,0 +1,50 @@
+[
+  {
+    "file": "src/arena/items/engine-cards.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/items/engine-items.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/items/engine-traps.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/items/equipment.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/scene/animation.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/shared/card-catalog.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/shared/rules.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/shared/status.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/sim/engine-arrows.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/sim/engine-combat.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/sim/engine-damage.ts",
+    "inverse_equal": true
+  },
+  {
+    "file": "src/arena/sim/engine.ts",
+    "inverse_equal": true
+  }
+]

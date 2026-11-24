@@ -1,0 +1,39 @@
+{
+ "contract": "wf-table/1",
+ "source": "README.md",
+ "extracted": "2026-11-24",
+ "columns": [
+  "id",
+  "balance_ids",
+  "current",
+  "expected",
+  "basis",
+  "severity"
+ ],
+ "rows": [
+  {
+   "id": "F01",
+   "balance_ids": "fighter.elephant.clubMultiplier",
+   "current": "1.2 ratio；fighter-details.ts:11 寫提高 20%，arena-copy.test.ts 未核此字串。",
+   "expected": "值保持 1.2；補特性文字與 (倍率 - 1) * 100 的一致性測試（避免浮點精確相等）。",
+   "basis": "src/arena/ui/fighter-details.ts:11；tests/simulation/arena-copy.test.ts 僅檢查 detailsSource 的每秒 1 點。",
+   "severity": "必修：文案測試缺口"
+  },
+  {
+   "id": "F02",
+   "balance_ids": "resource.redrawBonus / resource.initialHand / resource.playStones / card.deliberate.offerCount",
+   "current": "值分別 1 / 3 / 2 / 3，皆 count；已測部分文字，但未涵蓋 HUD 換石預覽、兩處三張手牌標題、layout 出牌補兩石說明、payment-ui 抽三選一。",
+   "expected": "數值與文字維持現狀；補 arena-hud.ts:120 的 size + 1、arena-hud.ts:69 與 layout.ts:25 的三張、layout.ts:42 補兩顆石頭、payment-ui.ts:15 抽三選一的逐處一致性檢查。",
+   "basis": "目前 toContain 只證明其他檔案或同檔某處含字串；某一漏列位置單獨改錯，測試仍能通過。layout 的抽三選一亦有兩處，宜逐處核對而非只檢查出現一次。",
+   "severity": "必修：文案測試缺口"
+  },
+  {
+   "id": "F03",
+   "balance_ids": "card.lightning-rain.areaRadius / card.divine-wrath.areaRadius",
+   "current": "1.5 m / 2.5 m；rationale 只寫範圍半徑（非直徑）。",
+   "expected": "值與 unit 不改；rationale 補明施法圓心至鬥士中心距門檻，不加鬥士碰撞半徑。",
+   "basis": "src/arena/shared/targeting.ts:19 以 hypot(fighter.x-point.x,fighter.y-point.y) <= card.areaRadius 判定；契約要求中心距／體表 gap 明確。",
+   "severity": "必修：距離語義 metadata"
+  }
+ ]
+}

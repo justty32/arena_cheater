@@ -24,7 +24,9 @@
 
 - **可以寫**：`wf/org/design/`、`README.md`、`PROJECT.md`、`docs/`。`docs/design-sources/` 只能新增使用者提供的原文，已經在裡面的不能改。
 - **封存可寫範圍**：依 main 2026-11-23 長期授權，design 自己完成的 plan 或 spec 可直接封存到 `wf/archive/<名稱>-<日期>.md`，並修正搬移後的相對連結及移除舊導航，不必逐次請示；不得更動 archive 中其他人的檔案。實作計畫仍須實作完成才封存。搬移使用檔案工具，git 暫存與提交交 integration。
-- **唯讀**：`src/`、`tests/`、`wf/workflows/`。
+- **數值資料有限寫權**：依 main 2026-11-24 授權，可修改 `src/arena/data/arena-balance.json` 每列的 `value`、`unit`、`source_path`、`source_locator`、`source_revision`、`decision`、`rationale`；不得新增或刪除 id，不改 schema 與外框。id、schema、型別、載入器與公式由 dev 管理；新增 id 或改單位契約須與 dev 一起確認，修改 `unit` 時 dev 必須同步 schema。
+- **數值資料交接限制**：第一次抽表由 dev 寫；後續每次修改須經 main 派工，同時只有一個寫手。改完須跑 dev 驗證；文案數字一致性測試失敗時，同批協調修正文案，不可只改資料後略過失敗。
+- **唯讀**：除上述限定數值資料欄位外的 `src/`、`tests/`、`wf/workflows/`。
 - **資產庫**：[assets/README.md](assets/README.md)，裡面有 specs、plans、需求清單 `data/`，以及 roadmap。
 - **暫存**：`/tmp/aos/arena_cheater/design/`
 - **數值以 `src/` 為準**：規格只寫設計意圖，不抄數字。
