@@ -8,7 +8,7 @@
 | [arena-cards.test.ts](arena-cards.test.ts) | 實例付款與缺額、共用出牌拒絕原因及送出重驗、出牌補牌補石、三秒換石冷卻、法術刷新與到期、介入時機、seed 重現 |
 | [arena-balance.test.ts](arena-balance.test.ts) | 重構前現值硬契約、卡序費用、入場局部 RNG 舊快照投影、schema 拒絕案例；expected 不由 JSON 計算 |
 | [arena-copy.test.ts](arena-copy.test.ts) | 卡面、戰報及 HUD 重複數字與玩法一致；保留原卡牌描述全文 |
-| [arena-resources.test.ts](arena-resources.test.ts) | 固定 seed 的重洗／補石／換石／支持擊殺／法術擊殺完整狀態快照，預期值由抽取共用資源前保存 |
+| [arena-resources.test.ts](arena-resources.test.ts) | 固定 seed 的重洗／補石／換石／支持擊殺／法術擊殺關鍵欄位硬基準；由舊完整快照投影，非 runtime 重錄 |
 | [arena-card-draw.test.ts](arena-card-draw.test.ts) | 牌堆組成、三牌三石、直覺預告與實際抽牌順序、謹慎思考選牌、牌堆回收與守恆 |
 | [arena-rewards.test.ts](arena-rewards.test.ts) | 支持者擊殺補石與累計獎勵、投送無歸屬、狼擊殺狂熱刷新／到期與死後箭矢、鹿高速 |
 | [arena-bear-trap.test.ts](arena-bear-trap.test.ts) | 捕獸夾牌庫守恆、即時放置、精確付款補給、拒絕原子性與 RNG 不變 |
@@ -27,5 +27,7 @@
 | [potion.test.ts](potion.test.ts) | 藥劑有效／無效目標、資源邊界 |
 | [projectiles.test.ts](projectiles.test.ts) | 飛行延遲、暫停、死目標與最後投射物結算 |
 | [helpers.ts](helpers.ts) | 共用時間步進與雙角色情境 |
+
+`arena-resource-projection.ts` 明列 checkpoint 投影欄位：randomState／nextId、牌堆與棄牌及手牌順序、石頭 id／顏色、已知牌數／換石冷卻／支持者及獎勵計數、所有角色 id／hp／pose／buffs、完整 effects 與 logs 順序；付款由手牌與石頭消耗結果鎖定。`arena-resource-values.ts` 是 seed 42／2026 各六個 checkpoint 的硬期望值，只從原 3913 行完整快照投影（原 SHA256 留在檔首），不從 runtime 重錄。入場 RNG 的位置／面向／出手時間另保留在 `arena-entry-values.ts`，由 arena-balance 測試獨立驗證。未納入投影的角色攻防、體力、武器及呈現屬性不再由資源序列測試逐欄鎖定，仍由各領域測試負責。
 
 `battle`、`potion`、`projectiles` 與 `helpers` 為經典棋盤模式；新競技場有獨立模擬，不共用舊藥劑及格位規則。

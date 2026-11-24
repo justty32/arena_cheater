@@ -3,9 +3,11 @@ import { createArena, findPayment, playCard, redrawStones, toggleArena } from '.
 import { drawCard, drawStones } from '../../src/arena/items/engine-cards';
 import { applyHealthDamage } from '../../src/arena/sim/engine-damage';
 import { CARDS } from '../../src/arena/model';
+import { projectResources } from './arena-resource-projection';
+import { ORIGINAL_RESOURCES } from './arena-resource-values';
 
 describe('resource command sequence compatibility', () => {
-  it.each([42, 2026])('preserves complete state checkpoints for seed %s', seed => {
+  it.each([42, 2026] as const)('preserves resource checkpoints for seed %s', seed => {
     const state = createArena(seed);
     toggleArena(state);
     const checkpoints = [structuredClone(state)];
@@ -35,6 +37,6 @@ describe('resource command sequence compatibility', () => {
     expect(playCard(state, state.hand.at(-1)!.id, { fighterId: spellVictim.id }, findPayment(state, lightning.cost)!)).toBe(true);
     checkpoints.push(structuredClone(state));
 
-    expect(checkpoints).toMatchSnapshot();
+    expect(checkpoints.map(projectResources)).toEqual(ORIGINAL_RESOURCES[seed]);
   });
 });
