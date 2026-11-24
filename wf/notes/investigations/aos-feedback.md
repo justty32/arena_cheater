@@ -21,6 +21,9 @@
 - **agent-fsm 沒有看圖的工具**：qa 能截圖但看不到圖，視覺驗收只能交給 main（Claude Code）看。捕獸夾那輪是 main 看圖抓到「刺洞已布置」的文字 bug，證據在 `/tmp/aos/arena_cheater/qa/bear-trap-shots/`。建議提供一個能讓模型看到圖片的 read 或 view。
 - **sol 模型常先找 `apply_patch`**：找不到才改用 edit，每次浪費一兩輪。
 
+- **subagent 的 board_set 回 StackMissing**：dev 用 `subagent` 開的 dev-items 呼叫 board_set 時回 StackMissing（2026-11-24 架構整理第 1 步，見 dev 試行回顧）。不影響工作，但下屬沒辦法發布自己的狀態。
+- **工具等鎖上限固定**：arena_verify 的 lock_timeout 上限 180 秒。全機共用 Node 鎖被別的專案長時間佔住時，agent 每逾時一次就要重試、多叫一次 LLM（4a 那次重試了 4 次）。這是我們自己工具的設計問題；記下來是因為 aos 本身沒有「排隊等資源、輪到了再叫醒」的機制。
+
 ## 使用經驗（可以分享的）
 
 - **固定程序做成工具，判斷工作才交給 agent**：只跑 E2E 這種事，用工具（arena_e2e）就夠了，不必開 agent。
