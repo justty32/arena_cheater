@@ -1,3 +1,4 @@
+import { BALANCE as B } from '../shared/balance';
 import { ARENA_RADIUS } from '../shared/rules';
 import { hasPendingDungDamage } from '../shared/status';
 import type { ArenaState, Fighter, Species } from '../shared/types';
@@ -12,13 +13,13 @@ export { playCard, validateCardPlay, previewThrowContact, type CardTarget, type 
 
 const STEP = 1 / 30;
 const SPECIES: { species: Species; name: string; color: string; hp: number; stamina: number; speed: number; attack: number; radius: number }[] = [
-  { species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },
-  { species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },
-  { species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },
-  { species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },
-  { species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },
-  { species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },
-  { species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },
+  { species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: B.wolfHp, stamina: B.wolfStamina, speed: B.wolfSpeed, attack: B.wolfAttack, radius: B.wolfRadius },
+  { species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: B.bearHp, stamina: B.bearStamina, speed: B.bearSpeed, attack: B.bearAttack, radius: B.bearRadius },
+  { species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: B.elephantHp, stamina: B.elephantStamina, speed: B.elephantSpeed, attack: B.elephantAttack, radius: B.elephantRadius },
+  { species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: B.bullHp, stamina: B.bullStamina, speed: B.bullSpeed, attack: B.bullAttack, radius: B.bullRadius },
+  { species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: B.porcupineHp, stamina: B.porcupineStamina, speed: B.porcupineSpeed, attack: B.porcupineAttack, radius: B.porcupineRadius },
+  { species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: B.snakeHp, stamina: B.snakeStamina, speed: B.snakeSpeed, attack: B.snakeAttack, radius: B.snakeRadius },
+  { species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: B.deerHp, stamina: B.deerStamina, speed: B.deerSpeed, attack: B.deerAttack, radius: B.deerRadius },
 ];
 export function createArena(seed = 73021): ArenaState {
   let randomState = seed >>> 0;
@@ -27,9 +28,9 @@ export function createArena(seed = 73021): ArenaState {
   for (let i = gates.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [gates[i], gates[j]] = [gates[j], gates[i]]; }
   const fighters: Fighter[] = SPECIES.map((spec, i) => {
     const angle = -Math.PI / 2 + gates[i] * Math.PI / 4;
-    return { ...spec, id: `fighter-${i}`, x: Math.cos(angle) * 6.45, y: Math.sin(angle) * 6.45,
+    return { ...spec, id: `fighter-${i}`, x: Math.cos(angle) * B.entryRadius, y: Math.sin(angle) * B.entryRadius,
       facing: angle + Math.PI, maxHp: spec.hp, maxStamina: spec.stamina, baseMaxStamina: spec.stamina, weapon: 'fists', shield: false,
-      pose: 'idle', poseUntil: 0, lastAttack: -10, lastMoved: -10, nextAttack: random() * 0.3, buffs: [], ammo: 0, durability: 0, parryUntil: 0, nextParry: 0 };
+      pose: 'idle', poseUntil: 0, lastAttack: -10, lastMoved: -10, nextAttack: random() * B.entryAttackJitter, buffs: [], ammo: 0, durability: 0, parryUntil: 0, nextParry: 0 };
   });
   const state: ArenaState = { seed, time: 0, accumulator: 0, status: 'ready', speed: 1, fighters, items: [], traps: [], arrows: [], effects: [],
     logs: ['七位鬥士已入場。選擇你的支持者，準備暗中出手。'], hand: [], stones: [], randomState: (seed ^ 0x9e3779b9) >>> 0, deck: [], discard: [], redrawAvailableAt: 0, knownUpcomingCount: 0, supportedId: fighters[0].id, supportKillRewardStones: 0, nextId: 1 };
@@ -46,7 +47,7 @@ function step(state: ArenaState): void {
   advanceItems(state, STEP);
   advanceArrows(state, STEP);
   advanceDungDamage(state);
-  const mayAct = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
+  const mayAct = state.time < B.matchDuration && state.fighters.filter(fighter => fighter.hp > 0).length > 1;
   const trapMovement = mayAct && state.traps.length ? trapMovementStart(state, startedAt) : undefined;
   for (const fighter of state.fighters) {
     if (mayAct) act(state, fighter, STEP);
@@ -61,7 +62,7 @@ function step(state: ArenaState): void {
   state.effects = state.effects.filter(effect => state.time - effect.at < 1.8);
   const alive = state.fighters.filter(fighter => fighter.hp > 0);
   if ((!mayAct || alive.length <= 1) && state.traps.length) state.traps = [];
-  if ((alive.length <= 1 || state.time >= 180) && state.arrows.length === 0 && state.items.every(item => item.landed) && !hasPendingDungDamage(state)) {
+  if ((alive.length <= 1 || state.time >= B.matchDuration) && state.arrows.length === 0 && state.items.every(item => item.landed) && !hasPendingDungDamage(state)) {
     state.status = 'finished';
     state.winnerId = alive.length === 1 ? alive[0].id : undefined;
     log(state, alive.length === 1 ? `${alive[0].name} 贏得競技場！` : '本場平局');

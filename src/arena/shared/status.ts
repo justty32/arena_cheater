@@ -1,3 +1,4 @@
+import { BALANCE as B } from './balance';
 import type { ArenaState, Fighter } from './types';
 import { DUNG_TICK_EPSILON } from './rules';
 
@@ -11,5 +12,5 @@ export function hasPendingDungDamage(state: ArenaState): boolean {
 
 /** No new interventions once combat is only draining its last in-flight attacks. */
 export function isResolvingArena(state: ArenaState): boolean {
- return state.time >= 180 || state.fighters.filter(fighter => fighter.hp > 0).length <= 1;
+ return state.time >= B.matchDuration || state.fighters.filter(fighter => fighter.hp > 0).length <= 1;
 }

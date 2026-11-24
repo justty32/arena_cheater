@@ -6,6 +6,8 @@
 |------|----------|
 | [arena.test.ts](arena.test.ts) | 七人圓場、seed／倍速、暫停、卡牌扣費、體力恢復、投送拾取、方向 |
 | [arena-cards.test.ts](arena-cards.test.ts) | 實例付款與缺額、共用出牌拒絕原因及送出重驗、出牌補牌補石、三秒換石冷卻、法術刷新與到期、介入時機、seed 重現 |
+| [arena-balance.test.ts](arena-balance.test.ts) | 重構前現值硬契約、卡序費用、入場局部 RNG 舊快照投影、schema 拒絕案例；expected 不由 JSON 計算 |
+| [arena-copy.test.ts](arena-copy.test.ts) | 卡面、戰報及 HUD 重複數字與玩法一致；保留原卡牌描述全文 |
 | [arena-resources.test.ts](arena-resources.test.ts) | 固定 seed 的重洗／補石／換石／支持擊殺／法術擊殺完整狀態快照，預期值由抽取共用資源前保存 |
 | [arena-card-draw.test.ts](arena-card-draw.test.ts) | 牌堆組成、三牌三石、直覺預告與實際抽牌順序、謹慎思考選牌、牌堆回收與守恆 |
 | [arena-rewards.test.ts](arena-rewards.test.ts) | 支持者擊殺補石與累計獎勵、投送無歸屬、狼擊殺狂熱刷新／到期與死後箭矢、鹿高速 |

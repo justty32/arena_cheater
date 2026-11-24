@@ -1,3 +1,4 @@
+import { BALANCE as B } from '../shared/balance';
 import { CARDS } from '../shared/card-catalog';
 import { isResolvingArena } from '../shared/status';
 import type { ArenaState, CardId, DeliberationOffer, StoneColor, StoneCost } from '../shared/types';
@@ -5,8 +6,8 @@ import type { ArenaState, CardId, DeliberationOffer, StoneColor, StoneCost } fro
 import { COLORS, drawStones, random } from '../shared/resources';
 export { drawStones } from '../shared/resources';
 
-export const REDRAW_COOLDOWN = 3;
-const INTUITION_CARD_COUNT = 2;
+export const REDRAW_COOLDOWN = B.redrawCooldown;
+const INTUITION_CARD_COUNT = B.intuitionCount;
 function shuffle(state: ArenaState, cards: CardId[]): void {
   for (let i = cards.length - 1; i > 0; i--) {
     const j = Math.floor(random(state) * (i + 1));
@@ -41,10 +42,10 @@ export function knownUpcomingCards(state: ArenaState): readonly CardId[] {
   return state.deck.slice(-state.knownUpcomingCount).reverse();
 }
 export function initializeCards(state: ArenaState): void {
-  state.deck = CARDS.flatMap(card => [card.id, card.id]);
+  state.deck = CARDS.flatMap(card => Array.from({ length: B.deckCopies }, () => card.id));
   shuffle(state, state.deck);
-  for (let i = 0; i < 3; i++) drawCard(state);
-  drawStones(state, 3);
+  for (let i = 0; i < B.initialHand; i++) drawCard(state);
+  drawStones(state, B.initialStones);
 }
 export function canUseCards(state: ArenaState): boolean {
   return (state.status === 'running' || state.status === 'paused') && !isResolvingArena(state) && !state.pendingDeliberation;
@@ -97,9 +98,9 @@ export function consumeCard(state: ArenaState, handCardId: number, stoneIds: rea
 /** The caller validates the payment and that at least one candidate exists. */
 export function beginDeliberation(state: ArenaState, handCardId: number, stoneIds: readonly number[]): void {
   const playedCard = spendCard(state, handCardId, stoneIds);
-  drawStones(state, 2);
+  drawStones(state, B.playStones);
   const candidates: CardId[] = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < B.deliberateCount; i++) {
     const cardId = takeTopCard(state);
     if (cardId === undefined) break;
     candidates.push(cardId);
@@ -125,7 +126,7 @@ export function redrawStones(state: ArenaState, handCardId: number, stoneIds: nu
   if (!stoneIds.length || !canUseCards(state) || state.time < state.redrawAvailableAt || !state.hand.some(card => card.id === handCardId) ||
       new Set(stoneIds).size !== stoneIds.length || stoneIds.some(id => !state.stones.some(stone => stone.id === id))) return false;
   consumeCard(state, handCardId, stoneIds);
-  drawStones(state, stoneIds.length + 1);
+  drawStones(state, stoneIds.length + B.redrawBonus);
   drawCard(state);
   state.redrawAvailableAt = state.time + REDRAW_COOLDOWN;
   return true;

@@ -1,3 +1,4 @@
+import { BALANCE as B } from '../shared/balance';
 import { CARDS } from '../shared/card-catalog';
 import { ARENA_RADIUS, THROW_TARGET_RADIUS, THROW_ORIGIN, THROW_PROFILES } from '../shared/rules';
 import { areaSpellTargets, isThrowableTarget, isTrapTarget } from '../shared/targeting';
@@ -10,7 +11,7 @@ import { placeTrap } from './engine-traps';
 import { applyDungStatus, applyHealthDamage, damageFighter, distance, effect, log } from '../sim/engine-damage';
 
 function sweptThrowFighterTime(from: Point, to: Point, fighter: Fighter): number | undefined {
-  return sweptCircleTime(from, to, fighter, fighter, fighter.radius + 0.11);
+  return sweptCircleTime(from, to, fighter, fighter, fighter.radius + B.throwPadding);
 }
 
 /** First contact along the aim path using the fighters' current positions. */
@@ -82,12 +83,12 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
   const areaTargets = card.target === 'area' ? areaSpellTargets(state.fighters,card,{x:x!,y:y!}) : [];
   consumeCard(state, handCardId, stoneIds);
   if (card.target === 'fighter' && fighter) {
-    if (card.id === 'lightning') applyHealthDamage(state, fighter, 3);
+    if (card.id === 'lightning') applyHealthDamage(state, fighter, B.lightningDamage);
     if (card.id === 'bloodlust') {
       fighter.buffs = fighter.buffs.filter(buff => buff.kind !== 'bloodlust');
-      fighter.buffs.push({ kind: 'bloodlust', until: state.time + 5 });
+      fighter.buffs.push({ kind: 'bloodlust', until: state.time + B.bloodlustDuration });
     }
-    if (card.id === 'growth') fighter.hp = Math.min(fighter.maxHp, fighter.hp + 10);
+    if (card.id === 'growth') fighter.hp = Math.min(fighter.maxHp, fighter.hp + B.growthHeal);
     effect(state, fighter, card.name, card.color, 'spell');
     log(state, `${card.name} → ${fighter.name}`);
   } else if (card.target === 'area') {
@@ -103,11 +104,11 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
     const {x:fromX,y:fromY} = THROW_ORIGIN;
     const itemId = state.nextId++;
     state.items.push({ id: itemId, weapon: card.id as ThrownKind, x: fromX, y: fromY, fromX, fromY,
-      toX: x!, toY: y!, launched: state.time, landsAt: state.time + Math.hypot(x! - fromX, y! - fromY) / 9 + 0.35, landed: false });
+      toX: x!, toY: y!, launched: state.time, landsAt: state.time + Math.hypot(x! - fromX, y! - fromY) / B.throwSpeed + B.throwDelay, landed: false });
     state.latestThrow = {itemId,handCardId,itemKind:card.id as ThrownKind,launchedAt:state.time};
     log(state, THROW_PROFILES[card.id as ThrownKind].disposable ? `投擲${card.name}` : `投送${card.name}，任何鬥士都能搶走它`);
   }
-  drawStones(state, 2);
+  drawStones(state, B.playStones);
   drawCard(state);
   if (card.id === 'intuition') revealUpcomingCards(state);
   return true;
@@ -143,10 +144,10 @@ export function advanceItems(state: ArenaState, _dt?: number): void {
   for (let i = 0; i < flying.length; i++) {
     const a = flying[i];
     for (const b of flying.slice(i + 1)) {
-      const start = Math.max(previousTime(a), previousTime(b), a.launched + 0.15, b.launched + 0.15);
+      const start = Math.max(previousTime(a), previousTime(b), a.launched + B.throwGrace, b.launched + B.throwGrace);
       const end = Math.min(state.time, a.landsAt, b.landsAt);
       if (end < start) continue;
-      const t = sweptCircleTime(positionAt(a, start), positionAt(a, end), positionAt(b, start), positionAt(b, end), 0.22);
+      const t = sweptCircleTime(positionAt(a, start), positionAt(a, end), positionAt(b, start), positionAt(b, end), B.throwMutualPadding);
       if (t !== undefined) contacts.push({ a, b, time: start + (end - start) * t });
     }
     const start = Math.max(previousTime(a), a.launched);
@@ -193,7 +194,7 @@ export function advanceItems(state: ArenaState, _dt?: number): void {
     if (THROW_PROFILES[item.weapon].disposable) return false;
     const weapon=item.weapon as Weapon;
     const fighter = state.fighters.filter(value => value.hp > 0 && !['fallen', 'airborne', 'rising'].includes(value.pose) &&
-      distance(value, item) <= value.radius + 0.35 && canEquip(value, weapon))
+      distance(value, item) <= value.radius + B.pickupGap && canEquip(value, weapon))
       .sort((a, b) => distance(a, item) - distance(b, item) || a.id.localeCompare(b.id))[0];
     if (!fighter) return true;
     equip(fighter,weapon);

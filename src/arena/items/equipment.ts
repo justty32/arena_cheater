@@ -1,3 +1,4 @@
+import { BALANCE as B } from '../shared/balance';
 import type { Fighter, Weapon } from '../shared/types';
 
 export function isTwoHanded(weapon: Weapon): boolean {
@@ -17,6 +18,6 @@ export function equip(fighter: Fighter, weapon: Weapon): void {
     return;
   }
   fighter.weapon = weapon;
-  fighter.ammo = weapon === 'bow' ? 3 : 0;
-  fighter.durability = weapon === 'club' ? 2 : 0;
+  fighter.ammo = weapon === 'bow' ? B.bowAmmo : 0;
+  fighter.durability = weapon === 'club' ? B.clubDurability : 0;
 }

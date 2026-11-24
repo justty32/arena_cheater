@@ -77,3 +77,7 @@ dev 最後補 bear-trap-integration 測試與三份導航，合併驗證後交 m
 主要風險是共享工作樹看見半成品、model／engine.ts 接縫成瓶頸、舊上下文誤判，以及下屬驗證排隊。測試可能橫跨模組，只有指定 owner 可寫，其他 owner 交案例建議給它。
 
 首次試行採 simulation 熱點拆分：dev-items 僅搬 cards／throws 案例至指定測試檔，保留完整 title 與斷言；dev 承擔核心、UI、導航、審核與統一驗證，符合現行第一階段限制。記錄跨檔移交次數、契約返工、Node 等鎖時間、review 缺陷和主管整合時間。完成一輪後，若任務確有互不重疊的畫面工作且 main 核准更新限制，再試 items＋scene 兩個；不先開滿四個，也不因 agent 空閒而製造工作。
+
+## 現值資料契約（第5步）
+
+`src/arena/data/arena-balance.json` 初次抽取由 dev 唯一寫入；其後 value／unit／來源 metadata 歸 design，id／schema／型別／載入器及公式歸 dev。新增 id 或改單位須雙方確認，每批由 main 指定唯一寫手。`shared/balance-schema.ts` 與 `shared/balance.ts`、arena-balance／arena-copy 測試及其重構前期望投影由 dev 保管。卡面文案本批保持原文，另有一致性測試防漂移；classic 不共用此表。

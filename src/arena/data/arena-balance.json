@@ -1,0 +1,1997 @@
+{
+ "contract": "wf-table/1",
+ "schema_version": 1,
+ "link_columns": [],
+ "columns": [
+  "id",
+  "value",
+  "unit",
+  "source_path",
+  "source_locator",
+  "source_revision",
+  "decision",
+  "rationale"
+ ],
+ "rows": [
+  {
+   "id": "fighter.wolf.hp",
+   "value": 110,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 15 行：{ species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.wolf.stamina",
+   "value": 75,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 15 行：{ species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.wolf.speed",
+   "value": 1.35,
+   "unit": "m/s",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 15 行：{ species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.wolf.attack",
+   "value": 11,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 15 行：{ species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.wolf.radius",
+   "value": 0.35,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 15 行：{ species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞半徑（非直徑）。"
+  },
+  {
+   "id": "fighter.bear.hp",
+   "value": 155,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 16 行：{ species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.bear.stamina",
+   "value": 75,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 16 行：{ species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.bear.speed",
+   "value": 1.1,
+   "unit": "m/s",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 16 行：{ species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.bear.attack",
+   "value": 13,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 16 行：{ species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.bear.radius",
+   "value": 0.45,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 16 行：{ species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞半徑（非直徑）。"
+  },
+  {
+   "id": "fighter.elephant.hp",
+   "value": 135,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 17 行：{ species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.elephant.stamina",
+   "value": 80,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 17 行：{ species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.elephant.speed",
+   "value": 1.05,
+   "unit": "m/s",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 17 行：{ species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.elephant.attack",
+   "value": 12,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 17 行：{ species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.elephant.radius",
+   "value": 0.46,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 17 行：{ species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞半徑（非直徑）。"
+  },
+  {
+   "id": "fighter.bull.hp",
+   "value": 125,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 18 行：{ species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.bull.stamina",
+   "value": 110,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 18 行：{ species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.bull.speed",
+   "value": 1.2,
+   "unit": "m/s",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 18 行：{ species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.bull.attack",
+   "value": 12,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 18 行：{ species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.bull.radius",
+   "value": 0.42,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 18 行：{ species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞半徑（非直徑）。"
+  },
+  {
+   "id": "fighter.porcupine.hp",
+   "value": 115,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 19 行：{ species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.porcupine.stamina",
+   "value": 80,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 19 行：{ species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.porcupine.speed",
+   "value": 1.3,
+   "unit": "m/s",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 19 行：{ species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.porcupine.attack",
+   "value": 11,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 19 行：{ species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.porcupine.radius",
+   "value": 0.37,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 19 行：{ species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞半徑（非直徑）。"
+  },
+  {
+   "id": "fighter.snake.hp",
+   "value": 105,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 20 行：{ species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.snake.stamina",
+   "value": 80,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 20 行：{ species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.snake.speed",
+   "value": 1.4,
+   "unit": "m/s",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 20 行：{ species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.snake.attack",
+   "value": 12,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 20 行：{ species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.snake.radius",
+   "value": 0.32,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 20 行：{ species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞半徑（非直徑）。"
+  },
+  {
+   "id": "fighter.deer.hp",
+   "value": 110,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 21 行：{ species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.deer.stamina",
+   "value": 80,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 21 行：{ species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.deer.speed",
+   "value": 1.75,
+   "unit": "m/s",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 21 行：{ species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.deer.attack",
+   "value": 11,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 21 行：{ species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+  },
+  {
+   "id": "fighter.deer.radius",
+   "value": 0.35,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 21 行：{ species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞半徑（非直徑）。"
+  },
+  {
+   "id": "weapon.fists.startGap",
+   "value": 0.3,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 15 行：fists:  { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.fists.hitGap",
+   "value": 0.8,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 15 行：fists:  { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.fists.windup",
+   "value": 0.3,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 15 行：fists:  { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.fists.cooldown",
+   "value": 1.15,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 15 行：fists:  { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.sword.startGap",
+   "value": 0.5,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 16 行：sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.sword.hitGap",
+   "value": 0.8,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 16 行：sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.sword.windup",
+   "value": 0.3,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 16 行：sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.sword.cooldown",
+   "value": 1.15,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 16 行：sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.spear.startGap",
+   "value": 1,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 17 行：spear:  { kind: 'melee', startGap: 1, hitGap: 1.3, windup: 0.25, cooldown: 1 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.spear.hitGap",
+   "value": 1.3,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 17 行：spear:  { kind: 'melee', startGap: 1, hitGap: 1.3, windup: 0.25, cooldown: 1 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.spear.windup",
+   "value": 0.25,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 17 行：spear:  { kind: 'melee', startGap: 1, hitGap: 1.3, windup: 0.25, cooldown: 1 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.spear.cooldown",
+   "value": 1,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 17 行：spear:  { kind: 'melee', startGap: 1, hitGap: 1.3, windup: 0.25, cooldown: 1 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.hatchet.startGap",
+   "value": 0.4,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 18 行：hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.hatchet.hitGap",
+   "value": 0.7,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 18 行：hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.hatchet.windup",
+   "value": 0.3,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 18 行：hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.hatchet.cooldown",
+   "value": 1,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 18 行：hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.hatchet.staminaCost",
+   "value": 18,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 18 行：hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.club.startGap",
+   "value": 0.3,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 19 行：club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.club.hitGap",
+   "value": 0.8,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 19 行：club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.club.windup",
+   "value": 0.55,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 19 行：club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.club.cooldown",
+   "value": 1.8,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 19 行：club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.shield.startGap",
+   "value": 0.3,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 20 行：shield: { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.shield.hitGap",
+   "value": 0.8,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 20 行：shield: { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "體表 gap。"
+  },
+  {
+   "id": "weapon.shield.windup",
+   "value": 0.3,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 20 行：shield: { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.shield.cooldown",
+   "value": 1.15,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 20 行：shield: { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.bow.centerReach",
+   "value": 5.5,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 21 行：bow:    { kind: 'ranged', centerReach: 5.5, windup: 0.45, cooldown: 1.6 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "中心距射程。"
+  },
+  {
+   "id": "weapon.bow.windup",
+   "value": 0.45,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 21 行：bow:    { kind: 'ranged', centerReach: 5.5, windup: 0.45, cooldown: 1.6 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "weapon.bow.cooldown",
+   "value": 1.6,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 21 行：bow:    { kind: 'ranged', centerReach: 5.5, windup: 0.45, cooldown: 1.6 },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "原可選耗體欄位不補預設值。"
+  },
+  {
+   "id": "throw.sword.damage",
+   "value": 1,
+   "unit": "hp",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 8 行：sword: {damage:1,disposable:false,bypassDefense:false}, spear: {damage:1,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.sword.disposable",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 8 行：sword: {damage:1,disposable:false,bypassDefense:false}, spear: {damage:1,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.sword.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 8 行：sword: {damage:1,disposable:false,bypassDefense:false}, spear: {damage:1,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.spear.damage",
+   "value": 1,
+   "unit": "hp",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 8 行：sword: {damage:1,disposable:false,bypassDefense:false}, spear: {damage:1,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.spear.disposable",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 8 行：sword: {damage:1,disposable:false,bypassDefense:false}, spear: {damage:1,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.spear.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 8 行：sword: {damage:1,disposable:false,bypassDefense:false}, spear: {damage:1,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.hatchet.damage",
+   "value": 2,
+   "unit": "hp",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 9 行：hatchet: {damage:2,disposable:false,bypassDefense:false}, club: {damage:3,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.hatchet.disposable",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 9 行：hatchet: {damage:2,disposable:false,bypassDefense:false}, club: {damage:3,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.hatchet.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 9 行：hatchet: {damage:2,disposable:false,bypassDefense:false}, club: {damage:3,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.club.damage",
+   "value": 3,
+   "unit": "hp",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 9 行：hatchet: {damage:2,disposable:false,bypassDefense:false}, club: {damage:3,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.club.disposable",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 9 行：hatchet: {damage:2,disposable:false,bypassDefense:false}, club: {damage:3,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.club.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 9 行：hatchet: {damage:2,disposable:false,bypassDefense:false}, club: {damage:3,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.bow.damage",
+   "value": 1,
+   "unit": "hp",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 10 行：bow: {damage:1,disposable:false,bypassDefense:false}, shield: {damage:0,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.bow.disposable",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 10 行：bow: {damage:1,disposable:false,bypassDefense:false}, shield: {damage:0,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.bow.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 10 行：bow: {damage:1,disposable:false,bypassDefense:false}, shield: {damage:0,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.shield.damage",
+   "value": 0,
+   "unit": "hp",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 10 行：bow: {damage:1,disposable:false,bypassDefense:false}, shield: {damage:0,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.shield.disposable",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 10 行：bow: {damage:1,disposable:false,bypassDefense:false}, shield: {damage:0,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.shield.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 10 行：bow: {damage:1,disposable:false,bypassDefense:false}, shield: {damage:0,disposable:false,bypassDefense:false},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.stone.damage",
+   "value": 1,
+   "unit": "hp",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 11 行：stone: {damage:1,disposable:true,bypassDefense:false}, pot: {damage:3,disposable:true,bypassDefense:true},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.stone.disposable",
+   "value": true,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 11 行：stone: {damage:1,disposable:true,bypassDefense:false}, pot: {damage:3,disposable:true,bypassDefense:true},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.stone.bypassDefense",
+   "value": false,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 11 行：stone: {damage:1,disposable:true,bypassDefense:false}, pot: {damage:3,disposable:true,bypassDefense:true},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.pot.damage",
+   "value": 3,
+   "unit": "hp",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 11 行：stone: {damage:1,disposable:true,bypassDefense:false}, pot: {damage:3,disposable:true,bypassDefense:true},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.pot.disposable",
+   "value": true,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 11 行：stone: {damage:1,disposable:true,bypassDefense:false}, pot: {damage:3,disposable:true,bypassDefense:true},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.pot.bypassDefense",
+   "value": true,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 11 行：stone: {damage:1,disposable:true,bypassDefense:false}, pot: {damage:3,disposable:true,bypassDefense:true},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.dung.damage",
+   "value": 1,
+   "unit": "hp",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 12 行：dung: {damage:1,disposable:true,bypassDefense:true},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.dung.disposable",
+   "value": true,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 12 行：dung: {damage:1,disposable:true,bypassDefense:true},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "throw.dung.bypassDefense",
+   "value": true,
+   "unit": "scalar",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 12 行：dung: {damage:1,disposable:true,bypassDefense:true},",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場邊投送命中設定，不是持用武器傷害。"
+  },
+  {
+   "id": "card.lightning-rain.generic",
+   "value": 0,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 4 行：{ id:'lightning-rain',name:'閃電雨',subtitle:'範圍法術',description:'直徑 3 公尺內的鬥士受到 1 點傷害',cost:{generic:0,colored:{red:1}},target:'area',areaRadius:1.5,damage:1,color:'#df776a',icon:'ϟ' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.lightning-rain.red",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 4 行：{ id:'lightning-rain',name:'閃電雨',subtitle:'範圍法術',description:'直徑 3 公尺內的鬥士受到 1 點傷害',cost:{generic:0,colored:{red:1}},target:'area',areaRadius:1.5,damage:1,color:'#df776a',icon:'ϟ' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.lightning-rain.areaRadius",
+   "value": 1.5,
+   "unit": "m",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 4 行：{ id:'lightning-rain',name:'閃電雨',subtitle:'範圍法術',description:'直徑 3 公尺內的鬥士受到 1 點傷害',cost:{generic:0,colored:{red:1}},target:'area',areaRadius:1.5,damage:1,color:'#df776a',icon:'ϟ' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "範圍半徑（非直徑）。；施法圓心至鬥士中心的距離門檻，不加鬥士碰撞半徑（shared/targeting.ts 的 areaSpellTargets 中心距判定）。"
+  },
+  {
+   "id": "card.lightning-rain.damage",
+   "value": 1,
+   "unit": "hp",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 4 行：{ id:'lightning-rain',name:'閃電雨',subtitle:'範圍法術',description:'直徑 3 公尺內的鬥士受到 1 點傷害',cost:{generic:0,colored:{red:1}},target:'area',areaRadius:1.5,damage:1,color:'#df776a',icon:'ϟ' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.divine-wrath.generic",
+   "value": 0,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 5 行：{ id:'divine-wrath',name:'神怒',subtitle:'範圍法術',description:'直徑 5 公尺內的鬥士受到 3 點傷害',cost:{generic:0,colored:{red:4}},target:'area',areaRadius:2.5,damage:3,color:'#e8b16a',icon:'✹' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.divine-wrath.red",
+   "value": 4,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 5 行：{ id:'divine-wrath',name:'神怒',subtitle:'範圍法術',description:'直徑 5 公尺內的鬥士受到 3 點傷害',cost:{generic:0,colored:{red:4}},target:'area',areaRadius:2.5,damage:3,color:'#e8b16a',icon:'✹' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.divine-wrath.areaRadius",
+   "value": 2.5,
+   "unit": "m",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 5 行：{ id:'divine-wrath',name:'神怒',subtitle:'範圍法術',description:'直徑 5 公尺內的鬥士受到 3 點傷害',cost:{generic:0,colored:{red:4}},target:'area',areaRadius:2.5,damage:3,color:'#e8b16a',icon:'✹' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "範圍半徑（非直徑）。；施法圓心至鬥士中心的距離門檻，不加鬥士碰撞半徑（shared/targeting.ts 的 areaSpellTargets 中心距判定）。"
+  },
+  {
+   "id": "card.divine-wrath.damage",
+   "value": 3,
+   "unit": "hp",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 5 行：{ id:'divine-wrath',name:'神怒',subtitle:'範圍法術',description:'直徑 5 公尺內的鬥士受到 3 點傷害',cost:{generic:0,colored:{red:4}},target:'area',areaRadius:2.5,damage:3,color:'#e8b16a',icon:'✹' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.stone.generic",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 6 行：{ id:'stone',name:'石頭',subtitle:'一次性投擲',description:'直線投擲，命中造成 1 點傷害；最遠 5 公尺',cost:{generic:1,colored:{}},target:'ground',throwRange:5,color:'#a6adb5',icon:'●' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.stone.throwRange",
+   "value": 5,
+   "unit": "m",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 6 行：{ id:'stone',name:'石頭',subtitle:'一次性投擲',description:'直線投擲，命中造成 1 點傷害；最遠 5 公尺',cost:{generic:1,colored:{}},target:'ground',throwRange:5,color:'#a6adb5',icon:'●' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "自場邊起點量到目標中心距。"
+  },
+  {
+   "id": "card.pot.generic",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 7 行：{ id:'pot',name:'陶罐',subtitle:'一次性投擲',description:'命中造成 3 點傷害，無視防禦；最遠 2 公尺',cost:{generic:2,colored:{}},target:'ground',throwRange:2,color:'#c58f67',icon:'▱' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.pot.throwRange",
+   "value": 2,
+   "unit": "m",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 7 行：{ id:'pot',name:'陶罐',subtitle:'一次性投擲',description:'命中造成 3 點傷害，無視防禦；最遠 2 公尺',cost:{generic:2,colored:{}},target:'ground',throwRange:2,color:'#c58f67',icon:'▱' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "自場邊起點量到目標中心距。"
+  },
+  {
+   "id": "card.dung.generic",
+   "value": 0,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 8 行：{ id:'dung',name:'屎',subtitle:'一次性投擲',description:'射程 5 公尺，命中造成 1 點傷害。存活者虛弱 5 秒，每秒再扣 1 點生命。再次命中刷新效果。',cost:{generic:0,colored:{black:1}},target:'ground',throwRange:5,color:'#ad907a',icon:'●' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.dung.black",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 8 行：{ id:'dung',name:'屎',subtitle:'一次性投擲',description:'射程 5 公尺，命中造成 1 點傷害。存活者虛弱 5 秒，每秒再扣 1 點生命。再次命中刷新效果。',cost:{generic:0,colored:{black:1}},target:'ground',throwRange:5,color:'#ad907a',icon:'●' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.dung.throwRange",
+   "value": 5,
+   "unit": "m",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 8 行：{ id:'dung',name:'屎',subtitle:'一次性投擲',description:'射程 5 公尺，命中造成 1 點傷害。存活者虛弱 5 秒，每秒再扣 1 點生命。再次命中刷新效果。',cost:{generic:0,colored:{black:1}},target:'ground',throwRange:5,color:'#ad907a',icon:'●' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "自場邊起點量到目標中心距。"
+  },
+  {
+   "id": "card.spike-pit.generic",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 9 行：{ id:'spike-pit',name:'刺洞',subtitle:'地面陷阱',description:'放置 0.6 秒後生效。首位踩中的鬥士受到 3 點傷害，陷阱隨即消失，或於生效 12 秒後失效。',cost:{generic:2,colored:{}},target:'trap',color:'#b59980',icon:'⌄' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.bear-trap.generic",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 10 行：{ id:'bear-trap',name:'捕獸夾',subtitle:'地面陷阱',description:'放置 0.6 秒後生效，首位踩中的鬥士受到 1 點傷害並定身 3 秒，仍可攻擊與防禦。生效 12 秒後失效。',cost:{generic:2,colored:{}},target:'trap',color:'#87c6bd',icon:'⋈' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.sword.generic",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 11 行：{ id:'sword',name:'直劍',subtitle:'投送裝備',description:'單手劍；落地後可被任何鬥士拾取',cost:{generic:2,colored:{}},target:'ground',color:'#b7c9d0',icon:'†' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.spear.generic",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 12 行：{ id:'spear',name:'長矛',subtitle:'投送裝備',description:'單手長矛；比直劍出手更快、攻擊距離更遠',cost:{generic:1,colored:{}},target:'ground',color:'#b7c9d0',icon:'↑' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.hatchet.generic",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 13 行：{ id:'hatchet',name:'短斧',subtitle:'投送裝備',description:'單手。近戰遇到普通格擋時先減傷再碎盾，成功招架或場邊投送則保留盾牌。',cost:{generic:2,colored:{yellow:1}},target:'ground',color:'#d8b573',icon:'⌙' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.hatchet.yellow",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 13 行：{ id:'hatchet',name:'短斧',subtitle:'投送裝備',description:'單手。近戰遇到普通格擋時先減傷再碎盾，成功招架或場邊投送則保留盾牌。',cost:{generic:2,colored:{yellow:1}},target:'ground',color:'#d8b573',icon:'⌙' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.club.generic",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 14 行：{ id:'club',name:'木棍',subtitle:'投送裝備',description:'雙手重擊可擊飛，兩次有效命中後斷裂',cost:{generic:2,colored:{}},target:'ground',color:'#c59b72',icon:'╱' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.shield.generic",
+   "value": 3,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 15 行：{ id:'shield',name:'圓盾',subtitle:'投送裝備',description:'單手盾；消耗體力格擋或短窗招架',cost:{generic:3,colored:{}},target:'ground',color:'#dfbc70',icon:'⛨' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.bow.generic",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 16 行：{ id:'bow',name:'長弓',subtitle:'雙手遠程',description:'雙手弓；附三支箭，射完後回到徒手',cost:{generic:1,colored:{}},target:'ground',color:'#9eb98c',icon:'⌒' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.lightning.generic",
+   "value": 0,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 17 行：{ id:'lightning',name:'閃電劍',subtitle:'紅色法術',description:'目標受到 3 點傷害，無視盾與方向',cost:{generic:0,colored:{red:1}},target:'fighter',color:'#df776a',icon:'ϟ' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.lightning.red",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 17 行：{ id:'lightning',name:'閃電劍',subtitle:'紅色法術',description:'目標受到 3 點傷害，無視盾與方向',cost:{generic:0,colored:{red:1}},target:'fighter',color:'#df776a',icon:'ϟ' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.bloodlust.generic",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 18 行：{ id:'bloodlust',name:'殺紅眼',subtitle:'紅色法術',description:'攻擊力 +3，持續 5 秒',cost:{generic:1,colored:{red:1}},target:'fighter',color:'#df776a',icon:'✦' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.bloodlust.red",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 18 行：{ id:'bloodlust',name:'殺紅眼',subtitle:'紅色法術',description:'攻擊力 +3，持續 5 秒',cost:{generic:1,colored:{red:1}},target:'fighter',color:'#df776a',icon:'✦' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.deliberate.generic",
+   "value": 0,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 19 行：{ id:'deliberate',name:'謹慎思考',subtitle:'藍色法術',description:'抽最多三張，選一張加入手牌，其餘棄掉',cost:{generic:0,colored:{blue:1}},target:'self',color:'#79a9ce',icon:'◇' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.deliberate.blue",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 19 行：{ id:'deliberate',name:'謹慎思考',subtitle:'藍色法術',description:'抽最多三張，選一張加入手牌，其餘棄掉',cost:{generic:0,colored:{blue:1}},target:'self',color:'#79a9ce',icon:'◇' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.intuition.generic",
+   "value": 0,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 20 行：{ id:'intuition',name:'直覺',subtitle:'藍色法術',description:'補牌後，看見接下來最多兩張牌',cost:{generic:0,colored:{blue:1}},target:'self',color:'#79a9ce',icon:'◈' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.intuition.blue",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 20 行：{ id:'intuition',name:'直覺',subtitle:'藍色法術',description:'補牌後，看見接下來最多兩張牌',cost:{generic:0,colored:{blue:1}},target:'self',color:'#79a9ce',icon:'◈' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.growth.generic",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 21 行：{ id:'growth',name:'野性成長',subtitle:'綠色法術',description:'恢復 10 點生命，不超過生命上限',cost:{generic:2,colored:{green:1}},target:'fighter',color:'#86b18b',icon:'✚' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "card.growth.green",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/shared/card-catalog.ts",
+   "source_locator": "第 21 行：{ id:'growth',name:'野性成長',subtitle:'綠色法術',description:'恢復 10 點生命，不超過生命上限',cost:{generic:2,colored:{green:1}},target:'fighter',color:'#86b18b',icon:'✚' },",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行卡牌數值，文案不改。"
+  },
+  {
+   "id": "world.radius",
+   "value": 7.5,
+   "unit": "m",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 3 行：export const ARENA_RADIUS = 7.5;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "場地中心至邊界半徑。"
+  },
+  {
+   "id": "trap.triggerCenterRadius",
+   "value": 0.55,
+   "unit": "m",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 4 行：export const SPIKE_PIT_RADIUS = 0.55;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "陷阱中心至鬥士中心的觸發半徑，不加鬥士半徑。"
+  },
+  {
+   "id": "throw.boundaryInset",
+   "value": 0.2,
+   "unit": "m",
+   "source_path": "src/arena/shared/rules.ts",
+   "source_locator": "第 5 行：export const THROW_TARGET_RADIUS = ARENA_RADIUS - 0.2;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "目標中心距場地邊界的內縮。"
+  },
+  {
+   "id": "world.entryCenterRadius",
+   "value": 6.45,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 30 行：return { ...spec, id: `fighter-${i}`, x: Math.cos(angle) * 6.45, y: Math.sin(angle) * 6.45,",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "入場中心至場地中心距。"
+  },
+  {
+   "id": "world.entryAttackJitter",
+   "value": 0.3,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 32 行：pose: 'idle', poseUntil: 0, lastAttack: -10, lastMoved: -10, nextAttack: random() * 0.3, buffs: [], ammo: 0, durability: 0, parryUntil: 0, nextParry: 0 };",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "world.matchDuration",
+   "value": 180,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine.ts",
+   "source_locator": "第 49 行：const mayAct = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.recoveryAttackDelay",
+   "value": 2,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 41 行：if (state.time - fighter.lastAttack >= 2) {",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.recoveryIdleDelay",
+   "value": 2.5,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 42 行：const recovery = state.time - fighter.lastMoved >= 2.5 ? 22 : 10;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.idleRecovery",
+   "value": 22,
+   "unit": "stamina/s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 42 行：const recovery = state.time - fighter.lastMoved >= 2.5 ? 22 : 10;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.movingRecovery",
+   "value": 10,
+   "unit": "stamina/s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 42 行：const recovery = state.time - fighter.lastMoved >= 2.5 ? 22 : 10;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.parryThreatWindow",
+   "value": 0.2,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 58 行：const threat = target.pose === 'attack' && target.targetId === fighter.id && target.poseUntil - state.time <= 0.2;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.parryStamina",
+   "value": 10,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 59 行：if (fighter.shield && threat && fighter.stamina >= 10 && state.time >= fighter.nextParry &&",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.defendFacingDot",
+   "value": 0.5,
+   "unit": "scalar",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 60 行：Math.cos(targetAngle - fighter.facing) >= 0.5 && distance(fighter, target) <= fighter.radius + target.radius + 1) {",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.parryGap",
+   "value": 1,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 60 行：Math.cos(targetAngle - fighter.facing) >= 0.5 && distance(fighter, target) <= fighter.radius + target.radius + 1) {",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "招架雙方碰撞體表之間的最大 gap。"
+  },
+  {
+   "id": "combat.parryWindow",
+   "value": 0.22,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 61 行：fighter.parryUntil = state.time + 0.22; fighter.nextParry = state.time + 2.4;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.parryCooldown",
+   "value": 2.4,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 61 行：fighter.parryUntil = state.time + 0.22; fighter.nextParry = state.time + 2.4;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.pickupPreferenceCenterDistance",
+   "value": 3,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 68 行：if (item && distance(fighter, item) < 3) destination = item;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士中心至落地物中心的拾物偏好距離。"
+  },
+  {
+   "id": "combat.defaultAttackStamina",
+   "value": 12,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 76 行：const staminaCost = attack.staminaCost ?? 12;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.attackAngle",
+   "value": 0.65,
+   "unit": "rad",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 77 行：if (state.time >= fighter.nextAttack && fighter.stamina >= staminaCost && Math.abs(delta) < 0.65) {",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.moveStaminaThreshold",
+   "value": 12,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 85 行：if (fighter.stamina < 12 || (fighter.rootedUntil !== undefined && state.time < fighter.rootedUntil)) return;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.haste.speedMultiplier",
+   "value": 1.65,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 86 行：const speed = fighter.speed * (hasBuff(fighter, 'haste') ? 1.65 : 1);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.weakness.staminaMultiplier",
+   "value": 0.6,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 25 行：fighter.maxStamina = fighter.baseMaxStamina * (hasBuff(fighter, 'weakness') ? 0.6 : 1);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.dung.duration",
+   "value": 5,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 28 行：const DUNG_DURATION = 5;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.dung.tickInterval",
+   "value": 1,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 29 行：const DUNG_TICK_INTERVAL = 1;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.dung.tickDamage",
+   "value": 1,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 30 行：const DUNG_TICK_DAMAGE = 1;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "weapon.swordSpear.damageMultiplier",
+   "value": 1.65,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 67 行：let damage = fighter.attack * (isSwordOrSpear ? 1.65 : isClubOrHatchet ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "weapon.clubHatchet.damageMultiplier",
+   "value": 1.9,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 67 行：let damage = fighter.attack * (isSwordOrSpear ? 1.65 : isClubOrHatchet ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "weapon.bow.damageMultiplier",
+   "value": 1.35,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 67 行：let damage = fighter.attack * (isSwordOrSpear ? 1.65 : isClubOrHatchet ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "fighter.elephant.clubMultiplier",
+   "value": 1.2,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 68 行：if (fighter.species === 'elephant' && fighter.weapon === 'club') damage *= 1.2;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.fury.damageMultiplier",
+   "value": 1.65,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 69 行：if (hasBuff(fighter, 'fury')) damage *= 1.65;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.weakness.attackMultiplier",
+   "value": 0.55,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 70 行：if (hasBuff(fighter, 'weakness')) damage *= 0.55;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.bloodlust.damageBonus",
+   "value": 3,
+   "unit": "hp",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 71 行：if (hasBuff(fighter, 'bloodlust')) damage += 3;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "control.airborneDuration",
+   "value": 0.35,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 78 行：target.knockback = { fromX: target.x, fromY: target.y, toX: landing.x, toY: landing.y, start: state.time, until: state.time + 0.35 };",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "control.parryRecoil",
+   "value": 0.45,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 90 行：if (attacker && attacker.hp > 0) { attacker.pose = 'hit'; attacker.poseUntil = state.time + 0.45; attacker.nextAttack = Math.max(attacker.nextAttack, attacker.poseUntil); }",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.backFacingDot",
+   "value": -0.5,
+   "unit": "scalar",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 94 行：let damage = rawDamage * (facingDot < -0.5 ? 1.2 : 1);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.backMultiplier",
+   "value": 1.2,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 94 行：let damage = rawDamage * (facingDot < -0.5 ? 1.2 : 1);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.blockStamina",
+   "value": 6,
+   "unit": "stamina",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 96 行：if (canDefend && target.stamina >= 6) {",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.blockMultiplier",
+   "value": 0.5,
+   "unit": "ratio",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 98 行：damage *= 0.5; blocked = true;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "control.blockPause",
+   "value": 0.2,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 112 行：else if (blocked) { target.pose = 'block'; target.poseUntil = state.time + 0.2; }",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "control.hitPause",
+   "value": 0.18,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 114 行：target.pose = 'hit'; target.poseUntil = state.time + 0.18;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.fury.duration",
+   "value": 8,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 130 行：killer.buffs.push({kind:'fury',until:state.time+8});",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "resource.supportKillStones",
+   "value": 3,
+   "unit": "count",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 134 行：const rewardStones = 3;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "control.fallenDuration",
+   "value": 0.8,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 154 行：fighter.knockback = undefined; fighter.pose = 'fallen'; fighter.poseUntil = state.time + 0.8;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "arrow.lifetime",
+   "value": 2.5,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-arrows.ts",
+   "source_locator": "第 10 行：y: fighter.y + dy * fighter.radius, vx: dx * 12, vy: dy * 12, damage: attackDamage(fighter), expiresAt: state.time + 2.5 });",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "arrow.collisionPadding",
+   "value": 0.07,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-arrows.ts",
+   "source_locator": "第 24 行：const t = sweptCircleTime(arrow, { x: arrow.x + dx, y: arrow.y + dy }, fighter, fighter, fighter.radius + 0.07);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞半徑外加箭矢 padding，非直徑。"
+  },
+  {
+   "id": "arrow.boundaryPadding",
+   "value": 0.5,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-arrows.ts",
+   "source_locator": "第 33 行：return state.time < arrow.expiresAt && Math.hypot(arrow.x, arrow.y) <= ARENA_RADIUS + 0.5;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "箭矢中心可超出場地半徑的距離。"
+  },
+  {
+   "id": "weapon.bow.ammo",
+   "value": 3,
+   "unit": "count",
+   "source_path": "src/arena/items/equipment.ts",
+   "source_locator": "第 20 行：fighter.ammo = weapon === 'bow' ? 3 : 0;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "weapon.club.durability",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/items/equipment.ts",
+   "source_locator": "第 21 行：fighter.durability = weapon === 'club' ? 2 : 0;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "resource.redrawCooldown",
+   "value": 3,
+   "unit": "s",
+   "source_path": "src/arena/items/engine-cards.ts",
+   "source_locator": "第 8 行：export const REDRAW_COOLDOWN = 3;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "card.intuition.revealCount",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/items/engine-cards.ts",
+   "source_locator": "第 9 行：const INTUITION_CARD_COUNT = 2;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "resource.initialHand",
+   "value": 3,
+   "unit": "count",
+   "source_path": "src/arena/items/engine-cards.ts",
+   "source_locator": "第 46 行：for (let i = 0; i < 3; i++) drawCard(state);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "resource.initialStones",
+   "value": 3,
+   "unit": "count",
+   "source_path": "src/arena/items/engine-cards.ts",
+   "source_locator": "第 47 行：drawStones(state, 3);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "resource.playStones",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/items/engine-cards.ts",
+   "source_locator": "第 100 行：drawStones(state, 2);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "card.deliberate.offerCount",
+   "value": 3,
+   "unit": "count",
+   "source_path": "src/arena/items/engine-cards.ts",
+   "source_locator": "第 102 行：for (let i = 0; i < 3; i++) {",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "resource.redrawBonus",
+   "value": 1,
+   "unit": "count",
+   "source_path": "src/arena/items/engine-cards.ts",
+   "source_locator": "第 128 行：drawStones(state, stoneIds.length + 1);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "throw.fighterCollisionPadding",
+   "value": 0.11,
+   "unit": "m",
+   "source_path": "src/arena/items/engine-items.ts",
+   "source_locator": "第 13 行：return sweptCircleTime(from, to, fighter, fighter, fighter.radius + 0.11);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞半徑外加 padding，非直徑。"
+  },
+  {
+   "id": "card.lightning.damage",
+   "value": 3,
+   "unit": "hp",
+   "source_path": "src/arena/items/engine-items.ts",
+   "source_locator": "第 85 行：if (card.id === 'lightning') applyHealthDamage(state, fighter, 3);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "buff.bloodlust.duration",
+   "value": 5,
+   "unit": "s",
+   "source_path": "src/arena/items/engine-items.ts",
+   "source_locator": "第 88 行：fighter.buffs.push({ kind: 'bloodlust', until: state.time + 5 });",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "card.growth.heal",
+   "value": 10,
+   "unit": "hp",
+   "source_path": "src/arena/items/engine-items.ts",
+   "source_locator": "第 90 行：if (card.id === 'growth') fighter.hp = Math.min(fighter.maxHp, fighter.hp + 10);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "throw.speed",
+   "value": 9,
+   "unit": "m/s",
+   "source_path": "src/arena/items/engine-items.ts",
+   "source_locator": "第 106 行：toX: x!, toY: y!, launched: state.time, landsAt: state.time + Math.hypot(x! - fromX, y! - fromY) / 9 + 0.35, landed: false });",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "throw.flightDelay",
+   "value": 0.35,
+   "unit": "s",
+   "source_path": "src/arena/items/engine-items.ts",
+   "source_locator": "第 106 行：toX: x!, toY: y!, launched: state.time, landsAt: state.time + Math.hypot(x! - fromX, y! - fromY) / 9 + 0.35, landed: false });",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "throw.mutualCollisionCenterDistance",
+   "value": 0.22,
+   "unit": "m",
+   "source_path": "src/arena/items/engine-items.ts",
+   "source_locator": "第 149 行：const t = sweptCircleTime(positionAt(a, start), positionAt(a, end), positionAt(b, start), positionAt(b, end), 0.22);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "兩個投送物中心距的碰撞門檻，非單體半徑。"
+  },
+  {
+   "id": "throw.pickupSurfaceGap",
+   "value": 0.35,
+   "unit": "m",
+   "source_path": "src/arena/items/engine-items.ts",
+   "source_locator": "第 196 行：distance(value, item) <= value.radius + 0.35 && canEquip(value, weapon))",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "鬥士碰撞體表至落地物中心之最大拾取 gap。"
+  },
+  {
+   "id": "trap.armDuration",
+   "value": 0.6,
+   "unit": "s",
+   "source_path": "src/arena/items/engine-traps.ts",
+   "source_locator": "第 6 行：const ARM_SECONDS = 0.6;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "trap.armedLifetime",
+   "value": 12,
+   "unit": "s",
+   "source_path": "src/arena/items/engine-traps.ts",
+   "source_locator": "第 7 行：const ARMED_LIFETIME = 12;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "trap.rootDuration",
+   "value": 3,
+   "unit": "s",
+   "source_path": "src/arena/items/engine-traps.ts",
+   "source_locator": "第 8 行：const ROOT_SECONDS = 3;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "trap.bear.damage",
+   "value": 1,
+   "unit": "hp",
+   "source_path": "src/arena/items/engine-traps.ts",
+   "source_locator": "第 62 行：const damage = rooted ? 1 : 3;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "trap.spike.damage",
+   "value": 3,
+   "unit": "hp",
+   "source_path": "src/arena/items/engine-traps.ts",
+   "source_locator": "第 62 行：const damage = rooted ? 1 : 3;",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "combat.turnRate",
+   "value": 5,
+   "unit": "rad/s",
+   "source_path": "src/arena/sim/engine-combat.ts",
+   "source_locator": "第 72 行：fighter.facing += Math.max(-dt * 5, Math.min(dt * 5, delta));",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "control.knockbackCenterDisplacement",
+   "value": 1.3,
+   "unit": "m",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 76 行：const landing = { x: target.x + Math.cos(angle) * 1.3, y: target.y + Math.sin(angle) * 1.3, radius: target.radius };",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "擊飛時鬥士中心位移距離；邊界仍依原公式裁切。"
+  },
+  {
+   "id": "control.risingDuration",
+   "value": 0.35,
+   "unit": "s",
+   "source_path": "src/arena/sim/engine-damage.ts",
+   "source_locator": "第 159 行：if (state.time >= fighter.poseUntil) { fighter.pose = 'rising'; fighter.poseUntil = state.time + 0.35; }",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "arrow.speed",
+   "value": 12,
+   "unit": "m/s",
+   "source_path": "src/arena/sim/engine-arrows.ts",
+   "source_locator": "第 10 行：y: fighter.y + dy * fighter.radius, vx: dx * 12, vy: dy * 12, damage: attackDamage(fighter), expiresAt: state.time + 2.5 });",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "throw.mutualCollisionGrace",
+   "value": 0.15,
+   "unit": "s",
+   "source_path": "src/arena/items/engine-items.ts",
+   "source_locator": "第 146 行：const start = Math.max(previousTime(a), previousTime(b), a.launched + 0.15, b.launched + 0.15);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "resource.deckCopies",
+   "value": 2,
+   "unit": "count",
+   "source_path": "src/arena/items/engine-cards.ts",
+   "source_locator": "第 44 行：state.deck = CARDS.flatMap(card => [card.id, card.id]);",
+   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
+   "decision": "現值等價抽取，非平衡批准",
+   "rationale": "現行啟用參數；保留原運算次序及語義。"
+  }
+ ]
+}

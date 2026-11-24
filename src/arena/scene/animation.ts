@@ -1,3 +1,4 @@
+import { BALANCE as B } from '../shared/balance';
 import type { Fighter } from '../shared/types';
 const clamp = (value: number): number => Math.max(0, Math.min(1, value));
 /** Rendering samples simulation time; no animation state or wall clock is advanced here. */
@@ -7,5 +8,5 @@ export function airborneHeight(fighter: Fighter, time: number): number {
   return Math.sin(clamp((time - motion.start) / (motion.until - motion.start)) * Math.PI) * 1.15;
 }
 export function riseProgress(fighter: Fighter, time: number): number {
-  return fighter.pose === 'rising' ? clamp(1 - (fighter.poseUntil - time) / .35) : 0;
+  return fighter.pose === 'rising' ? clamp(1 - (fighter.poseUntil - time) / B.risingDuration) : 0;
 }

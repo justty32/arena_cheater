@@ -1,11 +1,12 @@
+import { BALANCE as B } from '../shared/balance';
 import { applyHealthDamage, effect, log } from '../sim/engine-damage';
 import { sweptCircleTime, type Point } from '../sim/geometry';
 import { SPIKE_PIT_RADIUS } from '../shared/rules';
 import type { ArenaState, Fighter, TrapKind } from '../shared/types';
 
-const ARM_SECONDS = 0.6;
-const ARMED_LIFETIME = 12;
-const ROOT_SECONDS = 3;
+const ARM_SECONDS = B.trapArm;
+const ARMED_LIFETIME = B.trapLifetime;
+const ROOT_SECONDS = B.trapRoot;
 const CLOCK_EPSILON = 1e-9;
 
 export function placeTrap(state: ArenaState, point: Point, kind: TrapKind): void {
@@ -59,7 +60,7 @@ export function advanceTraps(state: ArenaState, startedAt: number, positions: Re
     }
     if (!first) return !expired;
     const rooted = trap.kind === 'bear-trap';
-    const damage = rooted ? 1 : 3;
+    const damage = rooted ? B.bearTrapDamage : B.spikeDamage;
     const name = rooted ? '捕獸夾' : '刺洞';
     applyHealthDamage(state, first, damage);
     if (rooted && first.hp > 0) first.rootedUntil = state.time + ROOT_SECONDS;

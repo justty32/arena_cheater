@@ -1,3 +1,4 @@
+import { BALANCE as B } from '../shared/balance';
 import { THROW_PROFILES } from '../shared/rules';
 import type { ArenaState, Fighter, Weapon } from '../shared/types';
 import { canEquip } from '../items/equipment';
@@ -12,13 +13,13 @@ type AttackProfile = { windup: number; cooldown: number; staminaCost?: number } 
 
 // Melee gaps are measured between the fighters' collision boundaries.
 const ATTACK_PROFILES: Record<Weapon, AttackProfile> = {
-  fists:  { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },
-  sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },
-  spear:  { kind: 'melee', startGap: 1, hitGap: 1.3, windup: 0.25, cooldown: 1 },
-  hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },
-  club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },
-  shield: { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },
-  bow:    { kind: 'ranged', centerReach: 5.5, windup: 0.45, cooldown: 1.6 },
+  fists:  { kind: 'melee', startGap: B.fistsStartGap, hitGap: B.fistsHitGap, windup: B.fistsWindup, cooldown: B.fistsCooldown },
+  sword:  { kind: 'melee', startGap: B.swordStartGap, hitGap: B.swordHitGap, windup: B.swordWindup, cooldown: B.swordCooldown },
+  spear:  { kind: 'melee', startGap: B.spearStartGap, hitGap: B.spearHitGap, windup: B.spearWindup, cooldown: B.spearCooldown },
+  hatchet: { kind: 'melee', startGap: B.hatchetStartGap, hitGap: B.hatchetHitGap, windup: B.hatchetWindup, cooldown: B.hatchetCooldown, staminaCost: B.hatchetStaminaCost },
+  club:   { kind: 'melee', startGap: B.clubStartGap, hitGap: B.clubHitGap, windup: B.clubWindup, cooldown: B.clubCooldown },
+  shield: { kind: 'melee', startGap: B.shieldStartGap, hitGap: B.shieldHitGap, windup: B.shieldWindup, cooldown: B.shieldCooldown },
+  bow:    { kind: 'ranged', centerReach: B.bowCenterReach, windup: B.bowWindup, cooldown: B.bowCooldown },
 };
 
 export function hit(state: ArenaState, fighter: Fighter): void {
@@ -38,8 +39,8 @@ export function hit(state: ArenaState, fighter: Fighter): void {
 export function act(state: ArenaState, fighter: Fighter, dt: number): void {
   if (fighter.hp <= 0) { advanceControl(state, fighter); return; }
   syncStamina(fighter, state.time);
-  if (state.time - fighter.lastAttack >= 2) {
-    const recovery = state.time - fighter.lastMoved >= 2.5 ? 22 : 10;
+  if (state.time - fighter.lastAttack >= B.recoveryAttackDelay) {
+    const recovery = state.time - fighter.lastMoved >= B.recoveryIdleDelay ? B.idleRecovery : B.movingRecovery;
     fighter.stamina = Math.min(fighter.maxStamina, fighter.stamina + recovery * dt);
   }
   if (advanceControl(state, fighter)) return;
@@ -55,26 +56,26 @@ export function act(state: ArenaState, fighter: Fighter, dt: number): void {
   if (!target) return;
   fighter.targetId = target.id;
   const targetAngle = Math.atan2(target.y - fighter.y, target.x - fighter.x);
-  const threat = target.pose === 'attack' && target.targetId === fighter.id && target.poseUntil - state.time <= 0.2;
-  if (fighter.shield && threat && fighter.stamina >= 10 && state.time >= fighter.nextParry &&
-      Math.cos(targetAngle - fighter.facing) >= 0.5 && distance(fighter, target) <= fighter.radius + target.radius + 1) {
-    fighter.parryUntil = state.time + 0.22; fighter.nextParry = state.time + 2.4;
+  const threat = target.pose === 'attack' && target.targetId === fighter.id && target.poseUntil - state.time <= B.parryThreatWindow;
+  if (fighter.shield && threat && fighter.stamina >= B.parryStamina && state.time >= fighter.nextParry &&
+      Math.cos(targetAngle - fighter.facing) >= B.defendFacingDot && distance(fighter, target) <= fighter.radius + target.radius + B.parryGap) {
+    fighter.parryUntil = state.time + B.parryWindow; fighter.nextParry = state.time + B.parryCooldown;
     fighter.pose = 'parry'; fighter.poseUntil = fighter.parryUntil;
     return;
   }
   let destination: { x: number; y: number } = target;
   const available = state.items.filter(item => item.landed && !THROW_PROFILES[item.weapon].disposable && canEquip(fighter, item.weapon as Weapon));
   const item = available.sort((a, b) => distance(fighter, a) - distance(fighter, b))[0];
-  if (item && distance(fighter, item) < 3) destination = item;
+  if (item && distance(fighter, item) < B.pickupPreference) destination = item;
   const dx = destination.x - fighter.x, dy = destination.y - fighter.y;
   const angle = Math.atan2(dy, dx);
   const delta = Math.atan2(Math.sin(angle - fighter.facing), Math.cos(angle - fighter.facing));
-  fighter.facing += Math.max(-dt * 5, Math.min(dt * 5, delta));
+  fighter.facing += Math.max(-dt * B.turnRate, Math.min(dt * B.turnRate, delta));
   const attack = ATTACK_PROFILES[fighter.weapon];
   const reach = attack.kind === 'ranged' ? attack.centerReach : fighter.radius + target.radius + attack.startGap;
   if (destination === target && distance(fighter, target) <= reach) {
-    const staminaCost = attack.staminaCost ?? 12;
-    if (state.time >= fighter.nextAttack && fighter.stamina >= staminaCost && Math.abs(delta) < 0.65) {
+    const staminaCost = attack.staminaCost ?? B.attackStamina;
+    if (state.time >= fighter.nextAttack && fighter.stamina >= staminaCost && Math.abs(delta) < B.attackAngle) {
       fighter.stamina -= staminaCost; fighter.lastAttack = state.time;
       fighter.pose = 'attack'; fighter.poseUntil = state.time + attack.windup;
       fighter.nextAttack = state.time + attack.cooldown;
@@ -82,8 +83,8 @@ export function act(state: ArenaState, fighter: Fighter, dt: number): void {
     return;
   }
   // Rooting blocks only voluntary translation, not attacks, turning or recovery above.
-  if (fighter.stamina < 12 || (fighter.rootedUntil !== undefined && state.time < fighter.rootedUntil)) return;
-  const speed = fighter.speed * (hasBuff(fighter, 'haste') ? 1.65 : 1);
+  if (fighter.stamina < B.moveStamina || (fighter.rootedUntil !== undefined && state.time < fighter.rootedUntil)) return;
+  const speed = fighter.speed * (hasBuff(fighter, 'haste') ? B.hasteMultiplier : 1);
   const step = Math.min(speed * dt, Math.hypot(dx, dy));
   fighter.x += Math.cos(angle) * step; fighter.y += Math.sin(angle) * step;
   fighter.pose = 'walk'; fighter.lastMoved = state.time;
