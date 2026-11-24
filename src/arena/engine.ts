@@ -1,9 +1,9 @@
 import { ARENA_RADIUS, hasPendingDungDamage, type ArenaState, type Fighter, type Species } from './model';
-import { act, log, separateFighters } from './engine-combat';
+import { act, separateFighters } from './engine-combat';
 import { advanceItems } from './engine-items';
 import { advanceTraps, trapMovementStart } from './engine-traps';
 import { advanceArrows } from './engine-arrows';
-import { advanceControl, advanceDungDamage, syncStamina } from './engine-damage';
+import { advanceControl, advanceDungDamage, log, syncStamina } from './engine-damage';
 import { initializeCards } from './engine-cards';
 export { REDRAW_COOLDOWN, redrawStones, findPayment, canPayCost, paymentStatus, chooseDeliberation, keepDeliberationPaused, knownUpcomingCards, type PaymentStatus } from './engine-cards';
 export { playCard, validateCardPlay, previewThrowContact, type CardTarget, type CardPlayRejection, type CardPlayValidation } from './engine-items';

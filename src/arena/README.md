@@ -10,7 +10,8 @@
 | [engine-combat.ts](engine-combat.ts) | 自主移動與定身限制、面向、出招、體力、招架時機與角色分離 |
 | [engine-damage.ts](engine-damage.ts) | 傷害、防禦耗能、虛弱上限與擊飛／跌倒／起身 |
 | [engine-arrows.ts](engine-arrows.ts) | 三箭發射、直線掃掠命中、飛行到期 |
-| [engine-cards.ts](engine-cards.ts) | 牌堆與石頭抽取、實例付款與缺額狀態、出牌消耗及換石冷卻 |
+| [shared/resources.ts](shared/resources.ts) | 共用狀態亂數、石頭色序及補石；卡牌抽取與擊殺獎勵共用同一亂數流 |
+| [engine-cards.ts](engine-cards.ts) | 牌堆抽取、實例付款與缺額狀態、出牌消耗及換石冷卻 |
 | [engine-items.ts](engine-items.ts) | 共用出牌驗證與拒絕原因、卡牌目標與效果、範圍法術、投送物碰撞排序、裝備拾取及最新投送結構化結果 |
 | [engine-traps.ts](engine-traps.ts) | 刺洞／捕獸夾共用放置、武裝與到期、首位掃掠接觸判定、傷害及生還者定身 |
 | [equipment.ts](equipment.ts) | 單雙手與盾互斥、裝備初始化彈藥／耐久 |

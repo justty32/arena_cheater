@@ -1,10 +1,9 @@
 import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isTrapTarget, isResolvingArena, type ArenaState, type Card, type Fighter, type ThrownItem, type ThrowImpact, type ThrownKind, type Weapon, type TrapKind } from './model';
-import { distance, effect, log } from './engine-combat';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime, type Point } from './geometry';
 import { canPayCost, findPayment, consumeCard, drawCard, drawStones, beginDeliberation, revealUpcomingCards } from './engine-cards';
 import { placeTrap } from './engine-traps';
-import { applyDungStatus, applyHealthDamage, damageFighter } from './engine-damage';
+import { applyDungStatus, applyHealthDamage, damageFighter, distance, effect, log } from './engine-damage';
 
 function sweptThrowFighterTime(from: Point, to: Point, fighter: Fighter): number | undefined {
   return sweptCircleTime(from, to, fighter, fighter, fighter.radius + 0.11);

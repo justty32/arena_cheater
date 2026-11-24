@@ -12,7 +12,7 @@ dev 負責契約、派工、整合與回報。依據 app.ts 拆分（64a7e87）�
 
 擁有 `src/arena/{engine,engine-combat,engine-damage,engine-arrows,geometry}.ts`。負責固定步進、戰鬥／控制、傷害歸屬、死亡、收尾與掃掠幾何。對外入口為 createArena／advanceArena／toggleArena；內部向道具塊提供 applyHealthDamage／damageFighter／advanceControl 等既有函式。
 
-擁有 arena.test.ts、arena-p3.test.ts、arena-root.test.ts。engine.ts 出口與步序改動須 dev 核准，此 owner 落筆。engine-damage 對 engine-cards 的獎勵依賴是現存反向邊，不為分工先重構。
+擁有 arena.test.ts、arena-p3.test.ts、arena-root.test.ts。engine.ts 出口與步序改動須 dev 核准，此 owner 落筆。engine-damage 的擊殺補石直接取主管保管的 shared/resources.ts，不依賴 engine-cards。
 
 ### 卡牌與道具：dev-items
 
@@ -40,7 +40,7 @@ dev 負責契約、派工、整合與回報。依據 app.ts 拆分（64a7e87）�
 
 ## 主管保管的共用契約
 
-`src/arena/model.ts` 由 dev 獨佔，包括 Fighter／ArenaState、卡牌表、TrapKind、規則常數和合法目標 helper。`src/main.ts` 的模式路由、`src/arena/README.md`、`tests/simulation/README.md`、code-map 也由 dev 整合維護。跨塊驗收檔 arena-bear-trap-integration.test.ts 由 dev 擁有。不是多人任寫的共用區；其餘 src 均在上述五塊。
+`src/arena/shared/resources.ts` 的狀態亂數／色序／補石及 arena-resources.test.ts 的完整狀態快照由 dev 保管。`src/arena/model.ts` 由 dev 獨佔，包括 Fighter／ArenaState、卡牌表、TrapKind、規則常數和合法目標 helper。`src/main.ts` 的模式路由、`src/arena/README.md`、`tests/simulation/README.md`、code-map 也由 dev 整合維護。跨塊驗收檔 arena-bear-trap-integration.test.ts 由 dev 擁有。不是多人任寫的共用區；其餘 src 均在上述五塊。
 
 新增介面由 owner 提案，寫清參數、輸出、狀態副作用、時間基準與呼叫順序，dev 在原 spec 範圍內決定技術契約。改到玩法語義或規格空白，仍交 main／design，不以主管身份代使用者拍板。
 

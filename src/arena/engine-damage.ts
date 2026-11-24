@@ -1,5 +1,5 @@
 import { ARENA_RADIUS, DUNG_TICK_EPSILON, type ArenaState, type Fighter } from './model';
-import { drawStones } from './engine-cards';
+import { drawStones } from './shared/resources';
 
 export function log(state: ArenaState, message: string): void {
   state.logs.unshift(message);

@@ -1,20 +1,15 @@
 import { CARDS, isResolvingArena, type ArenaState, type CardId, type DeliberationOffer, type StoneColor, type StoneCost } from './model';
 
+import { COLORS, drawStones, random } from './shared/resources';
+export { drawStones } from './shared/resources';
+
 export const REDRAW_COOLDOWN = 3;
 const INTUITION_CARD_COUNT = 2;
-const COLORS: StoneColor[] = ['yellow', 'blue', 'green', 'black', 'red'];
-function random(state: ArenaState): number {
-  state.randomState = (Math.imul(state.randomState, 1664525) + 1013904223) >>> 0;
-  return state.randomState / 4294967296;
-}
 function shuffle(state: ArenaState, cards: CardId[]): void {
   for (let i = cards.length - 1; i > 0; i--) {
     const j = Math.floor(random(state) * (i + 1));
     [cards[i], cards[j]] = [cards[j], cards[i]];
   }
-}
-export function drawStones(state: ArenaState, count: number): void {
-  for (let i = 0; i < count; i++) state.stones.push({ id: state.nextId++, color: COLORS[Math.floor(random(state) * COLORS.length)] });
 }
 function takeTopCard(state: ArenaState): CardId | undefined {
   if (!state.deck.length && state.discard.length) {
