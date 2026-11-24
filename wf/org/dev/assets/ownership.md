@@ -1,8 +1,8 @@
-# src 模組責任制提案
+# src 模組責任制
 
 [開發角色卡](../README.md)｜[程式導航](../../../workflows/common/code-map.md)
 
-供 main 建立定義的提案，尚未啟用；本次不開下屬、不搬程式。dev 負責契約、派工、整合與回報。依據 app.ts 拆分（64a7e87）及捕獸夾 diff，建議五塊責任、最多四席；經典模式暫由主管保管。
+dev 負責契約、派工、整合與回報。依據 app.ts 拆分（64a7e87）及捕獸夾 diff，分五塊責任、最多四席；第一階段僅啟用 dev-items 一席，其他塊及經典模式由主管暫代。下屬定義由 main 維護，每輪寫入仍以任務租約為準。
 
 ## 模組與介面
 
@@ -18,7 +18,7 @@
 
 擁有 `src/arena/{engine-cards,engine-items,engine-traps,equipment}.ts`。負責牌庫／石頭／付款、施放原子性、投送拾取、地面陷阱的武裝／壽命／觸發。對外使用 playCard／validateCardPlay／paymentStatus／findPayment／previewThrowContact；
 
-擁有 arena-cards.test.ts、arena-area.test.ts、arena-throws.test.ts、equipment.test.ts、arena-traps.test.ts、arena-bear-trap.test.ts。跨塊呼叫不代表取得對方寫權；新增卡牌表項走主管管理的 model.ts。
+擁有 arena-cards.test.ts、arena-card-draw.test.ts、arena-rewards.test.ts、arena-area.test.ts、arena-throws.test.ts、arena-dung.test.ts、arena-throw-feedback.test.ts、equipment.test.ts、arena-traps.test.ts、arena-bear-trap.test.ts。共享 setup arena-test-fixtures.ts 由 dev 指定才寫。跨塊呼叫不代表取得對方寫權；新增卡牌表項走主管管理的 model.ts。
 
 ### 場景與繪圖：dev-scene
 
@@ -76,4 +76,4 @@ dev 最後補 bear-trap-integration 測試與三份導航，合併驗證後交 m
 
 主要風險是共享工作樹看見半成品、model／engine.ts 接縫成瓶頸、舊上下文誤判，以及下屬驗證排隊。測試可能橫跨模組，只有指定 owner 可寫，其他 owner 交案例建議給它。
 
-下一切片建議先開一個常駐 items 下屬，dev 自己承擔核心、UI 與整合，符合現行第一階段限制。記錄跨檔移交次數、契約返工、Node 等鎖時間、review 缺陷和主管整合時間。完成一輪後，若任務確有互不重疊的畫面工作且 main 核准更新限制，再試 items＋scene 兩個；不先開滿四個，也不因 agent 空閒而製造工作。
+首次試行採 simulation 熱點拆分：dev-items 僅搬 cards／throws 案例至指定測試檔，保留完整 title 與斷言；dev 承擔核心、UI、導航、審核與統一驗證，符合現行第一階段限制。記錄跨檔移交次數、契約返工、Node 等鎖時間、review 缺陷和主管整合時間。完成一輪後，若任務確有互不重疊的畫面工作且 main 核准更新限制，再試 items＋scene 兩個；不先開滿四個，也不因 agent 空閒而製造工作。
