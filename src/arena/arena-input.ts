@@ -1,4 +1,4 @@
-import { CARDS } from './model';
+import { CARDS } from './shared/card-catalog';
 import type { CardTarget } from './engine';
 import type { ArenaContext } from './arena-session';
 

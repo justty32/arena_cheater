@@ -1,4 +1,4 @@
-import { type ArenaState, type StoneColor } from '../model';
+import type { ArenaState, StoneColor } from './types';
 
 export const COLORS: StoneColor[] = ['yellow', 'blue', 'green', 'black', 'red'];
 export function random(state: ArenaState): number {

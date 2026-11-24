@@ -1,4 +1,4 @@
-import type { Fighter } from './model';
+import type { Fighter } from './shared/types';
 
 /** A persistent view of the supported fighter, independent of the inspected target. */
 export function createSupportHud(root: HTMLElement) {

@@ -1,4 +1,5 @@
-import { THROW_PROFILES, type ArenaState, type Fighter, type Weapon } from './model';
+import { THROW_PROFILES } from './shared/rules';
+import type { ArenaState, Fighter, Weapon } from './shared/types';
 import { canEquip } from './equipment';
 import { fireArrow } from './engine-arrows';
 import { advanceControl, attackDamage, clampFighter, damageFighter, distance, hasBuff, log, syncStamina } from './engine-damage';

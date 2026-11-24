@@ -5,7 +5,12 @@
 <!-- wf-nav -->
 | 入口 | 職責 |
 |------|------|
-| [model.ts](model.ts) | 鬥士、卡牌、裝備、共用地面陷阱與定身截止狀態及對局型別、卡牌設定及範圍法術目標判定 |
+| [model.ts](model.ts) | 相容入口，明確轉出 shared 型別、規則、卡牌表與判定；內部直接引用各來源 |
+| [shared/types.ts](shared/types.ts) | 鬥士、卡牌、裝備、地面陷阱與定身截止狀態及對局型別 |
+| [shared/rules.ts](shared/rules.ts) | 場地與陷阱半徑、投送起點／範圍／傷害設定、持續傷害時間容差 |
+| [shared/card-catalog.ts](shared/card-catalog.ts) | 原序卡牌表、費用與效果設定 |
+| [shared/targeting.ts](shared/targeting.ts) | 投送、陷阱、範圍法術合法目標與範圍內鬥士判定 |
+| [shared/status.ts](shared/status.ts) | 待結算持續傷害與停止介入判定 |
 | [engine.ts](engine.ts) | seed 入場、固定步進、生命週期、資源與結算 |
 | [engine-combat.ts](engine-combat.ts) | 自主移動與定身限制、面向、出招、體力、招架時機與角色分離 |
 | [engine-damage.ts](engine-damage.ts) | 傷害、防禦耗能、虛弱上限與擊飛／跌倒／起身 |

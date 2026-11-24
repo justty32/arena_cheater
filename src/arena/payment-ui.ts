@@ -1,5 +1,5 @@
 import type { CardPlayRejection, PaymentStatus } from './engine';
-import type { ArenaState, Card } from './model';
+import type { ArenaState, Card } from './shared/types';
 import { costText, STONE_COLORS, STONE_NAMES } from './layout';
 
 export function paymentProblem(status: PaymentStatus): string {

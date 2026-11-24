@@ -1,5 +1,8 @@
 import { findPayment, paymentStatus, previewThrowContact, REDRAW_COOLDOWN } from './engine';
-import { THROW_PROFILES, hasPendingDungDamage, isResolvingArena, isAreaSpellTarget, isThrowableTarget, isTrapTarget, areaSpellTargets, type ThrownKind } from './model';
+import { THROW_PROFILES } from './shared/rules';
+import { hasPendingDungDamage, isResolvingArena } from './shared/status';
+import { isAreaSpellTarget, isThrowableTarget, isTrapTarget, areaSpellTargets } from './shared/targeting';
+import type { ThrownKind } from './shared/types';
 import { paymentReadout, selfPaymentAction } from './payment-ui';
 import type { ArenaContext } from './arena-session';
 

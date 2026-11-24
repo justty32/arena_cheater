@@ -1,5 +1,7 @@
 import { findPayment, knownUpcomingCards } from './engine';
-import { CARDS, isResolvingArena, type ArenaState, type Card } from './model';
+import { CARDS } from './shared/card-catalog';
+import { isResolvingArena } from './shared/status';
+import type { ArenaState, Card } from './shared/types';
 import { costText, deliberationChoiceMarkup, drawCardArt, handCardMarkup, STONE_COLORS, STONE_NAMES } from './layout';
 
 type Deliberation = NonNullable<ArenaState['pendingDeliberation']>;

@@ -1,4 +1,5 @@
-import { ARENA_RADIUS, DUNG_TICK_EPSILON, type ArenaState, type Fighter } from './model';
+import { ARENA_RADIUS, DUNG_TICK_EPSILON } from './shared/rules';
+import type { ArenaState, Fighter } from './shared/types';
 import { drawStones } from './shared/resources';
 
 export function log(state: ArenaState, message: string): void {

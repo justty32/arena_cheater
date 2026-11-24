@@ -1,4 +1,6 @@
-import { ARENA_RADIUS, hasPendingDungDamage, type ArenaState, type Fighter, type Species } from './model';
+import { ARENA_RADIUS } from './shared/rules';
+import { hasPendingDungDamage } from './shared/status';
+import type { ArenaState, Fighter, Species } from './shared/types';
 import { act, separateFighters } from './engine-combat';
 import { advanceItems } from './engine-items';
 import { advanceTraps, trapMovementStart } from './engine-traps';

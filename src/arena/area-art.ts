@@ -1,4 +1,5 @@
-import { ARENA_RADIUS, SPIKE_PIT_RADIUS, type ArenaEffect } from './model';
+import { ARENA_RADIUS, SPIKE_PIT_RADIUS } from './shared/rules';
+import type { ArenaEffect } from './shared/types';
 import { FORESHORTENING, project, type Projection } from './projection';
 type Context = CanvasRenderingContext2D;
 const bolt = (ctx: Context, x: number, y: number, size: number): void => {

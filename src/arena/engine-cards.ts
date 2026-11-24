@@ -1,4 +1,6 @@
-import { CARDS, isResolvingArena, type ArenaState, type CardId, type DeliberationOffer, type StoneColor, type StoneCost } from './model';
+import { CARDS } from './shared/card-catalog';
+import { isResolvingArena } from './shared/status';
+import type { ArenaState, CardId, DeliberationOffer, StoneColor, StoneCost } from './shared/types';
 
 import { COLORS, drawStones, random } from './shared/resources';
 export { drawStones } from './shared/resources';

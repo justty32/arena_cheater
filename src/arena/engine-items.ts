@@ -1,4 +1,8 @@
-import { CARDS, ARENA_RADIUS, THROW_TARGET_RADIUS, areaSpellTargets, THROW_ORIGIN, THROW_PROFILES, isThrowableTarget, isTrapTarget, isResolvingArena, type ArenaState, type Card, type Fighter, type ThrownItem, type ThrowImpact, type ThrownKind, type Weapon, type TrapKind } from './model';
+import { CARDS } from './shared/card-catalog';
+import { ARENA_RADIUS, THROW_TARGET_RADIUS, THROW_ORIGIN, THROW_PROFILES } from './shared/rules';
+import { areaSpellTargets, isThrowableTarget, isTrapTarget } from './shared/targeting';
+import { isResolvingArena } from './shared/status';
+import type { ArenaState, Card, Fighter, ThrownItem, ThrowImpact, ThrownKind, Weapon, TrapKind } from './shared/types';
 import { canEquip, equip } from './equipment';
 import { sweptCircleTime, type Point } from './geometry';
 import { canPayCost, findPayment, consumeCard, drawCard, drawStones, beginDeliberation, revealUpcomingCards } from './engine-cards';

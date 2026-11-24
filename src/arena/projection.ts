@@ -1,4 +1,4 @@
-import { ARENA_RADIUS } from './model';
+import { ARENA_RADIUS } from './shared/rules';
 export interface Projection { cx: number; cy: number; scale: number }
 export const FORESHORTENING = Math.SQRT1_2;
 export function createProjection(width: number, height: number): Projection {
