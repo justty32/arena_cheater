@@ -1,0 +1,73 @@
+{
+  "ok": true,
+  "project": "/tmp/aos/arena_cheater/dev/v3-hp10",
+  "steps": {
+    "test": {
+      "command": [
+        "npm",
+        "test"
+      ],
+      "scope_command": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--collect",
+        "--unit=arena-verify-test-221853ee69a14a9b866a08458bdd19c8.scope",
+        "-p",
+        "MemoryMax=4G",
+        "-p",
+        "CPUQuota=400%",
+        "-p",
+        "TasksMax=256",
+        "--",
+        "npm",
+        "test"
+      ],
+      "unit": "arena-verify-test-221853ee69a14a9b866a08458bdd19c8.scope",
+      "exit_code": 0,
+      "timed_out": false,
+      "log_path": "/tmp/aos/arena_cheater/dev/v3-logs/hp10-final/verify-xjnm4tdu/test.log",
+      "stop_exit_code": 5,
+      "scope_cleaned": true,
+      "scope_status": "LoadState=not-found\nActiveState=inactive",
+      "duration_seconds": 15.331,
+      "test_files": 1,
+      "test_cases": 1
+    },
+    "build": {
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "scope_command": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--collect",
+        "--unit=arena-verify-build-d8013136ac7b4b628f558eb921fd7386.scope",
+        "-p",
+        "MemoryMax=4G",
+        "-p",
+        "CPUQuota=400%",
+        "-p",
+        "TasksMax=256",
+        "--",
+        "npm",
+        "run",
+        "build"
+      ],
+      "unit": "arena-verify-build-d8013136ac7b4b628f558eb921fd7386.scope",
+      "exit_code": 0,
+      "timed_out": false,
+      "log_path": "/tmp/aos/arena_cheater/dev/v3-logs/hp10-final/verify-xjnm4tdu/build.log",
+      "stop_exit_code": 5,
+      "scope_cleaned": true,
+      "scope_status": "LoadState=not-found\nActiveState=inactive",
+      "duration_seconds": 8.291
+    }
+  },
+  "lock_wait_seconds": 0.0,
+  "log_dir": "/tmp/aos/arena_cheater/dev/v3-logs/hp10-final/verify-xjnm4tdu",
+  "duration_seconds": 23.624
+}

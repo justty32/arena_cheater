@@ -1,0 +1,1890 @@
+{
+  "variant": "b",
+  "baseline_commit": "7d9b7bbc621e3bb2728fe02154cb78adcdd77992",
+  "proposal_sha256": "6b16e50401cb96dd0a64f16bdb66fc64c19c042ec5465191eb0fa059ef8722bd",
+  "values": [
+    {
+      "id": "fighter.wolf.hp",
+      "value": 100,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.wolf.stamina",
+      "value": 10,
+      "unit": "stamina"
+    },
+    {
+      "id": "fighter.wolf.speed",
+      "value": 1,
+      "unit": "m/s"
+    },
+    {
+      "id": "fighter.wolf.attack",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.wolf.radius",
+      "value": 0.35,
+      "unit": "m"
+    },
+    {
+      "id": "fighter.bear.hp",
+      "value": 150,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.bear.stamina",
+      "value": 10,
+      "unit": "stamina"
+    },
+    {
+      "id": "fighter.bear.speed",
+      "value": 1,
+      "unit": "m/s"
+    },
+    {
+      "id": "fighter.bear.attack",
+      "value": 2,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.bear.radius",
+      "value": 0.45,
+      "unit": "m"
+    },
+    {
+      "id": "fighter.elephant.hp",
+      "value": 100,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.elephant.stamina",
+      "value": 10,
+      "unit": "stamina"
+    },
+    {
+      "id": "fighter.elephant.speed",
+      "value": 1,
+      "unit": "m/s"
+    },
+    {
+      "id": "fighter.elephant.attack",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.elephant.radius",
+      "value": 0.46,
+      "unit": "m"
+    },
+    {
+      "id": "fighter.bull.hp",
+      "value": 100,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.bull.stamina",
+      "value": 12,
+      "unit": "stamina"
+    },
+    {
+      "id": "fighter.bull.speed",
+      "value": 1,
+      "unit": "m/s"
+    },
+    {
+      "id": "fighter.bull.attack",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.bull.radius",
+      "value": 0.42,
+      "unit": "m"
+    },
+    {
+      "id": "fighter.porcupine.hp",
+      "value": 100,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.porcupine.stamina",
+      "value": 10,
+      "unit": "stamina"
+    },
+    {
+      "id": "fighter.porcupine.speed",
+      "value": 1,
+      "unit": "m/s"
+    },
+    {
+      "id": "fighter.porcupine.attack",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.porcupine.radius",
+      "value": 0.37,
+      "unit": "m"
+    },
+    {
+      "id": "fighter.snake.hp",
+      "value": 100,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.snake.stamina",
+      "value": 10,
+      "unit": "stamina"
+    },
+    {
+      "id": "fighter.snake.speed",
+      "value": 1,
+      "unit": "m/s"
+    },
+    {
+      "id": "fighter.snake.attack",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.snake.radius",
+      "value": 0.32,
+      "unit": "m"
+    },
+    {
+      "id": "fighter.deer.hp",
+      "value": 100,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.deer.stamina",
+      "value": 10,
+      "unit": "stamina"
+    },
+    {
+      "id": "fighter.deer.speed",
+      "value": 1.2,
+      "unit": "m/s"
+    },
+    {
+      "id": "fighter.deer.attack",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.deer.radius",
+      "value": 0.35,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.fists.startGap",
+      "value": 0.3,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.fists.hitGap",
+      "value": 0.5,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.fists.windup",
+      "value": 0.3,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.fists.cooldown",
+      "value": 1.15,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.sword.startGap",
+      "value": 0.3,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.sword.hitGap",
+      "value": 0.5,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.sword.windup",
+      "value": 0.3,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.sword.cooldown",
+      "value": 1.2,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.spear.startGap",
+      "value": 1,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.spear.hitGap",
+      "value": 1.2,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.spear.windup",
+      "value": 0.25,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.spear.cooldown",
+      "value": 1,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.hatchet.startGap",
+      "value": 0.2,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.hatchet.hitGap",
+      "value": 0.4,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.hatchet.windup",
+      "value": 0.3,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.hatchet.cooldown",
+      "value": 1,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.hatchet.staminaCost",
+      "value": 1.5,
+      "unit": "stamina"
+    },
+    {
+      "id": "weapon.club.startGap",
+      "value": 0.7,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.club.hitGap",
+      "value": 0.9,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.club.windup",
+      "value": 0.55,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.club.cooldown",
+      "value": 1.2,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.shield.startGap",
+      "value": 0.3,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.shield.hitGap",
+      "value": 0.5,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.shield.windup",
+      "value": 0.3,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.shield.cooldown",
+      "value": 1.15,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.bow.centerReach",
+      "value": 5,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.bow.windup",
+      "value": 0.45,
+      "unit": "s"
+    },
+    {
+      "id": "weapon.bow.cooldown",
+      "value": 1.5,
+      "unit": "s"
+    },
+    {
+      "id": "throw.sword.damage",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.sword.disposable",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.sword.bypassDefense",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.spear.damage",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.spear.disposable",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.spear.bypassDefense",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.hatchet.damage",
+      "value": 2,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.hatchet.disposable",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.hatchet.bypassDefense",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.club.damage",
+      "value": 3,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.club.disposable",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.club.bypassDefense",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.bow.damage",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.bow.disposable",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.bow.bypassDefense",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.shield.damage",
+      "value": 0,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.shield.disposable",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.shield.bypassDefense",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.stone.damage",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.stone.disposable",
+      "value": true,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.stone.bypassDefense",
+      "value": false,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.pot.damage",
+      "value": 3,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.pot.disposable",
+      "value": true,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.pot.bypassDefense",
+      "value": true,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.dung.damage",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.dung.disposable",
+      "value": true,
+      "unit": "scalar"
+    },
+    {
+      "id": "throw.dung.bypassDefense",
+      "value": true,
+      "unit": "scalar"
+    },
+    {
+      "id": "card.lightning-rain.generic",
+      "value": 0,
+      "unit": "count"
+    },
+    {
+      "id": "card.lightning-rain.red",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.lightning-rain.areaRadius",
+      "value": 1.5,
+      "unit": "m"
+    },
+    {
+      "id": "card.lightning-rain.damage",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "card.divine-wrath.generic",
+      "value": 0,
+      "unit": "count"
+    },
+    {
+      "id": "card.divine-wrath.red",
+      "value": 4,
+      "unit": "count"
+    },
+    {
+      "id": "card.divine-wrath.areaRadius",
+      "value": 2.5,
+      "unit": "m"
+    },
+    {
+      "id": "card.divine-wrath.damage",
+      "value": 3,
+      "unit": "hp"
+    },
+    {
+      "id": "card.stone.generic",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.stone.throwRange",
+      "value": 5,
+      "unit": "m"
+    },
+    {
+      "id": "card.pot.generic",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "card.pot.throwRange",
+      "value": 2,
+      "unit": "m"
+    },
+    {
+      "id": "card.dung.generic",
+      "value": 0,
+      "unit": "count"
+    },
+    {
+      "id": "card.dung.black",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.dung.throwRange",
+      "value": 5,
+      "unit": "m"
+    },
+    {
+      "id": "card.spike-pit.generic",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "card.bear-trap.generic",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "card.sword.generic",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "card.spear.generic",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.hatchet.generic",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "card.hatchet.yellow",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.club.generic",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "card.shield.generic",
+      "value": 3,
+      "unit": "count"
+    },
+    {
+      "id": "card.bow.generic",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.lightning.generic",
+      "value": 0,
+      "unit": "count"
+    },
+    {
+      "id": "card.lightning.red",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.bloodlust.generic",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.bloodlust.red",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.deliberate.generic",
+      "value": 0,
+      "unit": "count"
+    },
+    {
+      "id": "card.deliberate.blue",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.intuition.generic",
+      "value": 0,
+      "unit": "count"
+    },
+    {
+      "id": "card.intuition.blue",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "card.growth.generic",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "card.growth.green",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "world.radius",
+      "value": 7.5,
+      "unit": "m"
+    },
+    {
+      "id": "trap.triggerCenterRadius",
+      "value": 0.55,
+      "unit": "m"
+    },
+    {
+      "id": "throw.boundaryInset",
+      "value": 0.2,
+      "unit": "m"
+    },
+    {
+      "id": "world.entryCenterRadius",
+      "value": 6.45,
+      "unit": "m"
+    },
+    {
+      "id": "world.entryAttackJitter",
+      "value": 0.3,
+      "unit": "s"
+    },
+    {
+      "id": "world.matchDuration",
+      "value": 180,
+      "unit": "s"
+    },
+    {
+      "id": "combat.recoveryAttackDelay",
+      "value": 2,
+      "unit": "s"
+    },
+    {
+      "id": "combat.recoveryIdleDelay",
+      "value": 2.5,
+      "unit": "s"
+    },
+    {
+      "id": "combat.idleRecovery",
+      "value": 1,
+      "unit": "stamina/s"
+    },
+    {
+      "id": "combat.movingRecovery",
+      "value": 0.5,
+      "unit": "stamina/s"
+    },
+    {
+      "id": "combat.parryThreatWindow",
+      "value": 0.2,
+      "unit": "s"
+    },
+    {
+      "id": "combat.parryStamina",
+      "value": 1,
+      "unit": "stamina"
+    },
+    {
+      "id": "combat.defendFacingDot",
+      "value": 0.5,
+      "unit": "scalar"
+    },
+    {
+      "id": "combat.parryGap",
+      "value": 1,
+      "unit": "m"
+    },
+    {
+      "id": "combat.parryWindow",
+      "value": 0.22,
+      "unit": "s"
+    },
+    {
+      "id": "combat.parryCooldown",
+      "value": 0.5,
+      "unit": "s"
+    },
+    {
+      "id": "combat.pickupPreferenceCenterDistance",
+      "value": 3,
+      "unit": "m"
+    },
+    {
+      "id": "combat.defaultAttackStamina",
+      "value": 1,
+      "unit": "stamina"
+    },
+    {
+      "id": "combat.attackAngle",
+      "value": 0.65,
+      "unit": "rad"
+    },
+    {
+      "id": "combat.moveStaminaThreshold",
+      "value": 0,
+      "unit": "stamina"
+    },
+    {
+      "id": "buff.haste.speedMultiplier",
+      "value": 1.65,
+      "unit": "ratio"
+    },
+    {
+      "id": "buff.weakness.staminaMultiplier",
+      "value": 0.6,
+      "unit": "ratio"
+    },
+    {
+      "id": "buff.dung.duration",
+      "value": 5,
+      "unit": "s"
+    },
+    {
+      "id": "buff.dung.tickInterval",
+      "value": 1,
+      "unit": "s"
+    },
+    {
+      "id": "buff.dung.tickDamage",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "buff.weakness.attackMultiplier",
+      "value": 0.55,
+      "unit": "ratio"
+    },
+    {
+      "id": "buff.bloodlust.damageBonus",
+      "value": 3,
+      "unit": "hp"
+    },
+    {
+      "id": "control.airborneDuration",
+      "value": 0.35,
+      "unit": "s"
+    },
+    {
+      "id": "control.parryRecoil",
+      "value": 0.45,
+      "unit": "s"
+    },
+    {
+      "id": "combat.backFacingDot",
+      "value": -0.5,
+      "unit": "scalar"
+    },
+    {
+      "id": "combat.backMultiplier",
+      "value": 1.2,
+      "unit": "ratio"
+    },
+    {
+      "id": "combat.blockStamina",
+      "value": 0.5,
+      "unit": "stamina"
+    },
+    {
+      "id": "combat.blockMultiplier",
+      "value": 0.5,
+      "unit": "ratio"
+    },
+    {
+      "id": "control.blockPause",
+      "value": 0.2,
+      "unit": "s"
+    },
+    {
+      "id": "control.hitPause",
+      "value": 0.18,
+      "unit": "s"
+    },
+    {
+      "id": "buff.fury.duration",
+      "value": 5,
+      "unit": "s"
+    },
+    {
+      "id": "resource.supportKillStones",
+      "value": 3,
+      "unit": "count"
+    },
+    {
+      "id": "control.fallenDuration",
+      "value": 2.3,
+      "unit": "s"
+    },
+    {
+      "id": "arrow.lifetime",
+      "value": 2.5,
+      "unit": "s"
+    },
+    {
+      "id": "arrow.collisionPadding",
+      "value": 0.07,
+      "unit": "m"
+    },
+    {
+      "id": "arrow.boundaryPadding",
+      "value": 0.5,
+      "unit": "m"
+    },
+    {
+      "id": "weapon.bow.ammo",
+      "value": 3,
+      "unit": "count"
+    },
+    {
+      "id": "weapon.club.durability",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "resource.redrawCooldown",
+      "value": 3,
+      "unit": "s"
+    },
+    {
+      "id": "card.intuition.revealCount",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "resource.initialHand",
+      "value": 3,
+      "unit": "count"
+    },
+    {
+      "id": "resource.initialStones",
+      "value": 3,
+      "unit": "count"
+    },
+    {
+      "id": "resource.playStones",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "card.deliberate.offerCount",
+      "value": 3,
+      "unit": "count"
+    },
+    {
+      "id": "resource.redrawBonus",
+      "value": 1,
+      "unit": "count"
+    },
+    {
+      "id": "throw.fighterCollisionPadding",
+      "value": 0.11,
+      "unit": "m"
+    },
+    {
+      "id": "card.lightning.damage",
+      "value": 3,
+      "unit": "hp"
+    },
+    {
+      "id": "buff.bloodlust.duration",
+      "value": 5,
+      "unit": "s"
+    },
+    {
+      "id": "card.growth.heal",
+      "value": 10,
+      "unit": "hp"
+    },
+    {
+      "id": "throw.speed",
+      "value": 9,
+      "unit": "m/s"
+    },
+    {
+      "id": "throw.flightDelay",
+      "value": 0.35,
+      "unit": "s"
+    },
+    {
+      "id": "throw.mutualCollisionCenterDistance",
+      "value": 0.22,
+      "unit": "m"
+    },
+    {
+      "id": "throw.pickupSurfaceGap",
+      "value": 0.35,
+      "unit": "m"
+    },
+    {
+      "id": "trap.armDuration",
+      "value": 0.6,
+      "unit": "s"
+    },
+    {
+      "id": "trap.armedLifetime",
+      "value": 12,
+      "unit": "s"
+    },
+    {
+      "id": "trap.rootDuration",
+      "value": 3,
+      "unit": "s"
+    },
+    {
+      "id": "trap.bear.damage",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "trap.spike.damage",
+      "value": 3,
+      "unit": "hp"
+    },
+    {
+      "id": "combat.turnRate",
+      "value": 5,
+      "unit": "rad/s"
+    },
+    {
+      "id": "control.knockbackCenterDisplacement",
+      "value": 1.3,
+      "unit": "m"
+    },
+    {
+      "id": "control.risingDuration",
+      "value": 0.35,
+      "unit": "s"
+    },
+    {
+      "id": "arrow.speed",
+      "value": 12,
+      "unit": "m/s"
+    },
+    {
+      "id": "throw.mutualCollisionGrace",
+      "value": 0.15,
+      "unit": "s"
+    },
+    {
+      "id": "resource.deckCopies",
+      "value": 2,
+      "unit": "count"
+    },
+    {
+      "id": "weapon.club.staminaCost",
+      "value": 2,
+      "unit": "stamina"
+    },
+    {
+      "id": "weapon.sword.damageBonus",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "weapon.spear.damageBonus",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "weapon.hatchet.damageBonus",
+      "value": 2,
+      "unit": "hp"
+    },
+    {
+      "id": "weapon.club.damageBonus",
+      "value": 3,
+      "unit": "hp"
+    },
+    {
+      "id": "weapon.bow.damageBonus",
+      "value": 1,
+      "unit": "hp"
+    },
+    {
+      "id": "fighter.elephant.clubBonus",
+      "value": 2,
+      "unit": "hp"
+    },
+    {
+      "id": "buff.fury.damageBonus",
+      "value": 3,
+      "unit": "hp"
+    }
+  ],
+  "changes": [
+    {
+      "id": "fighter.wolf.hp",
+      "action": "update",
+      "old_value": 110,
+      "old_unit": "hp",
+      "candidate_a": 100,
+      "candidate_b": 100,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.wolf.attack",
+      "action": "update",
+      "old_value": 11,
+      "old_unit": "hp",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.wolf.stamina",
+      "action": "update",
+      "old_value": 75,
+      "old_unit": "stamina",
+      "candidate_a": 10,
+      "candidate_b": 10,
+      "unit": "stamina",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.wolf.speed",
+      "action": "update",
+      "old_value": 1.35,
+      "old_unit": "m/s",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "m/s",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.bear.hp",
+      "action": "update",
+      "old_value": 155,
+      "old_unit": "hp",
+      "candidate_a": 150,
+      "candidate_b": 150,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.bear.attack",
+      "action": "update",
+      "old_value": 13,
+      "old_unit": "hp",
+      "candidate_a": 2,
+      "candidate_b": 2,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.bear.stamina",
+      "action": "update",
+      "old_value": 75,
+      "old_unit": "stamina",
+      "candidate_a": 10,
+      "candidate_b": 10,
+      "unit": "stamina",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.bear.speed",
+      "action": "update",
+      "old_value": 1.1,
+      "old_unit": "m/s",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "m/s",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.elephant.hp",
+      "action": "update",
+      "old_value": 135,
+      "old_unit": "hp",
+      "candidate_a": 100,
+      "candidate_b": 100,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.elephant.attack",
+      "action": "update",
+      "old_value": 12,
+      "old_unit": "hp",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.elephant.stamina",
+      "action": "update",
+      "old_value": 80,
+      "old_unit": "stamina",
+      "candidate_a": 10,
+      "candidate_b": 10,
+      "unit": "stamina",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.elephant.speed",
+      "action": "update",
+      "old_value": 1.05,
+      "old_unit": "m/s",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "m/s",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.bull.hp",
+      "action": "update",
+      "old_value": 125,
+      "old_unit": "hp",
+      "candidate_a": 100,
+      "candidate_b": 100,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.bull.attack",
+      "action": "update",
+      "old_value": 12,
+      "old_unit": "hp",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.bull.stamina",
+      "action": "update",
+      "old_value": 110,
+      "old_unit": "stamina",
+      "candidate_a": 12,
+      "candidate_b": 12,
+      "unit": "stamina",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.bull.speed",
+      "action": "update",
+      "old_value": 1.2,
+      "old_unit": "m/s",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "m/s",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.deer.hp",
+      "action": "update",
+      "old_value": 110,
+      "old_unit": "hp",
+      "candidate_a": 100,
+      "candidate_b": 100,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.deer.attack",
+      "action": "update",
+      "old_value": 11,
+      "old_unit": "hp",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "hp",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.deer.stamina",
+      "action": "update",
+      "old_value": 80,
+      "old_unit": "stamina",
+      "candidate_a": 10,
+      "candidate_b": 10,
+      "unit": "stamina",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.deer.speed",
+      "action": "update",
+      "old_value": 1.75,
+      "old_unit": "m/s",
+      "candidate_a": 1.2,
+      "candidate_b": 1.2,
+      "unit": "m/s",
+      "basis": "V3 原文",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.porcupine.hp",
+      "action": "update",
+      "old_value": 115,
+      "old_unit": "hp",
+      "candidate_a": 100,
+      "candidate_b": 100,
+      "unit": "hp",
+      "basis": "使用者暫定標準模板",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.porcupine.attack",
+      "action": "update",
+      "old_value": 11,
+      "old_unit": "hp",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "hp",
+      "basis": "使用者暫定標準模板",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.porcupine.stamina",
+      "action": "update",
+      "old_value": 80,
+      "old_unit": "stamina",
+      "candidate_a": 10,
+      "candidate_b": 10,
+      "unit": "stamina",
+      "basis": "使用者暫定標準模板",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.porcupine.speed",
+      "action": "update",
+      "old_value": 1.3,
+      "old_unit": "m/s",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "m/s",
+      "basis": "使用者暫定標準模板",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.snake.hp",
+      "action": "update",
+      "old_value": 105,
+      "old_unit": "hp",
+      "candidate_a": 100,
+      "candidate_b": 100,
+      "unit": "hp",
+      "basis": "使用者暫定標準模板",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.snake.attack",
+      "action": "update",
+      "old_value": 12,
+      "old_unit": "hp",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "hp",
+      "basis": "使用者暫定標準模板",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.snake.stamina",
+      "action": "update",
+      "old_value": 80,
+      "old_unit": "stamina",
+      "candidate_a": 10,
+      "candidate_b": 10,
+      "unit": "stamina",
+      "basis": "使用者暫定標準模板",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.snake.speed",
+      "action": "update",
+      "old_value": 1.4,
+      "old_unit": "m/s",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "m/s",
+      "basis": "使用者暫定標準模板",
+      "rationale": "速度以現行 m/s 契約承接；半徑不改。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.fists.startGap",
+      "action": "keep",
+      "old_value": 0.3,
+      "old_unit": "m",
+      "candidate_a": 0.3,
+      "candidate_b": 0.3,
+      "unit": "m",
+      "basis": "可調預設",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.fists.hitGap",
+      "action": "update",
+      "old_value": 0.8,
+      "old_unit": "m",
+      "candidate_a": 0.5,
+      "candidate_b": 0.5,
+      "unit": "m",
+      "basis": "可調預設",
+      "rationale": "命中容差為起手體表間隔另加 0.2 m。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.shield.startGap",
+      "action": "keep",
+      "old_value": 0.3,
+      "old_unit": "m",
+      "candidate_a": 0.3,
+      "candidate_b": 0.3,
+      "unit": "m",
+      "basis": "可調預設",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.shield.hitGap",
+      "action": "update",
+      "old_value": 0.8,
+      "old_unit": "m",
+      "candidate_a": 0.5,
+      "candidate_b": 0.5,
+      "unit": "m",
+      "basis": "可調預設",
+      "rationale": "命中容差為起手體表間隔另加 0.2 m。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.sword.startGap",
+      "action": "update",
+      "old_value": 0.5,
+      "old_unit": "m",
+      "candidate_a": 0.3,
+      "candidate_b": 0.3,
+      "unit": "m",
+      "basis": "原文距離＋暫定體表解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.sword.hitGap",
+      "action": "update",
+      "old_value": 0.8,
+      "old_unit": "m",
+      "candidate_a": 0.5,
+      "candidate_b": 0.5,
+      "unit": "m",
+      "basis": "可調預設",
+      "rationale": "命中容差為起手體表間隔另加 0.2 m。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.spear.startGap",
+      "action": "keep",
+      "old_value": 1,
+      "old_unit": "m",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "m",
+      "basis": "原文距離＋暫定體表解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.spear.hitGap",
+      "action": "update",
+      "old_value": 1.3,
+      "old_unit": "m",
+      "candidate_a": 1.2,
+      "candidate_b": 1.2,
+      "unit": "m",
+      "basis": "可調預設",
+      "rationale": "命中容差為起手體表間隔另加 0.2 m。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.hatchet.startGap",
+      "action": "update",
+      "old_value": 0.4,
+      "old_unit": "m",
+      "candidate_a": 0.2,
+      "candidate_b": 0.2,
+      "unit": "m",
+      "basis": "原文距離＋暫定體表解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.hatchet.hitGap",
+      "action": "update",
+      "old_value": 0.7,
+      "old_unit": "m",
+      "candidate_a": 0.4,
+      "candidate_b": 0.4,
+      "unit": "m",
+      "basis": "可調預設",
+      "rationale": "命中容差為起手體表間隔另加 0.2 m。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.club.startGap",
+      "action": "update",
+      "old_value": 0.3,
+      "old_unit": "m",
+      "candidate_a": 0.7,
+      "candidate_b": 0.7,
+      "unit": "m",
+      "basis": "原文距離＋暫定體表解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.club.hitGap",
+      "action": "update",
+      "old_value": 0.8,
+      "old_unit": "m",
+      "candidate_a": 0.9,
+      "candidate_b": 0.9,
+      "unit": "m",
+      "basis": "可調預設",
+      "rationale": "命中容差為起手體表間隔另加 0.2 m。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.sword.cooldown",
+      "action": "update",
+      "old_value": 1.15,
+      "old_unit": "s",
+      "candidate_a": 1.2,
+      "candidate_b": 1.2,
+      "unit": "s",
+      "basis": "原文＋暫定解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.spear.cooldown",
+      "action": "keep",
+      "old_value": 1,
+      "old_unit": "s",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "s",
+      "basis": "原文＋暫定解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.hatchet.cooldown",
+      "action": "keep",
+      "old_value": 1,
+      "old_unit": "s",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "s",
+      "basis": "原文＋暫定解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.club.cooldown",
+      "action": "update",
+      "old_value": 1.8,
+      "old_unit": "s",
+      "candidate_a": 1.2,
+      "candidate_b": 1.2,
+      "unit": "s",
+      "basis": "原文＋暫定解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.bow.cooldown",
+      "action": "update",
+      "old_value": 1.6,
+      "old_unit": "s",
+      "candidate_a": 1.5,
+      "candidate_b": 1.5,
+      "unit": "s",
+      "basis": "原文＋暫定解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.bow.centerReach",
+      "action": "update",
+      "old_value": 5.5,
+      "old_unit": "m",
+      "candidate_a": 5,
+      "candidate_b": 5,
+      "unit": "m",
+      "basis": "原文＋暫定解讀",
+      "rationale": "原文 500 cm，暫按中心距，不加鬥士半徑。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.hatchet.staminaCost",
+      "action": "update",
+      "old_value": 18,
+      "old_unit": "stamina",
+      "candidate_a": 1.5,
+      "candidate_b": 1.5,
+      "unit": "stamina",
+      "basis": "原文＋暫定解讀",
+      "rationale": "",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.club.staminaCost",
+      "action": "add",
+      "old_value": null,
+      "old_unit": null,
+      "candidate_a": 2,
+      "candidate_b": 2,
+      "unit": "stamina",
+      "basis": "原文＋暫定解讀",
+      "rationale": "新增獨立耗體，不能沿用一般攻擊。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.sword.damageBonus",
+      "action": "add",
+      "old_value": null,
+      "old_unit": null,
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "hp",
+      "basis": "原文＋暫定解讀",
+      "rationale": "持用加值；投送傷害獨立不變。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.spear.damageBonus",
+      "action": "add",
+      "old_value": null,
+      "old_unit": null,
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "hp",
+      "basis": "原文＋暫定解讀",
+      "rationale": "持用加值；投送傷害獨立不變。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.hatchet.damageBonus",
+      "action": "add",
+      "old_value": null,
+      "old_unit": null,
+      "candidate_a": 2,
+      "candidate_b": 2,
+      "unit": "hp",
+      "basis": "原文＋暫定解讀",
+      "rationale": "持用加值；投送傷害獨立不變。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.club.damageBonus",
+      "action": "add",
+      "old_value": null,
+      "old_unit": null,
+      "candidate_a": 3,
+      "candidate_b": 3,
+      "unit": "hp",
+      "basis": "原文＋暫定解讀",
+      "rationale": "持用加值；投送傷害獨立不變。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.bow.damageBonus",
+      "action": "add",
+      "old_value": null,
+      "old_unit": null,
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "hp",
+      "basis": "原文＋暫定解讀",
+      "rationale": "持用加值；投送傷害獨立不變。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.elephant.clubBonus",
+      "action": "add",
+      "old_value": null,
+      "old_unit": null,
+      "candidate_a": 2,
+      "candidate_b": 2,
+      "unit": "hp",
+      "basis": "原文＋暫定解讀",
+      "rationale": "現有鈍器僅 club。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "buff.fury.damageBonus",
+      "action": "add",
+      "old_value": null,
+      "old_unit": null,
+      "candidate_a": 3,
+      "candidate_b": 3,
+      "unit": "hp",
+      "basis": "原文＋暫定解讀",
+      "rationale": "擊殺後固定加值，不堆層，沿用刷新持續時間。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.swordSpear.damageMultiplier",
+      "action": "remove",
+      "old_value": 1.65,
+      "old_unit": "ratio",
+      "candidate_a": null,
+      "candidate_b": null,
+      "unit": "ratio",
+      "basis": "公式遷移",
+      "rationale": "dev 刪除舊倍率 id 並同步 schema、metadata；不可把 ratio 原地偽裝成 hp。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.clubHatchet.damageMultiplier",
+      "action": "remove",
+      "old_value": 1.9,
+      "old_unit": "ratio",
+      "candidate_a": null,
+      "candidate_b": null,
+      "unit": "ratio",
+      "basis": "公式遷移",
+      "rationale": "dev 刪除舊倍率 id 並同步 schema、metadata；不可把 ratio 原地偽裝成 hp。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "weapon.bow.damageMultiplier",
+      "action": "remove",
+      "old_value": 1.35,
+      "old_unit": "ratio",
+      "candidate_a": null,
+      "candidate_b": null,
+      "unit": "ratio",
+      "basis": "公式遷移",
+      "rationale": "dev 刪除舊倍率 id 並同步 schema、metadata；不可把 ratio 原地偽裝成 hp。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "fighter.elephant.clubMultiplier",
+      "action": "remove",
+      "old_value": 1.2,
+      "old_unit": "ratio",
+      "candidate_a": null,
+      "candidate_b": null,
+      "unit": "ratio",
+      "basis": "公式遷移",
+      "rationale": "dev 刪除舊倍率 id 並同步 schema、metadata；不可把 ratio 原地偽裝成 hp。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "buff.fury.damageMultiplier",
+      "action": "remove",
+      "old_value": 1.65,
+      "old_unit": "ratio",
+      "candidate_a": null,
+      "candidate_b": null,
+      "unit": "ratio",
+      "basis": "公式遷移",
+      "rationale": "dev 刪除舊倍率 id 並同步 schema、metadata；不可把 ratio 原地偽裝成 hp。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "combat.defaultAttackStamina",
+      "action": "update",
+      "old_value": 12,
+      "old_unit": "stamina",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "stamina",
+      "basis": "可調預設",
+      "rationale": "拳、盾、劍、矛、弓共用；斧棍獨立。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "combat.blockStamina",
+      "action": "update",
+      "old_value": 6,
+      "old_unit": "stamina",
+      "candidate_a": 0.5,
+      "candidate_b": 0.5,
+      "unit": "stamina",
+      "basis": "可調預設",
+      "rationale": "原文盾耗體為 x；0.5 是提案，不是原文。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "combat.parryStamina",
+      "action": "update",
+      "old_value": 10,
+      "old_unit": "stamina",
+      "candidate_a": 1,
+      "candidate_b": 1,
+      "unit": "stamina",
+      "basis": "可調預設",
+      "rationale": "全免防禦成本為半傷格擋兩倍。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "combat.parryCooldown",
+      "action": "update",
+      "old_value": 2.4,
+      "old_unit": "s",
+      "candidate_a": 0.5,
+      "candidate_b": 0.5,
+      "unit": "s",
+      "basis": "可調預設",
+      "rationale": "原文圓盾 CD 暫解為招架再用間隔，不改盾拳攻擊 CD。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "combat.moveStaminaThreshold",
+      "action": "update",
+      "old_value": 12,
+      "old_unit": "stamina",
+      "candidate_a": 0,
+      "candidate_b": 0,
+      "unit": "stamina",
+      "basis": "可調預設",
+      "rationale": "避免耗盡後原地卡死；移動仍不耗體。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "combat.recoveryAttackDelay",
+      "action": "keep",
+      "old_value": 2,
+      "old_unit": "s",
+      "candidate_a": 2,
+      "candidate_b": 2,
+      "unit": "s",
+      "basis": "可調預設",
+      "rationale": "成功防禦仍重設 lastAttack。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "combat.recoveryIdleDelay",
+      "action": "keep",
+      "old_value": 2.5,
+      "old_unit": "s",
+      "candidate_a": 2.5,
+      "candidate_b": 2.5,
+      "unit": "s",
+      "basis": "可調預設",
+      "rationale": "維持停移門檻。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "combat.idleRecovery",
+      "action": "update",
+      "old_value": 22,
+      "old_unit": "stamina/s",
+      "candidate_a": 2,
+      "candidate_b": 1,
+      "unit": "stamina/s",
+      "basis": "可調預設",
+      "rationale": "A 標準體力空槽回滿需 5 秒有效恢復；B 為 10 秒。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "combat.movingRecovery",
+      "action": "update",
+      "old_value": 10,
+      "old_unit": "stamina/s",
+      "candidate_a": 1,
+      "candidate_b": 0.5,
+      "unit": "stamina/s",
+      "basis": "可調預設",
+      "rationale": "A 慢回需 10 秒有效恢復；B 為 20 秒。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "control.airborneDuration",
+      "action": "keep",
+      "old_value": 0.35,
+      "old_unit": "s",
+      "candidate_a": 0.35,
+      "candidate_b": 0.35,
+      "unit": "s",
+      "basis": "可調預設",
+      "rationale": "暫定分段。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "control.fallenDuration",
+      "action": "update",
+      "old_value": 0.8,
+      "old_unit": "s",
+      "candidate_a": 2.3,
+      "candidate_b": 2.3,
+      "unit": "s",
+      "basis": "可調預設",
+      "rationale": "暫定分段。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "control.risingDuration",
+      "action": "keep",
+      "old_value": 0.35,
+      "old_unit": "s",
+      "candidate_a": 0.35,
+      "candidate_b": 0.35,
+      "unit": "s",
+      "basis": "可調預設",
+      "rationale": "暫定分段；總計 3 秒。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    },
+    {
+      "id": "buff.fury.duration",
+      "action": "update",
+      "old_value": 8,
+      "old_unit": "s",
+      "candidate_a": 5,
+      "candidate_b": 5,
+      "unit": "s",
+      "basis": "V3 原文",
+      "rationale": "V3 原文。",
+      "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）"
+    }
+  ]
+}

@@ -1,0 +1,1017 @@
+{
+ "contract": "wf-table/1",
+ "schema_version": 2,
+ "link_columns": [],
+ "columns": [
+  "id",
+  "value",
+  "unit"
+ ],
+ "rows": [
+  {
+   "id": "fighter.wolf.hp",
+   "value": 10.0,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.wolf.stamina",
+   "value": 10,
+   "unit": "stamina"
+  },
+  {
+   "id": "fighter.wolf.speed",
+   "value": 1,
+   "unit": "m/s"
+  },
+  {
+   "id": "fighter.wolf.attack",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.wolf.radius",
+   "value": 0.35,
+   "unit": "m"
+  },
+  {
+   "id": "fighter.bear.hp",
+   "value": 15.0,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.bear.stamina",
+   "value": 10,
+   "unit": "stamina"
+  },
+  {
+   "id": "fighter.bear.speed",
+   "value": 1,
+   "unit": "m/s"
+  },
+  {
+   "id": "fighter.bear.attack",
+   "value": 2,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.bear.radius",
+   "value": 0.45,
+   "unit": "m"
+  },
+  {
+   "id": "fighter.elephant.hp",
+   "value": 10.0,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.elephant.stamina",
+   "value": 10,
+   "unit": "stamina"
+  },
+  {
+   "id": "fighter.elephant.speed",
+   "value": 1,
+   "unit": "m/s"
+  },
+  {
+   "id": "fighter.elephant.attack",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.elephant.radius",
+   "value": 0.46,
+   "unit": "m"
+  },
+  {
+   "id": "fighter.bull.hp",
+   "value": 10.0,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.bull.stamina",
+   "value": 12,
+   "unit": "stamina"
+  },
+  {
+   "id": "fighter.bull.speed",
+   "value": 1,
+   "unit": "m/s"
+  },
+  {
+   "id": "fighter.bull.attack",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.bull.radius",
+   "value": 0.42,
+   "unit": "m"
+  },
+  {
+   "id": "fighter.porcupine.hp",
+   "value": 10.0,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.porcupine.stamina",
+   "value": 10,
+   "unit": "stamina"
+  },
+  {
+   "id": "fighter.porcupine.speed",
+   "value": 1,
+   "unit": "m/s"
+  },
+  {
+   "id": "fighter.porcupine.attack",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.porcupine.radius",
+   "value": 0.37,
+   "unit": "m"
+  },
+  {
+   "id": "fighter.snake.hp",
+   "value": 10.0,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.snake.stamina",
+   "value": 10,
+   "unit": "stamina"
+  },
+  {
+   "id": "fighter.snake.speed",
+   "value": 1,
+   "unit": "m/s"
+  },
+  {
+   "id": "fighter.snake.attack",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.snake.radius",
+   "value": 0.32,
+   "unit": "m"
+  },
+  {
+   "id": "fighter.deer.hp",
+   "value": 10.0,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.deer.stamina",
+   "value": 10,
+   "unit": "stamina"
+  },
+  {
+   "id": "fighter.deer.speed",
+   "value": 1.2,
+   "unit": "m/s"
+  },
+  {
+   "id": "fighter.deer.attack",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.deer.radius",
+   "value": 0.35,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.fists.startGap",
+   "value": 0.3,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.fists.hitGap",
+   "value": 0.5,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.fists.windup",
+   "value": 0.3,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.fists.cooldown",
+   "value": 1.15,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.sword.startGap",
+   "value": 0.3,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.sword.hitGap",
+   "value": 0.5,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.sword.windup",
+   "value": 0.3,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.sword.cooldown",
+   "value": 1.2,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.spear.startGap",
+   "value": 1,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.spear.hitGap",
+   "value": 1.2,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.spear.windup",
+   "value": 0.25,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.spear.cooldown",
+   "value": 1,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.hatchet.startGap",
+   "value": 0.2,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.hatchet.hitGap",
+   "value": 0.4,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.hatchet.windup",
+   "value": 0.3,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.hatchet.cooldown",
+   "value": 1,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.hatchet.staminaCost",
+   "value": 1.5,
+   "unit": "stamina"
+  },
+  {
+   "id": "weapon.club.startGap",
+   "value": 0.7,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.club.hitGap",
+   "value": 0.9,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.club.windup",
+   "value": 0.55,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.club.cooldown",
+   "value": 1.2,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.shield.startGap",
+   "value": 0.3,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.shield.hitGap",
+   "value": 0.5,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.shield.windup",
+   "value": 0.3,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.shield.cooldown",
+   "value": 1.15,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.bow.centerReach",
+   "value": 5,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.bow.windup",
+   "value": 0.45,
+   "unit": "s"
+  },
+  {
+   "id": "weapon.bow.cooldown",
+   "value": 1.5,
+   "unit": "s"
+  },
+  {
+   "id": "throw.sword.damage",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.sword.disposable",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.sword.bypassDefense",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.spear.damage",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.spear.disposable",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.spear.bypassDefense",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.hatchet.damage",
+   "value": 2,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.hatchet.disposable",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.hatchet.bypassDefense",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.club.damage",
+   "value": 3,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.club.disposable",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.club.bypassDefense",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.bow.damage",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.bow.disposable",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.bow.bypassDefense",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.shield.damage",
+   "value": 0,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.shield.disposable",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.shield.bypassDefense",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.stone.damage",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.stone.disposable",
+   "value": true,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.stone.bypassDefense",
+   "value": false,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.pot.damage",
+   "value": 3,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.pot.disposable",
+   "value": true,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.pot.bypassDefense",
+   "value": true,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.dung.damage",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.dung.disposable",
+   "value": true,
+   "unit": "scalar"
+  },
+  {
+   "id": "throw.dung.bypassDefense",
+   "value": true,
+   "unit": "scalar"
+  },
+  {
+   "id": "card.lightning-rain.generic",
+   "value": 0,
+   "unit": "count"
+  },
+  {
+   "id": "card.lightning-rain.red",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.lightning-rain.areaRadius",
+   "value": 1.5,
+   "unit": "m"
+  },
+  {
+   "id": "card.lightning-rain.damage",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "card.divine-wrath.generic",
+   "value": 0,
+   "unit": "count"
+  },
+  {
+   "id": "card.divine-wrath.red",
+   "value": 4,
+   "unit": "count"
+  },
+  {
+   "id": "card.divine-wrath.areaRadius",
+   "value": 2.5,
+   "unit": "m"
+  },
+  {
+   "id": "card.divine-wrath.damage",
+   "value": 3,
+   "unit": "hp"
+  },
+  {
+   "id": "card.stone.generic",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.stone.throwRange",
+   "value": 5,
+   "unit": "m"
+  },
+  {
+   "id": "card.pot.generic",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "card.pot.throwRange",
+   "value": 2,
+   "unit": "m"
+  },
+  {
+   "id": "card.dung.generic",
+   "value": 0,
+   "unit": "count"
+  },
+  {
+   "id": "card.dung.black",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.dung.throwRange",
+   "value": 5,
+   "unit": "m"
+  },
+  {
+   "id": "card.spike-pit.generic",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "card.bear-trap.generic",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "card.sword.generic",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "card.spear.generic",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.hatchet.generic",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "card.hatchet.yellow",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.club.generic",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "card.shield.generic",
+   "value": 3,
+   "unit": "count"
+  },
+  {
+   "id": "card.bow.generic",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.lightning.generic",
+   "value": 0,
+   "unit": "count"
+  },
+  {
+   "id": "card.lightning.red",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.bloodlust.generic",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.bloodlust.red",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.deliberate.generic",
+   "value": 0,
+   "unit": "count"
+  },
+  {
+   "id": "card.deliberate.blue",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.intuition.generic",
+   "value": 0,
+   "unit": "count"
+  },
+  {
+   "id": "card.intuition.blue",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "card.growth.generic",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "card.growth.green",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "world.radius",
+   "value": 7.5,
+   "unit": "m"
+  },
+  {
+   "id": "trap.triggerCenterRadius",
+   "value": 0.55,
+   "unit": "m"
+  },
+  {
+   "id": "throw.boundaryInset",
+   "value": 0.2,
+   "unit": "m"
+  },
+  {
+   "id": "world.entryCenterRadius",
+   "value": 6.45,
+   "unit": "m"
+  },
+  {
+   "id": "world.entryAttackJitter",
+   "value": 0.3,
+   "unit": "s"
+  },
+  {
+   "id": "world.matchDuration",
+   "value": 180,
+   "unit": "s"
+  },
+  {
+   "id": "combat.recoveryAttackDelay",
+   "value": 2,
+   "unit": "s"
+  },
+  {
+   "id": "combat.recoveryIdleDelay",
+   "value": 2.5,
+   "unit": "s"
+  },
+  {
+   "id": "combat.idleRecovery",
+   "value": 2,
+   "unit": "stamina/s"
+  },
+  {
+   "id": "combat.movingRecovery",
+   "value": 1,
+   "unit": "stamina/s"
+  },
+  {
+   "id": "combat.parryThreatWindow",
+   "value": 0.2,
+   "unit": "s"
+  },
+  {
+   "id": "combat.parryStamina",
+   "value": 1,
+   "unit": "stamina"
+  },
+  {
+   "id": "combat.defendFacingDot",
+   "value": 0.5,
+   "unit": "scalar"
+  },
+  {
+   "id": "combat.parryGap",
+   "value": 1,
+   "unit": "m"
+  },
+  {
+   "id": "combat.parryWindow",
+   "value": 0.22,
+   "unit": "s"
+  },
+  {
+   "id": "combat.parryCooldown",
+   "value": 0.5,
+   "unit": "s"
+  },
+  {
+   "id": "combat.pickupPreferenceCenterDistance",
+   "value": 3,
+   "unit": "m"
+  },
+  {
+   "id": "combat.defaultAttackStamina",
+   "value": 1,
+   "unit": "stamina"
+  },
+  {
+   "id": "combat.attackAngle",
+   "value": 0.65,
+   "unit": "rad"
+  },
+  {
+   "id": "combat.moveStaminaThreshold",
+   "value": 0,
+   "unit": "stamina"
+  },
+  {
+   "id": "buff.haste.speedMultiplier",
+   "value": 1.65,
+   "unit": "ratio"
+  },
+  {
+   "id": "buff.weakness.staminaMultiplier",
+   "value": 0.6,
+   "unit": "ratio"
+  },
+  {
+   "id": "buff.dung.duration",
+   "value": 5,
+   "unit": "s"
+  },
+  {
+   "id": "buff.dung.tickInterval",
+   "value": 1,
+   "unit": "s"
+  },
+  {
+   "id": "buff.dung.tickDamage",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "buff.weakness.attackMultiplier",
+   "value": 0.55,
+   "unit": "ratio"
+  },
+  {
+   "id": "buff.bloodlust.damageBonus",
+   "value": 3,
+   "unit": "hp"
+  },
+  {
+   "id": "control.airborneDuration",
+   "value": 0.35,
+   "unit": "s"
+  },
+  {
+   "id": "control.parryRecoil",
+   "value": 0.45,
+   "unit": "s"
+  },
+  {
+   "id": "combat.backFacingDot",
+   "value": -0.5,
+   "unit": "scalar"
+  },
+  {
+   "id": "combat.backMultiplier",
+   "value": 1.2,
+   "unit": "ratio"
+  },
+  {
+   "id": "combat.blockStamina",
+   "value": 0.5,
+   "unit": "stamina"
+  },
+  {
+   "id": "combat.blockMultiplier",
+   "value": 0.5,
+   "unit": "ratio"
+  },
+  {
+   "id": "control.blockPause",
+   "value": 0.2,
+   "unit": "s"
+  },
+  {
+   "id": "control.hitPause",
+   "value": 0.18,
+   "unit": "s"
+  },
+  {
+   "id": "buff.fury.duration",
+   "value": 5,
+   "unit": "s"
+  },
+  {
+   "id": "resource.supportKillStones",
+   "value": 3,
+   "unit": "count"
+  },
+  {
+   "id": "control.fallenDuration",
+   "value": 2.3,
+   "unit": "s"
+  },
+  {
+   "id": "arrow.lifetime",
+   "value": 2.5,
+   "unit": "s"
+  },
+  {
+   "id": "arrow.collisionPadding",
+   "value": 0.07,
+   "unit": "m"
+  },
+  {
+   "id": "arrow.boundaryPadding",
+   "value": 0.5,
+   "unit": "m"
+  },
+  {
+   "id": "weapon.bow.ammo",
+   "value": 3,
+   "unit": "count"
+  },
+  {
+   "id": "weapon.club.durability",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "resource.redrawCooldown",
+   "value": 3,
+   "unit": "s"
+  },
+  {
+   "id": "card.intuition.revealCount",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "resource.initialHand",
+   "value": 3,
+   "unit": "count"
+  },
+  {
+   "id": "resource.initialStones",
+   "value": 3,
+   "unit": "count"
+  },
+  {
+   "id": "resource.playStones",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "card.deliberate.offerCount",
+   "value": 3,
+   "unit": "count"
+  },
+  {
+   "id": "resource.redrawBonus",
+   "value": 1,
+   "unit": "count"
+  },
+  {
+   "id": "throw.fighterCollisionPadding",
+   "value": 0.11,
+   "unit": "m"
+  },
+  {
+   "id": "card.lightning.damage",
+   "value": 3,
+   "unit": "hp"
+  },
+  {
+   "id": "buff.bloodlust.duration",
+   "value": 5,
+   "unit": "s"
+  },
+  {
+   "id": "card.growth.heal",
+   "value": 10,
+   "unit": "hp"
+  },
+  {
+   "id": "throw.speed",
+   "value": 9,
+   "unit": "m/s"
+  },
+  {
+   "id": "throw.flightDelay",
+   "value": 0.35,
+   "unit": "s"
+  },
+  {
+   "id": "throw.mutualCollisionCenterDistance",
+   "value": 0.22,
+   "unit": "m"
+  },
+  {
+   "id": "throw.pickupSurfaceGap",
+   "value": 0.35,
+   "unit": "m"
+  },
+  {
+   "id": "trap.armDuration",
+   "value": 0.6,
+   "unit": "s"
+  },
+  {
+   "id": "trap.armedLifetime",
+   "value": 12,
+   "unit": "s"
+  },
+  {
+   "id": "trap.rootDuration",
+   "value": 3,
+   "unit": "s"
+  },
+  {
+   "id": "trap.bear.damage",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "trap.spike.damage",
+   "value": 3,
+   "unit": "hp"
+  },
+  {
+   "id": "combat.turnRate",
+   "value": 5,
+   "unit": "rad/s"
+  },
+  {
+   "id": "control.knockbackCenterDisplacement",
+   "value": 1.3,
+   "unit": "m"
+  },
+  {
+   "id": "control.risingDuration",
+   "value": 0.35,
+   "unit": "s"
+  },
+  {
+   "id": "arrow.speed",
+   "value": 12,
+   "unit": "m/s"
+  },
+  {
+   "id": "throw.mutualCollisionGrace",
+   "value": 0.15,
+   "unit": "s"
+  },
+  {
+   "id": "resource.deckCopies",
+   "value": 2,
+   "unit": "count"
+  },
+  {
+   "id": "weapon.club.staminaCost",
+   "value": 2,
+   "unit": "stamina"
+  },
+  {
+   "id": "weapon.sword.damageBonus",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "weapon.spear.damageBonus",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "weapon.hatchet.damageBonus",
+   "value": 2,
+   "unit": "hp"
+  },
+  {
+   "id": "weapon.club.damageBonus",
+   "value": 3,
+   "unit": "hp"
+  },
+  {
+   "id": "weapon.bow.damageBonus",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.elephant.clubBonus",
+   "value": 2,
+   "unit": "hp"
+  },
+  {
+   "id": "buff.fury.damageBonus",
+   "value": 3,
+   "unit": "hp"
+  }
+ ]
+}

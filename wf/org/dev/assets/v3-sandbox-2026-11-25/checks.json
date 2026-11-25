@@ -1,0 +1,27 @@
+{
+  "baseline_commit": "7d9b7bbc621e3bb2728fe02154cb78adcdd77992",
+  "proposal_baseline": "46935cfd685baad74c278c8888d109fa8c6ce45d",
+  "proposal_old_values_match_export": true,
+  "initial_rng_pose_equivalent_all_300_games": true,
+  "ab_src_identical": true,
+  "ab_value_only_differences": [
+    "combat.idleRecovery",
+    "combat.movingRecovery"
+  ],
+  "sha256": {
+    "spec.md": "700a4ea03bd0c20c178ef1e6fe7d12ddefaa40eac23ea9d3e62dee502e4485a5",
+    "proposal.json": "6b16e50401cb96dd0a64f16bdb66fc64c19c042ec5465191eb0fa059ef8722bd",
+    "prepare-v3.py": "a08ac1d864c3e1a5d33cf7d09e3bfd0f8d131a5d3e22cf3567b334a35e10bd23",
+    "candidate-contract.test.ts": "980f1596088cb11362af6e9e22e0457588fbf17b40e5c2331fc63e32a13c7a21",
+    "sandbox-report.test.ts": "2ea08528c965efcf5748447954be20ff0dad5cd2388f039d777e165fc1dd3096",
+    "summary.json": "cd2d3b60940c455ac2402083e81dd20aa0309f10cf3a097617f9bea9b13a5ac4",
+    "b-candidate.patch": "ee075ac5f2dbe2f04e9191602d13a51aac0981e94e0937d4658f857b43a96036",
+    "b-manifest.json": "e3800ee3da199ce15adc3346242f02ac57486918c17af1ed899a1d480c1faffe",
+    "b-results.json": "db62307a2875f4f9c17f0f06573a267cb4ea3ff90c1b718b52afae916665a877",
+    "a-candidate.patch": "a6ddfb33e7ecef782d42488927c1a5f0598ec68c9b57d72caebcd2e2a159c7ff",
+    "a-manifest.json": "82db87f9986a18a08a06558dc3721fe9d9341fd7fb8a7b077ccdec3179582cc6",
+    "a-results.json": "06310bab46f8d419bd8e95202c5ac6172db05b6507a2f1b7d1839226e123548b",
+    "baseline-candidate.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "baseline-results.json": "1f5e259a7151a5f2939fa5f0e0ceb8c1fed87e9ae0d7908729acf84ebd189839"
+  }
+}

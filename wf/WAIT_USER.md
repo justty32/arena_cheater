@@ -11,4 +11,4 @@
 ## 待使用者項
 
 - [game] 請試玩捕獸夾（`079c602`）：好不好玩、被夾住後停追與反擊看不看得出來、地上夾子圖示（390 寬幾乎看不見）要不要改大或換畫法 → 我照你的回饋派 design 或 dev 做小修。
-- [game] V3 四題已暫定照 main 推薦（見 [decisions](workflows/decisions.md) 2026-11-25）。請在遊戲策劃回來後，請他確認這四題 → 有改的話派 design 改數值表。
+- [game] V3 四題與之後的機制／數值細項都暫定照 main 推薦（見 [decisions](workflows/decisions.md) 2026-11-25；細項清單在 design 的 [pending-defaults](org/design/assets/pending-defaults.md)）。請在遊戲策劃回來後，請他確認 → 有改的話派 design 改數值表。

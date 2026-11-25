@@ -65,6 +65,78 @@
    "source_path": "../specs/bear-trap.md",
    "evidence": "2026-11-23 main 轉達使用者「A，預設照design的就好」；原請求信 01795415200461286128.1071878.2318232。",
    "scope": "費用、兩張入庫、沿用刺洞布置與觸發、定身只封自主移動、被動位移、刷新與生命週期及呈現；逐項見 spec。不涵蓋其他候選。"
+  },
+  {
+   "id": "PD05",
+   "topic": "V3 防禦與恢復",
+   "requirement_ids": "V3 第一切片",
+   "confirmation": "main 已暫定；待真人策劃確認",
+   "blocking": "不阻擋實作；dev 單一寫手，design 後核值",
+   "question": "比較後由 main 選 A 或 B，或要求另一輪調整。",
+   "recommendation": "推薦 A；A900平均255.807秒，B900為307.191秒，勝者分布相同；僅本固定seed無介入政策。",
+   "source_path": "../specs/v3-first-slice.md",
+   "evidence": "main 2026-11-25 信01795568094140926660.506618.355884：定案A300＋唯一最高hp比例裁決，照74列表candidate_a。",
+   "scope": "僅本主題的可調預設；原文數值及四題暫定不重新當成未知。"
+  },
+  {
+   "id": "PD06",
+   "topic": "V3 距離與精度補足",
+   "requirement_ids": "V3 第一切片",
+   "confirmation": "main 暫採可調預設；待真人策劃回看",
+   "blocking": "不另問使用者；不解除 A/B 落地限制",
+   "question": "是否接受體表近戰、命中容差、弓中心距及兩位小數？",
+   "recommendation": "採第一切片 spec 的明確語意，避免小傷被保底一點放大。",
+   "source_path": "../specs/v3-first-slice.md",
+   "evidence": "main 2026-11-25 信 01795566006353501278.171755.146385：細項照 design 預設，仍屬四題範圍。",
+   "scope": "近戰體表＋0.2m容差、弓中心距、傷害精度0.01；另依 main 要求補 hp／傷害顯示最多兩位小數去尾零（design 可調預設）。"
+  },
+  {
+   "id": "PD07",
+   "topic": "V3 控制分段",
+   "requirement_ids": "V3 第一切片",
+   "confirmation": "main 暫採可調預設；待真人策劃回看",
+   "blocking": "不另問使用者；不解除 A/B 落地限制",
+   "question": "是否接受三秒失控中的暫定分段？",
+   "recommendation": "0.35 秒擊飛、2.3 秒倒地、0.35 秒起身；總三秒已暫定，分段待真人策劃核對。",
+   "source_path": "../specs/v3-first-slice.md",
+   "evidence": "main 2026-11-25 信 01795566006353501278.171755.146385：細項照 design 預設，仍屬四題範圍。",
+   "scope": "僅本主題的可調預設；原文數值及四題暫定不重新當成未知。"
+  },
+  {
+   "id": "PD08",
+   "topic": "V3 時限與比例裁決",
+   "requirement_ids": "V3 第一切片",
+   "confirmation": "main 已暫定；待真人策劃確認",
+   "blocking": "不阻擋實作；dev 單一寫手，design 後核值",
+   "question": "是否暫定 A300 與唯一最高存活hp比例裁決，同分平局？",
+   "recommendation": "推薦；實測98自然/2裁決/0平局，清算期沿現況，正式引擎整合仍需驗證。",
+   "source_path": "../specs/v3-first-slice.md",
+   "evidence": "main 2026-11-25 信01795568094140926660.506618.355884：定案A300＋唯一最高hp比例裁決，照74列表candidate_a。",
+   "scope": "時限與判勝是可調預設，不改原文能力；樣本結果不是全政策保證。"
+  },
+  {
+   "id": "PD09",
+   "topic": "熊在無介入自由混戰的優勢",
+   "requirement_ids": "V3 第一切片",
+   "confirmation": "待真人策劃回看；main 指示本批不削熊",
+   "blocking": "不阻擋本批保留原文",
+   "question": "真人策劃是否接受熊高勝率及作弊優先針對熊？",
+   "recommendation": "本批不削熊；A900/B900熊98%，隨機武器77%，生命除十97%，不外推真人局。",
+   "source_path": "../specs/v3-first-slice.md",
+   "evidence": "main 2026-11-25 信01795567527938402143.416084.299263；dev diagnostics與follow-up永久證據。",
+   "scope": "時限與判勝是可調預設，不改原文能力；樣本結果不是全政策保證。"
+  },
+  {
+   "id": "PD10",
+   "topic": "有限直接法術政策難啟動",
+   "requirement_ids": "V3 第一切片",
+   "confirmation": "待真人策劃回看；本批不改經濟",
+   "blocking": "不阻擋本批",
+   "question": "作弊難啟動是否與場邊作弊定位衝突，需另檢視支付與手牌循環？",
+   "recommendation": "先分解無適用牌與支付/合法性失敗，再測含重抽與其他牌的策略；不把有限政策當真人上限。",
+   "source_path": "../specs/v3-first-slice.md",
+   "evidence": "follow-up直接法術100seed：3664窗口成功8次，敵方有效傷害18；平均255.078秒，無介入255.103秒。main要求記錄發現。",
+   "scope": "正常牌庫、不重抽、只三種直接法術、狼死停止；3656失敗不可全稱付不起，也未證明V3經濟退化。"
   }
  ]
 }
