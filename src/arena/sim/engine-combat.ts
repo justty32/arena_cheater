@@ -17,7 +17,7 @@ const ATTACK_PROFILES: Record<Weapon, AttackProfile> = {
   sword:  { kind: 'melee', startGap: B.swordStartGap, hitGap: B.swordHitGap, windup: B.swordWindup, cooldown: B.swordCooldown },
   spear:  { kind: 'melee', startGap: B.spearStartGap, hitGap: B.spearHitGap, windup: B.spearWindup, cooldown: B.spearCooldown },
   hatchet: { kind: 'melee', startGap: B.hatchetStartGap, hitGap: B.hatchetHitGap, windup: B.hatchetWindup, cooldown: B.hatchetCooldown, staminaCost: B.hatchetStaminaCost },
-  club:   { kind: 'melee', startGap: B.clubStartGap, hitGap: B.clubHitGap, windup: B.clubWindup, cooldown: B.clubCooldown },
+  club:   { kind: 'melee', startGap: B.clubStartGap, hitGap: B.clubHitGap, windup: B.clubWindup, cooldown: B.clubCooldown, staminaCost: B.clubStaminaCost },
   shield: { kind: 'melee', startGap: B.shieldStartGap, hitGap: B.shieldHitGap, windup: B.shieldWindup, cooldown: B.shieldCooldown },
   bow:    { kind: 'ranged', centerReach: B.bowCenterReach, windup: B.bowWindup, cooldown: B.bowCooldown },
 };

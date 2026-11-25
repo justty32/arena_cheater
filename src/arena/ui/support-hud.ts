@@ -1,3 +1,4 @@
+import { formatHp } from '../shared/format';
 import type { Fighter } from '../shared/types';
 
 /** A persistent view of the supported fighter, independent of the inspected target. */
@@ -15,11 +16,11 @@ export function createSupportHud(root: HTMLElement) {
   let wasDead = false;
   return (fighter: Fighter | undefined, rewardStones: number): void => {
     const dead = Boolean(fighter && fighter.hp <= 0);
-    const health = fighter ? Math.max(0, Math.ceil(fighter.hp)) : 0;
+    const health = fighter ? Number(formatHp(fighter.hp)) : 0;
     hud.dataset.fighterId = fighter?.id ?? '';
     hud.dataset.state = fighter ? dead ? 'dead' : 'alive' : 'unset';
     name.textContent = fighter?.name ?? '尚未選擇';
-    hp.textContent = fighter ? `${health} / ${fighter.maxHp}` : '—';
+    hp.textContent = fighter ? `${health} / ${formatHp(fighter.maxHp)}` : '—';
     status.textContent = dead ? '已陣亡' : '支持';
     bar.setAttribute('aria-valuemax', String(fighter?.maxHp ?? 0));
     bar.setAttribute('aria-valuenow', String(health));

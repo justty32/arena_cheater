@@ -64,8 +64,19 @@ function step(state: ArenaState): void {
   if ((!mayAct || alive.length <= 1) && state.traps.length) state.traps = [];
   if ((alive.length <= 1 || state.time >= B.matchDuration) && state.arrows.length === 0 && state.items.every(item => item.landed) && !hasPendingDungDamage(state)) {
     state.status = 'finished';
-    state.winnerId = alive.length === 1 ? alive[0].id : undefined;
-    log(state, alive.length === 1 ? `${alive[0].name} 贏得競技場！` : '本場平局');
+    let leaders = alive;
+    if (alive.length > 1) {
+      // Compare integer hundredths by cross multiplication, not rounded percentages.
+      const compare = (a: Fighter, b: Fighter) => Math.round(a.hp * 100) * Math.round(b.maxHp * 100)
+        - Math.round(b.hp * 100) * Math.round(a.maxHp * 100);
+      const best = alive.reduce((a, b) => compare(a, b) >= 0 ? a : b);
+      leaders = alive.filter(fighter => compare(fighter, best) === 0);
+    }
+    const winner = leaders.length === 1 ? leaders[0] : undefined;
+    state.winnerId = winner?.id;
+    state.resultReason = !winner ? 'draw' : alive.length === 1 ? 'last-survivor' : 'hp-ratio';
+    log(state, state.resultReason === 'hp-ratio' ? `時限裁決：剩餘生命比例最高，${winner!.name} 勝出`
+      : winner ? `${winner.name} 贏得競技場！` : alive.length > 1 ? '時限裁決：最高剩餘生命比例同分，本場平局' : '本場平局');
   }
 }
 export function advanceArena(state: ArenaState, elapsedSeconds: number): void {

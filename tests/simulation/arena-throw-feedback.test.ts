@@ -22,7 +22,7 @@ describe('latest delayed throw feedback',()=>{
   const state=arena(),target=state.fighters[0];state.fighters=[target];target.x=0;target.y=0;
   state.items=[flight(900)];state.latestThrow={itemId:900,handCardId:800,itemKind:'sword',launchedAt:0};
   state.time=1;advanceItems(state);
-  expect(state.latestThrow.impact).toMatchObject({reason:'fighter',fighterId:target.id,damage:1});
+  expect(state.latestThrow.impact).toMatchObject({reason:'fighter',fighterId:target.id,damage:1.2});
   expect(state.latestThrow.pickup).toEqual({at:1,fighterId:target.id});
   expect(state.latestThrow.impact!.at).toBeLessThan(state.latestThrow.pickup!.at);
   expect(target.weapon).toBe('sword');expect(state.items).toEqual([]);

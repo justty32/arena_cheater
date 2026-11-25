@@ -18,11 +18,11 @@ function item(state: ReturnType<typeof createArena>, x: number) {
 
 describe('root restricts voluntary movement only', () => {
   it('cannot chase until the exact expiry, but turns and restores stamina', () => {
-    const { state, a, b } = pair(); b.x = -4; a.stamina = 20;
+    const { state, a, b } = pair(); b.x = -4; a.stamina = 2;
     state.time = 2.999;
     act(state, a, .1);
     expect(a.x).toBe(0); expect(a.y).toBe(0); expect(a.pose).toBe('idle');
-    expect(a.facing).not.toBe(0); expect(a.stamina).toBeGreaterThan(20);
+    expect(a.facing).not.toBe(0); expect(a.stamina).toBeGreaterThan(2);
     state.time = 3; act(state, a, .1);
     expect(a.x).toBeLessThan(0); expect(a.pose).toBe('walk');
   });
@@ -54,13 +54,13 @@ describe('root restricts voluntary movement only', () => {
     const { state, a, b } = pair(); equip(a, 'shield');
     const stamina = a.stamina;
     damageFighter(state, a, 20, b);
-    expect(a.hp).toBe(a.maxHp - 10); expect(a.stamina).toBe(stamina - 6);
+    expect(a.hp).toBe(a.maxHp - 10); expect(a.stamina).toBe(stamina - 0.5);
     a.pose = 'idle'; a.poseUntil = 0;
     Object.assign(b, { pose: 'attack', poseUntil: .1, targetId: a.id });
     act(state, a, 1 / 30); expect(a.pose).toBe('parry');
     const beforeParry = a.stamina;
     damageFighter(state, a, 20, b);
-    expect(a.hp).toBe(a.maxHp - 10); expect(a.stamina).toBe(beforeParry - 10);
+    expect(a.hp).toBe(a.maxHp - 10); expect(a.stamina).toBe(beforeParry - 1);
   });
   it('preserves knockback, fallen and rising controls while the root clock runs', () => {
     const { state, a, b } = pair();
@@ -69,11 +69,11 @@ describe('root restricts voluntary movement only', () => {
     state.time = .2; act(state, a, 1 / 30);
     expect(a.x).toBeLessThan(0); expect(a.rootedUntil).toBe(3);
     state.time = .36; act(state, a, 1 / 30); expect(a.pose).toBe('fallen');
-    state.time = 1.2; act(state, a, 1 / 30); expect(a.pose).toBe('rising');
-    state.time = 1.6; b.x = 5;
+    state.time = 2.65; act(state, a, 1 / 30); expect(a.pose).toBe('rising');
+    state.time = 3; a.rootedUntil = 4; b.x = 5;
     const position = a.x; act(state, a, 1 / 30);
     expect(a.pose).toBe('idle'); expect(a.x).toBe(position);
-    state.time = 3; act(state, a, 1 / 30); expect(a.x).toBeGreaterThan(position);
+    state.time = 4; act(state, a, 1 / 30); expect(a.x).toBeGreaterThan(position);
   });
   it('allows separation and boundary correction instead of locking world coordinates', () => {
     const { state, a, b } = pair(); a.x = b.x = 8;

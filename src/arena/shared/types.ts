@@ -40,7 +40,7 @@ export interface ArenaState {
  pendingDeliberation?: DeliberationOffer;
  knownUpcomingCount: number;
  fighters: Fighter[]; latestThrow?: ThrowFeedback; items: ThrownItem[]; traps: GroundTrap[]; arrows: Arrow[]; effects: ArenaEffect[]; logs: string[];
- hand: HandCard[]; stones: MagicStone[]; randomState: number; deck: CardId[]; discard: CardId[]; redrawAvailableAt: number; supportedId: string; winnerId?: string; nextId: number;
+ hand: HandCard[]; stones: MagicStone[]; randomState: number; deck: CardId[]; discard: CardId[]; redrawAvailableAt: number; supportedId: string; winnerId?: string; resultReason?: 'last-survivor' | 'hp-ratio' | 'draw'; nextId: number;
  supportKillRewardStones: number;
 }
 interface CardBase { id: CardId; name: string; subtitle: string; description: string; cost: StoneCost; throwRange?: number; color: string; icon: string }

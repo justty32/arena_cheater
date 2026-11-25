@@ -10,22 +10,22 @@
  "rows": [
   {
    "id": "fighter.wolf.hp",
-   "value": 110,
+   "value": 100,
    "unit": "hp"
   },
   {
    "id": "fighter.wolf.stamina",
-   "value": 75,
+   "value": 10,
    "unit": "stamina"
   },
   {
    "id": "fighter.wolf.speed",
-   "value": 1.35,
+   "value": 1,
    "unit": "m/s"
   },
   {
    "id": "fighter.wolf.attack",
-   "value": 11,
+   "value": 1,
    "unit": "hp"
   },
   {
@@ -35,22 +35,22 @@
   },
   {
    "id": "fighter.bear.hp",
-   "value": 155,
+   "value": 150,
    "unit": "hp"
   },
   {
    "id": "fighter.bear.stamina",
-   "value": 75,
+   "value": 10,
    "unit": "stamina"
   },
   {
    "id": "fighter.bear.speed",
-   "value": 1.1,
+   "value": 1,
    "unit": "m/s"
   },
   {
    "id": "fighter.bear.attack",
-   "value": 13,
+   "value": 2,
    "unit": "hp"
   },
   {
@@ -60,22 +60,22 @@
   },
   {
    "id": "fighter.elephant.hp",
-   "value": 135,
+   "value": 100,
    "unit": "hp"
   },
   {
    "id": "fighter.elephant.stamina",
-   "value": 80,
+   "value": 10,
    "unit": "stamina"
   },
   {
    "id": "fighter.elephant.speed",
-   "value": 1.05,
+   "value": 1,
    "unit": "m/s"
   },
   {
    "id": "fighter.elephant.attack",
-   "value": 12,
+   "value": 1,
    "unit": "hp"
   },
   {
@@ -85,22 +85,22 @@
   },
   {
    "id": "fighter.bull.hp",
-   "value": 125,
+   "value": 100,
    "unit": "hp"
   },
   {
    "id": "fighter.bull.stamina",
-   "value": 110,
+   "value": 12,
    "unit": "stamina"
   },
   {
    "id": "fighter.bull.speed",
-   "value": 1.2,
+   "value": 1,
    "unit": "m/s"
   },
   {
    "id": "fighter.bull.attack",
-   "value": 12,
+   "value": 1,
    "unit": "hp"
   },
   {
@@ -110,22 +110,22 @@
   },
   {
    "id": "fighter.porcupine.hp",
-   "value": 115,
+   "value": 100,
    "unit": "hp"
   },
   {
    "id": "fighter.porcupine.stamina",
-   "value": 80,
+   "value": 10,
    "unit": "stamina"
   },
   {
    "id": "fighter.porcupine.speed",
-   "value": 1.3,
+   "value": 1,
    "unit": "m/s"
   },
   {
    "id": "fighter.porcupine.attack",
-   "value": 11,
+   "value": 1,
    "unit": "hp"
   },
   {
@@ -135,22 +135,22 @@
   },
   {
    "id": "fighter.snake.hp",
-   "value": 105,
+   "value": 100,
    "unit": "hp"
   },
   {
    "id": "fighter.snake.stamina",
-   "value": 80,
+   "value": 10,
    "unit": "stamina"
   },
   {
    "id": "fighter.snake.speed",
-   "value": 1.4,
+   "value": 1,
    "unit": "m/s"
   },
   {
    "id": "fighter.snake.attack",
-   "value": 12,
+   "value": 1,
    "unit": "hp"
   },
   {
@@ -160,22 +160,22 @@
   },
   {
    "id": "fighter.deer.hp",
-   "value": 110,
+   "value": 100,
    "unit": "hp"
   },
   {
    "id": "fighter.deer.stamina",
-   "value": 80,
+   "value": 10,
    "unit": "stamina"
   },
   {
    "id": "fighter.deer.speed",
-   "value": 1.75,
+   "value": 1.2,
    "unit": "m/s"
   },
   {
    "id": "fighter.deer.attack",
-   "value": 11,
+   "value": 1,
    "unit": "hp"
   },
   {
@@ -190,7 +190,7 @@
   },
   {
    "id": "weapon.fists.hitGap",
-   "value": 0.8,
+   "value": 0.5,
    "unit": "m"
   },
   {
@@ -205,12 +205,12 @@
   },
   {
    "id": "weapon.sword.startGap",
-   "value": 0.5,
+   "value": 0.3,
    "unit": "m"
   },
   {
    "id": "weapon.sword.hitGap",
-   "value": 0.8,
+   "value": 0.5,
    "unit": "m"
   },
   {
@@ -220,7 +220,7 @@
   },
   {
    "id": "weapon.sword.cooldown",
-   "value": 1.15,
+   "value": 1.2,
    "unit": "s"
   },
   {
@@ -230,7 +230,7 @@
   },
   {
    "id": "weapon.spear.hitGap",
-   "value": 1.3,
+   "value": 1.2,
    "unit": "m"
   },
   {
@@ -245,12 +245,12 @@
   },
   {
    "id": "weapon.hatchet.startGap",
-   "value": 0.4,
+   "value": 0.2,
    "unit": "m"
   },
   {
    "id": "weapon.hatchet.hitGap",
-   "value": 0.7,
+   "value": 0.4,
    "unit": "m"
   },
   {
@@ -265,17 +265,17 @@
   },
   {
    "id": "weapon.hatchet.staminaCost",
-   "value": 18,
+   "value": 1.5,
    "unit": "stamina"
   },
   {
    "id": "weapon.club.startGap",
-   "value": 0.3,
+   "value": 0.7,
    "unit": "m"
   },
   {
    "id": "weapon.club.hitGap",
-   "value": 0.8,
+   "value": 0.9,
    "unit": "m"
   },
   {
@@ -285,7 +285,7 @@
   },
   {
    "id": "weapon.club.cooldown",
-   "value": 1.8,
+   "value": 1.2,
    "unit": "s"
   },
   {
@@ -295,7 +295,7 @@
   },
   {
    "id": "weapon.shield.hitGap",
-   "value": 0.8,
+   "value": 0.5,
    "unit": "m"
   },
   {
@@ -310,7 +310,7 @@
   },
   {
    "id": "weapon.bow.centerReach",
-   "value": 5.5,
+   "value": 5,
    "unit": "m"
   },
   {
@@ -320,7 +320,7 @@
   },
   {
    "id": "weapon.bow.cooldown",
-   "value": 1.6,
+   "value": 1.5,
    "unit": "s"
   },
   {
@@ -655,7 +655,7 @@
   },
   {
    "id": "world.matchDuration",
-   "value": 180,
+   "value": 300,
    "unit": "s"
   },
   {
@@ -670,12 +670,12 @@
   },
   {
    "id": "combat.idleRecovery",
-   "value": 22,
+   "value": 2,
    "unit": "stamina/s"
   },
   {
    "id": "combat.movingRecovery",
-   "value": 10,
+   "value": 1,
    "unit": "stamina/s"
   },
   {
@@ -685,7 +685,7 @@
   },
   {
    "id": "combat.parryStamina",
-   "value": 10,
+   "value": 1,
    "unit": "stamina"
   },
   {
@@ -705,7 +705,7 @@
   },
   {
    "id": "combat.parryCooldown",
-   "value": 2.4,
+   "value": 0.5,
    "unit": "s"
   },
   {
@@ -715,7 +715,7 @@
   },
   {
    "id": "combat.defaultAttackStamina",
-   "value": 12,
+   "value": 1,
    "unit": "stamina"
   },
   {
@@ -725,7 +725,7 @@
   },
   {
    "id": "combat.moveStaminaThreshold",
-   "value": 12,
+   "value": 0,
    "unit": "stamina"
   },
   {
@@ -752,31 +752,6 @@
    "id": "buff.dung.tickDamage",
    "value": 1,
    "unit": "hp"
-  },
-  {
-   "id": "weapon.swordSpear.damageMultiplier",
-   "value": 1.65,
-   "unit": "ratio"
-  },
-  {
-   "id": "weapon.clubHatchet.damageMultiplier",
-   "value": 1.9,
-   "unit": "ratio"
-  },
-  {
-   "id": "weapon.bow.damageMultiplier",
-   "value": 1.35,
-   "unit": "ratio"
-  },
-  {
-   "id": "fighter.elephant.clubMultiplier",
-   "value": 1.2,
-   "unit": "ratio"
-  },
-  {
-   "id": "buff.fury.damageMultiplier",
-   "value": 1.65,
-   "unit": "ratio"
   },
   {
    "id": "buff.weakness.attackMultiplier",
@@ -810,7 +785,7 @@
   },
   {
    "id": "combat.blockStamina",
-   "value": 6,
+   "value": 0.5,
    "unit": "stamina"
   },
   {
@@ -830,7 +805,7 @@
   },
   {
    "id": "buff.fury.duration",
-   "value": 8,
+   "value": 5,
    "unit": "s"
   },
   {
@@ -840,7 +815,7 @@
   },
   {
    "id": "control.fallenDuration",
-   "value": 0.8,
+   "value": 2.3,
    "unit": "s"
   },
   {
@@ -997,6 +972,46 @@
    "id": "resource.deckCopies",
    "value": 2,
    "unit": "count"
+  },
+  {
+   "id": "weapon.club.staminaCost",
+   "value": 2,
+   "unit": "stamina"
+  },
+  {
+   "id": "weapon.sword.damageBonus",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "weapon.spear.damageBonus",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "weapon.hatchet.damageBonus",
+   "value": 2,
+   "unit": "hp"
+  },
+  {
+   "id": "weapon.club.damageBonus",
+   "value": 3,
+   "unit": "hp"
+  },
+  {
+   "id": "weapon.bow.damageBonus",
+   "value": 1,
+   "unit": "hp"
+  },
+  {
+   "id": "fighter.elephant.clubBonus",
+   "value": 2,
+   "unit": "hp"
+  },
+  {
+   "id": "buff.fury.damageBonus",
+   "value": 3,
+   "unit": "hp"
   }
  ]
 }

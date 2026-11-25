@@ -7,8 +7,8 @@ import { ORIGINAL_VALUES } from './arena-balance-values';
 import { ORIGINAL_ENTRY } from './arena-entry-values';
 
 // These values were projected from the old source and full snapshots, not the new JSON.
-describe('current balance compatibility', () => {
-  it('keeps every extracted value equal to its pre-refactor literal', () => {
+describe('approved balance compatibility', () => {
+  it('matches the approved candidate_a fixture and unlisted baseline values', () => {
     expect(BALANCE).toEqual(ORIGINAL_VALUES);
   });
   it.each([42, 2026] as const)('keeps the independent entry RNG stream for seed %s', seed => {
@@ -33,7 +33,7 @@ describe('balance schema validation', () => {
     const input = structuredClone(table);
     const result = loadBalance(input);
     input.rows[0].value = 999;
-    expect(result.wolfHp).toBe(110);
+    expect(result.wolfHp).toBe(100);
     expect(result.throwPotBypassDefense).toBe(true);
   });
   it.each([

@@ -127,3 +127,7 @@
   .arena-result p { margin-bottom: 12px; }
   .result-actions button { padding: 8px 14px; }
 }
+
+.fighter-row small { min-width: 54px; flex-shrink: 0; white-space: nowrap; }
+.support-readout [data-testid="arena-support-hp"],
+.detail-resource strong { white-space: nowrap; }

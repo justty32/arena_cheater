@@ -1,3 +1,4 @@
+import { formatHp } from '../shared/format';
 import { BALANCE as B } from '../shared/balance';
 import { applyHealthDamage, effect, log } from '../sim/engine-damage';
 import { sweptCircleTime, type Point } from '../sim/geometry';
@@ -64,8 +65,8 @@ export function advanceTraps(state: ArenaState, startedAt: number, positions: Re
     const name = rooted ? '捕獸夾' : '刺洞';
     applyHealthDamage(state, first, damage);
     if (rooted && first.hp > 0) first.rootedUntil = state.time + ROOT_SECONDS;
-    effect(state, first, `${name} −${damage}${rooted && first.hp > 0 ? ' · 定身' : ''}`, rooted ? '#87c6bd' : '#b59980');
-    log(state, `${first.name}踩中${name}，受到 ${damage} 點傷害${rooted && first.hp > 0 ? '，定身 3 秒' : ''}`);
+    effect(state, first, `${name} −${formatHp(damage)}${rooted && first.hp > 0 ? ' · 定身' : ''}`, rooted ? '#87c6bd' : '#b59980');
+    log(state, `${first.name}踩中${name}，受到 ${formatHp(damage)} 點傷害${rooted && first.hp > 0 ? '，定身 3 秒' : ''}`);
     return false;
   });
 }

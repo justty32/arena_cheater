@@ -28,7 +28,7 @@ describe('circular arena simulation', () => {
       const state = createArena(seed);
       expect(new Set(state.fighters.map(fighter => fighter.species)).size).toBe(7);
       toggleArena(state);
-      run(state, 181);
+      run(state, 301);
       expect(state.status).toBe('finished');
       for (const fighter of state.fighters) {
         expect(Math.hypot(fighter.x, fighter.y) + fighter.radius).toBeLessThanOrEqual(7.50001);
@@ -82,9 +82,9 @@ describe('circular arena simulation', () => {
     state.time = 1.99; act(state, fighter, 0.1);
     expect(fighter.stamina).toBe(0);
     state.time = 2; act(state, fighter, 0.1);
-    expect(fighter.stamina).toBe(1);
+    expect(fighter.stamina).toBe(0.1);
     state.time = 3; act(state, fighter, 0.1);
-    expect(fighter.stamina).toBeCloseTo(3.2);
+    expect(fighter.stamina).toBeCloseTo(0.3);
   });
   it('lands a thrown weapon before exactly one fighter can pick it up', () => {
     const state = running();

@@ -53,10 +53,10 @@ describe('V2 thrown hits and fighter traits',()=>{
  });
  it('refreshes living wolf frenzy on fighter kills, expires it, and makes deer fastest',()=>{
   const state=createArena(42),[wolf,a,b]=state.fighters;const base=attackDamage(wolf);
-  expect(wolf.speed).toBe(1.35);const deer=state.fighters.find(f=>f.species==='deer')!;expect(deer.speed).toBe(1.75);expect(state.fighters.every(f=>f.speed<=deer.speed)).toBe(true);
-  applyHealthDamage(state,a,999,wolf.id);expect(attackDamage(wolf)).toBeCloseTo(base*1.65);
-  state.time=2;applyHealthDamage(state,b,999,wolf.id);expect(wolf.buffs).toEqual([{kind:'fury',until:10}]);
-  syncStamina(wolf,10);expect(attackDamage(wolf)).toBe(base);
+  expect(wolf.speed).toBe(1);const deer=state.fighters.find(f=>f.species==='deer')!;expect(deer.speed).toBe(1.2);expect(state.fighters.every(f=>f.speed<=deer.speed)).toBe(true);
+  applyHealthDamage(state,a,999,wolf.id);expect(attackDamage(wolf)).toBeCloseTo(base+3);
+  state.time=2;applyHealthDamage(state,b,999,wolf.id);expect(wolf.buffs).toEqual([{kind:'fury',until:7}]);
+  syncStamina(wolf,7);expect(attackDamage(wolf)).toBe(base);
  });
  it('does not grant frenzy to a dead wolf whose final arrow kills',()=>{
   const state=arena(),[wolf,target]=state.fighters;state.fighters=[wolf,target];wolf.hp=0;target.x=1;target.y=0;target.hp=1;

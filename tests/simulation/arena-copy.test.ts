@@ -44,9 +44,9 @@ describe('unchanged text agrees with current gameplay', () => {
     expect(layoutSource).toContain('card.areaRadius * 2');
     expect(layoutSource).toContain('${card.throwRange}m');
   });
-  it('ties the elephant trait percentage to its club multiplier', () => {
-    const percent = capture(detailsSource, /case 'elephant': return '持木棍近戰時，傷害提高 (\d+)%/);
-    expect(Number(percent)).toBeCloseTo((B.elephantClubMultiplier - 1) * 100);
+  it('ties the elephant trait additive copy to the approved bonus', () => {
+    expect(detailsSource).toContain('傷害增加 ${formatHp(B.elephantClubBonus)} 點');
+    expect(B.elephantClubBonus).toBe(2);
   });
   it('ties the HUD redraw preview bonus to the resource rule', () => {
     const bonus = capture(hudSource, /arena-redraw-preview"\]'\)\.textContent = `棄 \$\{session.exchangeStones.size\} 石 → 抽 \$\{session.exchangeStones.size \+ (\d+)\} 石，補一張牌`/);
@@ -85,7 +85,7 @@ describe('unchanged text agrees with current gameplay', () => {
   it('keeps the arrow and rooting combat logs consistent with their rules', () => {
     expect(arrowsSource).toContain('用盡三支箭，改以徒手戰鬥'); expect(B.bowAmmo).toBe(3);
     expect(trapsSource).toContain('，定身 3 秒'); expect(B.trapRoot).toBe(3);
-    expect(trapsSource).toContain('受到 ${damage} 點傷害');
+    expect(trapsSource).toContain('受到 ${formatHp(damage)} 點傷害');
   });
   it('keeps repeated HUD and feedback numbers tied to their current values', () => {
     expect(actionsSource).toContain('0.6 遊戲秒後生效');

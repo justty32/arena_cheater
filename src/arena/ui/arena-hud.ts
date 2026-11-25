@@ -1,3 +1,4 @@
+import { formatHp } from '../shared/format';
 import { findPayment, paymentStatus, REDRAW_COOLDOWN } from '../items/engine-cards';
 import { previewThrowContact } from '../items/engine-items';
 import { THROW_PROFILES } from '../shared/rules';
@@ -126,7 +127,7 @@ export function createArenaHud(context: Pick<ArenaContext, 'session' | 'el' | 'h
       row.classList.toggle('is-dead', fighter.hp <= 0);
       row.setAttribute('aria-pressed', String(fighter.id === session.selectedId));
       row.querySelector<HTMLElement>('[data-row-hp]')!.style.width = `${Math.max(0, fighter.hp / fighter.maxHp * 100)}%`;
-      row.querySelector('[data-row-status]')!.textContent = fighter.hp <= 0 ? '出局' : fighter.id === session.state.supportedId ? '你的鬥士' : `${Math.ceil(fighter.hp)} HP`;
+      row.querySelector('[data-row-status]')!.textContent = fighter.hp <= 0 ? '出局' : fighter.id === session.state.supportedId ? '你的鬥士' : `${formatHp(fighter.hp)} HP`;
       row.querySelector('[data-row-badge]')!.textContent = fighter.id === session.state.supportedId ? '◆' : '';
     }
     const selected = session.state.fighters.find((f) => f.id === session.selectedId);
@@ -146,7 +147,7 @@ export function createArenaHud(context: Pick<ArenaContext, 'session' | 'el' | 'h
     el('[data-result]').hidden = !finished;
     if (finished) {
       el('[data-result-title]').textContent = winner ? `${winner.name} 勝出` : '本場平局';
-      const resultCopy = winner?.id === session.state.supportedId ? '你的鬥士站到了最後。這場勝利，有你的手筆。' : '競技場從不保證公平。下一場，換你改寫結局。';
+      const resultCopy = session.state.resultReason === 'hp-ratio' ? '時限裁決：剩餘生命比例最高。' : session.state.resultReason === 'draw' && session.state.fighters.filter(f => f.hp > 0).length > 1 ? '時限裁決：最高剩餘生命比例同分，本場平局。' : winner?.id === session.state.supportedId ? '你的鬥士站到了最後。這場勝利，有你的手筆。' : '競技場從不保證公平。下一場，換你改寫結局。';
       el('[data-result-copy]').textContent = `${resultCopy}重試會保留起手牌與入場位置。`;
     }
   }

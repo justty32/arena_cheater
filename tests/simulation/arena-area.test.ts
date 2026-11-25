@@ -56,7 +56,7 @@ describe('ground area spells',()=>{
   for(const phase of ['ready','finished','survivor','timeout'] as const){
    const {state,pay}=prepared();state.fighters[0].x=0;
    if(phase==='ready'||phase==='finished')state.status=phase;
-   else if(phase==='timeout')state.time=180;
+   else if(phase==='timeout')state.time=300;
    else state.fighters.slice(1).forEach(f=>{f.hp=0;});
    const before=structuredClone(state);expect(playCard(state,state.hand[0].id,{x:0,y:0},pay())).toBe(false);expect(state).toEqual(before);
   }

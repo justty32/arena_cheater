@@ -13,35 +13,35 @@
  "rows": [
   {
    "id": "fighter.wolf.hp",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 15 行：{ species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.wolf.hp；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.wolf.stamina",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 15 行：{ species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.wolf.stamina；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.wolf.speed",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 15 行：{ species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.wolf.speed；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.wolf.attack",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 15 行：{ species: 'wolf', name: '灰牙・狼鬥士', color: '#75b6c7', hp: 110, stamina: 75, speed: 1.35, attack: 11, radius: 0.35 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.wolf.attack；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.wolf.radius",
@@ -53,35 +53,35 @@
   },
   {
    "id": "fighter.bear.hp",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 16 行：{ species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.bear.hp；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.bear.stamina",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 16 行：{ species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.bear.stamina；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.bear.speed",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 16 行：{ species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.bear.speed；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.bear.attack",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 16 行：{ species: 'bear', name: '鐵掌・熊鬥士', color: '#c9956c', hp: 155, stamina: 75, speed: 1.1, attack: 13, radius: 0.45 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.bear.attack；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.bear.radius",
@@ -93,35 +93,35 @@
   },
   {
    "id": "fighter.elephant.hp",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 17 行：{ species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.elephant.hp；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.elephant.stamina",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 17 行：{ species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.elephant.stamina；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.elephant.speed",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 17 行：{ species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.elephant.speed；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.elephant.attack",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 17 行：{ species: 'elephant', name: '碎岩・象鬥士', color: '#a2a6bc', hp: 135, stamina: 80, speed: 1.05, attack: 12, radius: 0.46 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.elephant.attack；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.elephant.radius",
@@ -133,35 +133,35 @@
   },
   {
    "id": "fighter.bull.hp",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 18 行：{ species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.bull.hp；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.bull.stamina",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 18 行：{ species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.bull.stamina；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.bull.speed",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 18 行：{ species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.bull.speed；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.bull.attack",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 18 行：{ species: 'bull', name: '赤角・牛鬥士', color: '#bd7773', hp: 125, stamina: 110, speed: 1.2, attack: 12, radius: 0.42 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.bull.attack；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.bull.radius",
@@ -173,35 +173,35 @@
   },
   {
    "id": "fighter.porcupine.hp",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 19 行：{ species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.porcupine.hp；使用者暫定標準模板",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.porcupine.stamina",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 19 行：{ species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.porcupine.stamina；使用者暫定標準模板",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.porcupine.speed",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 19 行：{ species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.porcupine.speed；使用者暫定標準模板",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.porcupine.attack",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 19 行：{ species: 'porcupine', name: '棘背・豪豬鬥士', color: '#bca96f', hp: 115, stamina: 80, speed: 1.3, attack: 11, radius: 0.37 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.porcupine.attack；使用者暫定標準模板",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.porcupine.radius",
@@ -213,35 +213,35 @@
   },
   {
    "id": "fighter.snake.hp",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 20 行：{ species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.snake.hp；使用者暫定標準模板",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.snake.stamina",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 20 行：{ species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.snake.stamina；使用者暫定標準模板",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.snake.speed",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 20 行：{ species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.snake.speed；使用者暫定標準模板",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.snake.attack",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 20 行：{ species: 'snake', name: '青鱗・蛇鬥士', color: '#86b18b', hp: 105, stamina: 80, speed: 1.4, attack: 12, radius: 0.32 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.snake.attack；使用者暫定標準模板",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.snake.radius",
@@ -253,35 +253,35 @@
   },
   {
    "id": "fighter.deer.hp",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 21 行：{ species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.deer.hp；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.deer.stamina",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 21 行：{ species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.deer.stamina；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.deer.speed",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 21 行：{ species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.deer.speed；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.deer.attack",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 21 行：{ species: 'deer', name: '暮枝・鹿鬥士', color: '#d3b58f', hp: 110, stamina: 80, speed: 1.75, attack: 11, radius: 0.35 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行鬥士基礎值，非 V3 遷移。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.deer.attack；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "速度以現行 m/s 契約承接；半徑不改。"
   },
   {
    "id": "fighter.deer.radius",
@@ -301,11 +301,11 @@
   },
   {
    "id": "weapon.fists.hitGap",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 15 行：fists:  { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "體表 gap。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.fists.hitGap；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "命中容差為起手體表間隔另加 0.2 m。"
   },
   {
    "id": "weapon.fists.windup",
@@ -325,19 +325,19 @@
   },
   {
    "id": "weapon.sword.startGap",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 16 行：sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "體表 gap。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.sword.startGap；原文距離＋暫定體表解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文距離＋暫定體表解讀；依規格射程語意與防禦／恢復提案採 candidate_a 可調預設。"
   },
   {
    "id": "weapon.sword.hitGap",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 16 行：sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "體表 gap。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.sword.hitGap；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "命中容差為起手體表間隔另加 0.2 m。"
   },
   {
    "id": "weapon.sword.windup",
@@ -349,11 +349,11 @@
   },
   {
    "id": "weapon.sword.cooldown",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 16 行：sword:  { kind: 'melee', startGap: 0.5, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "原可選耗體欄位不補預設值。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.sword.cooldown；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文＋暫定解讀；依規格射程語意與防禦／恢復提案採 candidate_a 可調預設。"
   },
   {
    "id": "weapon.spear.startGap",
@@ -365,11 +365,11 @@
   },
   {
    "id": "weapon.spear.hitGap",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 17 行：spear:  { kind: 'melee', startGap: 1, hitGap: 1.3, windup: 0.25, cooldown: 1 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "體表 gap。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.spear.hitGap；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "命中容差為起手體表間隔另加 0.2 m。"
   },
   {
    "id": "weapon.spear.windup",
@@ -389,19 +389,19 @@
   },
   {
    "id": "weapon.hatchet.startGap",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 18 行：hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "體表 gap。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.hatchet.startGap；原文距離＋暫定體表解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文距離＋暫定體表解讀；依規格射程語意與防禦／恢復提案採 candidate_a 可調預設。"
   },
   {
    "id": "weapon.hatchet.hitGap",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 18 行：hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "體表 gap。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.hatchet.hitGap；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "命中容差為起手體表間隔另加 0.2 m。"
   },
   {
    "id": "weapon.hatchet.windup",
@@ -421,27 +421,27 @@
   },
   {
    "id": "weapon.hatchet.staminaCost",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 18 行：hatchet: { kind: 'melee', startGap: 0.4, hitGap: 0.7, windup: 0.3, cooldown: 1, staminaCost: 18 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "原可選耗體欄位不補預設值。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.hatchet.staminaCost；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文＋暫定解讀；依規格射程語意與防禦／恢復提案採 candidate_a 可調預設。"
   },
   {
    "id": "weapon.club.startGap",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 19 行：club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "體表 gap。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.club.startGap；原文距離＋暫定體表解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文距離＋暫定體表解讀；依規格射程語意與防禦／恢復提案採 candidate_a 可調預設。"
   },
   {
    "id": "weapon.club.hitGap",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 19 行：club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "體表 gap。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.club.hitGap；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "命中容差為起手體表間隔另加 0.2 m。"
   },
   {
    "id": "weapon.club.windup",
@@ -453,11 +453,11 @@
   },
   {
    "id": "weapon.club.cooldown",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 19 行：club:   { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.55, cooldown: 1.8 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "原可選耗體欄位不補預設值。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.club.cooldown；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文＋暫定解讀；依規格射程語意與防禦／恢復提案採 candidate_a 可調預設。"
   },
   {
    "id": "weapon.shield.startGap",
@@ -469,11 +469,11 @@
   },
   {
    "id": "weapon.shield.hitGap",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 20 行：shield: { kind: 'melee', startGap: 0.3, hitGap: 0.8, windup: 0.3, cooldown: 1.15 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "體表 gap。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.shield.hitGap；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "命中容差為起手體表間隔另加 0.2 m。"
   },
   {
    "id": "weapon.shield.windup",
@@ -493,11 +493,11 @@
   },
   {
    "id": "weapon.bow.centerReach",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 21 行：bow:    { kind: 'ranged', centerReach: 5.5, windup: 0.45, cooldown: 1.6 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "中心距射程。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.bow.centerReach；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文 500 cm，暫按中心距，不加鬥士半徑。"
   },
   {
    "id": "weapon.bow.windup",
@@ -509,11 +509,11 @@
   },
   {
    "id": "weapon.bow.cooldown",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 21 行：bow:    { kind: 'ranged', centerReach: 5.5, windup: 0.45, cooldown: 1.6 },",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "原可選耗體欄位不補預設值。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.bow.cooldown；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文＋暫定解讀；依規格射程語意與防禦／恢復提案採 candidate_a 可調預設。"
   },
   {
    "id": "throw.sword.damage",
@@ -1045,11 +1045,11 @@
   },
   {
    "id": "world.matchDuration",
-   "source_path": "src/arena/sim/engine.ts",
-   "source_locator": "第 49 行：const mayAct = state.time < 180 && state.fighters.filter(fighter => fighter.hp > 0).length > 1;",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 world.matchDuration；收尾可調預設，main 2026-11-25 已暫定",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "A300 實測98自然/2比例裁決/0平局；搭配存活hp比例裁決，不改原文能力。B300未實跑，B欄只保持同時限以便比較。"
   },
   {
    "id": "combat.recoveryAttackDelay",
@@ -1069,19 +1069,19 @@
   },
   {
    "id": "combat.idleRecovery",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 42 行：const recovery = state.time - fighter.lastMoved >= 2.5 ? 22 : 10;",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 combat.idleRecovery；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "A 標準體力空槽回滿需 5 秒有效恢復；B 為 10 秒。"
   },
   {
    "id": "combat.movingRecovery",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 42 行：const recovery = state.time - fighter.lastMoved >= 2.5 ? 22 : 10;",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 combat.movingRecovery；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "A 慢回需 10 秒有效恢復；B 為 20 秒。"
   },
   {
    "id": "combat.parryThreatWindow",
@@ -1093,11 +1093,11 @@
   },
   {
    "id": "combat.parryStamina",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 59 行：if (fighter.shield && threat && fighter.stamina >= 10 && state.time >= fighter.nextParry &&",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 combat.parryStamina；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "全免防禦成本為半傷格擋兩倍。"
   },
   {
    "id": "combat.defendFacingDot",
@@ -1125,11 +1125,11 @@
   },
   {
    "id": "combat.parryCooldown",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 61 行：fighter.parryUntil = state.time + 0.22; fighter.nextParry = state.time + 2.4;",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 combat.parryCooldown；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文圓盾 CD 暫解為招架再用間隔，不改盾拳攻擊 CD。"
   },
   {
    "id": "combat.pickupPreferenceCenterDistance",
@@ -1141,11 +1141,11 @@
   },
   {
    "id": "combat.defaultAttackStamina",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 76 行：const staminaCost = attack.staminaCost ?? 12;",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 combat.defaultAttackStamina；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "拳、盾、劍、矛、弓共用；斧棍獨立。"
   },
   {
    "id": "combat.attackAngle",
@@ -1157,11 +1157,11 @@
   },
   {
    "id": "combat.moveStaminaThreshold",
-   "source_path": "src/arena/sim/engine-combat.ts",
-   "source_locator": "第 85 行：if (fighter.stamina < 12 || (fighter.rootedUntil !== undefined && state.time < fighter.rootedUntil)) return;",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 combat.moveStaminaThreshold；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "避免耗盡後原地卡死；移動仍不耗體。"
   },
   {
    "id": "buff.haste.speedMultiplier",
@@ -1199,46 +1199,6 @@
    "id": "buff.dung.tickDamage",
    "source_path": "src/arena/sim/engine-damage.ts",
    "source_locator": "第 30 行：const DUNG_TICK_DAMAGE = 1;",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
-  },
-  {
-   "id": "weapon.swordSpear.damageMultiplier",
-   "source_path": "src/arena/sim/engine-damage.ts",
-   "source_locator": "第 67 行：let damage = fighter.attack * (isSwordOrSpear ? 1.65 : isClubOrHatchet ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
-  },
-  {
-   "id": "weapon.clubHatchet.damageMultiplier",
-   "source_path": "src/arena/sim/engine-damage.ts",
-   "source_locator": "第 67 行：let damage = fighter.attack * (isSwordOrSpear ? 1.65 : isClubOrHatchet ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
-  },
-  {
-   "id": "weapon.bow.damageMultiplier",
-   "source_path": "src/arena/sim/engine-damage.ts",
-   "source_locator": "第 67 行：let damage = fighter.attack * (isSwordOrSpear ? 1.65 : isClubOrHatchet ? 1.9 : fighter.weapon === 'bow' ? 1.35 : 1);",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
-  },
-  {
-   "id": "fighter.elephant.clubMultiplier",
-   "source_path": "src/arena/sim/engine-damage.ts",
-   "source_locator": "第 68 行：if (fighter.species === 'elephant' && fighter.weapon === 'club') damage *= 1.2;",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
-  },
-  {
-   "id": "buff.fury.damageMultiplier",
-   "source_path": "src/arena/sim/engine-damage.ts",
-   "source_locator": "第 69 行：if (hasBuff(fighter, 'fury')) damage *= 1.65;",
    "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
    "decision": "現值等價抽取，非平衡批准",
    "rationale": "現行啟用參數；保留原運算次序及語義。"
@@ -1293,11 +1253,11 @@
   },
   {
    "id": "combat.blockStamina",
-   "source_path": "src/arena/sim/engine-damage.ts",
-   "source_locator": "第 96 行：if (canDefend && target.stamina >= 6) {",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 combat.blockStamina；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "原文盾耗體為 x；0.5 是提案，不是原文。"
   },
   {
    "id": "combat.blockMultiplier",
@@ -1325,11 +1285,11 @@
   },
   {
    "id": "buff.fury.duration",
-   "source_path": "src/arena/sim/engine-damage.ts",
-   "source_locator": "第 130 行：killer.buffs.push({kind:'fury',until:state.time+8});",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 buff.fury.duration；V3 原文",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "V3 原文。"
   },
   {
    "id": "resource.supportKillStones",
@@ -1341,11 +1301,11 @@
   },
   {
    "id": "control.fallenDuration",
-   "source_path": "src/arena/sim/engine-damage.ts",
-   "source_locator": "第 154 行：fighter.knockback = undefined; fighter.pose = 'fallen'; fighter.poseUntil = state.time + 0.8;",
-   "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
-   "decision": "現值等價抽取，非平衡批准",
-   "rationale": "現行啟用參數；保留原運算次序及語義。"
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 control.fallenDuration；可調預設",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "暫定分段。"
   },
   {
    "id": "arrow.lifetime",
@@ -1594,6 +1554,70 @@
    "source_revision": "5456f20559f8a71ae52717caa616a3b3810b79c5",
    "decision": "現值等價抽取，非平衡批准",
    "rationale": "現行啟用參數；保留原運算次序及語義。"
+  },
+  {
+   "id": "weapon.club.staminaCost",
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.club.staminaCost；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "新增獨立耗體，不能沿用一般攻擊。"
+  },
+  {
+   "id": "weapon.sword.damageBonus",
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.sword.damageBonus；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "持用加值；投送傷害獨立不變。"
+  },
+  {
+   "id": "weapon.spear.damageBonus",
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.spear.damageBonus；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "持用加值；投送傷害獨立不變。"
+  },
+  {
+   "id": "weapon.hatchet.damageBonus",
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.hatchet.damageBonus；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "持用加值；投送傷害獨立不變。"
+  },
+  {
+   "id": "weapon.club.damageBonus",
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.club.damageBonus；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "持用加值；投送傷害獨立不變。"
+  },
+  {
+   "id": "weapon.bow.damageBonus",
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 weapon.bow.damageBonus；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "持用加值；投送傷害獨立不變。"
+  },
+  {
+   "id": "fighter.elephant.clubBonus",
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 fighter.elephant.clubBonus；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "現有鈍器僅 club。"
+  },
+  {
+   "id": "buff.fury.damageBonus",
+   "source_path": "wf/org/design/assets/specs/v3-first-slice.md",
+   "source_locator": "74列候選表 buff.fury.damageBonus；原文＋暫定解讀",
+   "source_revision": "22b5368774663f0c98717308dd6e6171345e4ec1",
+   "decision": "暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）",
+   "rationale": "擊殺後固定加值，不堆層，沿用刷新持續時間。"
   }
  ]
 }

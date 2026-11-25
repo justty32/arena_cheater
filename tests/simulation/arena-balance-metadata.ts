@@ -19,10 +19,10 @@ export function validateBalanceMetadata(values: unknown, metadata: unknown): voi
     if (!object(row) || Object.keys(row).length !== COLUMNS.length || !COLUMNS.every(key => key in row) ||
         typeof row.id !== 'string' || !allowed.has(row.id)) throw new Error('Unknown balance metadata row');
     if (seen.has(row.id)) throw new Error(`Duplicate balance metadata id: ${row.id}`);
-    if (typeof row.source_path !== 'string' || !row.source_path.startsWith('src/arena/') ||
+    if (typeof row.source_path !== 'string' || !['src/arena/', 'wf/org/design/assets/specs/'].some(prefix => (row.source_path as string).startsWith(prefix)) ||
         row.source_path.includes('..') || typeof row.source_locator !== 'string' || !row.source_locator.trim() ||
         typeof row.source_revision !== 'string' || !/^[0-9a-f]{40}$/.test(row.source_revision) ||
-        row.decision !== '現值等價抽取，非平衡批准' || typeof row.rationale !== 'string' || !row.rationale.trim()) {
+        !['現值等價抽取，非平衡批准', '暫定（2026-11-25 使用者照 main 推薦；待遊戲策劃確認）'].includes(row.decision as string) || typeof row.rationale !== 'string' || !row.rationale.trim()) {
       throw new Error(`Invalid balance metadata: ${row.id}`);
     }
     seen.add(row.id);

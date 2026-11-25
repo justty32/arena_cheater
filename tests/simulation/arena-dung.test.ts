@@ -48,13 +48,13 @@ describe('V2 thrown hits and fighter traits',()=>{
   expect(fast.fighters[0].hp).toBe(target.hp);
   expect(fast.time).toBeCloseTo(state.time);
   expect(target.hp).toBe(health-5);
-  target.stamina=12;target.lastAttack=state.time;
+  target.stamina=2;target.lastAttack=state.time;
   advanceArena(state,.3);
   expect(target.hp).toBe(health-6);
   expect(target.buffs.some(buff=>buff.kind==='weakness')).toBe(false);
   expect(target.maxStamina).toBe(target.baseMaxStamina);
   expect(attackDamage(target)).toBe(baseDamage);
-  expect(target.stamina).toBe(12);
+  expect(target.stamina).toBe(2);
   advanceArena(state,2);
   expect(target.hp).toBe(health-6);
   expect(other.hp).toBe(otherHealth);
@@ -121,10 +121,10 @@ describe('V2 thrown hits and fighter traits',()=>{
   advanceArena(state,7);
   expect(state).toEqual(finished);
  });
- it('drains a nonlethal dung throw and its fifth tick after the 180-second limit',()=>{
+ it('drains a nonlethal dung throw and its fifth tick after the 300-second limit',()=>{
   const {state,target,aim}=dungFight();
   const health=target.hp;
-  state.time=179.8;
+  state.time=299.8;
   expect(playCard(state,900,aim,[910])).toBe(true);
   advanceArena(state,.3);
   expect(state.status).toBe('running');expect(target.hp).toBe(health);

@@ -86,8 +86,13 @@ for (const width of [1440, 320, 390]) {
   await page.screenshot({ path: info.outputPath(`bear-trap-${width}-released.png`), fullPage: true });
   await page.locator('[data-speed="3"]').click();
   const result = page.locator('[data-result]');
-  for (let i = 0; i < 620 && !await result.isVisible(); i++) await page.clock.fastForward(100);
+  // Each jump dispatches one RAF with the 100ms delta cap; 3x covers 330 game seconds.
+  for (let i = 0; i < 1100; i++) {
+    await page.clock.fastForward(100);
+    if ((i + 1) % 10 === 0 && await result.isVisible()) break;
+  }
   await expect(result).toBeVisible();
+  await expect(page.locator('[data-result-copy]')).toContainText(/站到了最後|競技場從不保證公平|時限裁決/);
   await page.screenshot({ path: info.outputPath('bear-trap-result-desktop.png'), fullPage: true });
   await page.locator('[data-result-retry]').click();
   await expect(page.getByTestId('arena-time')).toHaveText('00:00');

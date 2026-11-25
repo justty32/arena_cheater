@@ -1,3 +1,4 @@
+import { formatHp } from '../shared/format';
 import { BALANCE as B } from '../shared/balance';
 import { ARENA_RADIUS, DUNG_TICK_EPSILON } from '../shared/rules';
 import type { ArenaState, Fighter } from '../shared/types';
@@ -54,7 +55,7 @@ export function advanceDungDamage(state: ArenaState): void {
     while (target.hp > 0 && damage.nextTickAt <= Math.min(state.time, damage.until) + DUNG_TICK_EPSILON) {
       damage.nextTickAt += DUNG_TICK_INTERVAL;
       applyHealthDamage(state, target, DUNG_TICK_DAMAGE);
-      effect(state, target, `−${DUNG_TICK_DAMAGE}`, '#ad907a');
+      effect(state, target, `−${formatHp(DUNG_TICK_DAMAGE)}`, '#ad907a');
     }
     if (target.hp > 0 && damage.until - state.time <= DUNG_TICK_EPSILON) {
       target.dungDamage = undefined;
@@ -63,11 +64,11 @@ export function advanceDungDamage(state: ArenaState): void {
   }
 }
 export function attackDamage(fighter: Fighter): number {
-  const isSwordOrSpear = fighter.weapon === 'sword' || fighter.weapon === 'spear';
-  const isClubOrHatchet = fighter.weapon === 'club' || fighter.weapon === 'hatchet';
-  let damage = fighter.attack * (isSwordOrSpear ? B.swordSpearMultiplier : isClubOrHatchet ? B.clubHatchetMultiplier : fighter.weapon === 'bow' ? B.bowMultiplier : 1);
-  if (fighter.species === 'elephant' && fighter.weapon === 'club') damage *= B.elephantClubMultiplier;
-  if (hasBuff(fighter, 'fury')) damage *= B.furyMultiplier;
+  const bonuses = { fists: 0, shield: 0, sword: B.swordBonus, spear: B.spearBonus,
+    hatchet: B.hatchetBonus, club: B.clubBonus, bow: B.bowBonus };
+  let damage = fighter.attack + bonuses[fighter.weapon];
+  if (fighter.species === 'elephant' && fighter.weapon === 'club') damage += B.elephantClubBonus;
+  if (hasBuff(fighter, 'fury')) damage += B.furyBonus;
   if (hasBuff(fighter, 'weakness')) damage *= B.weaknessAttack;
   if (hasBuff(fighter, 'bloodlust')) damage += B.bloodlustDamage;
   return damage;
@@ -98,7 +99,7 @@ export function damageFighter(state: ArenaState, target: Fighter, rawDamage: num
     target.stamina -= B.blockStamina; target.lastAttack = state.time;
     damage *= B.blockMultiplier; blocked = true;
   }
-  damage = Math.max(1, Math.round(damage));
+  damage = damage > 0 ? Math.max(0.01, Math.round((damage + Number.EPSILON) * 100) / 100) : 0;
   applyHealthDamage(state, target, damage, sourceFighterId);
   const shieldBroken = blocked && attacker?.weapon === 'hatchet';
   if (shieldBroken) {
@@ -107,7 +108,7 @@ export function damageFighter(state: ArenaState, target: Fighter, rawDamage: num
     log(state, `${target.name} 的盾牌被短斧打碎了`);
   }
   const hitLabel = shieldBroken ? '破盾 ' : blocked ? '格擋 ' : '';
-  effect(state, target, `${hitLabel}−${damage}`, blocked ? '#e7d29c' : '#f0a393');
+  effect(state, target, `${hitLabel}−${formatHp(damage)}`, blocked ? '#e7d29c' : '#f0a393');
   if (target.hp > 0) {
     if (knockback) launchFighter(state, target, origin);
     else if (blocked) { target.pose = 'block'; target.poseUntil = state.time + B.blockPause; }
@@ -120,7 +121,7 @@ export function damageFighter(state: ArenaState, target: Fighter, rawDamage: num
 /** Direct spells bypass directional defense, but share the single death transition. */
 export function applyHealthDamage(state: ArenaState, target: Fighter, damage: number, sourceFighterId?: string): void {
   if (target.hp <= 0) return;
-  target.hp = Math.max(0, target.hp - damage);
+  target.hp = Math.max(0, Math.round((target.hp - damage + Number.EPSILON) * 100) / 100);
   if (target.hp === 0) {
     target.pose = 'dead'; target.poseUntil = Infinity; target.knockback = undefined;
     target.dungDamage = undefined; target.rootedUntil = undefined;
@@ -152,13 +153,13 @@ export function advanceControl(state: ArenaState, fighter: Fighter): boolean {
       clampFighter(fighter);
     }
     if (state.time >= fighter.poseUntil) {
-      fighter.knockback = undefined; fighter.pose = 'fallen'; fighter.poseUntil = state.time + B.fallenDuration;
+      fighter.knockback = undefined; fighter.pose = 'fallen'; fighter.poseUntil += B.fallenDuration;
     }
-    return true;
+    if (fighter.pose === 'airborne') return true;
   }
   if (fighter.pose === 'fallen') {
-    if (state.time >= fighter.poseUntil) { fighter.pose = 'rising'; fighter.poseUntil = state.time + B.risingDuration; }
-    return true;
+    if (state.time >= fighter.poseUntil) { fighter.pose = 'rising'; fighter.poseUntil += B.risingDuration; }
+    if (fighter.pose === 'fallen') return true;
   }
   if (fighter.pose === 'rising') {
     if (state.time < fighter.poseUntil) return true;

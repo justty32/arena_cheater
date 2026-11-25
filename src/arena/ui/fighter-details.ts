@@ -1,3 +1,5 @@
+import { BALANCE as B } from '../shared/balance';
+import { formatHp } from '../shared/format';
 import { hasPendingDungTick } from '../shared/status';
 import type { ArenaState, Fighter } from '../shared/types';
 
@@ -8,8 +10,8 @@ function fighterTrait(fighter: Fighter): string {
   switch (fighter.species) {
     case 'wolf': return '獵殺狂熱：擊殺後提升攻擊力。';
     case 'deer': return `迅捷：移動速度較高（${fighter.speed.toFixed(2)} m/s）。`;
-    case 'elephant': return '持木棍近戰時，傷害提高 20%。';
-    case 'bear': return `生命較高（生命上限 ${fighter.maxHp}）。`;
+    case 'elephant': return `持木棍近戰時，傷害增加 ${formatHp(B.elephantClubBonus)} 點。`;
+    case 'bear': return `生命較高（生命上限 ${formatHp(fighter.maxHp)}）。`;
     case 'bull': return `體力較高（基礎體力上限 ${fighter.baseMaxStamina}）。`;
     default: return '';
   }
@@ -20,7 +22,7 @@ export function createFighterDetails(el: <T extends HTMLElement = HTMLElement>(s
     el('[data-detail-name]').textContent = f.name;
     el('[data-detail-summary]').textContent = f.name;
     el('[data-detail-pose]').textContent = poseLabels[f.pose];
-    el('[data-detail-hp]').textContent = `${Math.max(0, Math.ceil(f.hp))} / ${f.maxHp}`;
+    el('[data-detail-hp]').textContent = `${formatHp(f.hp)} / ${formatHp(f.maxHp)}`;
     el('[data-detail-stamina]').textContent = `${Math.floor(f.stamina)} / ${f.maxStamina}`;
     el('[data-detail-health-bar]').style.width = `${Math.max(0, f.hp / f.maxHp * 100)}%`;
     el('[data-detail-stamina-bar]').style.width = `${f.stamina / f.maxStamina * 100}%`;

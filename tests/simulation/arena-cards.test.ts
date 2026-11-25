@@ -75,7 +75,7 @@ describe('V2 cards and stones',()=>{
  });
  it('rejects all invalid commands without changing any state',()=>{
   for(const status of ['ready','finished','paused','running'] as const){
-   const state=ready();state.status=status;if(status==='paused')state.time=180;
+   const state=ready();state.status=status;if(status==='paused')state.time=300;
    const before=structuredClone(state),id=state.hand[0].id,stone=state.stones[0].id;
    expect(playCard(state,id,{fighterId:'missing'},[stone])).toBe(false);
    expect(playCard(state,id,{fighterId:state.fighters[0].id},[999])).toBe(false);
@@ -90,7 +90,7 @@ describe('V2 cards and stones',()=>{
    for (const status of statuses) for (const cardId of ['lightning','sword'] as const) {
     const state=ready(cardId);state.status=status;
     if(phase==='survivor')state.fighters.slice(1).forEach(f=>{f.hp=0;});
-    if(phase==='timeout')state.time=180;
+    if(phase==='timeout')state.time=300;
     if(phase==='survivor'||phase==='timeout')state.arrows=[{id:state.nextId++,ownerId:state.fighters[0].id,x:0,y:0,vx:1,vy:0,damage:10,expiresAt:state.time+2}];
     const context=`${phase}/${status}/${cardId}`;
     expect(findPayment(state,CARDS.find(card=>card.id===cardId)!.cost),context).toBeDefined();

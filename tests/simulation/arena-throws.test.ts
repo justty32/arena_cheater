@@ -35,11 +35,11 @@ describe('V2 thrown hits and fighter traits',()=>{
   state.items=[flight(900,'sword',0,7.5,aim.x,aim.y)];
   state.time=1;advanceItems(state);
   const hp=before.fighters[1].hp;
-  expect(near.hp).toBe(hp-1);expect(far.hp).toBe(before.fighters[0].hp);
+  expect(near.hp).toBe(hp-1.2);expect(far.hp).toBe(before.fighters[0].hp);
   expect(near.weapon).toBe('sword');expect(state.items).toEqual([]);
-  advanceItems(state);expect(near.hp).toBe(hp-1);
+  advanceItems(state);expect(near.hp).toBe(hp-1.2);
  });
- it('delivers a pickable spear across the arena for one stone and deals one impact damage',()=>{
+ it('delivers a pickable spear across the arena for one stone and preserves directional impact damage',()=>{
   const state=arena(),target=state.fighters[0];target.x=0;target.y=0;
   state.hand=[{id:900,cardId:'spear'}];state.stones=[{id:901,color:'blue'}];
   const hp=target.hp;
@@ -47,7 +47,7 @@ describe('V2 thrown hits and fighter traits',()=>{
   expect(state.stones.some(stone=>stone.id===901)).toBe(false);
   expect(target.weapon).toBe('fists');
   state.time=state.items[0].landsAt;advanceItems(state);
-  expect(target.hp).toBe(hp-1);expect(target.weapon).toBe('spear');expect(state.items).toEqual([]);
+  expect(target.hp).toBe(hp-1.2);expect(target.weapon).toBe('spear');expect(state.items).toEqual([]);
  });
  it('pays two any stones and one yellow to deliver a pickable hatchet without breaking a shield',()=>{
   const state=arena(),target=state.fighters[0];target.x=0;target.y=0;
@@ -73,7 +73,7 @@ describe('V2 thrown hits and fighter traits',()=>{
   for(const earlyBody of [true,false]){
    const state=arena(),target=state.fighters[0];state.fighters=[target];target.x=earlyBody?-.8:1;target.y=0;target.weapon='club';
    state.items=[flight(900),flight(901,'shield',0,-2,0,2)];const hp=target.hp;state.time=1;advanceItems(state);
-   expect(target.hp).toBe(hp-(earlyBody?1:0));
+   expect(target.hp).toBe(hp-(earlyBody?1.2:0));
    expect(state.items.every(item=>item.landed)).toBe(true);
    expect(state.logs.some(text=>text.includes('半空相撞'))).toBe(!earlyBody);
   }
@@ -91,15 +91,15 @@ describe('V2 thrown hits and fighter traits',()=>{
    const state=arena(),target=state.fighters[0];state.fighters=[target];target.x=0;target.y=0;target.shield=true;target.weapon='club';target.facing=Math.PI;target.parryUntil=2;
    const hp=target.hp,stamina=target.stamina;state.items=[flight(900,kind)];state.time=1;advanceItems(state);
    expect(target.hp).toBe(hp-(kind==='pot'?3:0));
-   expect(target.stamina).toBe(stamina-(['stone','club'].includes(kind)?10:0));
+   expect(target.stamina).toBe(stamina-(['stone','club'].includes(kind)?1:0));
    expect(state.items.every(item=>item.landed)).toBe(true);
   }
  });
  it('blocks physical equipment throws without breaking the shield',()=>{
-  for(const [weapon,damage] of [['club',2],['hatchet',1]] as const){
+  for(const [weapon,damage] of [['club',1.5],['hatchet',1]] as const){
    const state=arena(),target=state.fighters[0];state.fighters=[target];target.x=0;target.y=0;target.shield=true;target.facing=Math.PI;target.weapon='club';
    const hp=target.hp,stamina=target.stamina;state.items=[flight(900,weapon)];state.time=1;advanceItems(state);
-   expect(target.hp).toBe(hp-damage);expect(target.stamina).toBe(stamina-6);
+   expect(target.hp).toBe(hp-damage);expect(target.stamina).toBe(stamina-0.5);
    expect(target.shield).toBe(true);expect(state.items[0].landed).toBe(true);
   }
  });
@@ -138,7 +138,7 @@ describe('V2 thrown hits and fighter traits',()=>{
   expect(target.hp).toBe(0);expect(state.status).toBe('finished');expect(state.winnerId).toBeUndefined();
  });
  it('drains harmless flights after timeout rather than leaving a permanent resolving state',()=>{
-  const state=arena();state.time=179.99;const item=flight(900,'shield');item.launched=179.99;item.landsAt=180.99;state.items=[item];
+  const state=arena();state.time=299.99;const item=flight(900,'shield');item.launched=299.99;item.landsAt=300.99;state.items=[item];
   advanceArena(state,.1);expect(state.status).toBe('running');advanceArena(state,1);expect(state.status).toBe('finished');expect(state.items.every(i=>i.landed)).toBe(true);
  });
 });

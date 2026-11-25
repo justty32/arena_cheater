@@ -1,3 +1,4 @@
+import { formatHp } from '../shared/format';
 import { BALANCE as B } from '../shared/balance';
 import { CARDS } from '../shared/card-catalog';
 import { ARENA_RADIUS, THROW_TARGET_RADIUS, THROW_ORIGIN, THROW_PROFILES } from '../shared/rules';
@@ -94,7 +95,7 @@ export function playCard(state: ArenaState, handCardId: number, target: CardTarg
   } else if (card.target === 'area') {
     for (const target of areaTargets) {
       applyHealthDamage(state,target,card.damage);
-      effect(state,target,`−${card.damage}`,'#f0a393');
+      effect(state,target,`−${formatHp(card.damage)}`,'#f0a393');
     }
     state.effects.push({id:state.nextId++,x:x!,y:y!,at:state.time,kind:'area',areaRadius:card.areaRadius,cardId:card.id,text:card.name,color:card.color});
     log(state,`${card.name}命中 ${areaTargets.length} 名鬥士`);
@@ -172,14 +173,14 @@ export function advanceItems(state: ArenaState, _dt?: number): void {
       if (profile.damage > 0) {
         if (profile.bypassDefense) {
           applyHealthDamage(state,target,profile.damage);
-          effect(state,target,`−${profile.damage}`,'#f0a393');
+          effect(state,target,`−${formatHp(profile.damage)}`,'#f0a393');
         } else damageFighter(state,target,profile.damage,{x:item.fromX,y:item.fromY});
       }
       const dungApplied = item.weapon === 'dung' && target.hp > 0;
       if (dungApplied) applyDungStatus(state, target);
       log(state,`${CARDS.find(card=>card.id===item.weapon)?.name ?? '投送物'}命中${target.name}${dungApplied ? '，造成虛弱與持傷' : ''}`);
       landItem(state,item,contact.time,{
-        reason:'fighter', fighterId:target.id, damage:healthBefore-target.hp,
+        reason:'fighter', fighterId:target.id, damage:Math.round((healthBefore-target.hp)*100)/100,
         ...(dungApplied ? {dungApplied} : {}),
       });
     }

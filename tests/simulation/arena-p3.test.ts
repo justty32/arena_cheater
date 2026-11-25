@@ -56,17 +56,17 @@ describe('P3 equipment combat', () => {
     expect(a.pose).toBe('walk');
   });
 
-  it('spends exactly 18 stamina to swing the hatchet and swings faster than the club', () => {
+  it('spends exactly 1.5 stamina to swing the hatchet and swings faster than the club', () => {
     const hatchet = pair(), club = pair();
     equip(hatchet.a, 'hatchet'); equip(club.a, 'club');
     hatchet.a.nextAttack = club.a.nextAttack = 0;
     hatchet.a.lastAttack = 0;
-    hatchet.a.stamina = 17;
+    hatchet.a.stamina = 1;
     act(hatchet.state, hatchet.a, 1 / 30);
     expect(hatchet.a.pose).toBe('idle');
-    expect(hatchet.a.stamina).toBe(17);
+    expect(hatchet.a.stamina).toBe(1);
 
-    hatchet.a.stamina = 18;
+    hatchet.a.stamina = 1.5;
     act(hatchet.state, hatchet.a, 1 / 30);
     act(club.state, club.a, 1 / 30);
     expect(hatchet.a.pose).toBe('attack');
@@ -89,8 +89,8 @@ describe('P3 equipment combat', () => {
     expect(a.pose).toBe('attack');
     state.time = a.poseUntil;
     act(state, a, 1 / 30);
-    expect(b.hp).toBe(b.maxHp - Math.round(damage / 2));
-    expect(b.stamina).toBe(b.maxStamina - 6);
+    expect(b.hp).toBe(b.maxHp - damage / 2);
+    expect(b.stamina).toBe(b.maxStamina - 0.5);
     expect(b.shield).toBe(false);
 
     state.time = a.nextAttack;
@@ -98,21 +98,21 @@ describe('P3 equipment combat', () => {
     expect(a.pose).toBe('attack');
     state.time = a.poseUntil;
     act(state, a, 1 / 30);
-    expect(b.hp).toBe(b.maxHp - Math.round(damage / 2) - Math.round(damage));
-    expect(b.stamina).toBe(b.maxStamina - 6);
+    expect(b.hp).toBe(b.maxHp - damage / 2 - damage);
+    expect(b.stamina).toBe(b.maxStamina - 0.5);
   });
 
   it.each([
-    { condition: 'parry', facing: Math.PI, stamina: 10, parryUntil: 1, damageScale: 0, spend: 10 },
+    { condition: 'parry', facing: Math.PI, stamina: 10, parryUntil: 1, damageScale: 0, spend: 1 },
     { condition: 'side', facing: Math.PI / 2, stamina: 20, parryUntil: 0, damageScale: 1, spend: 0 },
     { condition: 'back', facing: 0, stamina: 20, parryUntil: 0, damageScale: 1.2, spend: 0 },
-    { condition: 'low stamina', facing: Math.PI, stamina: 5, parryUntil: 0, damageScale: 1, spend: 0 },
+    { condition: 'low stamina', facing: Math.PI, stamina: 0.25, parryUntil: 0, damageScale: 1, spend: 0 },
   ])('leaves the shield intact on a $condition hatchet hit', ({ facing, stamina, parryUntil, damageScale, spend }) => {
     const { state, a, b } = pair();
     equip(a, 'hatchet'); equip(b, 'shield');
     Object.assign(b, { facing, stamina, parryUntil });
     hit(state, a);
-    expect(b.hp).toBe(b.maxHp - Math.round(attackDamage(a) * damageScale));
+    expect(b.hp).toBe(b.maxHp - Math.round(attackDamage(a) * damageScale * 100) / 100);
     expect(b.stamina).toBe(stamina - spend);
     expect(b.shield).toBe(true);
   });
@@ -128,8 +128,8 @@ describe('P3 equipment combat', () => {
     state.time = 0.2;
     advanceArrows(state, 0.2);
     expect(state.arrows).toHaveLength(0);
-    expect(b.hp).toBe(b.maxHp - Math.round(damage / 2));
-    expect(b.stamina).toBe(b.maxStamina - 6);
+    expect(b.hp).toBe(b.maxHp - damage / 2);
+    expect(b.stamina).toBe(b.maxStamina - 0.5);
     expect(b.shield).toBe(true);
   });
 
@@ -141,9 +141,9 @@ describe('P3 equipment combat', () => {
     expect(state.arrows).toHaveLength(3); expect(b.hp).toBe(b.maxHp);
     const damage = state.arrows[0].damage;
     a.buffs = []; a.attack = 1;
-    expect(damage).toBeGreaterThan(20);
+    expect(damage).toBe(5);
     state.time = 0.4; advanceArrows(state, 0.4);
-    expect(b.hp).toBeLessThan(b.maxHp - 50);
+    expect(b.hp).toBe(b.maxHp - 3 * damage);
     expect(state.arrows).toHaveLength(0);
   });
   it('hits the first crossed body and misses targets that move off the fixed flight', () => {
@@ -175,8 +175,8 @@ describe('P3 equipment combat', () => {
   });
   it('drains arrows after timeout without creating new attacks', () => {
     const { state, a, b } = pair(); b.x = 5; a.ammo = 3; a.weapon = 'bow';
-    state.time = 179.99; fireArrow(state, a);
-    a.pose = 'attack'; a.poseUntil = 180; a.nextAttack = 0;
+    state.time = 299.99; fireArrow(state, a);
+    a.pose = 'attack'; a.poseUntil = 300; a.nextAttack = 0;
     advanceArena(state, 0.05);
     expect(state.status).toBe('running'); expect(a.ammo).toBe(2);
     advanceArena(state, 2);
@@ -197,15 +197,15 @@ describe('P3 equipment combat', () => {
     a.pose = 'attack'; a.poseUntil = 0; a.nextAttack = 10;
     act(state, a, 1 / 30);
     expect(a.durability).toBe(2); expect(b.hp).toBe(b.maxHp); expect(a.pose).toBe('hit');
-    expect(b.stamina).toBe(b.maxStamina - 10);
+    expect(b.stamina).toBe(b.maxStamina - 1);
   });
   it('counts a damaging block as a club hit, but empty stamina and side attacks cannot block', () => {
     const { state, a, b } = pair(); equip(a, 'club'); b.shield = true;
     const health = b.hp; hit(state, a);
     const blocked = health - b.hp;
-    expect(a.durability).toBe(1); expect(b.stamina).toBe(b.maxStamina - 6);
+    expect(a.durability).toBe(1); expect(b.stamina).toBe(b.maxStamina - 0.5);
     b.hp = health; b.pose = 'idle'; b.knockback = undefined; b.stamina = 0;
-    damageFighter(state, b, a.attack * 1.9, a);
+    damageFighter(state, b, attackDamage(a), a);
     expect(health - b.hp).toBeGreaterThan(blocked);
     b.hp = health; b.pose = 'idle'; b.stamina = b.maxStamina; b.facing = Math.PI / 2;
     damageFighter(state, b, 20, a);
@@ -218,8 +218,8 @@ describe('P3 equipment combat', () => {
     state.time = 0.2; advanceControl(state, b);
     expect(b.x).toBeGreaterThan(origin); expect(b.x + b.radius).toBeLessThanOrEqual(7.5);
     state.time = 0.36; advanceControl(state, b); expect(b.pose).toBe('fallen');
-    state.time = 1.2; advanceControl(state, b); expect(b.pose).toBe('rising');
-    state.time = 1.6; advanceControl(state, b); expect(b.pose).toBe('idle');
+    state.time = 2.65; advanceControl(state, b); expect(b.pose).toBe('rising');
+    state.time = 3; advanceControl(state, b); expect(b.pose).toBe('idle');
     b.hp = 0; b.pose = 'airborne'; advanceControl(state, b); expect(b.pose).toBe('dead');
     expect(b.knockback).toBeUndefined();
   });
@@ -227,7 +227,7 @@ describe('P3 equipment combat', () => {
     const { state, a, b } = pair(); equip(a, 'club');
     a.species = 'elephant'; b.hp = 1000;
     hit(state, a);
-    expect(1000 - b.hp).toBe(Math.round(a.attack * 1.9 * 1.2));
+    expect(1000 - b.hp).toBe(a.attack + 3 + 2);
     const blocker = { ...b, id: 'blocker', x: 2, y: 0, hp: 100, maxHp: 100, pose: 'idle' as const, knockback: undefined };
     b.x = 4; b.hp = 100; b.pose = 'idle'; b.knockback = undefined;
     state.fighters.push(blocker); a.weapon = 'fists'; equip(a, 'bow');

@@ -1,3 +1,4 @@
+import { formatHp } from '../shared/format';
 import { CARDS } from '../shared/card-catalog';
 import { THROW_PROFILES } from '../shared/rules';
 import type { ArenaState } from '../shared/types';
@@ -24,7 +25,7 @@ export function createThrowFeedback(root: HTMLElement) {
       outcome = phase === 'paused' ? '暫停在途，續戰後繼續' : '飛行中';
     } else if (impact.reason === 'fighter') {
       phase = 'hit';
-      const damage = impact.damage > 0 ? `傷害 ${impact.damage}` : '未造成傷害';
+      const damage = impact.damage > 0 ? `傷害 ${formatHp(impact.damage)}` : '未造成傷害';
       const initial = result.itemKind === 'dung' ? '初撞' : '';
       outcome = `命中${fighterName(impact.fighterId)}，${initial}${damage}`;
       if (impact.dungApplied) outcome += '；施加虛弱 5 秒、每秒 1 點持傷';

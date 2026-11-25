@@ -66,12 +66,15 @@ test('真實結算防止舊手勢，重試保留開局與支持，新局仍向�
   }
 
   async function advanceToResult() {
-    // Each jump runs at most one frame, and 100 ms fits the simulation frame delta cap.
-    for (let elapsed = 0; elapsed < 61_000; elapsed += 100) {
+    // Each jump dispatches one RAF; 100ms matches the frame delta cap, at 3x.
+    for (let elapsed = 0; elapsed < 110_000; elapsed += 100) {
       await page.clock.fastForward(100);
-      if ((elapsed + 100) % 1000 === 0 && await result.isVisible()) return;
+      if ((elapsed + 100) % 1000 === 0 && await result.isVisible()) {
+        await expect(page.locator('[data-result-copy]')).toContainText(/站到了最後|競技場從不保證公平|時限裁決/);
+        return;
+      }
     }
-    throw new Error('3× 戰鬥推進 61 秒測試時鐘後仍未結算');
+    throw new Error('3× 戰鬥推進 330 遊戲秒後仍未結算');
   }
 
   const firstRound = await round.innerText();
