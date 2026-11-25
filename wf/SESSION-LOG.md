@@ -11,15 +11,27 @@
 
 ## 最新進度
 
-體系與規矩見 [org](org/README.md)；main 只協調，aos 用 new_mail 叫醒。**定時做事用 aos `clock_register`（已加進 main 的工具），絕不用 Claude Code 背景 Bash sleep**：會擋住 new_mail（2026-11-24 已回報 eca-aos，原因待查）。
+體系與規矩見 [org](org/README.md)；main 只協調，aos 用 new_mail 叫醒。**定時做事用 aos `clock_register`，絕不用 Claude Code 背景 Bash sleep**：會擋住 new_mail（2026-11-24 已回報 eca-aos，原因待查）。等人時用 `goal` 的 pause，收到信再 resume。
 
-- [org] **push**：上次推到 `2021caf`（2026-11-24）。之後未推：`8940627`、`4959f5b`、`81ba8df`、`46935cf`、`7d9b7bb`、`ab16431`、`22b5368`、`03b15e1`、`4661564`、`6895952`、`bc227ce` 等，要推得再問使用者（16:45 clock `wrap-up` 提醒）。
-- [game] **V3 第一切片完成（2026-11-25，暫定）**：實作 `03b15e1`，驗收證據 `4661564`＋`6895952`，產品文件 `bc227ce`。依據 [decisions](workflows/decisions.md) 2026-11-25（使用者授權機制／數值照 main 推薦）。給策劃的發現在 design pending-defaults PD08～PD10（熊 98%、作弊難啟動），見 [WAIT_USER](WAIT_USER.md)。qa 三項後續 E2E 已補（42/42，review 通過），E2E 基準改用 `wf/org/qa/assets/baselines/e2e-v3-f3c62ac.json`（存基準要用不帶 baseline 的成功結果）。後續候選：碰撞直徑 1 m 要先開 art。
-- [design] **PD10 作弊難啟動拆解完成**（結論 `wf/org/design/assets/audits/pd10-2026-11-25/conclusions.md`，證據 `wf/org/dev/assets/pd10-2026-11-25/`，raw 32 MB 在 /tmp）：主因是窄政策（只出三種直接法術）；同 seed 共同窗口兩版**成功數相同**（直接 279/7、全牌 287/264），但失敗細分略有不同（直接配對總石／色不足 33/23 對 31/25），只能說「不能由全局失敗總數推定 V3 退化」。任何牌都出時 63% 窗口能出牌，剩下是卡色。已提交 `c6e69c9`。**換石 v1**（連續兩窗卡色就棄首張＋換首顆石，證據 `wf/org/dev/assets/pd10-redraw-v1-2026-11-25/`）：卡色 37%→5.6%、成功局 94→100、零啟動 6→0、末窗卡色 52→4；只是固定簡單政策，不代表平衡接受，建議策劃／真人回看。只分析，沒改數值。
-- [org] **Claude 帳號切換**：使用者要 mine_arena 改用 `~/.claude-alt`（eca-aos 2026-11-25 轉達）。kb 在 `wf/aos/defs/daemon/.env` 加 `CLAUDE_CONFIG_DIR`（gitignored，不提交）；下次 daemon 起來才生效。生效後 main 是全新對話，`~/.claude` 底下的 Claude Code 記憶看不到，**只靠本檔、WAIT_USER、decisions.md 接續**；aos history 的 compact 摘要可能是舊的，不要依賴。main 的工具已加 `clock_register`、`goal`（在 stack 的 tools.json，換帳號不受影響）。
-- [org] 共用 Node 鎖：mecha-srpg 長測試組常佔 10～15 分鐘；2026-11-25 已和 mecha main 協調，它改小批並留空檔。再常卡就請使用者協調。
-- [org] eca-aos：意見記在 [aos-feedback](notes/investigations/aos-feedback.md)；背景 sleep 擋 new_mail 的原因待他們查。
-- [game] 捕獸夾試玩等使用者。未排程：種子、惠惠、未實作武器／法術。
+**常設規矩（換帳號後也要照做）**
+- push、對外動作、刪除都要使用者明確授權，並把原話引用給 integration。commit 由 integration 做，不 push。
+- 使用者 2026-11-25 授權：遊戲機制、數值類的設計由 main 照自己的推薦直接定，標「暫定」，等遊戲策劃確認（見 [decisions](workflows/decisions.md)）。
+- 使用者交代要注意 CPU 和記憶體：Node 工作一次一組，都走 `arena_verify` 和 `arena_e2e`；沙盤用 `arena_verify` 的 workspace 參數，在 /tmp 副本跑。
+- 證據放進 repo 前先量大小：raw 留在 /tmp，repo 只留摘要、manifest（含 hash）和可重建的 runner，目標 2 MiB 以內。
+- E2E 基準：`wf/org/qa/assets/baselines/e2e-v3-f3c62ac.json`。存基準一定要用不帶 baseline 跑出、status 成功的結果。
+
+**2026-11-25 收尾狀態**：工作區乾淨，HEAD 在 `41028d3` 之後的收尾 docs commit。
+
+- [org] **push 待授權**：上次推到 `2021caf`（2026-11-24），之後有 16 個 commit 加上收尾 commit 沒推，從 `8940627` 到 `41028d3`。下次見到使用者時先問。
+- [game] **V3 第一切片完成（暫定）**：實作 `03b15e1`，E2E 補測 `80f1014`，產品文件 `bc227ce`。依據 decisions 2026-11-25。下一步候選：碰撞直徑 1 m，要先開 art，跟 dev 一起確認畫面和碰撞對得上。
+- [design] **PD10 作弊經濟分析完成**（`c6e69c9`、`41028d3`；結論 `wf/org/design/assets/audits/pd10-2026-11-25/conclusions.md`）：
+  - 主因是模擬政策太窄。同 seed 共同窗口兩版成功數相同，只能說「不能由全局失敗總數推定 V3 退化」，不要說成兩版完全相同。
+  - 換石 v1 讓卡色從 37% 降到 5.6%。這只是固定的簡單政策，等策劃或真人回看。
+  - 沒改任何數值。
+- [game] 給策劃的 PD08～PD10 列在 [WAIT_USER](WAIT_USER.md)。捕獸夾試玩等使用者。未排程：種子、惠惠、未實作武器／法術。
+- [org] **Claude 帳號切換**：使用者要 mine_arena 改用 `~/.claude-alt`。`wf/aos/defs/daemon/.env` 已加 `CLAUDE_CONFIG_DIR`，這個檔被 gitignore，下次 daemon 起來才生效。生效後 main 是全新對話，`~/.claude` 底下的記憶看不到，**只靠本檔、WAIT_USER、decisions.md 接續**。aos history 的 compact 摘要可能是舊的。main 的 `clock_register`、`goal` 工具在 stack 的 tools.json，換帳號不受影響。如果上層 daemon 已經傳了 CLAUDE_CONFIG_DIR，以上層為準，已請 eca-aos 確認。
+- [org] **共用 Node 鎖**：mecha-srpg 改成小批以後，flock 沒有公平性，我們常常搶不到，今天協調過兩次（mecha main 的 box 是 `/home/guanyu/aos-home/.stack/procs/mine_mecha/procs/main/mailbox`）。要根治得換成公平排隊的鎖，或請使用者安排兩邊的時段。
+- [org] eca-aos：意見記在 [aos-feedback](notes/investigations/aos-feedback.md)，背景 sleep 擋 new_mail 的原因待他們查。
 
 ## 各工作流 session-log
 
