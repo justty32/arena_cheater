@@ -1,0 +1,73 @@
+{
+  "ok": true,
+  "project": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/old",
+  "steps": {
+    "test": {
+      "command": [
+        "npm",
+        "test"
+      ],
+      "scope_command": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--collect",
+        "--unit=arena-verify-test-bea6e53dc5104287810e9ef42c765879.scope",
+        "-p",
+        "MemoryMax=4G",
+        "-p",
+        "CPUQuota=400%",
+        "-p",
+        "TasksMax=256",
+        "--",
+        "npm",
+        "test"
+      ],
+      "unit": "arena-verify-test-bea6e53dc5104287810e9ef42c765879.scope",
+      "exit_code": 0,
+      "timed_out": false,
+      "log_path": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/logs/old-direct-source-fix/verify-fajuc6g0/test.log",
+      "stop_exit_code": 5,
+      "scope_cleaned": true,
+      "scope_status": "LoadState=not-found\nActiveState=inactive",
+      "duration_seconds": 8.107,
+      "test_files": 1,
+      "test_cases": 1
+    },
+    "build": {
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "scope_command": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--collect",
+        "--unit=arena-verify-build-1fd99f5fb1a743b4b1ae7f3feda35678.scope",
+        "-p",
+        "MemoryMax=4G",
+        "-p",
+        "CPUQuota=400%",
+        "-p",
+        "TasksMax=256",
+        "--",
+        "npm",
+        "run",
+        "build"
+      ],
+      "unit": "arena-verify-build-1fd99f5fb1a743b4b1ae7f3feda35678.scope",
+      "exit_code": 0,
+      "timed_out": false,
+      "log_path": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/logs/old-direct-source-fix/verify-fajuc6g0/build.log",
+      "stop_exit_code": 5,
+      "scope_cleaned": true,
+      "scope_status": "LoadState=not-found\nActiveState=inactive",
+      "duration_seconds": 6.673
+    }
+  },
+  "lock_wait_seconds": 83.088,
+  "log_dir": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/logs/old-direct-source-fix/verify-fajuc6g0",
+  "duration_seconds": 97.868
+}

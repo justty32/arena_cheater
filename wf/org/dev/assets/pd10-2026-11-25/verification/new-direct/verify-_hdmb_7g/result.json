@@ -1,0 +1,73 @@
+{
+  "ok": true,
+  "project": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/new",
+  "steps": {
+    "test": {
+      "command": [
+        "npm",
+        "test"
+      ],
+      "scope_command": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--collect",
+        "--unit=arena-verify-test-2d15394437114e3aaf8949e4a56db0a5.scope",
+        "-p",
+        "MemoryMax=4G",
+        "-p",
+        "CPUQuota=400%",
+        "-p",
+        "TasksMax=256",
+        "--",
+        "npm",
+        "test"
+      ],
+      "unit": "arena-verify-test-2d15394437114e3aaf8949e4a56db0a5.scope",
+      "exit_code": 0,
+      "timed_out": false,
+      "log_path": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/logs/new-direct/verify-_hdmb_7g/test.log",
+      "stop_exit_code": 5,
+      "scope_cleaned": true,
+      "scope_status": "LoadState=not-found\nActiveState=inactive",
+      "duration_seconds": 22.414,
+      "test_files": 1,
+      "test_cases": 1
+    },
+    "build": {
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "scope_command": [
+        "systemd-run",
+        "--user",
+        "--scope",
+        "--collect",
+        "--unit=arena-verify-build-6ee927c6e3774b9bba32e58a31396405.scope",
+        "-p",
+        "MemoryMax=4G",
+        "-p",
+        "CPUQuota=400%",
+        "-p",
+        "TasksMax=256",
+        "--",
+        "npm",
+        "run",
+        "build"
+      ],
+      "unit": "arena-verify-build-6ee927c6e3774b9bba32e58a31396405.scope",
+      "exit_code": 0,
+      "timed_out": false,
+      "log_path": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/logs/new-direct/verify-_hdmb_7g/build.log",
+      "stop_exit_code": 5,
+      "scope_cleaned": true,
+      "scope_status": "LoadState=not-found\nActiveState=inactive",
+      "duration_seconds": 10.096
+    }
+  },
+  "lock_wait_seconds": 31.232,
+  "log_dir": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/logs/new-direct/verify-_hdmb_7g",
+  "duration_seconds": 63.75
+}

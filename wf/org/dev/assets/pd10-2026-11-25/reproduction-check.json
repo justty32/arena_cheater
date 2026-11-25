@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "files": [
+    "src/arena/shared/audit.ts",
+    "src/arena/shared/resources.ts",
+    "src/arena/items/engine-cards.ts",
+    "src/arena/items/engine-items.ts",
+    "src/arena/sim/engine-damage.ts",
+    "tests/simulation/pd10.test.ts"
+  ],
+  "versions": [
+    "old",
+    "new"
+  ],
+  "method": "Execute updated prepare.py into alternate temporary root; byte-compare all instrumented files and runner against verified workspaces. No Node run."
+}

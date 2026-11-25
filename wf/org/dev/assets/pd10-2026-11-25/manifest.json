@@ -1,0 +1,430 @@
+{
+  "contract": "wf-table/1",
+  "source": "PD10 instrumented experiments",
+  "extracted": "2026-11-25",
+  "columns": [
+    "path",
+    "bytes",
+    "sha256",
+    "inRepo",
+    "externalPath"
+  ],
+  "link_columns": [],
+  "rows": [
+    {
+      "path": "README.md",
+      "bytes": 9375,
+      "sha256": "d7257d0c7c167942323c35e37d3a455d80c420f49d675194d4ab78a4f65743d0",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "audit.ts",
+      "bytes": 493,
+      "sha256": "36105c79dacf55752b7dadcbd13bf100b1c9d990484ba25d5d441ab9f8ffae20",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "comparisons.json",
+      "bytes": 315474,
+      "sha256": "296a02a374f38f56f9c46b208c535259a8aaede25590427067be9ecdaba2d5ea",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/new/src/arena/data/arena-balance.json",
+      "bytes": 15463,
+      "sha256": "5ba143654cb8a0a98c1fa640b250610d3cf35783a8b1ebc1da38d065bb9ae223",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/new/src/arena/items/engine-cards.ts",
+      "bytes": 6880,
+      "sha256": "bb74e89ae5a843923fb3366d6a3e74c271821e50072b2eb00701aac88a540599",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/new/src/arena/shared/balance-schema.ts",
+      "bytes": 12775,
+      "sha256": "f0f579ea02b5ebc5d572f786629905a453a81bf39ba1096b06ebeb43142abd86",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/new/src/arena/shared/balance.ts",
+      "bytes": 2290,
+      "sha256": "5eb75aa0cb4edeefe9b4af082176572b083767d7791d507687664b6343147573",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/new/src/arena/shared/card-catalog.ts",
+      "bytes": 4642,
+      "sha256": "9009d0ceb232dbb8ea485610fc05a4cffc7d4e9bf55ca13bb847e5d175ad0016",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/new/src/arena/shared/resources.ts",
+      "bytes": 520,
+      "sha256": "fa107445e5141e51aefa92c6c85ade84a635605261199b39f555f282bea2f8e4",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/new/src/arena/shared/rules.ts",
+      "bytes": 1436,
+      "sha256": "23df2cf1598a483464a3a5604f4f7a248553b0769f34b4b1b27ea0392964e026",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/old/src/arena/data/arena-balance.json",
+      "bytes": 15319,
+      "sha256": "2acb5c554850eaec07e9c7e87559a6034d250f8984477ca58832cff9f17cac72",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/old/src/arena/items/engine-cards.ts",
+      "bytes": 6880,
+      "sha256": "bb74e89ae5a843923fb3366d6a3e74c271821e50072b2eb00701aac88a540599",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/old/src/arena/shared/balance-schema.ts",
+      "bytes": 12671,
+      "sha256": "f724d8731802541f17b0b875fe0f52c755cad84dfc665bd15f0c74697489c308",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/old/src/arena/shared/balance.ts",
+      "bytes": 2290,
+      "sha256": "5eb75aa0cb4edeefe9b4af082176572b083767d7791d507687664b6343147573",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/old/src/arena/shared/card-catalog.ts",
+      "bytes": 4642,
+      "sha256": "9009d0ceb232dbb8ea485610fc05a4cffc7d4e9bf55ca13bb847e5d175ad0016",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/old/src/arena/shared/resources.ts",
+      "bytes": 520,
+      "sha256": "fa107445e5141e51aefa92c6c85ade84a635605261199b39f555f282bea2f8e4",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "native-sources/old/src/arena/shared/rules.ts",
+      "bytes": 1436,
+      "sha256": "23df2cf1598a483464a3a5604f4f7a248553b0769f34b4b1b27ea0392964e026",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "new-all-blocking-detail.json",
+      "bytes": 159374,
+      "sha256": "9d9cc96b41c4cca91377da586efe757e7df664567ae53133a7dec8f47349f9c9",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "new-all-summary.json",
+      "bytes": 333043,
+      "sha256": "3067faa7453cf07607838cf1c38aea22fccdb288fa289dacc7b5da85a84e82eb",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "new-direct-summary.json",
+      "bytes": 208607,
+      "sha256": "9e45f77ca8c20b47e5b283004613537dc485fa887e47d56b932e8d28f61bc55b",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "new-instrumentation.patch",
+      "bytes": 6708,
+      "sha256": "4900439419fbc69ca076cf49fcb34c7d3bcdee53947b0fafa7a8ed4c5ab7da11",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "old-all-summary.json",
+      "bytes": 265812,
+      "sha256": "b2cb35c09be599aecc6c4d5578d4d16044dd9d021615bee6e1f90ebb4ef14607",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "old-direct-summary.json",
+      "bytes": 203740,
+      "sha256": "db6d75c6e3a30a260e3f5bb4ecb959574d6bf8e019ac700420a957f1994cd8bd",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "old-instrumentation.patch",
+      "bytes": 6680,
+      "sha256": "bc494a9afce1e2449237384ee1a73ce7463075442e8d52f6dc2ca823085fc599",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "prepare.py",
+      "bytes": 5297,
+      "sha256": "941f73ac02bd2f7cb4432377d891eeb797d1e79dc330fd7608519012d39906e6",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "raw/new-direct-initial-results.json",
+      "bytes": 5019124,
+      "sha256": "cea0e1307730c5a8da1ff8681dcfaa6a3bd2aa55571c59d7f5466212e1d17d62",
+      "inRepo": false,
+      "externalPath": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25-raw/new-direct-initial-results.json"
+    },
+    {
+      "path": "raw/old-direct-initial-results.json",
+      "bytes": 1632666,
+      "sha256": "74fdb8985c2d003afcbf4deae276f7282d004ca9f243537490d80fed7a970dc8",
+      "inRepo": false,
+      "externalPath": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25-raw/old-direct-initial-results.json"
+    },
+    {
+      "path": "raw/pd10-new-all-results.json",
+      "bytes": 16674655,
+      "sha256": "f5221a3bf9ac741770754e37b97cd9152533e9a1fdb69f6da2486a0980308b73",
+      "inRepo": false,
+      "externalPath": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25-raw/pd10-new-all-results.json"
+    },
+    {
+      "path": "raw/pd10-new-direct-results.json",
+      "bytes": 5019124,
+      "sha256": "db922269fb40740bd8a9f481f2bf473c69c47bef4d9238692b31422762090516",
+      "inRepo": false,
+      "externalPath": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25-raw/pd10-new-direct-results.json"
+    },
+    {
+      "path": "raw/pd10-old-all-results.json",
+      "bytes": 3096760,
+      "sha256": "cea195cbd022962bce21fc7a6130aec46f269018d34f1e26d37664185e8c6fbf",
+      "inRepo": false,
+      "externalPath": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25-raw/pd10-old-all-results.json"
+    },
+    {
+      "path": "raw/pd10-old-direct-results.json",
+      "bytes": 1632666,
+      "sha256": "c0c5f92d92b8ed82f921d6257643cd2993ab1ecc62c8bac131f9b604d0c381ca",
+      "inRepo": false,
+      "externalPath": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25-raw/pd10-old-direct-results.json"
+    },
+    {
+      "path": "reproduction-check.json",
+      "bytes": 465,
+      "sha256": "72167261e3978d71ec9203857b7cbe06f0d0086d8711f890fb56449d06f57e49",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "runner-equivalence.json",
+      "bytes": 220,
+      "sha256": "0dd4b6e9b776fcbafc98e5694a6eeac6f93d957a34779a8f4ec96712d749a17c",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "runner.test.ts",
+      "bytes": 10691,
+      "sha256": "0ed07daf407b25b9b2dc15ee83afae803ca08b173aa5d33c42dde03bc6fa67c7",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "summarize.py",
+      "bytes": 6791,
+      "sha256": "abdf13ee6da0c49c9534eca450c38b43b0f80c32758d0d45e6ef87fbe6466cd2",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-all/verify-ggly35mj/result.json",
+      "bytes": 274,
+      "sha256": "64ac1f48b198d52708ff1ab472b08dc53790125b81c1e7680d19e07ed6894c60",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-all/verify-p9ys3m5y/build.log",
+      "bytes": 750,
+      "sha256": "40828ef90e1c207e93c1eee48a412e029a27cf54b4fa800657156034774d0718",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-all/verify-p9ys3m5y/result.json",
+      "bytes": 1946,
+      "sha256": "5a6529c1079c71952c16d39191406937c319ed7dd0595dcfc2a2c4b5549c1b83",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-all/verify-p9ys3m5y/test.log",
+      "bytes": 1822,
+      "sha256": "fadbe2192be3b22a6950bd345a297ad1c4227ae510daf5df608e2df6b990ac1e",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-all-source-fix/verify-0p9645du/result.json",
+      "bytes": 285,
+      "sha256": "7791c6c204198527343c14db2b54c6cec9e47b7a0c288d48a8a8d9255e6020b2",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-all-source-fix/verify-ueoe5tj2/build.log",
+      "bytes": 750,
+      "sha256": "90427e0b9f8b798835b4a8d0f136edb7b2c5a5c496f29d69c5fffd89ce46c359",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-all-source-fix/verify-ueoe5tj2/result.json",
+      "bytes": 1974,
+      "sha256": "0a694c4f59041e1e5c59c36189c07469e179cedf112da20f5302d027b1ec3449",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-all-source-fix/verify-ueoe5tj2/test.log",
+      "bytes": 749,
+      "sha256": "7e9afc995aadce96daa75497a6ddfb52fbdb575165d720c2485ffb681142433d",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-direct/verify-_hdmb_7g/build.log",
+      "bytes": 1161,
+      "sha256": "32dccdb0d820b517f74d0a4da99aab2e5bd26d4b9173cf4859f73220081e7db4",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-direct/verify-_hdmb_7g/result.json",
+      "bytes": 1952,
+      "sha256": "3636b0b741e8a151f7c6020f032498f6ae79085d277344d4fe591737f7ec8518",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-direct/verify-_hdmb_7g/test.log",
+      "bytes": 758,
+      "sha256": "5a0c9ce1d2cf173f58fc89a9026a2bcada8fd33fb01c4df727a9af0c5b279ef3",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-direct-source-fix/verify-jdkp4wlm/build.log",
+      "bytes": 750,
+      "sha256": "a3c2c2dfaf6a60d19eeec6df7a9f8078e17d50ef8ae23160ae34de5f7cf839f9",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-direct-source-fix/verify-jdkp4wlm/result.json",
+      "bytes": 1985,
+      "sha256": "91692d7dbf9f15fc44def6be39c3502dbf310a12a9b693701d34b385936f94eb",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/new-direct-source-fix/verify-jdkp4wlm/test.log",
+      "bytes": 747,
+      "sha256": "885d9339890562f11b6f2db9ecd2c5c65aad81640bd75f75294d6f8341863f0b",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-all/verify-fy5oq_64/build.log",
+      "bytes": 750,
+      "sha256": "203fb595dbbefde36f52c6d579f258014f6637f254a7f7a7501d835269b41468",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-all/verify-fy5oq_64/result.json",
+      "bytes": 1938,
+      "sha256": "bd84975bea81a51df100c8efa4ed68405089f40258062a11eef0885bd79655c4",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-all/verify-fy5oq_64/test.log",
+      "bytes": 759,
+      "sha256": "a21dcc2df48dbaa861e6fed8c49c60fdd99966e9ca17fa291ffb55ab6933bc5b",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-direct/verify-b7z96j_9/build.log",
+      "bytes": 750,
+      "sha256": "1f565ff84bf044b7cb265132b586a323f8cc8ce08743ba4a70b5e0b63092ef41",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-direct/verify-b7z96j_9/result.json",
+      "bytes": 1952,
+      "sha256": "5745e39d079591af1cda505c78493023b840cb436b6ab9dea0d4212bc1b59f5b",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-direct/verify-b7z96j_9/test.log",
+      "bytes": 759,
+      "sha256": "c46ebf1d3a398325c718f1da2bedaedbb1475054a59407219b7887ff0688ede7",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-direct-source-fix/verify-fajuc6g0/build.log",
+      "bytes": 750,
+      "sha256": "16a97fd7654cfcd08953f4c4a16d359b804a67a8f092bf8eda8a40f572517ce5",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-direct-source-fix/verify-fajuc6g0/result.json",
+      "bytes": 1984,
+      "sha256": "fdd2b2979f8abe78d31ec1c8ce9fa26009c29e8783792a529a0092ddf046587e",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-direct-source-fix/verify-fajuc6g0/test.log",
+      "bytes": 759,
+      "sha256": "5f10f4460a24506e0593a6be892f01c8b9c4bec04a8d5ba209217df8d0e93fe9",
+      "inRepo": true,
+      "externalPath": null
+    },
+    {
+      "path": "verification/old-direct-source-fix/verify-fx5okgu7/result.json",
+      "bytes": 288,
+      "sha256": "f62a7e1e6d6de687483d550dcb8bb39413f206a35002b34d40db110243c875c0",
+      "inRepo": true,
+      "externalPath": null
+    }
+  ],
+  "externalRawRoot": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25-raw",
+  "externalRawPersistence": "暫存、不在 repo；可能被系統清理，可由保留的 runner 與插樁重建。"
+}

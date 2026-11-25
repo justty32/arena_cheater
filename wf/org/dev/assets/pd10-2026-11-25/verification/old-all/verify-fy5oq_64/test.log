@@ -1,0 +1,14 @@
+Running as unit: arena-verify-test-d3bb94df794042b79bb52ba98b3a35df.scope; invocation ID: 82ca94abd12f4322bafa82f02427af38
+npm notice run arena-cheater@0.1.0 test
+npm notice run vitest run
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.5 [39m[90m/tmp/aos/arena_cheater/dev/pd10-2026-11-25/old[39m
+
+ [32m✓[39m tests/simulation/pd10.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 2779[2mms[22m[39m
+   [33m[2m✓[22m[39m PD10 sequential 100-seed instrumented policy report[33m 2774[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m   Start at [22m 14:30:47
+[2m   Duration [22m 5.67s[2m (tests 72%, transform 15%, import 10%, worker 2%)[22m
+

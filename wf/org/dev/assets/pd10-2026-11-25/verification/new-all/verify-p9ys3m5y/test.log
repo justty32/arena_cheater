@@ -1,0 +1,35 @@
+Running as unit: arena-verify-test-5036fd134c8445fa8b49f96c1291eecf.scope; invocation ID: 95b0782c094d46609af4a6a74304e52d
+npm notice run arena-cheater@0.1.0 test
+npm notice run vitest run
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.5 [39m[90m/tmp/aos/arena_cheater/dev/pd10-2026-11-25/new[39m
+
+ [31m❯[39m tests/simulation/pd10.test.ts [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1098[2mms[22m[39m
+[31m   [31m×[31m PD10 sequential 100-seed instrumented policy report[39m[33m 1096[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/simulation/pd10.test.ts[2m > [22mPD10 sequential 100-seed instrumented policy report
+[31m[1mAssertionError[22m: expected 'death' to be 'expense' // Object.is equality[39m
+
+Expected: [32m"expense"[39m
+Received: [31m"death"[39m
+
+[36m [2m❯[22m tests/simulation/pd10.test.ts:[2m120:32[22m[39m
+    [90m118|[39m       if (previous?.kind === 'death' && previous.supportedKill) e.sour…
+    [90m119|[39m       else {
+    [90m120|[39m         expect(previous?.kind).toBe('expense');
+    [90m   |[39m                                [31m^[39m
+    [90m121|[39m         e.source='successful-play';
+    [90m122|[39m       }
+[90m [2m❯[22m normalizeEvents tests/simulation/pd10.test.ts:[2m113:10[22m[39m
+[90m [2m❯[22m tests/simulation/pd10.test.ts:[2m174:18[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m   Start at [22m 14:24:22
+[2m   Duration [22m 3.60s[2m (tests 64%, import 18%, transform 15%, worker 3%)[22m
+

@@ -1,0 +1,5852 @@
+{
+  "colorBlockedWindows": 1183,
+  "gamesWithColorBlock": 60,
+  "gamesEndingColorBlocked": 52,
+  "zeroSuccessSeeds": [
+    9,
+    20,
+    28,
+    29,
+    46,
+    61
+  ],
+  "zeroSuccessGames": {
+    "contract": "wf-table/1",
+    "columns": [
+      "seed",
+      "windows",
+      "firstWindow",
+      "lastWindow",
+      "initial",
+      "final",
+      "firstSupportedKill",
+      "wolfDeath"
+    ],
+    "rows": [
+      {
+        "seed": 9,
+        "windows": 36,
+        "firstWindow": {
+          "scheduled": 5,
+          "time": 4.999999999999992,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "divine-wrath"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "red"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 0,
+              "black": 0,
+              "red": 2
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -1.786167096188488,
+                    "y": 5.7101453640941475
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "divine-wrath",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 4
+                }
+              },
+              "requiredTotal": 4,
+              "totalEnough": false,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 2
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -1.786167096188488,
+                    "y": 5.7101453640941475
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "divine-wrath",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 4
+                }
+              },
+              "requiredTotal": 4,
+              "totalEnough": false,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 2
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -1.786167096188488,
+                    "y": 5.7101453640941475
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "divine-wrath"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "red"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 0,
+              "black": 0,
+              "red": 2
+            }
+          }
+        },
+        "lastWindow": {
+          "scheduled": 180,
+          "time": 179.99999999999235,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 1.2,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "divine-wrath"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "red"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              },
+              {
+                "id": 331,
+                "color": "blue"
+              },
+              {
+                "id": 332,
+                "color": "red"
+              },
+              {
+                "id": 333,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 1,
+              "green": 1,
+              "black": 0,
+              "red": 3
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": 4.328021757155997,
+                    "y": 2.889777933524888
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.444219288240592,
+                    "y": 1.474424041888896
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5.735657592918503,
+                    "y": -1.7245751273544019
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5.287937260146915,
+                    "y": -2.8054676268817818
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.312863993131172,
+                    "y": 2.4354875880322115
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": 3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": 3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": 3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": 3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": 3
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "divine-wrath",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 4
+                }
+              },
+              "requiredTotal": 4,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": 4.328021757155997,
+                    "y": 2.889777933524888
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "divine-wrath",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 4
+                }
+              },
+              "requiredTotal": 4,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": 4.328021757155997,
+                    "y": 2.889777933524888
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 1.2,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "divine-wrath"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "red"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              },
+              {
+                "id": 331,
+                "color": "blue"
+              },
+              {
+                "id": 332,
+                "color": "red"
+              },
+              {
+                "id": 333,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 1,
+              "green": 1,
+              "black": 0,
+              "red": 3
+            }
+          }
+        },
+        "initial": {
+          "phase": "ready",
+          "wolfHp": 100,
+          "wolfAlive": true,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "divine-wrath"
+            },
+            {
+              "id": 3,
+              "cardId": "divine-wrath"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "yellow"
+            },
+            {
+              "id": 5,
+              "color": "red"
+            },
+            {
+              "id": 6,
+              "color": "red"
+            }
+          ],
+          "inventory": {
+            "yellow": 1,
+            "blue": 0,
+            "green": 0,
+            "black": 0,
+            "red": 2
+          }
+        },
+        "final": {
+          "phase": "finished",
+          "wolfHp": 0,
+          "wolfAlive": false,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "divine-wrath"
+            },
+            {
+              "id": 3,
+              "cardId": "divine-wrath"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "yellow"
+            },
+            {
+              "id": 5,
+              "color": "red"
+            },
+            {
+              "id": 6,
+              "color": "red"
+            },
+            {
+              "id": 331,
+              "color": "blue"
+            },
+            {
+              "id": 332,
+              "color": "red"
+            },
+            {
+              "id": 333,
+              "color": "green"
+            }
+          ],
+          "inventory": {
+            "yellow": 1,
+            "blue": 1,
+            "green": 1,
+            "black": 0,
+            "red": 3
+          }
+        },
+        "firstSupportedKill": 104.96666666666327,
+        "wolfDeath": 181.79999999999225
+      },
+      {
+        "seed": 20,
+        "windows": 45,
+        "firstWindow": {
+          "scheduled": 5,
+          "time": 4.999999999999992,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "bloodlust"
+              },
+              {
+                "id": 3,
+                "cardId": "lightning-rain"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "blue"
+              },
+              {
+                "id": 5,
+                "color": "blue"
+              },
+              {
+                "id": 6,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 0,
+              "blue": 2,
+              "green": 1,
+              "black": 0,
+              "red": 0
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -1.724575127354402,
+                    "y": 5.735657592918487
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "bloodlust",
+              "cost": {
+                "generic": 1,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 2,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "fighterId": "fighter-0"
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "lightning-rain",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -1.724575127354402,
+                    "y": 5.735657592918487
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "bloodlust"
+              },
+              {
+                "id": 3,
+                "cardId": "lightning-rain"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "blue"
+              },
+              {
+                "id": 5,
+                "color": "blue"
+              },
+              {
+                "id": 6,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 0,
+              "blue": 2,
+              "green": 1,
+              "black": 0,
+              "red": 0
+            }
+          }
+        },
+        "lastWindow": {
+          "scheduled": 225,
+          "time": 224.9999999999898,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 4,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "bloodlust"
+              },
+              {
+                "id": 3,
+                "cardId": "lightning-rain"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "blue"
+              },
+              {
+                "id": 5,
+                "color": "blue"
+              },
+              {
+                "id": 6,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 0,
+              "blue": 2,
+              "green": 1,
+              "black": 0,
+              "red": 0
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -2.617462580879239,
+                    "y": -0.5280185608135914
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5.3048070934529825,
+                    "y": -2.740319893698772
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5.705885163920281,
+                    "y": -1.7588666089280252
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -7
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -6
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -5
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": -4
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": -3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": -2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": -1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": 0
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": 1
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -7,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 0,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 1,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 2,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 3,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 6,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 7,
+                    "y": 2
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -6,
+                    "y": 3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -5,
+                    "y": 3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -4,
+                    "y": 3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -3,
+                    "y": 3
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2,
+                    "y": 3
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "bloodlust",
+              "cost": {
+                "generic": 1,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 2,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "fighterId": "fighter-0"
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "lightning-rain",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -2.617462580879239,
+                    "y": -0.5280185608135914
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 4,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "bloodlust"
+              },
+              {
+                "id": 3,
+                "cardId": "lightning-rain"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "blue"
+              },
+              {
+                "id": 5,
+                "color": "blue"
+              },
+              {
+                "id": 6,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 0,
+              "blue": 2,
+              "green": 1,
+              "black": 0,
+              "red": 0
+            }
+          }
+        },
+        "initial": {
+          "phase": "ready",
+          "wolfHp": 100,
+          "wolfAlive": true,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "bloodlust"
+            },
+            {
+              "id": 3,
+              "cardId": "lightning-rain"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "blue"
+            },
+            {
+              "id": 5,
+              "color": "blue"
+            },
+            {
+              "id": 6,
+              "color": "green"
+            }
+          ],
+          "inventory": {
+            "yellow": 0,
+            "blue": 2,
+            "green": 1,
+            "black": 0,
+            "red": 0
+          }
+        },
+        "final": {
+          "phase": "finished",
+          "wolfHp": 0,
+          "wolfAlive": false,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "bloodlust"
+            },
+            {
+              "id": 3,
+              "cardId": "lightning-rain"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "blue"
+            },
+            {
+              "id": 5,
+              "color": "blue"
+            },
+            {
+              "id": 6,
+              "color": "green"
+            }
+          ],
+          "inventory": {
+            "yellow": 0,
+            "blue": 2,
+            "green": 1,
+            "black": 0,
+            "red": 0
+          }
+        },
+        "firstSupportedKill": null,
+        "wolfDeath": 228.76666666665625
+      },
+      {
+        "seed": 28,
+        "windows": 39,
+        "firstWindow": {
+          "scheduled": 5,
+          "time": 4.999999999999992,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "hatchet"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "red"
+              },
+              {
+                "id": 5,
+                "color": "blue"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 0,
+              "blue": 1,
+              "green": 0,
+              "black": 0,
+              "red": 2
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -5.300693374559085,
+                    "y": -2.774671642464739
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.441187654888989,
+                    "y": -0.3471923614663126
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.236912802498225,
+                    "y": -2.9286515645499516
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2.743875658047694,
+                    "y": 5.313449488971237
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "divine-wrath",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 4
+                }
+              },
+              "requiredTotal": 4,
+              "totalEnough": false,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 2
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -5.300693374559085,
+                    "y": -2.774671642464739
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "hatchet",
+              "cost": {
+                "generic": 2,
+                "colored": {
+                  "yellow": 1
+                }
+              },
+              "requiredTotal": 3,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "yellow": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -1.8477590650225737,
+                    "y": 5.684633135269808
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "hatchet"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "red"
+              },
+              {
+                "id": 5,
+                "color": "blue"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 0,
+              "blue": 1,
+              "green": 0,
+              "black": 0,
+              "red": 2
+            }
+          }
+        },
+        "lastWindow": {
+          "scheduled": 195,
+          "time": 194.9999999999915,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 2,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "hatchet"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "red"
+              },
+              {
+                "id": 5,
+                "color": "blue"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 0,
+              "blue": 1,
+              "green": 0,
+              "black": 0,
+              "red": 2
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -2.8173231310818494,
+                    "y": 4.587685941457197
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "divine-wrath",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 4
+                }
+              },
+              "requiredTotal": 4,
+              "totalEnough": false,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 2
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -2.8173231310818494,
+                    "y": 4.587685941457197
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "hatchet",
+              "cost": {
+                "generic": 2,
+                "colored": {
+                  "yellow": 1
+                }
+              },
+              "requiredTotal": 3,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "yellow": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -2.0905886708051975,
+                    "y": 5.409900124876262
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 2,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "hatchet"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "red"
+              },
+              {
+                "id": 5,
+                "color": "blue"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 0,
+              "blue": 1,
+              "green": 0,
+              "black": 0,
+              "red": 2
+            }
+          }
+        },
+        "initial": {
+          "phase": "ready",
+          "wolfHp": 100,
+          "wolfAlive": true,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "divine-wrath"
+            },
+            {
+              "id": 3,
+              "cardId": "hatchet"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "red"
+            },
+            {
+              "id": 5,
+              "color": "blue"
+            },
+            {
+              "id": 6,
+              "color": "red"
+            }
+          ],
+          "inventory": {
+            "yellow": 0,
+            "blue": 1,
+            "green": 0,
+            "black": 0,
+            "red": 2
+          }
+        },
+        "final": {
+          "phase": "finished",
+          "wolfHp": 0,
+          "wolfAlive": false,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "divine-wrath"
+            },
+            {
+              "id": 3,
+              "cardId": "hatchet"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "red"
+            },
+            {
+              "id": 5,
+              "color": "blue"
+            },
+            {
+              "id": 6,
+              "color": "red"
+            }
+          ],
+          "inventory": {
+            "yellow": 0,
+            "blue": 1,
+            "green": 0,
+            "black": 0,
+            "red": 2
+          }
+        },
+        "firstSupportedKill": null,
+        "wolfDeath": 195.13333333332483
+      },
+      {
+        "seed": 29,
+        "windows": 36,
+        "firstWindow": {
+          "scheduled": 5,
+          "time": 4.999999999999992,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "lightning-rain"
+              },
+              {
+                "id": 3,
+                "cardId": "bloodlust"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "green"
+              },
+              {
+                "id": 6,
+                "color": "yellow"
+              }
+            ],
+            "inventory": {
+              "yellow": 2,
+              "blue": 0,
+              "green": 1,
+              "black": 0,
+              "red": 0
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": 5.236912802498225,
+                    "y": -2.9286515645499516
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.441187654888989,
+                    "y": -0.3471923614663126
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2.774671642464737,
+                    "y": 5.300693374559075
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "lightning-rain",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": 5.236912802498225,
+                    "y": -2.9286515645499516
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "bloodlust",
+              "cost": {
+                "generic": 1,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 2,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "fighterId": "fighter-0"
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "lightning-rain"
+              },
+              {
+                "id": 3,
+                "cardId": "bloodlust"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "green"
+              },
+              {
+                "id": 6,
+                "color": "yellow"
+              }
+            ],
+            "inventory": {
+              "yellow": 2,
+              "blue": 0,
+              "green": 1,
+              "black": 0,
+              "red": 0
+            }
+          }
+        },
+        "lastWindow": {
+          "scheduled": 180,
+          "time": 179.99999999999235,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 4,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "lightning-rain"
+              },
+              {
+                "id": 3,
+                "cardId": "bloodlust"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "green"
+              },
+              {
+                "id": 6,
+                "color": "yellow"
+              }
+            ],
+            "inventory": {
+              "yellow": 2,
+              "blue": 0,
+              "green": 1,
+              "black": 0,
+              "red": 0
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -4.23172902672459,
+                    "y": -2.68764284657706
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2.774671642464737,
+                    "y": 5.300693374559075
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "lightning-rain",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -4.23172902672459,
+                    "y": -2.68764284657706
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "bloodlust",
+              "cost": {
+                "generic": 1,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 2,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "fighterId": "fighter-0"
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 4,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "lightning-rain"
+              },
+              {
+                "id": 3,
+                "cardId": "bloodlust"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "green"
+              },
+              {
+                "id": 6,
+                "color": "yellow"
+              }
+            ],
+            "inventory": {
+              "yellow": 2,
+              "blue": 0,
+              "green": 1,
+              "black": 0,
+              "red": 0
+            }
+          }
+        },
+        "initial": {
+          "phase": "ready",
+          "wolfHp": 100,
+          "wolfAlive": true,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "lightning-rain"
+            },
+            {
+              "id": 3,
+              "cardId": "bloodlust"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "yellow"
+            },
+            {
+              "id": 5,
+              "color": "green"
+            },
+            {
+              "id": 6,
+              "color": "yellow"
+            }
+          ],
+          "inventory": {
+            "yellow": 2,
+            "blue": 0,
+            "green": 1,
+            "black": 0,
+            "red": 0
+          }
+        },
+        "final": {
+          "phase": "finished",
+          "wolfHp": 0,
+          "wolfAlive": false,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "lightning-rain"
+            },
+            {
+              "id": 3,
+              "cardId": "bloodlust"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "yellow"
+            },
+            {
+              "id": 5,
+              "color": "green"
+            },
+            {
+              "id": 6,
+              "color": "yellow"
+            }
+          ],
+          "inventory": {
+            "yellow": 2,
+            "blue": 0,
+            "green": 1,
+            "black": 0,
+            "red": 0
+          }
+        },
+        "firstSupportedKill": null,
+        "wolfDeath": 182.63333333332554
+      },
+      {
+        "seed": 46,
+        "windows": 38,
+        "firstWindow": {
+          "scheduled": 5,
+          "time": 4.999999999999992,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "bloodlust"
+              },
+              {
+                "id": 3,
+                "cardId": "intuition"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "green"
+              },
+              {
+                "id": 6,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 2,
+              "black": 0,
+              "red": 0
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -5.705885163920281,
+                    "y": -1.7588666089280252
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.441187654888989,
+                    "y": -0.3471923614663126
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.236912802498225,
+                    "y": -2.9286515645499516
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -2.774671642464737,
+                    "y": 5.300693374559068
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "bloodlust",
+              "cost": {
+                "generic": 1,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 2,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "fighterId": "fighter-0"
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "intuition",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "blue": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "blue": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {},
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 97,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "bloodlust"
+              },
+              {
+                "id": 3,
+                "cardId": "intuition"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "green"
+              },
+              {
+                "id": 6,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 2,
+              "black": 0,
+              "red": 0
+            }
+          }
+        },
+        "lastWindow": {
+          "scheduled": 190,
+          "time": 189.9999999999918,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 4,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "bloodlust"
+              },
+              {
+                "id": 3,
+                "cardId": "intuition"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "green"
+              },
+              {
+                "id": 6,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 2,
+              "black": 0,
+              "red": 0
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -2.8645421924174816,
+                    "y": 4.60248660182329
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "bloodlust",
+              "cost": {
+                "generic": 1,
+                "colored": {
+                  "red": 1
+                }
+              },
+              "requiredTotal": 2,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "fighterId": "fighter-0"
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "intuition",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "blue": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "blue": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {},
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 4,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "bloodlust"
+              },
+              {
+                "id": 3,
+                "cardId": "intuition"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "yellow"
+              },
+              {
+                "id": 5,
+                "color": "green"
+              },
+              {
+                "id": 6,
+                "color": "green"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 2,
+              "black": 0,
+              "red": 0
+            }
+          }
+        },
+        "initial": {
+          "phase": "ready",
+          "wolfHp": 100,
+          "wolfAlive": true,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "bloodlust"
+            },
+            {
+              "id": 3,
+              "cardId": "intuition"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "yellow"
+            },
+            {
+              "id": 5,
+              "color": "green"
+            },
+            {
+              "id": 6,
+              "color": "green"
+            }
+          ],
+          "inventory": {
+            "yellow": 1,
+            "blue": 0,
+            "green": 2,
+            "black": 0,
+            "red": 0
+          }
+        },
+        "final": {
+          "phase": "finished",
+          "wolfHp": 0,
+          "wolfAlive": false,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "bloodlust"
+            },
+            {
+              "id": 3,
+              "cardId": "intuition"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "yellow"
+            },
+            {
+              "id": 5,
+              "color": "green"
+            },
+            {
+              "id": 6,
+              "color": "green"
+            }
+          ],
+          "inventory": {
+            "yellow": 1,
+            "blue": 0,
+            "green": 2,
+            "black": 0,
+            "red": 0
+          }
+        },
+        "firstSupportedKill": null,
+        "wolfDeath": 193.03333333332495
+      },
+      {
+        "seed": 61,
+        "windows": 22,
+        "firstWindow": {
+          "scheduled": 5,
+          "time": 4.999999999999992,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 94,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "intuition"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "green"
+              },
+              {
+                "id": 5,
+                "color": "yellow"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 1,
+              "black": 0,
+              "red": 1
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -5.710145364094165,
+                    "y": -1.7861670961884877
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.441187654888989,
+                    "y": -0.3471923614663126
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.236912802498225,
+                    "y": -2.9286515645499516
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1.8169630806055308,
+                    "y": 5.697389249681978
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "divine-wrath",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 4
+                }
+              },
+              "requiredTotal": 4,
+              "totalEnough": false,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 3
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -5.710145364094165,
+                    "y": -1.7861670961884877
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "intuition",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "blue": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "blue": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {},
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 94,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "intuition"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "green"
+              },
+              {
+                "id": 5,
+                "color": "yellow"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 1,
+              "black": 0,
+              "red": 1
+            }
+          }
+        },
+        "lastWindow": {
+          "scheduled": 110,
+          "time": 109.99999999999632,
+          "executed": true,
+          "skipReason": null,
+          "before": {
+            "phase": "running",
+            "wolfHp": 4,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "intuition"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "green"
+              },
+              {
+                "id": 5,
+                "color": "yellow"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 1,
+              "black": 0,
+              "red": 1
+            }
+          },
+          "checks": [
+            {
+              "handId": 1,
+              "cardId": "dung",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "black": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "black": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -5.710145364094165,
+                    "y": -1.7861670961884877
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.312548720529502,
+                    "y": -2.400708715040643
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": 5.469562299079897,
+                    "y": -1.3047453390520842
+                  },
+                  "targetReason": "out-of-range",
+                  "apiReason": "out-of-range"
+                },
+                {
+                  "target": {
+                    "x": -1.8169630806055308,
+                    "y": 5.697389249681978
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 2,
+              "cardId": "divine-wrath",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "red": 4
+                }
+              },
+              "requiredTotal": 4,
+              "totalEnough": false,
+              "coloredEnough": false,
+              "missingColors": {
+                "red": 3
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {
+                    "x": -5.710145364094165,
+                    "y": -1.7861670961884877
+                  },
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            },
+            {
+              "handId": 3,
+              "cardId": "intuition",
+              "cost": {
+                "generic": 0,
+                "colored": {
+                  "blue": 1
+                }
+              },
+              "requiredTotal": 1,
+              "totalEnough": true,
+              "coloredEnough": false,
+              "missingColors": {
+                "blue": 1
+              },
+              "targetLegal": true,
+              "cooldown": false,
+              "checked": [
+                {
+                  "target": {},
+                  "targetReason": null,
+                  "apiReason": "insufficient-stones"
+                }
+              ],
+              "candidateSearchExhausted": false
+            }
+          ],
+          "mainCause": "colored-stones",
+          "after": {
+            "phase": "running",
+            "wolfHp": 4,
+            "wolfAlive": true,
+            "hand": [
+              {
+                "id": 1,
+                "cardId": "dung"
+              },
+              {
+                "id": 2,
+                "cardId": "divine-wrath"
+              },
+              {
+                "id": 3,
+                "cardId": "intuition"
+              }
+            ],
+            "stones": [
+              {
+                "id": 4,
+                "color": "green"
+              },
+              {
+                "id": 5,
+                "color": "yellow"
+              },
+              {
+                "id": 6,
+                "color": "red"
+              }
+            ],
+            "inventory": {
+              "yellow": 1,
+              "blue": 0,
+              "green": 1,
+              "black": 0,
+              "red": 1
+            }
+          }
+        },
+        "initial": {
+          "phase": "ready",
+          "wolfHp": 100,
+          "wolfAlive": true,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "divine-wrath"
+            },
+            {
+              "id": 3,
+              "cardId": "intuition"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "green"
+            },
+            {
+              "id": 5,
+              "color": "yellow"
+            },
+            {
+              "id": 6,
+              "color": "red"
+            }
+          ],
+          "inventory": {
+            "yellow": 1,
+            "blue": 0,
+            "green": 1,
+            "black": 0,
+            "red": 1
+          }
+        },
+        "final": {
+          "phase": "finished",
+          "wolfHp": 0,
+          "wolfAlive": false,
+          "hand": [
+            {
+              "id": 1,
+              "cardId": "dung"
+            },
+            {
+              "id": 2,
+              "cardId": "divine-wrath"
+            },
+            {
+              "id": 3,
+              "cardId": "intuition"
+            }
+          ],
+          "stones": [
+            {
+              "id": 4,
+              "color": "green"
+            },
+            {
+              "id": 5,
+              "color": "yellow"
+            },
+            {
+              "id": 6,
+              "color": "red"
+            }
+          ],
+          "inventory": {
+            "yellow": 1,
+            "blue": 0,
+            "green": 1,
+            "black": 0,
+            "red": 1
+          }
+        },
+        "firstSupportedKill": null,
+        "wolfDeath": 112.59999999999617
+      }
+    ]
+  },
+  "perGame": {
+    "contract": "wf-table/1",
+    "columns": [
+      "seed",
+      "windows",
+      "colorBlocked",
+      "lastExecutedColorBlocked",
+      "trailingColorBlockedWindows",
+      "firstColorBlock",
+      "lastColorBlock"
+    ],
+    "rows": [
+      {
+        "seed": 1,
+        "windows": 30,
+        "colorBlocked": 5,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 2,
+        "firstColorBlock": 75,
+        "lastColorBlock": 150
+      },
+      {
+        "seed": 2,
+        "windows": 30,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 3,
+        "windows": 31,
+        "colorBlocked": 20,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 20,
+        "firstColorBlock": 60,
+        "lastColorBlock": 155
+      },
+      {
+        "seed": 4,
+        "windows": 29,
+        "colorBlocked": 4,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": 85,
+        "lastColorBlock": 100
+      },
+      {
+        "seed": 5,
+        "windows": 35,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 6,
+        "windows": 17,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 7,
+        "windows": 48,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 8,
+        "windows": 13,
+        "colorBlocked": 10,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 10,
+        "firstColorBlock": 20,
+        "lastColorBlock": 65
+      },
+      {
+        "seed": 9,
+        "windows": 36,
+        "colorBlocked": 36,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 36,
+        "firstColorBlock": 5,
+        "lastColorBlock": 180
+      },
+      {
+        "seed": 10,
+        "windows": 21,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 11,
+        "windows": 16,
+        "colorBlocked": 9,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 9,
+        "firstColorBlock": 40,
+        "lastColorBlock": 80
+      },
+      {
+        "seed": 12,
+        "windows": 57,
+        "colorBlocked": 36,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 36,
+        "firstColorBlock": 110,
+        "lastColorBlock": 285
+      },
+      {
+        "seed": 13,
+        "windows": 19,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 14,
+        "windows": 13,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 15,
+        "windows": 22,
+        "colorBlocked": 4,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 4,
+        "firstColorBlock": 95,
+        "lastColorBlock": 110
+      },
+      {
+        "seed": 16,
+        "windows": 27,
+        "colorBlocked": 4,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 4,
+        "firstColorBlock": 120,
+        "lastColorBlock": 135
+      },
+      {
+        "seed": 17,
+        "windows": 34,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 18,
+        "windows": 16,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 19,
+        "windows": 27,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 20,
+        "windows": 45,
+        "colorBlocked": 45,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 45,
+        "firstColorBlock": 5,
+        "lastColorBlock": 225
+      },
+      {
+        "seed": 21,
+        "windows": 47,
+        "colorBlocked": 43,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 43,
+        "firstColorBlock": 25,
+        "lastColorBlock": 235
+      },
+      {
+        "seed": 22,
+        "windows": 40,
+        "colorBlocked": 17,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 17,
+        "firstColorBlock": 120,
+        "lastColorBlock": 200
+      },
+      {
+        "seed": 23,
+        "windows": 45,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 24,
+        "windows": 39,
+        "colorBlocked": 7,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": 100,
+        "lastColorBlock": 130
+      },
+      {
+        "seed": 25,
+        "windows": 51,
+        "colorBlocked": 6,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 6,
+        "firstColorBlock": 230,
+        "lastColorBlock": 255
+      },
+      {
+        "seed": 26,
+        "windows": 24,
+        "colorBlocked": 10,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 10,
+        "firstColorBlock": 75,
+        "lastColorBlock": 120
+      },
+      {
+        "seed": 27,
+        "windows": 39,
+        "colorBlocked": 21,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": 60,
+        "lastColorBlock": 160
+      },
+      {
+        "seed": 28,
+        "windows": 39,
+        "colorBlocked": 39,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 39,
+        "firstColorBlock": 5,
+        "lastColorBlock": 195
+      },
+      {
+        "seed": 29,
+        "windows": 36,
+        "colorBlocked": 36,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 36,
+        "firstColorBlock": 5,
+        "lastColorBlock": 180
+      },
+      {
+        "seed": 30,
+        "windows": 59,
+        "colorBlocked": 14,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 14,
+        "firstColorBlock": 230,
+        "lastColorBlock": 295
+      },
+      {
+        "seed": 31,
+        "windows": 37,
+        "colorBlocked": 13,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": 95,
+        "lastColorBlock": 155
+      },
+      {
+        "seed": 32,
+        "windows": 35,
+        "colorBlocked": 10,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 10,
+        "firstColorBlock": 130,
+        "lastColorBlock": 175
+      },
+      {
+        "seed": 33,
+        "windows": 29,
+        "colorBlocked": 15,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 15,
+        "firstColorBlock": 75,
+        "lastColorBlock": 145
+      },
+      {
+        "seed": 34,
+        "windows": 15,
+        "colorBlocked": 3,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 3,
+        "firstColorBlock": 65,
+        "lastColorBlock": 75
+      },
+      {
+        "seed": 35,
+        "windows": 54,
+        "colorBlocked": 46,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 46,
+        "firstColorBlock": 45,
+        "lastColorBlock": 270
+      },
+      {
+        "seed": 36,
+        "windows": 19,
+        "colorBlocked": 10,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 10,
+        "firstColorBlock": 50,
+        "lastColorBlock": 95
+      },
+      {
+        "seed": 37,
+        "windows": 59,
+        "colorBlocked": 50,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 50,
+        "firstColorBlock": 50,
+        "lastColorBlock": 295
+      },
+      {
+        "seed": 38,
+        "windows": 26,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 39,
+        "windows": 23,
+        "colorBlocked": 17,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 17,
+        "firstColorBlock": 35,
+        "lastColorBlock": 115
+      },
+      {
+        "seed": 40,
+        "windows": 35,
+        "colorBlocked": 20,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": 5,
+        "lastColorBlock": 100
+      },
+      {
+        "seed": 41,
+        "windows": 35,
+        "colorBlocked": 6,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 6,
+        "firstColorBlock": 150,
+        "lastColorBlock": 175
+      },
+      {
+        "seed": 42,
+        "windows": 16,
+        "colorBlocked": 1,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 1,
+        "firstColorBlock": 80,
+        "lastColorBlock": 80
+      },
+      {
+        "seed": 43,
+        "windows": 30,
+        "colorBlocked": 28,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 28,
+        "firstColorBlock": 15,
+        "lastColorBlock": 150
+      },
+      {
+        "seed": 44,
+        "windows": 49,
+        "colorBlocked": 44,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 44,
+        "firstColorBlock": 30,
+        "lastColorBlock": 245
+      },
+      {
+        "seed": 45,
+        "windows": 14,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 46,
+        "windows": 38,
+        "colorBlocked": 38,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 38,
+        "firstColorBlock": 5,
+        "lastColorBlock": 190
+      },
+      {
+        "seed": 47,
+        "windows": 26,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 48,
+        "windows": 25,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 49,
+        "windows": 20,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 50,
+        "windows": 21,
+        "colorBlocked": 4,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 4,
+        "firstColorBlock": 90,
+        "lastColorBlock": 105
+      },
+      {
+        "seed": 51,
+        "windows": 30,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 52,
+        "windows": 24,
+        "colorBlocked": 9,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": 60,
+        "lastColorBlock": 100
+      },
+      {
+        "seed": 53,
+        "windows": 34,
+        "colorBlocked": 28,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 28,
+        "firstColorBlock": 35,
+        "lastColorBlock": 170
+      },
+      {
+        "seed": 54,
+        "windows": 39,
+        "colorBlocked": 20,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 20,
+        "firstColorBlock": 100,
+        "lastColorBlock": 195
+      },
+      {
+        "seed": 55,
+        "windows": 22,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 56,
+        "windows": 26,
+        "colorBlocked": 13,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 13,
+        "firstColorBlock": 70,
+        "lastColorBlock": 130
+      },
+      {
+        "seed": 57,
+        "windows": 35,
+        "colorBlocked": 18,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 1,
+        "firstColorBlock": 50,
+        "lastColorBlock": 175
+      },
+      {
+        "seed": 58,
+        "windows": 35,
+        "colorBlocked": 13,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 13,
+        "firstColorBlock": 115,
+        "lastColorBlock": 175
+      },
+      {
+        "seed": 59,
+        "windows": 46,
+        "colorBlocked": 40,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 40,
+        "firstColorBlock": 35,
+        "lastColorBlock": 230
+      },
+      {
+        "seed": 60,
+        "windows": 19,
+        "colorBlocked": 2,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": 55,
+        "lastColorBlock": 60
+      },
+      {
+        "seed": 61,
+        "windows": 22,
+        "colorBlocked": 22,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 22,
+        "firstColorBlock": 5,
+        "lastColorBlock": 110
+      },
+      {
+        "seed": 62,
+        "windows": 44,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 63,
+        "windows": 20,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 64,
+        "windows": 25,
+        "colorBlocked": 15,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 15,
+        "firstColorBlock": 55,
+        "lastColorBlock": 125
+      },
+      {
+        "seed": 65,
+        "windows": 21,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 66,
+        "windows": 31,
+        "colorBlocked": 6,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": 85,
+        "lastColorBlock": 110
+      },
+      {
+        "seed": 67,
+        "windows": 49,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 68,
+        "windows": 22,
+        "colorBlocked": 21,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 21,
+        "firstColorBlock": 10,
+        "lastColorBlock": 110
+      },
+      {
+        "seed": 69,
+        "windows": 29,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 70,
+        "windows": 30,
+        "colorBlocked": 8,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 3,
+        "firstColorBlock": 55,
+        "lastColorBlock": 150
+      },
+      {
+        "seed": 71,
+        "windows": 30,
+        "colorBlocked": 19,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 19,
+        "firstColorBlock": 60,
+        "lastColorBlock": 150
+      },
+      {
+        "seed": 72,
+        "windows": 30,
+        "colorBlocked": 8,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 8,
+        "firstColorBlock": 115,
+        "lastColorBlock": 150
+      },
+      {
+        "seed": 73,
+        "windows": 23,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 74,
+        "windows": 53,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 75,
+        "windows": 31,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 76,
+        "windows": 36,
+        "colorBlocked": 33,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 33,
+        "firstColorBlock": 20,
+        "lastColorBlock": 180
+      },
+      {
+        "seed": 77,
+        "windows": 44,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 78,
+        "windows": 58,
+        "colorBlocked": 46,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 46,
+        "firstColorBlock": 65,
+        "lastColorBlock": 290
+      },
+      {
+        "seed": 79,
+        "windows": 51,
+        "colorBlocked": 37,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 37,
+        "firstColorBlock": 75,
+        "lastColorBlock": 255
+      },
+      {
+        "seed": 80,
+        "windows": 36,
+        "colorBlocked": 32,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 32,
+        "firstColorBlock": 25,
+        "lastColorBlock": 180
+      },
+      {
+        "seed": 81,
+        "windows": 24,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 82,
+        "windows": 23,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 83,
+        "windows": 59,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 84,
+        "windows": 21,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 85,
+        "windows": 59,
+        "colorBlocked": 42,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 42,
+        "firstColorBlock": 90,
+        "lastColorBlock": 295
+      },
+      {
+        "seed": 86,
+        "windows": 19,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 87,
+        "windows": 20,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 88,
+        "windows": 18,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 89,
+        "windows": 37,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 90,
+        "windows": 36,
+        "colorBlocked": 2,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 2,
+        "firstColorBlock": 175,
+        "lastColorBlock": 180
+      },
+      {
+        "seed": 91,
+        "windows": 35,
+        "colorBlocked": 23,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 23,
+        "firstColorBlock": 65,
+        "lastColorBlock": 175
+      },
+      {
+        "seed": 92,
+        "windows": 23,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 93,
+        "windows": 22,
+        "colorBlocked": 5,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 5,
+        "firstColorBlock": 90,
+        "lastColorBlock": 110
+      },
+      {
+        "seed": 94,
+        "windows": 32,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 95,
+        "windows": 39,
+        "colorBlocked": 37,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 37,
+        "firstColorBlock": 15,
+        "lastColorBlock": 195
+      },
+      {
+        "seed": 96,
+        "windows": 17,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 97,
+        "windows": 18,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      },
+      {
+        "seed": 98,
+        "windows": 24,
+        "colorBlocked": 2,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 1,
+        "firstColorBlock": 70,
+        "lastColorBlock": 120
+      },
+      {
+        "seed": 99,
+        "windows": 22,
+        "colorBlocked": 11,
+        "lastExecutedColorBlocked": true,
+        "trailingColorBlockedWindows": 11,
+        "firstColorBlock": 60,
+        "lastColorBlock": 110
+      },
+      {
+        "seed": 100,
+        "windows": 33,
+        "colorBlocked": 0,
+        "lastExecutedColorBlocked": false,
+        "trailingColorBlockedWindows": 0,
+        "firstColorBlock": null,
+        "lastColorBlock": null
+      }
+    ]
+  }
+}

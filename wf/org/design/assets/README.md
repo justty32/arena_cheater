@@ -23,6 +23,7 @@
 | [後續候選](follow-ups.md) | 捕獸夾地面辨識改善與人工試玩邊界，非已排程切片 |
 | [數值盤點（2026-11-24）](audits/numbers-2026-11-24/README.md) | 現值位置、V3 差異、單一來源提案及需裁示事項；只讀快照 |
 | [現值表逐列核對（第 5 步）](audits/balance-step5-2026-11-24/README.md) | 198 列值與來源通過；F01–F03 文案測試及距離 metadata 修正複核通過 |
+| [PD10 作弊啟動分析](audits/pd10-2026-11-25/conclusions.md) | 四組政策／版本比較、收入節奏與持續卡色；不改數值 |
 | [可調預設索引](pending-defaults.md) | 首批資源循環預設與捕獸夾授權範圍，供 main 彙整 |
 | [需求原文](../../../../docs/design-sources/cheating-arena-2026-11-11.txt) | 使用者提供的逐字文字，僅正規化換行 |
 

@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "project": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/new",
+  "steps": {},
+  "lock_wait_seconds": 180.022,
+  "log_dir": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/logs/new-all-source-fix/verify-0p9645du",
+  "error": "lock_timeout",
+  "duration_seconds": 180.022
+}

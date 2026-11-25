@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "project": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/old",
+  "steps": {},
+  "lock_wait_seconds": 180.021,
+  "log_dir": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25/logs/old-direct-source-fix/verify-fx5okgu7",
+  "error": "lock_timeout",
+  "duration_seconds": 180.022
+}

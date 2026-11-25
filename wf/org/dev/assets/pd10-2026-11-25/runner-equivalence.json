@@ -1,0 +1,5 @@
+{
+  "newDirect": true,
+  "oldDirect": true,
+  "comparison": "Initial and source-fix parsed JSON are equal after deleting income.source only. All windows, results, times, other event fields and metadata are identical."
+}
