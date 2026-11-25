@@ -1,0 +1,134 @@
+--- a/src/arena/shared/resources.ts
++++ b/src/arena/shared/resources.ts
+@@ -1,3 +1,4 @@
++import { record } from './audit';
+ import type { ArenaState, StoneColor } from './types';
+ 
+ export const COLORS: StoneColor[] = ['yellow', 'blue', 'green', 'black', 'red'];
+@@ -5,6 +6,8 @@
+   state.randomState = (Math.imul(state.randomState, 1664525) + 1013904223) >>> 0;
+   return state.randomState / 4294967296;
+ }
+-export function drawStones(state: ArenaState, count: number): void {
++export function drawStones(state: ArenaState, count: number, source = "unknown"): void {
++  const before = state.stones.map(s => ({...s}));
+   for (let i = 0; i < count; i++) state.stones.push({ id: state.nextId++, color: COLORS[Math.floor(random(state) * COLORS.length)] });
++  record(state, 'income', { source, stones: state.stones.slice(before.length).map(s => ({...s})), before, after: state.stones.map(s => ({...s})) });
+ }
+--- a/src/arena/items/engine-cards.ts
++++ b/src/arena/items/engine-cards.ts
+@@ -1,3 +1,4 @@
++import { record } from '../shared/audit';
+ import { BALANCE as B } from '../shared/balance';
+ import { CARDS } from '../shared/card-catalog';
+ import { isResolvingArena } from '../shared/status';
+@@ -26,7 +27,10 @@
+ }
+ export function drawCard(state: ArenaState): void {
+   const cardId = takeTopCard(state);
+-  if (cardId) state.hand.push({ id: state.nextId++, cardId });
++  if (cardId) {
++    state.hand.push({ id: state.nextId++, cardId });
++    record(state, 'card-draw', { cardId, handId: state.hand[state.hand.length - 1].id });
++  }
+ }
+ export function revealUpcomingCards(state: ArenaState): void {
+   if (state.deck.length < INTUITION_CARD_COUNT && state.discard.length) {
+@@ -45,7 +49,7 @@
+   state.deck = CARDS.flatMap(card => Array.from({ length: B.deckCopies }, () => card.id));
+   shuffle(state, state.deck);
+   for (let i = 0; i < B.initialHand; i++) drawCard(state);
+-  drawStones(state, B.initialStones);
++  drawStones(state, B.initialStones, "initial");
+ }
+ export function canUseCards(state: ArenaState): boolean {
+   return (state.status === 'running' || state.status === 'paused') && !isResolvingArena(state) && !state.pendingDeliberation;
+@@ -86,19 +90,22 @@
+ export function canPayCost(state: ArenaState, cost: StoneCost, stoneIds: readonly number[]): boolean {
+   return paymentStatus(state,cost,stoneIds).valid;
+ }
+-function spendCard(state: ArenaState, handCardId: number, stoneIds: readonly number[]): CardId {
++function spendCard(state: ArenaState, handCardId: number, stoneIds: readonly number[], source = "card-payment"): CardId {
+   const index = state.hand.findIndex(card => card.id === handCardId);
+   const [card] = state.hand.splice(index, 1);
++  const before = state.stones.map(s => ({...s}));
++  const paid = state.stones.filter(stone => stoneIds.includes(stone.id)).map(s => ({...s}));
+   state.stones = state.stones.filter(stone => !stoneIds.includes(stone.id));
++  record(state, 'expense', { source, cardId: card.cardId, stones: paid, before, after: state.stones.map(s => ({...s})) });
+   return card.cardId;
+ }
+-export function consumeCard(state: ArenaState, handCardId: number, stoneIds: readonly number[]): void {
+-  state.discard.push(spendCard(state, handCardId, stoneIds));
++export function consumeCard(state: ArenaState, handCardId: number, stoneIds: readonly number[], source = "card-payment"): void {
++  state.discard.push(spendCard(state, handCardId, stoneIds, source));
+ }
+ /** The caller validates the payment and that at least one candidate exists. */
+ export function beginDeliberation(state: ArenaState, handCardId: number, stoneIds: readonly number[]): void {
+   const playedCard = spendCard(state, handCardId, stoneIds);
+-  drawStones(state, B.playStones);
++  drawStones(state, B.playStones, "successful-play");
+   const candidates: CardId[] = [];
+   for (let i = 0; i < B.deliberateCount; i++) {
+     const cardId = takeTopCard(state);
+@@ -107,6 +114,7 @@
+   }
+   // The spell joins the discard only after the candidates have been drawn.
+   state.discard.push(playedCard);
++  record(state, 'deliberation-offer', { candidates: [...candidates] });
+   state.pendingDeliberation = { candidates, resumeOnChoice: state.status === 'running' };
+   state.status = 'paused';
+ }
+@@ -115,6 +123,7 @@
+       !Number.isInteger(index) || index < 0 || index >= offer.candidates.length) return false;
+   state.hand.push({ id: state.nextId++, cardId: offer.candidates[index] });
+   state.discard.push(...offer.candidates.filter((_, candidateIndex) => candidateIndex !== index));
++  record(state, 'deliberation-choice', { candidates: [...offer.candidates], index, cardId: offer.candidates[index] });
+   state.pendingDeliberation = undefined;
+   if (offer.resumeOnChoice) state.status = 'running';
+   return true;
+@@ -125,8 +134,8 @@
+ export function redrawStones(state: ArenaState, handCardId: number, stoneIds: number[]): boolean {
+   if (!stoneIds.length || !canUseCards(state) || state.time < state.redrawAvailableAt || !state.hand.some(card => card.id === handCardId) ||
+       new Set(stoneIds).size !== stoneIds.length || stoneIds.some(id => !state.stones.some(stone => stone.id === id))) return false;
+-  consumeCard(state, handCardId, stoneIds);
+-  drawStones(state, stoneIds.length + B.redrawBonus);
++  consumeCard(state, handCardId, stoneIds, "redraw-payment");
++  drawStones(state, stoneIds.length + B.redrawBonus, "redraw-income");
+   drawCard(state);
+   state.redrawAvailableAt = state.time + REDRAW_COOLDOWN;
+   return true;
+--- a/src/arena/items/engine-items.ts
++++ b/src/arena/items/engine-items.ts
+@@ -109,7 +109,7 @@
+     state.latestThrow = {itemId,handCardId,itemKind:card.id as ThrownKind,launchedAt:state.time};
+     log(state, THROW_PROFILES[card.id as ThrownKind].disposable ? `投擲${card.name}` : `投送${card.name}，任何鬥士都能搶走它`);
+   }
+-  drawStones(state, B.playStones);
++  drawStones(state, B.playStones, "successful-play");
+   drawCard(state);
+   if (card.id === 'intuition') revealUpcomingCards(state);
+   return true;
+--- a/src/arena/sim/engine-damage.ts
++++ b/src/arena/sim/engine-damage.ts
+@@ -1,3 +1,4 @@
++import { record } from '../shared/audit';
+ import { formatHp } from '../shared/format';
+ import { BALANCE as B } from '../shared/balance';
+ import { ARENA_RADIUS, DUNG_TICK_EPSILON } from '../shared/rules';
+@@ -123,6 +124,7 @@
+   if (target.hp <= 0) return;
+   target.hp = Math.max(0, Math.round((target.hp - damage + Number.EPSILON) * 100) / 100);
+   if (target.hp === 0) {
++    record(state, 'death', { targetId: target.id, targetSpecies: target.species, sourceFighterId: sourceFighterId ?? null, supportedKill: sourceFighterId === state.supportedId && sourceFighterId !== target.id });
+     target.pose = 'dead'; target.poseUntil = Infinity; target.knockback = undefined;
+     target.dungDamage = undefined; target.rootedUntil = undefined;
+     log(state, `${target.name} 倒下了`);
+@@ -134,7 +136,7 @@
+     }
+     if (sourceFighterId === state.supportedId && sourceFighterId !== target.id) {
+       const rewardStones = B.killReward;
+-      drawStones(state, rewardStones);
++      drawStones(state, rewardStones, "supported-kill");
+       state.supportKillRewardStones += rewardStones;
+       const source = state.fighters.find(fighter => fighter.id === sourceFighterId);
+       log(state, `支持的鬥士${source?.name ?? sourceFighterId}擊殺，獲得 ${rewardStones} 顆魔法石`);

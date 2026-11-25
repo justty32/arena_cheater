@@ -1,0 +1,141 @@
+{
+  "contract": "wf-table/1",
+  "columns": [
+    "path",
+    "inRepo",
+    "externalPath",
+    "bytes",
+    "sha256"
+  ],
+  "source": "PD10 redraw policy v1 experiment",
+  "extracted": "2026-11-25",
+  "link_columns": [],
+  "rows": [
+    {
+      "path": "README.md",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 5064,
+      "sha256": "209b7dfe61ebbfb30cbdeed48654811b0ce587b4dcf4ad7f531e400d3bc4c2ca"
+    },
+    {
+      "path": "analyze.py",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 5462,
+      "sha256": "6c24f55c717eba0f84f0d1a8e5b6eb192937d0fa4ce84b1d6afb84d789dbeb67"
+    },
+    {
+      "path": "audit.ts",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 493,
+      "sha256": "36105c79dacf55752b7dadcbd13bf100b1c9d990484ba25d5d441ab9f8ffae20"
+    },
+    {
+      "path": "comparison-summary.json",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 922680,
+      "sha256": "c98015ec9e4454ee14db2804ae8634ec318f060015fb467f5a70ce177ceb268a"
+    },
+    {
+      "path": "instrumentation.patch",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 7393,
+      "sha256": "e6626adf616c185488cd7d93d80e59b5ea02f14ef7a2e5d779e04cf08760f7ef"
+    },
+    {
+      "path": "overview.json",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 5519,
+      "sha256": "4ee3ce485036357e7102572697c2eb98fc9ac18a95f16f39f4aa7d70365709c2"
+    },
+    {
+      "path": "pd10-config.json",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 101,
+      "sha256": "2bd53ff4a87c9067c2d799863688244ed64d4f5553ffb02ede3aec7de4f0fdf5"
+    },
+    {
+      "path": "policy-check.json",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 489,
+      "sha256": "da3b1aaa02cee00cbcaa658e72bedd19b4ff5efecfb30aba06e144caeda7ce74"
+    },
+    {
+      "path": "prepare.py",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 1287,
+      "sha256": "ff7b8210fbbc05b599c5cccc752030bc083853ea86eed9f2d2b431c6a9242c5e"
+    },
+    {
+      "path": "reproduction-check.json",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 392,
+      "sha256": "7bd7d8465e9ae6c7e0723beb655fd9b20cb54bdb2b2f8345ebe52b9870d5c2f2"
+    },
+    {
+      "path": "runner.test.ts",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 11787,
+      "sha256": "5965aa25ca318b3489de920aa56025541c53e7f12d84caac3ee1331ea2b473df"
+    },
+    {
+      "path": "verification/verify-6jvn8jg1/result.json",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 284,
+      "sha256": "a0e69b74161e63056b38f3c0aefa5989833a732426035e57241c144828ab155d"
+    },
+    {
+      "path": "verification/verify-f079al6i/build.log",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 750,
+      "sha256": "68b214281f471b8f3a8b00ec37ea3a5743ce78182a28c6383703d462d74ecfe7"
+    },
+    {
+      "path": "verification/verify-f079al6i/result.json",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 1958,
+      "sha256": "9ed9e031e29ac6d40ffeee0ca55935d452ea021b932371d3ec6f5e03875d8107"
+    },
+    {
+      "path": "verification/verify-f079al6i/test.log",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 759,
+      "sha256": "4d6fdc9154f21bbfe7f610636483077dd67a95378beb24ef25dd8c5c5c87d270"
+    },
+    {
+      "path": "verification/verify-gofj73cq/result.json",
+      "inRepo": true,
+      "externalPath": null,
+      "bytes": 285,
+      "sha256": "8109fe86f05080d7173e6dd6901cd18e240fa1e0114aeeab57b51858114b7a27"
+    },
+    {
+      "path": "redraw-raw",
+      "inRepo": false,
+      "externalPath": "/tmp/aos/arena_cheater/dev/pd10-redraw-v1-2026-11-25/new/pd10-new-all-redraw-v1-results.json",
+      "bytes": 21027763,
+      "sha256": "9628c0588761555d8eee2c0dba3b02219acf0109ff791c576d80cd6a6b200f12"
+    },
+    {
+      "path": "baseline-raw",
+      "inRepo": false,
+      "externalPath": "/tmp/aos/arena_cheater/dev/pd10-2026-11-25-raw/pd10-new-all-results.json",
+      "bytes": 16674655,
+      "sha256": "f5221a3bf9ac741770754e37b97cd9152533e9a1fdb69f6da2486a0980308b73"
+    }
+  ]
+}

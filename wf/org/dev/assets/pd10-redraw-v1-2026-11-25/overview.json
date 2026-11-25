@@ -1,0 +1,243 @@
+{
+  "revision": "03b15e1f05ad5701f6c47f7fb7fcc62460c39cfd",
+  "baseline": {
+    "windows": 3167,
+    "causes": {
+      "success": 1984,
+      "colored-stones": 1183
+    },
+    "colorFraction": 0.3735396274076413,
+    "normalPlays": 1984,
+    "successGames": 94,
+    "lastWindowColorBlockedGames": 52,
+    "zeroNormalPlayGames": 6,
+    "zeroEffectiveActionGames": 6,
+    "redrawAttempts": 0,
+    "redrawSuccesses": 0,
+    "redrawRejectReasons": {},
+    "lastWindowRedrawWithoutFurtherWindowGames": 0,
+    "matchLength": {
+      "samples": 100,
+      "occurred": 100,
+      "notOccurred": 0,
+      "mean": 228.90066666666118,
+      "median": 221.96666666665664,
+      "min": 160.19999999999348,
+      "max": 300.000000000023
+    },
+    "wolfInterventionDuration": {
+      "samples": 100,
+      "occurred": 100,
+      "notOccurred": 0,
+      "mean": 160.90999999999485,
+      "median": 153.6833333333272,
+      "min": 65.09999999999887,
+      "max": 300
+    },
+    "firstNormalPlay": {
+      "samples": 100,
+      "occurred": 94,
+      "notOccurred": 6,
+      "mean": 6.063829787233998,
+      "median": 4.999999999999992,
+      "min": 4.999999999999992,
+      "max": 104.9999999999966
+    },
+    "redrawFollowupDelay": {
+      "samples": 0,
+      "occurred": 0,
+      "notOccurred": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "successByCard": {
+      "dung": 141,
+      "hatchet": 120,
+      "spike-pit": 128,
+      "stone": 128,
+      "deliberate": 101,
+      "growth": 104,
+      "bloodlust": 111,
+      "bear-trap": 113,
+      "sword": 124,
+      "lightning-rain": 113,
+      "bow": 113,
+      "lightning": 105,
+      "shield": 100,
+      "spear": 121,
+      "club": 118,
+      "divine-wrath": 30,
+      "intuition": 104,
+      "pot": 110
+    },
+    "stones": {
+      "income:initial": {
+        "green": 56,
+        "black": 61,
+        "blue": 64,
+        "yellow": 53,
+        "red": 66
+      },
+      "expense:card-payment": {
+        "black": 710,
+        "green": 652,
+        "yellow": 614,
+        "blue": 664,
+        "red": 786
+      },
+      "income:successful-play": {
+        "green": 803,
+        "yellow": 751,
+        "blue": 774,
+        "black": 846,
+        "red": 794
+      },
+      "income:supported-kill": {
+        "black": 26,
+        "red": 31,
+        "blue": 26,
+        "green": 23,
+        "yellow": 23
+      }
+    }
+  },
+  "redraw": {
+    "windows": 3135,
+    "causes": {
+      "success": 2959,
+      "colored-stones": 176
+    },
+    "colorFraction": 0.056140350877192984,
+    "normalPlays": 2959,
+    "successGames": 100,
+    "lastWindowColorBlockedGames": 4,
+    "zeroNormalPlayGames": 0,
+    "zeroEffectiveActionGames": 0,
+    "redrawAttempts": 86,
+    "redrawSuccesses": 86,
+    "redrawRejectReasons": {},
+    "lastWindowRedrawWithoutFurtherWindowGames": 1,
+    "matchLength": {
+      "samples": 100,
+      "occurred": 100,
+      "notOccurred": 0,
+      "mean": 225.12533333332897,
+      "median": 216.16666666665697,
+      "min": 160.19999999999348,
+      "max": 300.000000000023
+    },
+    "wolfInterventionDuration": {
+      "samples": 100,
+      "occurred": 100,
+      "notOccurred": 0,
+      "mean": 159.4509999999953,
+      "median": 143.7999999999944,
+      "min": 63.09999999999898,
+      "max": 300
+    },
+    "firstNormalPlay": {
+      "samples": 100,
+      "occurred": 100,
+      "notOccurred": 0,
+      "mean": 5.6999999999999895,
+      "median": 4.999999999999992,
+      "min": 4.999999999999992,
+      "max": 14.999999999999957
+    },
+    "redrawFollowupDelay": {
+      "samples": 86,
+      "occurred": 85,
+      "notOccurred": 1,
+      "mean": 5.823529411764485,
+      "median": 4.999999999999716,
+      "min": 4.999999999999716,
+      "max": 14.999999999999154
+    },
+    "successByCard": {
+      "dung": 184,
+      "hatchet": 180,
+      "spike-pit": 180,
+      "stone": 189,
+      "deliberate": 164,
+      "growth": 159,
+      "bloodlust": 173,
+      "bear-trap": 168,
+      "sword": 181,
+      "lightning-rain": 161,
+      "bow": 166,
+      "lightning": 157,
+      "shield": 153,
+      "spear": 188,
+      "club": 176,
+      "divine-wrath": 55,
+      "intuition": 157,
+      "pot": 168
+    },
+    "stones": {
+      "income:initial": {
+        "green": 56,
+        "black": 61,
+        "blue": 64,
+        "yellow": 53,
+        "red": 66
+      },
+      "expense:card-payment": {
+        "black": 1050,
+        "green": 1009,
+        "yellow": 947,
+        "blue": 993,
+        "red": 1155
+      },
+      "income:successful-play": {
+        "green": 1198,
+        "yellow": 1158,
+        "blue": 1148,
+        "black": 1214,
+        "red": 1200
+      },
+      "expense:redraw-payment": {
+        "blue": 17,
+        "yellow": 25,
+        "black": 18,
+        "green": 24,
+        "red": 2
+      },
+      "income:redraw-income": {
+        "black": 39,
+        "red": 31,
+        "yellow": 30,
+        "blue": 39,
+        "green": 33
+      },
+      "income:supported-kill": {
+        "green": 45,
+        "red": 31,
+        "blue": 40,
+        "black": 30,
+        "yellow": 34
+      }
+    }
+  },
+  "pairedBaseline": {
+    "windows": 2990,
+    "causes": {
+      "success": 1960,
+      "colored-stones": 1030
+    },
+    "colorFraction": 0.34448160535117056,
+    "normalPlays": 1960,
+    "successGames": 94
+  },
+  "pairedRedraw": {
+    "windows": 2990,
+    "causes": {
+      "success": 2814,
+      "colored-stones": 176
+    },
+    "colorFraction": 0.0588628762541806,
+    "normalPlays": 2814,
+    "successGames": 100
+  }
+}

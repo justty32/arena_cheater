@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "games": 100,
+  "redrawAttempts": 86,
+  "assertions": [
+    "initial state/fighters equal fixed baseline",
+    "counter increments only pre-redraw colored windows; skip unchanged",
+    "all threshold windows attempt redraw",
+    "first current hand and first current stone exactly",
+    "no same-window normal play with redraw",
+    "normal play count excludes redraw",
+    "per-event per-color accounting and payment-source counts asserted in verified runner"
+  ]
+}

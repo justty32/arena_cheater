@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "project": "/tmp/aos/arena_cheater/dev/pd10-redraw-v1-2026-11-25/new",
+  "steps": {},
+  "lock_wait_seconds": 180.004,
+  "log_dir": "/tmp/aos/arena_cheater/dev/pd10-redraw-v1-2026-11-25/logs/verify-gofj73cq",
+  "error": "lock_timeout",
+  "duration_seconds": 180.01
+}
