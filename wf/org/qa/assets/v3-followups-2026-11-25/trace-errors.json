@@ -1,0 +1,120 @@
+[
+  {
+    "trace": "/tmp/aos/arena_cheater/qa/e2e-e326dce83ecb4d4db1587cae7e66148c/test-results/effects-降低動態效果時仍顯示飛行物、命中與傷害資訊-chromium/trace.zip",
+    "entry": "1-trace.trace",
+    "event": {
+      "type": "console",
+      "messageType": "error",
+      "text": "Failed to load resource: net::ERR_NETWORK_CHANGED",
+      "args": [],
+      "location": {
+        "url": "http://127.0.0.1:45111/src/ui/effects.css",
+        "lineNumber": 0,
+        "columnNumber": 0
+      },
+      "time": 247517.703,
+      "pageId": "page@64c630607403a74052a7b7b6c9e7de3d"
+    }
+  },
+  {
+    "trace": "/tmp/aos/arena_cheater/qa/e2e-e326dce83ecb4d4db1587cae7e66148c/test-results/effects-降低動態效果時仍顯示飛行物、命中與傷害資訊-chromium/trace.zip",
+    "entry": "1-trace.trace",
+    "event": {
+      "type": "event",
+      "time": 247530.28,
+      "class": "BrowserContext",
+      "method": "pageError",
+      "params": {
+        "error": {
+          "error": {
+            "message": "Failed to fetch dynamically imported module: http://127.0.0.1:45111/src/classic.ts",
+            "stack": "",
+            "name": "TypeError"
+          }
+        },
+        "location": {
+          "url": "",
+          "line": 0,
+          "column": 0
+        }
+      },
+      "pageId": "page@64c630607403a74052a7b7b6c9e7de3d"
+    }
+  },
+  {
+    "trace": "/tmp/aos/arena_cheater/qa/e2e-e326dce83ecb4d4db1587cae7e66148c/test-results/effects-降低動態效果時仍顯示飛行物、命中與傷害資訊-chromium/trace.zip",
+    "entry": "1-trace.network",
+    "event": {
+      "type": "resource-snapshot",
+      "snapshot": {
+        "pageref": "page@64c630607403a74052a7b7b6c9e7de3d",
+        "startedDateTime": "2026-11-25T03:09:16.654Z",
+        "time": 46.9320000000007,
+        "request": {
+          "method": "GET",
+          "url": "http://127.0.0.1:45111/src/ui/effects.css",
+          "httpVersion": "HTTP/1.1",
+          "cookies": [],
+          "headers": [
+            {
+              "name": "Origin",
+              "value": "http://127.0.0.1:45111"
+            },
+            {
+              "name": "sec-ch-ua-platform",
+              "value": "\"Windows\""
+            },
+            {
+              "name": "Referer",
+              "value": "http://127.0.0.1:45111/src/classic.ts"
+            },
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"
+            },
+            {
+              "name": "sec-ch-ua",
+              "value": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\""
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US"
+            },
+            {
+              "name": "sec-ch-ua-mobile",
+              "value": "?0"
+            }
+          ],
+          "queryString": [],
+          "headersSize": -1,
+          "bodySize": 0
+        },
+        "response": {
+          "status": -1,
+          "statusText": "",
+          "httpVersion": "HTTP/1.1",
+          "cookies": [],
+          "headers": [],
+          "content": {
+            "size": -1,
+            "mimeType": "x-unknown"
+          },
+          "headersSize": -1,
+          "bodySize": -1,
+          "redirectURL": "",
+          "_transferSize": -1,
+          "_failureText": "net::ERR_NETWORK_CHANGED"
+        },
+        "cache": {},
+        "timings": {
+          "send": -1,
+          "wait": -1,
+          "receive": -1
+        },
+        "_frameref": "frame@0fe2c3777e83081aed5df80e9d44793f",
+        "_monotonicTime": 247467.394,
+        "_resourceType": "script"
+      }
+    }
+  }
+]

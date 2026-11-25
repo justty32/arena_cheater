@@ -6,15 +6,15 @@
 
 給「在一台已經在跑的 daemon 底下再開一台 daemon」的用法：它是上層表上的一列，起它＝起一台子 daemon，表上只有 `_sweeper`（每 10 分鐘清這台自己的 stderr 封存、寫 `sweeper_report.json`）；agent 不寫進 `daemon.json`，由 `aos-agent ctl add` 經 `procs_requests` 掛上、記在它自己 stack 的表裡。要起的是一整棵樹最上面那台（沒有上層）就用 `daemon-root`，不是這份。
 
-除了 `daemon.json` 少了 `_clock` 那列、`.env` 只留 `AOS_HOME`、`_entry` 與 `daemon.json` 的說明句、這份 README，其餘跟 `daemon-root` 一樣。
+除了 `daemon.json` 少了 `_clock` 那列、`.env` 有 `AOS_HOME` 和 `CLAUDE_CONFIG_DIR`（指向 `~/.claude-alt`，2026-11-25 使用者要求）、`_entry` 與 `daemon.json` 的說明句、這份 README，其餘跟 `daemon-root` 一樣。
 
 | 檔 | 做什麼 |
 |---|---|
 | `_entry` | `aos-daemon --enable-logs daemon.json`（狀態變化印到 stdout；掛在上層底下時子項的 stdout 接 `/dev/null`，所以看不到，要看狀態用 `ls`；跟 `daemon-root` 同一行，只有說明句不同） |
 | `daemon.json` | `procs_requests` 信箱＋`_sweeper` 一列，沒有鐘列、沒有身體 |
-| `.env` | 只有最後一行 `AOS_HOME=${AOS_HOME}`＝必填檢查（上層傳下來的有值就過）；`AOS_CLOCK`、`AOS_LLM_KERNEL` 故意不寫，由上層傳下來 |
+| `.env` | 最後一行 `AOS_HOME=${AOS_HOME}`＝必填檢查（上層傳下來的有值就過）；`CLAUDE_CONFIG_DIR` 指向 `~/.claude-alt`（2026-11-25 使用者要求），若上層 daemon 已傳入則以上層為準；`AOS_CLOCK`、`AOS_LLM_KERNEL` 故意不寫，由上層傳下來 |
 
-## 為什麼不帶鐘列、`.env` 只留 `AOS_HOME`
+## 為什麼不帶鐘列、`.env` 有 `AOS_HOME` 和 `CLAUDE_CONFIG_DIR`（指向 `~/.claude-alt`，2026-11-25 使用者要求）
 
 - **鐘只在根**：根的 `_clock` 每秒寫根 stack 裡的 `clock`，根的 `.env` 把 `AOS_CLOCK` 指過去；子 daemon 是根的子項，照繼承拿到同一個 `AOS_CLOCK`，再傳給自己底下每一隻，整棵樹聽同一個鐘。子 daemon 自己再帶 `_clock`，只會多寫一份自己 stack 裡的 `clock`，底下的 agent 照樣聽根的（上層傳下來的 `AOS_CLOCK` 贏過 `.env`），那份沒人讀。
 - **`AOS_LLM_KERNEL` 也從上層來**：`daemon-root` 那行 `AOS_LLM_KERNEL=${AOS_WS}/../llms/stacks/llm` 是給根用的擺法；放在子 daemon 裡，上層有傳就被蓋掉、沒傳就指到一個多半不存在的地方，留著只會讓人誤會。想讓這台底下用別的 llm kernel：上層沒傳時在這份 `.env` 加一行就好；上層有傳，`.env` 蓋不過它。

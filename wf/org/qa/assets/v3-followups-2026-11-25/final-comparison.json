@@ -1,0 +1,46 @@
+{
+  "method": "Counter key=(tuple(title_path),project); compare multiplicities and shared-key status Counters; ignore filename",
+  "before": 37,
+  "after": 42,
+  "added": [
+    {
+      "title_path": [
+        "V3 1440px 滿生命 100 / 100 單行（工程fixture）"
+      ],
+      "project": "chromium",
+      "count": 1
+    },
+    {
+      "title_path": [
+        "V3 320px 滿生命 100 / 100 單行（工程fixture）"
+      ],
+      "project": "chromium",
+      "count": 1
+    },
+    {
+      "title_path": [
+        "V3 390px 滿生命 100 / 100 單行（工程fixture）"
+      ],
+      "project": "chromium",
+      "count": 1
+    },
+    {
+      "title_path": [
+        "V3 全滅平局標題、理由與戰報（工程fixture）"
+      ],
+      "project": "chromium",
+      "count": 1
+    },
+    {
+      "title_path": [
+        "V3 正式木棍命中觸發三秒失控，起身後恢復位移（開局工程fixture）"
+      ],
+      "project": "chromium",
+      "count": 1
+    }
+  ],
+  "removed": [],
+  "changed": [],
+  "duplicates_before": [],
+  "duplicates_after": []
+}

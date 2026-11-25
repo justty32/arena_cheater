@@ -39,9 +39,13 @@
 
 ## 保存的基準
 
-V3 之後使用 [e2e-v3-22b5368.json](assets/baselines/e2e-v3-22b5368.json)：HEAD `22b5368774663f0c98717308dd6e6171345e4ec1` 的工作區快照，fingerprint `e720008d0f6694d0ede8be0c035bbbe542144e0b9ebba6504175a02ba76d2822`，37 案全綠，含 `title_path`／`project`。這不是純 HEAD 的結果，包含當時未提交的 V3 實作及 E2E。main 已採用 final-result.json；其頂層 FAILED 僅因相對舊基準新增 12 案，Playwright exit 0、37 passed，removed/changed 全空。
+V3 後續使用 [e2e-v3-f3c62ac.json](assets/baselines/e2e-v3-f3c62ac.json)：不帶 baseline 執行、status DONE、exit 0，42 案全綠；執行時 HEAD `f3c62ac`，workspace fingerprint `735860372712581b8c619bb6027e2b2aaba79df6591f8707f6d63d4253ce1768`，包含當時未提交的 E2E 修改，不是純 HEAD。
 
-[e2e-193affd.json](assets/baselines/e2e-193affd.json) 保留為架構整理時期的歷史：commit `193affd8d83892195600967f7f37c00ec3ef2c8a`，25 案全綠，不刪除或覆寫。`arena_e2e` 的 baseline 目前只接受 qa 暫存區內的檔案；V3 使用前將新基準複製到 `/tmp/aos/arena_cheater/qa/baselines/e2e-v3-22b5368.json`，再以該絕對路徑配合 `comparison_mode: "title_project"` 比對。保存檔內的 artifacts 路徑是原執行紀錄，不保證重開機後存在；比對只需 cases，不會重跑基準。
+V3 首批採用的 [e2e-v3-22b5368.json](assets/baselines/e2e-v3-22b5368.json) 僅為證據，不能當工具的 baseline：HEAD `22b5368774663f0c98717308dd6e6171345e4ec1` 的工作區快照，fingerprint `e720008d0f6694d0ede8be0c035bbbe542144e0b9ebba6504175a02ba76d2822`，37 案全綠，含 `title_path`／`project`。這不是純 HEAD 的結果，包含當時未提交的 V3 實作及 E2E。main 已採用 final-result.json；其頂層 FAILED 僅因相對舊基準新增 12 案，Playwright exit 0、37 passed，removed/changed 全空。
+
+[e2e-193affd.json](assets/baselines/e2e-193affd.json) 保留為架構整理時期的歷史：commit `193affd8d83892195600967f7f37c00ec3ef2c8a`，25 案全綠，不刪除或覆寫。`arena_e2e` 的 baseline 目前只接受 qa 暫存區內的檔案；可用的基準須先複製到 qa 暫存區，再以該絕對路徑配合 `comparison_mode: "title_project"` 比對；不要將 comparison FAILED 的 V3 首批證據傳入工具。保存檔內的 artifacts 路徑是原執行紀錄，不保證重開機後存在；比對只需 cases，不會重跑基準。
+
+新基準保存規則：必須是不帶 baseline 跑出的結果，且工具 `status` 為成功；不修改原始狀態假裝成功。main 信 `01795575708776600200.1606282.1105519` 已確認此規則。V3 後續首輪失敗與授權修正後 42/42 全綠均保留，進度見 [後續報告](assets/v3-followups-2026-11-25/README.md)。
 
 ## 踩坑：開場白頁與網路事件
 

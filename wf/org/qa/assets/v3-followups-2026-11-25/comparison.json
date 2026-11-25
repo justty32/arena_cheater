@@ -1,0 +1,34 @@
+{
+  "method": "key=(tuple(title_path), project); compare key Counters for additions/removals and shared-key status; duplicate keys explicitly checked",
+  "before": 37,
+  "after": 42,
+  "added": [
+    [
+      "V3 正式木棍命中觸發三秒失控，起身後恢復位移（開局工程fixture）"
+    ],
+    [
+      "V3 320px 滿生命 100 / 100 單行（工程fixture）"
+    ],
+    [
+      "V3 390px 滿生命 100 / 100 單行（工程fixture）"
+    ],
+    [
+      "V3 全滅平局標題、理由與戰報（工程fixture）"
+    ],
+    [
+      "V3 1440px 滿生命 100 / 100 單行（工程fixture）"
+    ]
+  ],
+  "removed": [],
+  "changed": [
+    {
+      "title_path": [
+        "降低動態效果時仍顯示飛行物、命中與傷害資訊"
+      ],
+      "before": "expected",
+      "after": "unexpected"
+    }
+  ],
+  "duplicates_before": [],
+  "duplicates_after": []
+}
