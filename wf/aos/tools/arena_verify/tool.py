@@ -24,7 +24,7 @@ except ModuleNotFoundError as _e:
 
 
 @fn.tool(meta={"side_effect": True, "deterministic": False, "timeout_ms": 900000})
-def arena_verify(log_dir: str = "/tmp/aos/arena_cheater/dev/verify/", step: str = "all", timeout_s: int = 300, lock_timeout_s: int = 120) -> dict:
+def arena_verify(log_dir: str = "/tmp/aos/arena_cheater/dev/verify/", step: str = "all", timeout_s: int = 300, lock_timeout_s: int = 120, workspace: str = "") -> dict:
     """持有共享 Node flock，依序跑 npm test／npm run build，回傳退出碼、耗時與 log 摘要。不執行 E2E。驗證失敗仍回 JSON，請讀 ok。
 
     Args:
@@ -32,10 +32,12 @@ def arena_verify(log_dir: str = "/tmp/aos/arena_cheater/dev/verify/", step: str 
       step: all、test 或 build；all 即使 test 失敗仍執行 build。
       timeout_s: 每一步執行秒數上限，1 至 300。
       lock_timeout_s: 等待 Node 鎖的秒數上限，1 至 180。
+      workspace: 隔離副本路徑，限 /tmp/aos/arena_cheater/ 下；省略時使用專案根目錄。
     """
     import errno
     import fcntl
     import pathlib
+    import json
     import re
     import signal
     import subprocess
@@ -56,6 +58,40 @@ def arena_verify(log_dir: str = "/tmp/aos/arena_cheater/dev/verify/", step: str 
     if not directory.is_relative_to(allowed_root):
         fn.fail("ArgumentsBad", "log_dir must resolve under /tmp/aos/arena_cheater/")
 
+    repository = pathlib.Path(__file__).resolve().parents[4]
+    project = repository
+    if workspace:
+        project = pathlib.Path(workspace).expanduser().resolve()
+        if not project.is_relative_to(allowed_root) or not project.is_dir():
+            fn.fail("ArgumentsBad", "workspace must resolve to a directory under /tmp/aos/arena_cheater/")
+        # Match all discoverable config variants, not just Vite's usual entrypoint.
+        anchors = {"package.json", "package-lock.json", "tsconfig.json", "vite.config.ts", "src/main.ts"}
+        def configs(root):
+            return {path.name for pattern in ("vite.config.*", "vitest.config.*", "tsconfig*.json")
+                    for path in root.glob(pattern)}
+        try:
+            expected = configs(repository)
+            matches = configs(project) == expected
+            for name in anchors | expected:
+                path = project / name
+                matches = matches and path.resolve().is_relative_to(project) and path.is_file() and path.read_bytes() == (repository / name).read_bytes()
+            layout = all((project / name).is_dir() for name in ("src/arena", "tests/simulation"))
+            # Inspect directory entries too: os.walk does not descend into symlink directories.
+            for name in ("src", "tests"):
+                root = project / name
+                if root.is_symlink() or not root.resolve().is_relative_to(project):
+                    layout = False
+                for parent, dirs, files in os.walk(root):
+                    for child in dirs + files:
+                        path = pathlib.Path(parent) / child
+                        if path.is_symlink() or not path.resolve().is_relative_to(project) or not path.exists():
+                            layout = False
+        except (OSError, RuntimeError):
+            matches = layout = False
+        if not matches or not layout:
+            fn.fail("ArgumentsBad", "workspace requires unchanged config set/toolchain and local source/test paths")
+
+    run_dir = None
     cancelled = False
 
     def request_cancel(signum, frame):
@@ -64,7 +100,6 @@ def arena_verify(log_dir: str = "/tmp/aos/arena_cheater/dev/verify/", step: str 
 
     previous_sigterm = signal.signal(signal.SIGTERM, request_cancel)
     started = time.monotonic()
-    project = pathlib.Path(__file__).resolve().parents[4]
     commands = {"test": ["npm", "test"], "build": ["npm", "run", "build"]}
     result = {"ok": False, "project": str(project), "steps": {}, "lock_wait_seconds": 0.0}
     lock_path = pathlib.Path("/tmp/aos/arena_cheater/locks/node.lock")
@@ -181,6 +216,12 @@ def arena_verify(log_dir: str = "/tmp/aos/arena_cheater/dev/verify/", step: str 
         if cancelled:
             result["cancelled"] = True
         result["duration_seconds"] = round(time.monotonic() - started, 3)
+        if run_dir is not None:
+            try:
+                (run_dir / "result.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+            except OSError as error:
+                result["ok"] = False
+                result["result_write_error"] = str(error)
     return result
 
 

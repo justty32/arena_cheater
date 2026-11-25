@@ -22,6 +22,11 @@
         "type": "integer",
         "description": "等待 Node 鎖的秒數上限，1 至 180。",
         "default": 120
+      },
+      "workspace": {
+        "type": "string",
+        "description": "隔離副本路徑，限 /tmp/aos/arena_cheater/ 下；省略時使用專案根目錄。",
+        "default": ""
       }
     }
   },
