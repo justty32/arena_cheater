@@ -1,6 +1,6 @@
 # V3 第一切片：戰鬥數值尺度
 
-[資產庫](../README.md)｜[執行計畫](../plans/v3-first-slice.md)｜[候選差異表](../data/v3-first-slice-proposal.json)
+[資產庫](../README.md)｜[已封存執行計畫](../../../../archive/v3-first-slice-plan-2026-11-25.md)｜[候選差異表](../data/v3-first-slice-proposal.json)
 
 ## 授權與範圍
 

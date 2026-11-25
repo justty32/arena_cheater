@@ -1,8 +1,10 @@
 # V3 第一切片執行計畫
 
-[規格](../specs/v3-first-slice.md)｜[候選差異表](../data/v3-first-slice-proposal.json)｜[資產庫](../README.md)
+[規格](../org/design/assets/specs/v3-first-slice.md)｜[候選差異表](../org/design/assets/data/v3-first-slice-proposal.json)｜[資產庫](../org/design/assets/README.md)
 
-本檔是未實作計畫；文件完成不代表可封存。防禦／恢復待比較後由 main 依使用者授權暫定，再派 runtime 工作；距離、精度與控制分段已由 main 暫採可調預設，供真人策劃回看。
+本計畫於 2026-11-25 封存：main 已確認 V3 第一切片實作、兩份 review、qa 完整 E2E（37/37）及目視驗收通過；design 已完成數值／metadata 核對與來源 revision 修正複核，並同步產品文件。提交由 integration 處理，封存不代表已發布。
+
+以下保留執行時的步驟與驗收要求，文中的待確認／待實作語句是歷史計畫，不是目前進度。最終採 main 暫定方案；機制與平衡仍待遊戲策劃確認，工程驗收不代表趣味或勝率均衡已獲接受。
 
 ## 步驟與交接
 
