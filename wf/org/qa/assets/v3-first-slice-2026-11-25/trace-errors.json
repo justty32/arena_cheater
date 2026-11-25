@@ -1,0 +1,18 @@
+[
+  {
+    "test": "arena-traps-捕獸夾-390px-暫停布置與定身、解除及同場重試-chromium",
+    "errors": []
+  },
+  {
+    "test": "arena-traps-捕獸夾-320px-暫停布置與定身、解除及同場重試-chromium",
+    "errors": []
+  },
+  {
+    "test": "arena-traps-捕獸夾-1440px-暫停布置與定身、解除及同場重試-chromium",
+    "errors": []
+  },
+  {
+    "test": "arena-results-真實結算防止舊手勢，重試保留開局與支持，新局仍向前-chromium",
+    "errors": []
+  }
+]

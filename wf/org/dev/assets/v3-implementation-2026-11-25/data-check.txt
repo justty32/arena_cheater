@@ -1,0 +1,2 @@
+PASS: 74-row candidate_a values/units; removed IDs absent from both tables; add/update metadata provisional with nonempty source/rationale; unlisted baseline rows unchanged; value/meta ID sets equal.
+PASS: git diff --check

@@ -1,0 +1,428 @@
+{
+  "status": "FAILED",
+  "source": "workspace",
+  "source_hash": "22b5368774663f0c98717308dd6e6171345e4ec1",
+  "exit_code": 0,
+  "started_at": "2026-11-25T02:27:58.648008+00:00",
+  "passed": 37,
+  "failed": 0,
+  "skipped": 0,
+  "failures": [],
+  "failure_stage": "comparison",
+  "artifacts": {
+    "directory": "/tmp/aos/arena_cheater/qa/e2e-591e02c0a26f4447ac44320ff85fd07c",
+    "result": "/tmp/aos/arena_cheater/qa/e2e-591e02c0a26f4447ac44320ff85fd07c/result.json",
+    "report": "/tmp/aos/arena_cheater/qa/e2e-591e02c0a26f4447ac44320ff85fd07c/playwright.json",
+    "stdout": "/tmp/aos/arena_cheater/qa/e2e-591e02c0a26f4447ac44320ff85fd07c/stdout.txt",
+    "stderr": "/tmp/aos/arena_cheater/qa/e2e-591e02c0a26f4447ac44320ff85fd07c/stderr.txt"
+  },
+  "workspace_fingerprint": "e720008d0f6694d0ede8be0c035bbbe542144e0b9ebba6504175a02ba76d2822",
+  "port": 44917,
+  "scope_unit": "arena-e2e-d320e62bc3cd4878bac7bb51a5aefabc.scope",
+  "scope_limits": {
+    "MemoryMax": "4G",
+    "CPUQuota": "400%",
+    "TasksMax": 256
+  },
+  "scope_properties": {
+    "CPUQuotaPerSecUSec": "4s",
+    "MemoryMax": "4294967296",
+    "TasksMax": "256",
+    "ActiveState": "active"
+  },
+  "scope_stop": {
+    "exit_code": 5,
+    "stderr": "Failed to stop arena-e2e-d320e62bc3cd4878bac7bb51a5aefabc.scope: Unit arena-e2e-d320e62bc3cd4878bac7bb51a5aefabc.scope not loaded.\n"
+  },
+  "scope_after": "LoadState=not-found\nActiveState=inactive",
+  "scope_query_exit_code": 0,
+  "scope_cleaned": true,
+  "port_closed": true,
+  "cleanup_errors": [],
+  "cases": [
+    {
+      "name": "arena-delivery.spec.ts / 暫停投送先驗目標、取消與拖曳；成功只消耗當張牌一次 / chromium",
+      "status": "expected",
+      "title_path": [
+        "暫停投送先驗目標、取消與拖曳；成功只消耗當張牌一次"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-delivery.spec.ts / 裝備投送拾取後更新詳情 / chromium",
+      "status": "expected",
+      "title_path": [
+        "裝備投送拾取後更新詳情"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-delivery.spec.ts / 射程投擲拒絕遠處目標，合法投擲後顯示戰報 / chromium",
+      "status": "expected",
+      "title_path": [
+        "射程投擲拒絕遠處目標，合法投擲後顯示戰報"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-mobile.spec.ts / 手機一屏可選牌改選付款與換石，倍速及重置仍可操作 / chromium",
+      "status": "expected",
+      "title_path": [
+        "手機一屏可選牌改選付款與換石，倍速及重置仍可操作"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-results.spec.ts / 工程事件fixture：結算層接住舊觸控不重開，新手勢與鍵盤可重開 / chromium",
+      "status": "expected",
+      "title_path": [
+        "工程事件fixture：結算層接住舊觸控不重開，新手勢與鍵盤可重開"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-results.spec.ts / 真實結算防止舊手勢，重試保留開局與支持，新局仍向前 / chromium",
+      "status": "expected",
+      "title_path": [
+        "真實結算防止舊手勢，重試保留開局與支持，新局仍向前"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-spells.spec.ts / 暫停可從名單施法並更新目標詳情 / chromium",
+      "status": "expected",
+      "title_path": [
+        "暫停可從名單施法並更新目標詳情"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-spells.spec.ts / 暫停可從場上施法並更新目標詳情 / chromium",
+      "status": "expected",
+      "title_path": [
+        "暫停可從場上施法並更新目標詳情"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-spells.spec.ts / 範圍法術預覽區分空圈與有效目標，點地施放後更新回饋 / chromium",
+      "status": "expected",
+      "title_path": [
+        "範圍法術預覽區分空圈與有效目標，點地施放後更新回饋"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-traps.spec.ts / 捕獸夾 1440px 暫停布置與定身、解除及同場重試 / chromium",
+      "status": "expected",
+      "title_path": [
+        "捕獸夾 1440px 暫停布置與定身、解除及同場重試"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-traps.spec.ts / 捕獸夾 320px 暫停布置與定身、解除及同場重試 / chromium",
+      "status": "expected",
+      "title_path": [
+        "捕獸夾 320px 暫停布置與定身、解除及同場重試"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-traps.spec.ts / 捕獸夾 390px 暫停布置與定身、解除及同場重試 / chromium",
+      "status": "expected",
+      "title_path": [
+        "捕獸夾 390px 暫停布置與定身、解除及同場重試"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-traps.spec.ts / 捕獸夾 320px 觸控預覽不付款、捲動取消、點地布置 / chromium",
+      "status": "expected",
+      "title_path": [
+        "捕獸夾 320px 觸控預覽不付款、捲動取消、點地布置"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-traps.spec.ts / 捕獸夾 390px 觸控預覽不付款、捲動取消、點地布置 / chromium",
+      "status": "expected",
+      "title_path": [
+        "捕獸夾 390px 觸控預覽不付款、捲動取消、點地布置"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 1440px 生命精度、不換行與象加值文案（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 1440px 生命精度、不換行與象加值文案（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 320px 生命精度、不換行與象加值文案（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 320px 生命精度、不換行與象加值文案（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 390px 生命精度、不換行與象加值文案（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 390px 生命精度、不換行與象加值文案（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 生命 100 去尾零（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 生命 100 去尾零（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 生命 9.7 去尾零（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 生命 9.7 去尾零（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 生命 10 去尾零（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 生命 10 去尾零（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 生命 0.01 去尾零（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 生命 0.01 去尾零（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 生命 0 去尾零（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 生命 0 去尾零（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 last-survivor 終局理由與戰報（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 last-survivor 終局理由與戰報（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 hp-ratio 終局理由與戰報（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 hp-ratio 終局理由與戰報（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 draw 終局理由與戰報（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 draw 終局理由與戰報（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena-v3.spec.ts / V3 完整失控三秒後恢復移動（工程fixture） / chromium",
+      "status": "expected",
+      "title_path": [
+        "V3 完整失控三秒後恢復移動（工程fixture）"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena.spec.ts / 三張實例手牌與三石可檢視；缺色仍可選牌且不消耗 / chromium",
+      "status": "expected",
+      "title_path": [
+        "三張實例手牌與三石可檢視；缺色仍可選牌且不消耗"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena.spec.ts / 謹慎思考只由付款按鈕施放，選牌期間停鐘並在選完後續戰 / chromium",
+      "status": "expected",
+      "title_path": [
+        "謹慎思考只由付款按鈕施放，選牌期間停鐘並在選完後續戰"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena.spec.ts / 直覺付款後保持交戰，依序換入兩張不同的預告牌 / chromium",
+      "status": "expected",
+      "title_path": [
+        "直覺付款後保持交戰，依序換入兩張不同的預告牌"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena.spec.ts / 換石可取消、鍵盤確認，暫停冷卻凍結且續戰後再開放 / chromium",
+      "status": "expected",
+      "title_path": [
+        "換石可取消、鍵盤確認，暫停冷卻凍結且續戰後再開放"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "arena.spec.ts / 鍵盤自選付款可保留紅石，未湊齊時拒絕提交 / chromium",
+      "status": "expected",
+      "title_path": [
+        "鍵盤自選付款可保留紅石，未湊齊時拒絕提交"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "battle.spec.ts / 雙方對戰可開始、暫停、切換倍速及重置 / chromium",
+      "status": "expected",
+      "title_path": [
+        "雙方對戰可開始、暫停、切換倍速及重置"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "battle.spec.ts / 受傷友軍可接受偷渡藥劑，消耗影響力並恢復生命 / chromium",
+      "status": "expected",
+      "title_path": [
+        "受傷友軍可接受偷渡藥劑，消耗影響力並恢復生命"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "battle.spec.ts / 四方對戰可完成結算與再戰 / chromium",
+      "status": "expected",
+      "title_path": [
+        "四方對戰可完成結算與再戰"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "battle.spec.ts / 手機版棋盤與控制不橫向溢位，支援觸控操作 / chromium",
+      "status": "expected",
+      "title_path": [
+        "手機版棋盤與控制不橫向溢位，支援觸控操作"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "effects.spec.ts / 投射物演出可暫停、續飛並顯示命中資訊 / chromium",
+      "status": "expected",
+      "title_path": [
+        "投射物演出可暫停、續飛並顯示命中資訊"
+      ],
+      "project": "chromium"
+    },
+    {
+      "name": "effects.spec.ts / 降低動態效果時仍顯示飛行物、命中與傷害資訊 / chromium",
+      "status": "expected",
+      "title_path": [
+        "降低動態效果時仍顯示飛行物、命中與傷害資訊"
+      ],
+      "project": "chromium"
+    }
+  ],
+  "report_errors": [],
+  "comparison": {
+    "baseline": "/tmp/aos/arena_cheater/qa/baselines/e2e-193affd.json",
+    "mode": "title_project",
+    "identical": false,
+    "added": [
+      {
+        "title_path": [
+          "V3 1440px 生命精度、不換行與象加值文案（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 320px 生命精度、不換行與象加值文案（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 390px 生命精度、不換行與象加值文案（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 draw 終局理由與戰報（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 hp-ratio 終局理由與戰報（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 last-survivor 終局理由與戰報（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 完整失控三秒後恢復移動（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 生命 0 去尾零（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 生命 0.01 去尾零（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 生命 10 去尾零（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 生命 100 去尾零（工程fixture）"
+        ],
+        "project": "chromium"
+      },
+      {
+        "title_path": [
+          "V3 生命 9.7 去尾零（工程fixture）"
+        ],
+        "project": "chromium"
+      }
+    ],
+    "removed": [],
+    "changed": [],
+    "duplicates": {
+      "before": [],
+      "after": []
+    }
+  },
+  "ended_at": "2026-11-25T02:34:35.991280+00:00",
+  "duration_s": 397.344
+}
