@@ -5,7 +5,7 @@ import { open } from './arena-helpers';
 
 // Browser-only engineering fixture. Patch the session module response, never files or DOM output.
 // The real mount, simulation loop and HUD consume this state; it is not a naturally reached battle.
-export async function openV3Fixture(page: Page, prepare: (state: ArenaState) => void) {
+export async function openV3Fixture(page: Page, prepare: (state: ArenaState) => void, observe = false) {
   const state = createArena(73021);
   prepare(state);
   let injected = 0;
@@ -14,7 +14,8 @@ export async function openV3Fixture(page: Page, prepare: (state: ArenaState) => 
     const source = await response.text();
     const marker = /const state = createArena\(73021\);/;
     expect(source.match(new RegExp(marker.source, 'g'))).toHaveLength(1);
-    await route.fulfill({ response, body: source.replace(marker, match => `${match}\nObject.assign(state, ${JSON.stringify(state)});`) });
+    const observation = observe ? '\nwindow.__qaV3Snapshot = () => JSON.parse(JSON.stringify(state));' : '';
+    await route.fulfill({ response, body: source.replace(marker, match => `${match}\nObject.assign(state, ${JSON.stringify(state)});${observation}`) });
     injected++;
   });
   await open(page);
